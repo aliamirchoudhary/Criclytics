@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Venues — Cricklytics</title>
-  <link rel="icon" type="image/png" href="img1.png" />
+  <title>Venues — Criclytics</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
@@ -449,11 +449,8 @@
 ════════════════════════════════════════ -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="nav-logo-icon">
-        <img src="img1.png" alt="Cricklytics" style="width:22px;height:22px;object-fit:contain;"
-          onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
-      </div>
-      <span class="nav-logo-text">Cricket<span>lytics</span></span>
+      <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Cric<span>lytics</span></span>
     </a>
     <div class="nav-search-wrap">
       <span class="nav-search-icon"><i class="fa fa-search"></i></span>
@@ -547,20 +544,20 @@
     <div class="venues-layout">
 
       <!-- ── LEFT: Venue Cards ─────────────────────────── -->
-      <div>
+      <div class="venue-groups" id="venueGroups">
 
         <!-- ─── INDIA ──────────────────────────────────── -->
         <div class="region-group">
           <div class="region-group-label">
-            <span class="region-group-title">🇮🇳 India</span>
+            <span class="region-group-title"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:20px;height:20px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">India</span>
             <div class="region-group-line"></div>
           </div>
           <div class="venues-grid">
 
-            <a href="venue-profile.html" class="venue-card anim-up">
+            <a href="venue-profile.html?name=Wankhede Stadium" class="venue-card anim-up">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇮🇳</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 66,000</span>
                 <span class="venue-pitch-badge">Flat · High-scoring</span>
               </div>
@@ -588,10 +585,10 @@
               </div>
             </a>
 
-            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+            <a href="venue-profile.html?name=Narendra Modi Stadium" class="venue-card anim-up delay-1">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇮🇳</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 110,000</span>
                 <span class="venue-pitch-badge">Flat · Very high-scoring</span>
               </div>
@@ -619,10 +616,10 @@
               </div>
             </a>
 
-            <a href="venue-profile.html" class="venue-card anim-up delay-2">
+            <a href="venue-profile.html?name=Eden Gardens" class="venue-card anim-up delay-2">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇮🇳</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 68,000</span>
                 <span class="venue-pitch-badge">Spin-friendly</span>
               </div>
@@ -650,10 +647,10 @@
               </div>
             </a>
 
-            <a href="venue-profile.html" class="venue-card anim-up delay-3">
+            <a href="venue-profile.html?name=M. Chinnaswamy Stadium" class="venue-card anim-up delay-3">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇮🇳</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 55,000</span>
                 <span class="venue-pitch-badge">Balanced</span>
               </div>
@@ -687,15 +684,15 @@
         <!-- ─── AUSTRALIA ───────────────────────────────── -->
         <div class="region-group">
           <div class="region-group-label">
-            <span class="region-group-title">🇦🇺 Australia</span>
+            <span class="region-group-title"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:20px;height:20px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Australia</span>
             <div class="region-group-line"></div>
           </div>
           <div class="venues-grid">
 
-            <a href="venue-profile.html" class="venue-card anim-up">
+            <a href="venue-profile.html?name=Melbourne Cricket Ground" class="venue-card anim-up">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇦🇺</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 100,024</span>
                 <span class="venue-pitch-badge">Bouncy · Pace-friendly</span>
               </div>
@@ -723,10 +720,10 @@
               </div>
             </a>
 
-            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+            <a href="venue-profile.html?name=Sydney Cricket Ground" class="venue-card anim-up delay-1">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇦🇺</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 53,500</span>
                 <span class="venue-pitch-badge">Flat · High-scoring</span>
               </div>
@@ -754,10 +751,10 @@
               </div>
             </a>
 
-            <a href="venue-profile.html" class="venue-card anim-up delay-2">
+            <a href="venue-profile.html?name=WACA Ground" class="venue-card anim-up delay-2">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇦🇺</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 22,000</span>
                 <span class="venue-pitch-badge">Seam · Bounce · Pace</span>
               </div>
@@ -791,15 +788,15 @@
         <!-- ─── ENGLAND ─────────────────────────────────── -->
         <div class="region-group">
           <div class="region-group-label">
-            <span class="region-group-title">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span>
+            <span class="region-group-title"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:20px;height:20px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">England</span>
             <div class="region-group-line"></div>
           </div>
           <div class="venues-grid">
 
-            <a href="venue-profile.html" class="venue-card anim-up">
+            <a href="venue-profile.html?name=Lord's Cricket Ground" class="venue-card anim-up">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 30,000</span>
                 <span class="venue-pitch-badge">Seam-friendly · Variable</span>
               </div>
@@ -827,10 +824,10 @@
               </div>
             </a>
 
-            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+            <a href="venue-profile.html?name=The Oval" class="venue-card anim-up delay-1">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 25,000</span>
                 <span class="venue-pitch-badge">Flat · High-scoring</span>
               </div>
@@ -858,10 +855,10 @@
               </div>
             </a>
 
-            <a href="venue-profile.html" class="venue-card anim-up delay-2">
+            <a href="venue-profile.html?name=Headingley" class="venue-card anim-up delay-2">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 17,500</span>
                 <span class="venue-pitch-badge">Swing · Seam</span>
               </div>
@@ -895,15 +892,15 @@
         <!-- ─── PAKISTAN ─────────────────────────────────── -->
         <div class="region-group">
           <div class="region-group-label">
-            <span class="region-group-title">🇵🇰 Pakistan</span>
+            <span class="region-group-title"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:20px;height:20px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Pakistan</span>
             <div class="region-group-line"></div>
           </div>
           <div class="venues-grid">
 
-            <a href="venue-profile.html" class="venue-card anim-up">
+            <a href="venue-profile.html?name=National Stadium" class="venue-card anim-up">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇵🇰</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 34,228</span>
                 <span class="venue-pitch-badge">Flat · Spin later</span>
               </div>
@@ -931,10 +928,10 @@
               </div>
             </a>
 
-            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+            <a href="venue-profile.html?name=Gaddafi Stadium" class="venue-card anim-up delay-1">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇵🇰</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 27,000</span>
                 <span class="venue-pitch-badge">Flat · High-scoring</span>
               </div>
@@ -968,15 +965,15 @@
         <!-- ─── SOUTH AFRICA ─────────────────────────────── -->
         <div class="region-group">
           <div class="region-group-label">
-            <span class="region-group-title">🇿🇦 South Africa</span>
+            <span class="region-group-title"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:20px;height:20px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">South Africa</span>
             <div class="region-group-line"></div>
           </div>
           <div class="venues-grid">
 
-            <a href="venue-profile.html" class="venue-card anim-up">
+            <a href="venue-profile.html?name=SuperSport Park" class="venue-card anim-up">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇿🇦</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 25,000</span>
                 <span class="venue-pitch-badge">Pace & Bounce</span>
               </div>
@@ -1004,10 +1001,10 @@
               </div>
             </a>
 
-            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+            <a href="venue-profile.html?name=Newlands Cricket Ground" class="venue-card anim-up delay-1">
               <div class="venue-card-visual">
-                <span class="venue-card-visual-icon">🏟️</span>
-                <span class="venue-country-flag">🇿🇦</span>
+                <span class="venue-card-visual-icon"><i class="fa fa-building" style="font-size:1.8rem;color:rgba(255,255,255,0.4);"></i></span>
+                <span class="venue-country-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></span>
                 <span class="venue-capacity-badge"><i class="fa fa-users"></i> 28,000</span>
                 <span class="venue-pitch-badge">Balanced · Seam</span>
               </div>
@@ -1055,12 +1052,13 @@
       <aside class="sidebar">
 
         <!-- Most active venues -->
-        <div class="sidebar-card">
+        <div class="sidebar-card" id="mostActiveCard">
           <div class="sidebar-card-header">
             <div class="sidebar-card-title"><i class="fa fa-fire"></i> Most Active (2024–25)</div>
           </div>
+          <div data-most-active>
           <a href="venue-profile.html" class="sidebar-venue-row">
-            <span class="svr-flag">🇮🇳</span>
+            <span class="svr-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:22px;height:22px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="svr-info">
               <div class="svr-name">Wankhede, Mumbai</div>
               <div class="svr-meta">18 matches this season</div>
@@ -1068,7 +1066,7 @@
             <span class="svr-stat">18</span>
           </a>
           <a href="venue-profile.html" class="sidebar-venue-row">
-            <span class="svr-flag">🇦🇺</span>
+            <span class="svr-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:22px;height:22px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="svr-info">
               <div class="svr-name">MCG, Melbourne</div>
               <div class="svr-meta">14 matches this season</div>
@@ -1076,7 +1074,7 @@
             <span class="svr-stat">14</span>
           </a>
           <a href="venue-profile.html" class="sidebar-venue-row">
-            <span class="svr-flag">🇮🇳</span>
+            <span class="svr-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:22px;height:22px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="svr-info">
               <div class="svr-name">Eden Gardens, Kolkata</div>
               <div class="svr-meta">12 matches this season</div>
@@ -1084,7 +1082,7 @@
             <span class="svr-stat">12</span>
           </a>
           <a href="venue-profile.html" class="sidebar-venue-row">
-            <span class="svr-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+            <span class="svr-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:22px;height:22px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="svr-info">
               <div class="svr-name">Lord's, London</div>
               <div class="svr-meta">11 matches this season</div>
@@ -1092,7 +1090,7 @@
             <span class="svr-stat">11</span>
           </a>
           <a href="venue-profile.html" class="sidebar-venue-row">
-            <span class="svr-flag">🇵🇰</span>
+            <span class="svr-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:22px;height:22px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="svr-info">
               <div class="svr-name">Gaddafi Stadium, Lahore</div>
               <div class="svr-meta">10 matches this season</div>
@@ -1102,12 +1100,12 @@
         </div>
 
         <!-- Highest scoring venues -->
-        <div class="sidebar-card">
+        <div class="sidebar-card" id="highestScoringCard">
           <div class="sidebar-card-header">
             <div class="sidebar-card-title"><i class="fa fa-chart-simple"></i> Highest Avg T20 Score</div>
           </div>
           <a href="venue-profile.html" class="sidebar-venue-row">
-            <span class="svr-flag">🇮🇳</span>
+            <span class="svr-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:22px;height:22px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="svr-info">
               <div class="svr-name">Narendra Modi Stadium</div>
               <div class="svr-meta">Ahmedabad · Flat pitch</div>
@@ -1115,7 +1113,7 @@
             <span class="svr-stat">181</span>
           </a>
           <a href="venue-profile.html" class="sidebar-venue-row">
-            <span class="svr-flag">🇮🇳</span>
+            <span class="svr-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:22px;height:22px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="svr-info">
               <div class="svr-name">Wankhede Stadium</div>
               <div class="svr-meta">Mumbai · High-scoring</div>
@@ -1123,7 +1121,7 @@
             <span class="svr-stat">178</span>
           </a>
           <a href="venue-profile.html" class="sidebar-venue-row">
-            <span class="svr-flag">🇮🇳</span>
+            <span class="svr-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:22px;height:22px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="svr-info">
               <div class="svr-name">M. Chinnaswamy Stadium</div>
               <div class="svr-meta">Bengaluru · Balanced</div>
@@ -1131,7 +1129,7 @@
             <span class="svr-stat">174</span>
           </a>
           <a href="venue-profile.html" class="sidebar-venue-row">
-            <span class="svr-flag">🇵🇰</span>
+            <span class="svr-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:22px;height:22px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="svr-info">
               <div class="svr-name">Gaddafi Stadium</div>
               <div class="svr-meta">Lahore · Flat surface</div>
@@ -1181,11 +1179,8 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a href="index.html" class="nav-logo">
-            <div class="nav-logo-icon">
-              <img src="img1.png" alt="" style="width:22px;height:22px;object-fit:contain;"
-                onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
-            </div>
-            <span class="nav-logo-text">Cricket<span>lytics</span></span>
+            <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+            <span class="nav-logo-text">Cric<span>lytics</span></span>
           </a>
           <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
             models.</p>
@@ -1221,13 +1216,13 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span class="footer-copy">© 2026 Cricklytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-copy">© 2026 Criclytics. All data sourced from public cricket APIs.</span>
         <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
           prediction platform.</span>
       </div>
       <div class="webcraft-watermark">
         <span class="webcraft-by">Designed &amp; Developed by</span>
-        <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+        <a href="https://webcraft-dev.vercel.app/" target="_blank" rel="noopener" class="webcraft-brand">
           <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
@@ -1236,7 +1231,7 @@
           </svg>
           <span class="webcraft-name">WebCraft</span>
         </a>
-        <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+        <a href="https://webcraft-dev.vercel.app/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
       </div>
     </footer>
 
@@ -1265,6 +1260,8 @@
     });
   </script>
 
+  <script src="cricklytics.js"></script>
+  <script src="venues-api.js"></script>
 </body>
 
 </html>

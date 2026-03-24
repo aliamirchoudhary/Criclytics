@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Virat Kohli — Player Profile · Cricklytics</title>
-  <link rel="icon" type="image/png" href="img1.png" />
+  <title>Virat Kohli — Player Profile · Criclytics</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
@@ -629,11 +629,8 @@
 ════════════════════════════════════════ -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="nav-logo-icon">
-        <img src="img1.png" alt="Cricklytics" style="width:22px;height:22px;object-fit:contain;"
-          onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
-      </div>
-      <span class="nav-logo-text">Cricket<span>lytics</span></span>
+      <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Cric<span>lytics</span></span>
     </a>
     <div class="nav-search-wrap">
       <span class="nav-search-icon"><i class="fa fa-search"></i></span>
@@ -672,9 +669,11 @@
 
         <!-- Top: avatar + info + actions -->
         <div class="profile-top">
-          <div class="profile-big-avatar">
-            🇮🇳
-            <div class="profile-active-dot" title="Active player"></div>
+          <div class="profile-big-avatar" id="profileAvatar" style="overflow:hidden;position:relative;">
+            <span id="profileInitials" style="font-size:2.8rem;font-weight:700;color:var(--accent);">VK</span>
+            <img id="profilePhoto" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:var(--radius-lg);display:none;">
+            <img id="profileFlag" src="" alt="" style="position:absolute;bottom:6px;right:6px;width:26px;height:26px;border-radius:50%;border:2px solid var(--surface-1);object-fit:cover;display:none;">
+            <div class="profile-active-dot" id="activeDot" title="Active player" style="display:none;"></div>
           </div>
 
           <div class="profile-details">
@@ -683,16 +682,16 @@
               <span class="breadcrumb-sep">/</span>
               <a href="players.html">Players</a>
               <span class="breadcrumb-sep">/</span>
-              <span>Virat Kohli</span>
+              <span id="breadcrumbName">Virat Kohli</span>
             </div>
-            <h1 class="profile-player-name">Virat Kohli</h1>
-            <div class="profile-full-name">Virat Kohli · Born: November 5, 1988 · Delhi, India</div>
+            <h1 class="profile-player-name" id="profileName">Virat Kohli</h1>
+            <div class="profile-full-name" id="profileFullName">Virat Kohli · Born: November 5, 1988 · Delhi, India</div>
             <div class="profile-tags">
               <span class="ptag"><i class="fa fa-flag" style="font-size:0.65rem;"></i> India</span>
               <span class="ptag">Batsman · RHB</span>
               <span class="ptag">Right-arm medium</span>
               <span class="ptag green"><i class="fa fa-circle" style="font-size:0.5rem;"></i> Active</span>
-              <span class="ptag warm">🔥 Trending</span>
+              <span class="ptag warm"><i class="fa fa-fire"></i> Trending</span>
               <span class="ptag"><i class="fa fa-trophy" style="font-size:0.65rem; color:#FFD700;"></i> ICC #2 ODI
                 Batsman</span>
             </div>
@@ -768,7 +767,7 @@
                   (Age 36)</span></div>
               <div class="bio-row"><span class="bio-label">Birthplace</span><span class="bio-value">Delhi, India</span>
               </div>
-              <div class="bio-row"><span class="bio-label">Nationality</span><span class="bio-value">🇮🇳 Indian</span>
+              <div class="bio-row"><span class="bio-label">Nationality</span><span class="bio-value" id="bioNationality"><img src="" alt="" id="bioFlag" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;"> Indian</span>
               </div>
               <div class="bio-row"><span class="bio-label">Batting Style</span><span class="bio-value">Right-hand
                   bat</span></div>
@@ -1015,7 +1014,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="bold"><span style="margin-right:.5rem">🇦🇺</span>Australia</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Australia</td>
                     <td class="mono">49</td>
                     <td class="mono">47</td>
                     <td class="mono" style="color:var(--accent)">2,426</td>
@@ -1026,7 +1025,7 @@
                     <td class="mono">11</td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.5rem">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>England</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">England</td>
                     <td class="mono">34</td>
                     <td class="mono">33</td>
                     <td class="mono" style="color:var(--accent)">1,843</td>
@@ -1037,7 +1036,7 @@
                     <td class="mono">9</td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.5rem">🇵🇰</span>Pakistan</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Pakistan</td>
                     <td class="mono">28</td>
                     <td class="mono">27</td>
                     <td class="mono" style="color:var(--accent)">1,732</td>
@@ -1048,7 +1047,7 @@
                     <td class="mono">10</td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.5rem">🇿🇦</span>South Africa</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">South Africa</td>
                     <td class="mono">31</td>
                     <td class="mono">30</td>
                     <td class="mono" style="color:var(--accent)">1,481</td>
@@ -1059,7 +1058,7 @@
                     <td class="mono">8</td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.5rem">🇳🇿</span>New Zealand</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/NZ.svg" alt="New Zealand" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">New Zealand</td>
                     <td class="mono">22</td>
                     <td class="mono">21</td>
                     <td class="mono" style="color:var(--accent)">1,124</td>
@@ -1070,7 +1069,7 @@
                     <td class="mono">5</td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.5rem">🇱🇰</span>Sri Lanka</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/LK.svg" alt="Sri Lanka" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Sri Lanka</td>
                     <td class="mono">41</td>
                     <td class="mono">39</td>
                     <td class="mono" style="color:var(--accent)">1,987</td>
@@ -1081,7 +1080,7 @@
                     <td class="mono">9</td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.5rem">🇧🇩</span>Bangladesh</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/BD.svg" alt="Bangladesh" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Bangladesh</td>
                     <td class="mono">16</td>
                     <td class="mono">15</td>
                     <td class="mono" style="color:var(--accent)">834</td>
@@ -1422,27 +1421,27 @@
           <div class="aside-card-head">Top vs Opposition (Avg)</div>
           <div class="aside-card-body">
             <div class="head2head-row">
-              <span class="h2h-flag">🇵🇰</span>
+              <span class="h2h-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:20px;height:20px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
               <span class="h2h-name">Pakistan</span>
               <span class="h2h-avg">72.2</span>
             </div>
             <div class="head2head-row">
-              <span class="h2h-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+              <span class="h2h-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:20px;height:20px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
               <span class="h2h-name">England</span>
               <span class="h2h-avg">64.2</span>
             </div>
             <div class="head2head-row">
-              <span class="h2h-flag">🇦🇺</span>
+              <span class="h2h-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:20px;height:20px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
               <span class="h2h-name">Australia</span>
               <span class="h2h-avg">57.8</span>
             </div>
             <div class="head2head-row">
-              <span class="h2h-flag">🇿🇦</span>
+              <span class="h2h-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:20px;height:20px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
               <span class="h2h-name">South Africa</span>
               <span class="h2h-avg">56.3</span>
             </div>
             <div class="head2head-row">
-              <span class="h2h-flag">🇳🇿</span>
+              <span class="h2h-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/NZ.svg" alt="New Zealand" style="width:20px;height:20px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
               <span class="h2h-name">New Zealand</span>
               <span class="h2h-avg">62.4</span>
             </div>
@@ -1456,8 +1455,7 @@
               style="display:flex; align-items:center; gap:0.7rem; text-decoration:none; padding:0.3rem 0; transition:opacity var(--transition);"
               onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
               <div
-                style="width:34px;height:34px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:1rem;border:1.5px solid var(--border);">
-                🇦🇺</div>
+                style="width:34px;height:34px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:1rem;border:1.5px solid var(--border);overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></div>
               <div>
                 <div style="font-size:.85rem;font-weight:600;color:var(--text-primary)">Steve Smith</div>
                 <div style="font-size:.72rem;color:var(--text-muted)">Avg 60.1 · Batsman</div>
@@ -1467,8 +1465,7 @@
               style="display:flex; align-items:center; gap:0.7rem; text-decoration:none; padding:0.3rem 0; transition:opacity var(--transition);"
               onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
               <div
-                style="width:34px;height:34px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:1rem;border:1.5px solid var(--border);">
-                🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+                style="width:34px;height:34px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:1rem;border:1.5px solid var(--border);overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></div>
               <div>
                 <div style="font-size:.85rem;font-weight:600;color:var(--text-primary)">Joe Root</div>
                 <div style="font-size:.72rem;color:var(--text-muted)">Avg 50.4 · Batsman</div>
@@ -1478,8 +1475,7 @@
               style="display:flex; align-items:center; gap:0.7rem; text-decoration:none; padding:0.3rem 0; transition:opacity var(--transition);"
               onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
               <div
-                style="width:34px;height:34px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:1rem;border:1.5px solid var(--border);">
-                🇵🇰</div>
+                style="width:34px;height:34px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:1rem;border:1.5px solid var(--border);overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'"></div>
               <div>
                 <div style="font-size:.85rem;font-weight:600;color:var(--text-primary)">Babar Azam</div>
                 <div style="font-size:.72rem;color:var(--text-muted)">Avg 46.2 · Batsman</div>
@@ -1499,9 +1495,8 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a href="index.html" class="nav-logo">
-            <div class="nav-logo-icon"><img src="img1.png" alt="" style="width:22px;height:22px;object-fit:contain;"
-                onerror="this.style.display='none';this.parentElement.textContent='🏏'" /></div>
-            <span class="nav-logo-text">Cricket<span>lytics</span></span>
+            <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+            <span class="nav-logo-text">Cric<span>lytics</span></span>
           </a>
           <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
             models.</p>
@@ -1537,13 +1532,13 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span class="footer-copy">© 2025 Cricklytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-copy">© 2025 Criclytics. All data sourced from public cricket APIs.</span>
         <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
           prediction platform.</span>
       </div>
       <div class="webcraft-watermark">
         <span class="webcraft-by">Designed &amp; Developed by</span>
-        <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+        <a href="https://webcraft-dev.vercel.app/" target="_blank" rel="noopener" class="webcraft-brand">
           <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
@@ -1552,7 +1547,7 @@
           </svg>
           <span class="webcraft-name">WebCraft</span>
         </a>
-        <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+        <a href="https://webcraft-dev.vercel.app/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
       </div>
     </footer>
 
@@ -1586,6 +1581,8 @@
         window.location.href = 'search.html?q=' + encodeURIComponent(this.value.trim());
     });
   </script>
+  <script src="cricklytics.js"></script>
+  <script src="player-profile-api.js"></script>
 </body>
 
 </html>

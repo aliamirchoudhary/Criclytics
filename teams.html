@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Teams — Cricklytics</title>
-  <link rel="icon" type="image/png" href="img1.png" />
+  <title>Teams — Criclytics</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
@@ -568,11 +568,8 @@
 ════════════════════════════════════════ -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="nav-logo-icon">
-        <img src="img1.png" alt="Cricklytics" style="width:22px;height:22px;object-fit:contain;"
-          onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
-      </div>
-      <span class="nav-logo-text">Cricket<span>lytics</span></span>
+      <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Cric<span>lytics</span></span>
     </a>
     <div class="nav-search-wrap">
       <span class="nav-search-icon"><i class="fa fa-search"></i></span>
@@ -616,8 +613,8 @@
         <h1>International Teams</h1>
         <p>ICC rankings, head-to-head records, venue performance, and probability insights for all 48 nations.</p>
         <div class="ranking-switcher" id="rankSwitcher">
-          <button class="rsw-btn active" data-view="rankings">📊 ICC Rankings</button>
-          <button class="rsw-btn" data-view="cards">🗂 All Teams</button>
+          <button class="rsw-btn active" data-view="rankings"><i class="fa fa-chart-bar"></i> ICC Rankings</button>
+          <button class="rsw-btn" data-view="cards"><i class="fa fa-grip"></i> All Teams</button>
         </div>
       </div>
     </div>
@@ -662,7 +659,7 @@
             <div class="section-header" style="margin-bottom:1rem;">
               <div>
                 <div class="section-label">ICC Official</div>
-                <h2 class="section-title"><span class="icon">🏆</span> T20I Team Rankings</h2>
+                <h2 class="section-title"><span class="icon"><i class="fa fa-trophy" style="color:var(--accent-warm);"></i></span> T20I Team Rankings</h2>
               </div>
               <div class="ranking-switcher" style="transform:scale(0.9); transform-origin:right;">
                 <button class="rsw-btn active" data-fmt-rank="t20i">T20I</button>
@@ -691,11 +688,11 @@
               </div>
 
               <!-- Row 1 -->
-              <a href="team-profile.html" class="rank-row pos-1 anim-up">
+              <a href="team-profile.html?name=India" class="rank-row pos-1 anim-up" data-team="India" href="team-profile.html?name=India">
                 <span class="rank-pos">1</span>
-                <div class="rank-flag-big">🇮🇳</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">India</div>
+                  <div class="rank-team-name" data-team="India">India</div>
                   <div class="rank-team-sub">Asia · 5 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -714,11 +711,11 @@
               </a>
 
               <!-- Row 2 -->
-              <a href="team-profile.html" class="rank-row pos-2 anim-up delay-1">
+              <a href="team-profile.html?name=England" class="rank-row pos-2 anim-up delay-1" data-team="England" href="team-profile.html?name=England">
                 <span class="rank-pos">2</span>
-                <div class="rank-flag-big">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">England</div>
+                  <div class="rank-team-name" data-team="England">England</div>
                   <div class="rank-team-sub">Europe · 3 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -737,11 +734,11 @@
               </a>
 
               <!-- Row 3 -->
-              <a href="team-profile.html" class="rank-row pos-3 anim-up delay-2">
+              <a href="team-profile.html?name=Australia" class="rank-row pos-3 anim-up delay-2" data-team="Australia" href="team-profile.html?name=Australia">
                 <span class="rank-pos">3</span>
-                <div class="rank-flag-big">🇦🇺</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">Australia</div>
+                  <div class="rank-team-name" data-team="Australia">Australia</div>
                   <div class="rank-team-sub">Pacific · 2 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -760,11 +757,11 @@
               </a>
 
               <!-- Row 4 -->
-              <a href="team-profile.html" class="rank-row anim-up delay-3">
+              <a href="team-profile.html?name=Pakistan" class="rank-row anim-up delay-3">
                 <span class="rank-pos">4</span>
-                <div class="rank-flag-big">🇵🇰</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">Pakistan</div>
+                  <div class="rank-team-name" data-team="Pakistan">Pakistan</div>
                   <div class="rank-team-sub">Asia · 2 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -783,11 +780,11 @@
               </a>
 
               <!-- Row 5 -->
-              <a href="team-profile.html" class="rank-row anim-up delay-4">
+              <a href="team-profile.html?name=South Africa" class="rank-row anim-up delay-4">
                 <span class="rank-pos">5</span>
-                <div class="rank-flag-big">🇿🇦</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">South Africa</div>
+                  <div class="rank-team-name" data-team="South Africa">South Africa</div>
                   <div class="rank-team-sub">Africa · 3 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -806,11 +803,11 @@
               </a>
 
               <!-- Row 6 -->
-              <a href="team-profile.html" class="rank-row anim-up delay-5">
+              <a href="team-profile.html?name=New Zealand" class="rank-row anim-up delay-5">
                 <span class="rank-pos">6</span>
-                <div class="rank-flag-big">🇳🇿</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/NZ.svg" alt="New Zealand" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">New Zealand</div>
+                  <div class="rank-team-name" data-team="New Zealand">New Zealand</div>
                   <div class="rank-team-sub">Pacific · 1 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -828,11 +825,11 @@
                 <div class="rank-change-col"><span class="rank-change rank-down">▼1</span></div>
               </a>
 
-              <a href="team-profile.html" class="rank-row anim-up">
+              <a href="team-profile.html?name=Afghanistan" class="rank-row anim-up">
                 <span class="rank-pos">7</span>
-                <div class="rank-flag-big">🇦🇫</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AF.svg" alt="Afghanistan" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">Afghanistan</div>
+                  <div class="rank-team-name" data-team="Afghanistan">Afghanistan</div>
                   <div class="rank-team-sub">Asia · 1 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -850,11 +847,11 @@
                 <div class="rank-change-col"><span class="rank-change rank-up">▲3</span></div>
               </a>
 
-              <a href="team-profile.html" class="rank-row anim-up delay-1">
+              <a href="team-profile.html?name=West Indies" class="rank-row anim-up delay-1">
                 <span class="rank-pos">8</span>
-                <div class="rank-flag-big">🇼🇸</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/WI.svg" alt="West Indies" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">West Indies</div>
+                  <div class="rank-team-name" data-team="West Indies">West Indies</div>
                   <div class="rank-team-sub">Americas · 2 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -872,11 +869,11 @@
                 <div class="rank-change-col"><span class="rank-change rank-down">▼1</span></div>
               </a>
 
-              <a href="team-profile.html" class="rank-row anim-up delay-2">
+              <a href="team-profile.html?name=Sri Lanka" class="rank-row anim-up delay-2">
                 <span class="rank-pos">9</span>
-                <div class="rank-flag-big">🇱🇰</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/LK.svg" alt="Sri Lanka" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">Sri Lanka</div>
+                  <div class="rank-team-name" data-team="Sri Lanka">Sri Lanka</div>
                   <div class="rank-team-sub">Asia · 1 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -894,11 +891,11 @@
                 <div class="rank-change-col"><span class="rank-change rank-same">—</span></div>
               </a>
 
-              <a href="team-profile.html" class="rank-row anim-up delay-3">
+              <a href="team-profile.html?name=Bangladesh" class="rank-row anim-up delay-3">
                 <span class="rank-pos">10</span>
-                <div class="rank-flag-big">🇧🇩</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/BD.svg" alt="Bangladesh" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">Bangladesh</div>
+                  <div class="rank-team-name" data-team="Bangladesh">Bangladesh</div>
                   <div class="rank-team-sub">Asia · 1 active series</div>
                 </div>
                 <div class="rank-stat">
@@ -916,11 +913,11 @@
                 <div class="rank-change-col"><span class="rank-change rank-up">▲1</span></div>
               </a>
 
-              <a href="team-profile.html" class="rank-row anim-up delay-4">
+              <a href="team-profile.html?name=Zimbabwe" class="rank-row anim-up delay-4">
                 <span class="rank-pos">11</span>
-                <div class="rank-flag-big">🇿🇼</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZW.svg" alt="Zimbabwe" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">Zimbabwe</div>
+                  <div class="rank-team-name" data-team="Zimbabwe">Zimbabwe</div>
                   <div class="rank-team-sub">Africa · —</div>
                 </div>
                 <div class="rank-stat">
@@ -938,11 +935,11 @@
                 <div class="rank-change-col"><span class="rank-change rank-same">—</span></div>
               </a>
 
-              <a href="team-profile.html" class="rank-row anim-up delay-5">
+              <a href="team-profile.html?name=Ireland" class="rank-row anim-up delay-5">
                 <span class="rank-pos">12</span>
-                <div class="rank-flag-big">🇮🇪</div>
+                <div class="rank-flag-big" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IE.svg" alt="Ireland" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="rank-team-info">
-                  <div class="rank-team-name">Ireland</div>
+                  <div class="rank-team-name" data-team="Ireland">Ireland</div>
                   <div class="rank-team-sub">Europe · —</div>
                 </div>
                 <div class="rank-stat">
@@ -968,19 +965,19 @@
           <div class="section-header" style="margin-bottom:1rem;">
             <div>
               <div class="section-label">All Nations</div>
-              <h2 class="section-title"><span class="icon">🛡️</span> All Teams</h2>
+              <h2 class="section-title"><span class="icon"><i class="fa fa-shield-halved" style="color:var(--accent);"></i></span> All Teams</h2>
             </div>
             <span style="font-size:0.82rem;color:var(--text-muted)">48 teams</span>
           </div>
           <div class="teams-grid">
 
             <!-- Team card 1 -->
-            <a href="team-profile.html" class="team-card anim-up">
+            <a href="team-profile.html?name=India" class="team-card anim-up">
               <div class="team-card-banner"
                 style="background:linear-gradient(135deg,#FF671F 0%,#FFFFFF 50%,#046A38 100%); opacity:0.25; position:absolute;top:0;left:0;right:0;height:56px; border-radius:var(--radius-lg) var(--radius-lg) 0 0;">
               </div>
               <div class="team-card-banner" style="background:transparent;">
-                <div class="team-card-flag-wrap">🇮🇳</div>
+                <div class="team-card-flag-wrap" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               </div>
               <div class="team-card-body">
                 <div>
@@ -1012,12 +1009,12 @@
               </div>
             </a>
 
-            <a href="team-profile.html" class="team-card anim-up delay-1">
+            <a href="team-profile.html?name=England" class="team-card anim-up delay-1">
               <div class="team-card-banner"
                 style="background:linear-gradient(135deg,#012169,#CF142B); opacity:0.25; position:absolute;top:0;left:0;right:0;height:56px; border-radius:var(--radius-lg) var(--radius-lg) 0 0;">
               </div>
               <div class="team-card-banner">
-                <div class="team-card-flag-wrap">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+                <div class="team-card-flag-wrap" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               </div>
               <div class="team-card-body">
                 <div>
@@ -1049,9 +1046,9 @@
               </div>
             </a>
 
-            <a href="team-profile.html" class="team-card anim-up delay-2">
+            <a href="team-profile.html?name=Australia" class="team-card anim-up delay-2">
               <div class="team-card-banner">
-                <div class="team-card-flag-wrap">🇦🇺</div>
+                <div class="team-card-flag-wrap" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               </div>
               <div class="team-card-body">
                 <div>
@@ -1083,9 +1080,9 @@
               </div>
             </a>
 
-            <a href="team-profile.html" class="team-card anim-up delay-3">
+            <a href="team-profile.html?name=Pakistan" class="team-card anim-up delay-3">
               <div class="team-card-banner">
-                <div class="team-card-flag-wrap">🇵🇰</div>
+                <div class="team-card-flag-wrap" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               </div>
               <div class="team-card-body">
                 <div>
@@ -1117,9 +1114,9 @@
               </div>
             </a>
 
-            <a href="team-profile.html" class="team-card anim-up delay-4">
+            <a href="team-profile.html?name=South Africa" class="team-card anim-up delay-4">
               <div class="team-card-banner">
-                <div class="team-card-flag-wrap">🇿🇦</div>
+                <div class="team-card-flag-wrap" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               </div>
               <div class="team-card-body">
                 <div>
@@ -1151,9 +1148,9 @@
               </div>
             </a>
 
-            <a href="team-profile.html" class="team-card anim-up delay-5">
+            <a href="team-profile.html?name=New Zealand" class="team-card anim-up delay-5">
               <div class="team-card-banner">
-                <div class="team-card-flag-wrap">🇳🇿</div>
+                <div class="team-card-flag-wrap" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/NZ.svg" alt="New Zealand" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               </div>
               <div class="team-card-body">
                 <div>
@@ -1185,9 +1182,9 @@
               </div>
             </a>
 
-            <a href="team-profile.html" class="team-card anim-up">
+            <a href="team-profile.html?name=Afghanistan" class="team-card anim-up">
               <div class="team-card-banner">
-                <div class="team-card-flag-wrap">🇦🇫</div>
+                <div class="team-card-flag-wrap" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AF.svg" alt="Afghanistan" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               </div>
               <div class="team-card-body">
                 <div>
@@ -1218,9 +1215,9 @@
               </div>
             </a>
 
-            <a href="team-profile.html" class="team-card anim-up delay-1">
+            <a href="team-profile.html?name=West Indies" class="team-card anim-up delay-1">
               <div class="team-card-banner">
-                <div class="team-card-flag-wrap">🇼🇸</div>
+                <div class="team-card-flag-wrap" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/WI.svg" alt="West Indies" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               </div>
               <div class="team-card-body">
                 <div>
@@ -1262,8 +1259,8 @@
 
         <div class="sb-card">
           <div class="sb-head"><i class="fa fa-chart-bar"></i> Top T20I Win Rates</div>
-          <a href="team-profile.html" class="winrate-row">
-            <span class="winrate-flag">🇮🇳</span>
+          <a href="team-profile.html?name=India" class="winrate-row">
+            <span class="winrate-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:28px;height:28px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="winrate-info">
               <div class="winrate-name">India</div>
               <div class="winrate-bar-wrap">
@@ -1272,8 +1269,8 @@
             </div>
             <span class="winrate-pct">64%</span>
           </a>
-          <a href="team-profile.html" class="winrate-row">
-            <span class="winrate-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+          <a href="team-profile.html?name=England" class="winrate-row">
+            <span class="winrate-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:28px;height:28px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="winrate-info">
               <div class="winrate-name">England</div>
               <div class="winrate-bar-wrap">
@@ -1282,8 +1279,8 @@
             </div>
             <span class="winrate-pct">61%</span>
           </a>
-          <a href="team-profile.html" class="winrate-row">
-            <span class="winrate-flag">🇦🇺</span>
+          <a href="team-profile.html?name=Australia" class="winrate-row">
+            <span class="winrate-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:28px;height:28px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="winrate-info">
               <div class="winrate-name">Australia</div>
               <div class="winrate-bar-wrap">
@@ -1292,8 +1289,8 @@
             </div>
             <span class="winrate-pct">59%</span>
           </a>
-          <a href="team-profile.html" class="winrate-row">
-            <span class="winrate-flag">🇵🇰</span>
+          <a href="team-profile.html?name=Pakistan" class="winrate-row">
+            <span class="winrate-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:28px;height:28px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="winrate-info">
               <div class="winrate-name">Pakistan</div>
               <div class="winrate-bar-wrap">
@@ -1302,8 +1299,8 @@
             </div>
             <span class="winrate-pct">56%</span>
           </a>
-          <a href="team-profile.html" class="winrate-row">
-            <span class="winrate-flag">🇿🇦</span>
+          <a href="team-profile.html?name=South Africa" class="winrate-row">
+            <span class="winrate-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:28px;height:28px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="winrate-info">
               <div class="winrate-name">South Africa</div>
               <div class="winrate-bar-wrap">
@@ -1377,9 +1374,8 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a href="index.html" class="nav-logo">
-            <div class="nav-logo-icon"><img src="img1.png" alt="" style="width:22px;height:22px;object-fit:contain;"
-                onerror="this.style.display='none';this.parentElement.textContent='🏏'" /></div>
-            <span class="nav-logo-text">Cricket<span>lytics</span></span>
+            <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+            <span class="nav-logo-text">Cric<span>lytics</span></span>
           </a>
           <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
             models.</p>
@@ -1415,13 +1411,13 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span class="footer-copy">© 2025 Cricklytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-copy">© 2025 Criclytics. All data sourced from public cricket APIs.</span>
         <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
           prediction platform.</span>
       </div>
       <div class="webcraft-watermark">
         <span class="webcraft-by">Designed &amp; Developed by</span>
-        <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+        <a href="https://webcraft-dev.vercel.app/" target="_blank" rel="noopener" class="webcraft-brand">
           <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
@@ -1430,7 +1426,7 @@
           </svg>
           <span class="webcraft-name">WebCraft</span>
         </a>
-        <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+        <a href="https://webcraft-dev.vercel.app/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
       </div>
     </footer>
 
@@ -1473,6 +1469,8 @@
         window.location.href = 'search.html?q=' + encodeURIComponent(this.value.trim());
     });
   </script>
+  <script src="cricklytics.js"></script>
+  <script src="teams-api.js"></script>
 </body>
 
 </html>

@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wankhede Stadium — Venue Profile · Cricklytics</title>
-  <link rel="icon" type="image/png" href="img1.png" />
+  <title>Wankhede Stadium — Venue Profile · Criclytics</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
@@ -794,11 +794,8 @@
 ════════════════════════════════════════ -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="nav-logo-icon">
-        <img src="img1.png" alt="Cricklytics" style="width:22px;height:22px;object-fit:contain;"
-          onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
-      </div>
-      <span class="nav-logo-text">Cricket<span>lytics</span></span>
+      <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Cric<span>lytics</span></span>
     </a>
     <div class="nav-search-wrap">
       <span class="nav-search-icon"><i class="fa fa-search"></i></span>
@@ -841,18 +838,18 @@
 
         <!-- Top row -->
         <div class="venue-hero-top">
-          <div class="venue-icon-block">🏟️</div>
+          <div class="venue-icon-block" id="venueIconBlock"><i class="fa fa-building" style="font-size:2.5rem;color:var(--accent);"></i></div>
           <div class="venue-hero-info">
             <div class="breadcrumb">
               <a href="index.html">Home</a>
               <span class="breadcrumb-sep">/</span>
               <a href="venues.html">Venues</a>
               <span class="breadcrumb-sep">/</span>
-              <span>Wankhede Stadium</span>
+              <span id="breadcrumbVenue">Wankhede Stadium</span>
             </div>
-            <div class="venue-hero-name">Wankhede Stadium</div>
+            <div class="venue-hero-name" id="venueName">Wankhede Stadium</div>
             <div class="venue-hero-location">
-              <span>🇮🇳</span>
+              <span id="heroFlag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:20px;height:20px;object-fit:cover;border-radius:2px;vertical-align:middle;" onerror="this.style.display='none'"></span>
               <i class="fa fa-location-dot"></i>
               Mumbai, Maharashtra, India
             </div>
@@ -1166,9 +1163,9 @@
                 <span class="match-format-badge">T20I</span>
               </div>
               <div class="mav-teams">
-                <div class="mav-team-line">🇮🇳 India <span class="winner">187/4</span> <span
+                <div class="mav-team-line"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> India <span class="winner">187/4</span> <span
                     style="font-size:0.7rem;color:var(--text-muted);">(18.2)</span></div>
-                <div class="mav-team-line">🇦🇺 Australia 143/6 <span
+                <div class="mav-team-line"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> Australia 143/6 <span
                     style="font-size:0.7rem;color:var(--text-muted);">(15.0)</span></div>
                 <div class="mav-result">IND vs AUS · 3rd T20I</div>
               </div>
@@ -1181,9 +1178,9 @@
                 <span class="match-format-badge">T20I</span>
               </div>
               <div class="mav-teams">
-                <div class="mav-team-line">🇮🇳 India <span class="winner">203/5</span> <span
+                <div class="mav-team-line"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> India <span class="winner">203/5</span> <span
                     style="font-size:0.7rem;color:var(--text-muted);">(20)</span></div>
-                <div class="mav-team-line">🇳🇿 New Zealand 178/6 <span
+                <div class="mav-team-line"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/NZ.svg" alt="New Zealand" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> New Zealand 178/6 <span
                     style="font-size:0.7rem;color:var(--text-muted);">(20)</span></div>
                 <div class="mav-result">India won by 25 runs</div>
               </div>
@@ -1195,9 +1192,9 @@
                 <span class="match-format-badge">ODI</span>
               </div>
               <div class="mav-teams">
-                <div class="mav-team-line">🇿🇦 South Africa <span class="winner">312/6</span> <span
+                <div class="mav-team-line"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> South Africa <span class="winner">312/6</span> <span
                     style="font-size:0.7rem;color:var(--text-muted);">(50)</span></div>
-                <div class="mav-team-line">🇮🇳 India 308/7 <span
+                <div class="mav-team-line"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> India 308/7 <span
                     style="font-size:0.7rem;color:var(--text-muted);">(50)</span></div>
                 <div class="mav-result">South Africa won by 4 runs</div>
               </div>
@@ -1209,8 +1206,8 @@
                 <span class="match-format-badge">Test</span>
               </div>
               <div class="mav-teams">
-                <div class="mav-team-line">🇮🇳 India <span class="winner">498/4d & 210/2d</span></div>
-                <div class="mav-team-line">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England 312 & 280</div>
+                <div class="mav-team-line"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> India <span class="winner">498/4d & 210/2d</span></div>
+                <div class="mav-team-line"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> England 312 & 280</div>
                 <div class="mav-result">India won by 116 runs</div>
               </div>
               <div class="mav-date">15–19 Oct 2025</div>
@@ -1241,7 +1238,7 @@
                 style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);text-align:right;">W%</span>
             </div>
             <div class="team-bias-row">
-              <span class="team-bias-name">🇮🇳 India</span>
+              <span class="team-bias-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India</span>
               <div class="team-bias-bar-wrap">
                 <div class="team-bias-bar-bg">
                   <div class="team-bias-bar-fill" style="width:82%"></div>
@@ -1250,7 +1247,7 @@
               <span class="team-bias-pct">82%</span>
             </div>
             <div class="team-bias-row">
-              <span class="team-bias-name">🇦🇺 Australia</span>
+              <span class="team-bias-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia</span>
               <div class="team-bias-bar-wrap">
                 <div class="team-bias-bar-bg">
                   <div class="team-bias-bar-fill" style="width:45%"></div>
@@ -1259,7 +1256,7 @@
               <span class="team-bias-pct">45%</span>
             </div>
             <div class="team-bias-row">
-              <span class="team-bias-name">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span>
+              <span class="team-bias-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">England</span>
               <div class="team-bias-bar-wrap">
                 <div class="team-bias-bar-bg">
                   <div class="team-bias-bar-fill" style="width:40%"></div>
@@ -1268,7 +1265,7 @@
               <span class="team-bias-pct">40%</span>
             </div>
             <div class="team-bias-row">
-              <span class="team-bias-name">🇳🇿 New Zealand</span>
+              <span class="team-bias-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/NZ.svg" alt="New Zealand" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">New Zealand</span>
               <div class="team-bias-bar-wrap">
                 <div class="team-bias-bar-bg">
                   <div class="team-bias-bar-fill" style="width:38%"></div>
@@ -1277,7 +1274,7 @@
               <span class="team-bias-pct">38%</span>
             </div>
             <div class="team-bias-row">
-              <span class="team-bias-name">🇿🇦 South Africa</span>
+              <span class="team-bias-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">South Africa</span>
               <div class="team-bias-bar-wrap">
                 <div class="team-bias-bar-bg">
                   <div class="team-bias-bar-fill" style="width:50%"></div>
@@ -1286,7 +1283,7 @@
               <span class="team-bias-pct">50%</span>
             </div>
             <div class="team-bias-row">
-              <span class="team-bias-name">🇵🇰 Pakistan</span>
+              <span class="team-bias-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Pakistan</span>
               <div class="team-bias-bar-wrap">
                 <div class="team-bias-bar-bg">
                   <div class="team-bias-bar-fill" style="width:33%"></div>
@@ -1295,7 +1292,7 @@
               <span class="team-bias-pct">33%</span>
             </div>
             <div class="team-bias-row">
-              <span class="team-bias-name">🇱🇰 Sri Lanka</span>
+              <span class="team-bias-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/LK.svg" alt="Sri Lanka" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Sri Lanka</span>
               <div class="team-bias-bar-wrap">
                 <div class="team-bias-bar-bg">
                   <div class="team-bias-bar-fill" style="width:30%"></div>
@@ -1304,7 +1301,7 @@
               <span class="team-bias-pct">30%</span>
             </div>
             <div class="team-bias-row">
-              <span class="team-bias-name">🇼🇸 West Indies</span>
+              <span class="team-bias-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/WI.svg" alt="West Indies" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">West Indies</span>
               <div class="team-bias-bar-wrap">
                 <div class="team-bias-bar-bg">
                   <div class="team-bias-bar-fill" style="width:42%"></div>
@@ -1366,8 +1363,7 @@
                       style="padding:0.65rem 1.2rem;color:var(--accent);font-family:var(--font-mono);font-weight:700;">1
                     </td>
                     <td style="padding:0.65rem 0.8rem;"><a href="player-profile.html"
-                        style="font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:0.4rem;">🇮🇳
-                        V. Kohli</a></td>
+                        style="font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:0.4rem;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">V. Kohli</a></td>
                     <td style="padding:0.65rem 0.8rem;text-align:right;color:var(--text-secondary);">24</td>
                     <td
                       style="padding:0.65rem 0.8rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--frost);">
@@ -1379,7 +1375,7 @@
                   <tr style="border-bottom:1px solid var(--border-light);">
                     <td style="padding:0.65rem 1.2rem;color:var(--text-muted);font-family:var(--font-mono);">2</td>
                     <td style="padding:0.65rem 0.8rem;"><a href="player-profile.html"
-                        style="font-weight:600;color:var(--text-primary);">🇮🇳 R. Sharma</a></td>
+                        style="font-weight:600;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">R. Sharma</a></td>
                     <td style="padding:0.65rem 0.8rem;text-align:right;color:var(--text-secondary);">21</td>
                     <td
                       style="padding:0.65rem 0.8rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--frost);">
@@ -1391,7 +1387,7 @@
                   <tr style="border-bottom:1px solid var(--border-light);">
                     <td style="padding:0.65rem 1.2rem;color:var(--text-muted);font-family:var(--font-mono);">3</td>
                     <td style="padding:0.65rem 0.8rem;"><a href="player-profile.html"
-                        style="font-weight:600;color:var(--text-primary);">🇦🇺 D. Warner</a></td>
+                        style="font-weight:600;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">D. Warner</a></td>
                     <td style="padding:0.65rem 0.8rem;text-align:right;color:var(--text-secondary);">12</td>
                     <td
                       style="padding:0.65rem 0.8rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--frost);">
@@ -1403,7 +1399,7 @@
                   <tr style="border-bottom:1px solid var(--border-light);">
                     <td style="padding:0.65rem 1.2rem;color:var(--text-muted);font-family:var(--font-mono);">4</td>
                     <td style="padding:0.65rem 0.8rem;"><a href="player-profile.html"
-                        style="font-weight:600;color:var(--text-primary);">🏴󠁧󠁢󠁥󠁮󠁧󠁿 J. Root</a></td>
+                        style="font-weight:600;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">J. Root</a></td>
                     <td style="padding:0.65rem 0.8rem;text-align:right;color:var(--text-secondary);">10</td>
                     <td
                       style="padding:0.65rem 0.8rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--frost);">
@@ -1415,7 +1411,7 @@
                   <tr>
                     <td style="padding:0.65rem 1.2rem;color:var(--text-muted);font-family:var(--font-mono);">5</td>
                     <td style="padding:0.65rem 0.8rem;"><a href="player-profile.html"
-                        style="font-weight:600;color:var(--text-primary);">🇮🇳 S. Gill</a></td>
+                        style="font-weight:600;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">S. Gill</a></td>
                     <td style="padding:0.65rem 0.8rem;text-align:right;color:var(--text-secondary);">9</td>
                     <td
                       style="padding:0.65rem 0.8rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--frost);">
@@ -1467,7 +1463,7 @@
                       style="padding:0.65rem 1.2rem;color:var(--accent);font-family:var(--font-mono);font-weight:700;">1
                     </td>
                     <td style="padding:0.65rem 0.8rem;"><a href="player-profile.html"
-                        style="font-weight:600;color:var(--text-primary);">🇮🇳 J. Bumrah</a></td>
+                        style="font-weight:600;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">J. Bumrah</a></td>
                     <td style="padding:0.65rem 0.8rem;text-align:right;color:var(--text-secondary);">18</td>
                     <td
                       style="padding:0.65rem 0.8rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--frost);">
@@ -1479,7 +1475,7 @@
                   <tr style="border-bottom:1px solid var(--border-light);">
                     <td style="padding:0.65rem 1.2rem;color:var(--text-muted);font-family:var(--font-mono);">2</td>
                     <td style="padding:0.65rem 0.8rem;"><a href="player-profile.html"
-                        style="font-weight:600;color:var(--text-primary);">🇮🇳 Y. Chahal</a></td>
+                        style="font-weight:600;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">Y. Chahal</a></td>
                     <td style="padding:0.65rem 0.8rem;text-align:right;color:var(--text-secondary);">14</td>
                     <td
                       style="padding:0.65rem 0.8rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--frost);">
@@ -1491,7 +1487,7 @@
                   <tr style="border-bottom:1px solid var(--border-light);">
                     <td style="padding:0.65rem 1.2rem;color:var(--text-muted);font-family:var(--font-mono);">3</td>
                     <td style="padding:0.65rem 0.8rem;"><a href="player-profile.html"
-                        style="font-weight:600;color:var(--text-primary);">🇦🇺 M. Starc</a></td>
+                        style="font-weight:600;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">M. Starc</a></td>
                     <td style="padding:0.65rem 0.8rem;text-align:right;color:var(--text-secondary);">9</td>
                     <td
                       style="padding:0.65rem 0.8rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--frost);">
@@ -1503,7 +1499,7 @@
                   <tr>
                     <td style="padding:0.65rem 1.2rem;color:var(--text-muted);font-family:var(--font-mono);">4</td>
                     <td style="padding:0.65rem 0.8rem;"><a href="player-profile.html"
-                        style="font-weight:600;color:var(--text-primary);">🏴󠁧󠁢󠁥󠁮󠁧󠁿 J. Anderson</a></td>
+                        style="font-weight:600;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">J. Anderson</a></td>
                     <td style="padding:0.65rem 0.8rem;text-align:right;color:var(--text-secondary);">7</td>
                     <td
                       style="padding:0.65rem 0.8rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--frost);">
@@ -1681,7 +1677,7 @@
             <div class="sidebar-card-title"><i class="fa fa-circle-info"></i> Quick Facts</div>
           </div>
           <div class="sidebar-stat-row"><span class="sidebar-stat-label">Country</span><span
-              class="sidebar-stat-value">🇮🇳 India</span></div>
+              class="sidebar-stat-value" id="sidebarCountry"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> India</span></div>
           <div class="sidebar-stat-row"><span class="sidebar-stat-label">City</span><span
               class="sidebar-stat-value">Mumbai</span></div>
           <div class="sidebar-stat-row"><span class="sidebar-stat-label">Capacity</span><span
@@ -1702,7 +1698,7 @@
             <div class="sidebar-card-title"><i class="fa fa-calendar"></i> Upcoming Here</div>
           </div>
           <div class="upcoming-match-row">
-            <div class="upcoming-teams">🇮🇳 India vs 🇦🇺 Australia</div>
+            <div class="upcoming-teams"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">India vs <img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">Australia</div>
             <div class="upcoming-meta">
               <span class="match-format-badge" style="font-size:0.6rem;">T20I</span>
               <span>5 Mar 2026</span>
@@ -1710,14 +1706,14 @@
             </div>
           </div>
           <div class="upcoming-match-row">
-            <div class="upcoming-teams">🇮🇳 India vs 🇳🇿 New Zealand</div>
+            <div class="upcoming-teams"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/NZ.svg" alt="New Zealand" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">India vs <img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/NZ.svg" alt="New Zealand" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">New Zealand</div>
             <div class="upcoming-meta">
               <span class="match-format-badge" style="font-size:0.6rem;">ODI</span>
               <span>22 Mar 2026</span>
             </div>
           </div>
           <div class="upcoming-match-row">
-            <div class="upcoming-teams">🇮🇳 India vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</div>
+            <div class="upcoming-teams"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">India vs <img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none'">England</div>
             <div class="upcoming-meta">
               <span class="match-format-badge" style="font-size:0.6rem;">Test</span>
               <span>8–12 Apr 2026</span>
@@ -1762,7 +1758,7 @@
           <a href="venue-profile.html"
             style="display:flex;align-items:center;gap:0.7rem;padding:0.7rem 1.1rem;border-bottom:1px solid var(--border-light);text-decoration:none;transition:background var(--transition);"
             onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background=''">
-            <span style="font-size:1.3rem;">🇮🇳</span>
+            <span style="font-size:1.3rem;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:28px;height:28px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div>
               <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);">Narendra Modi Stadium</div>
               <div style="font-size:0.68rem;color:var(--text-muted);">Ahmedabad · 181 avg</div>
@@ -1771,7 +1767,7 @@
           <a href="venue-profile.html"
             style="display:flex;align-items:center;gap:0.7rem;padding:0.7rem 1.1rem;border-bottom:1px solid var(--border-light);text-decoration:none;transition:background var(--transition);"
             onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background=''">
-            <span style="font-size:1.3rem;">🇮🇳</span>
+            <span style="font-size:1.3rem;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:28px;height:28px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div>
               <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);">M. Chinnaswamy Stadium</div>
               <div style="font-size:0.68rem;color:var(--text-muted);">Bengaluru · 174 avg</div>
@@ -1780,7 +1776,7 @@
           <a href="venue-profile.html"
             style="display:flex;align-items:center;gap:0.7rem;padding:0.7rem 1.1rem;text-decoration:none;transition:background var(--transition);"
             onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background=''">
-            <span style="font-size:1.3rem;">🇦🇺</span>
+            <span style="font-size:1.3rem;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:28px;height:28px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div>
               <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);">Sydney Cricket Ground</div>
               <div style="font-size:0.68rem;color:var(--text-muted);">Sydney · 168 avg</div>
@@ -1799,11 +1795,8 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a href="index.html" class="nav-logo">
-            <div class="nav-logo-icon">
-              <img src="img1.png" alt="" style="width:22px;height:22px;object-fit:contain;"
-                onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
-            </div>
-            <span class="nav-logo-text">Cricket<span>lytics</span></span>
+            <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+            <span class="nav-logo-text">Cric<span>lytics</span></span>
           </a>
           <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
             models.</p>
@@ -1839,13 +1832,13 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span class="footer-copy">© 2026 Cricklytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-copy">© 2026 Criclytics. All data sourced from public cricket APIs.</span>
         <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
           prediction platform.</span>
       </div>
       <div class="webcraft-watermark">
         <span class="webcraft-by">Designed &amp; Developed by</span>
-        <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+        <a href="https://webcraft-dev.vercel.app/" target="_blank" rel="noopener" class="webcraft-brand">
           <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
@@ -1854,7 +1847,7 @@
           </svg>
           <span class="webcraft-name">WebCraft</span>
         </a>
-        <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+        <a href="https://webcraft-dev.vercel.app/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
       </div>
     </footer>
 
@@ -1887,6 +1880,8 @@
     });
   </script>
 
+  <script src="cricklytics.js"></script>
+  <script src="venue-profile-api.js"></script>
 </body>
 
 </html>

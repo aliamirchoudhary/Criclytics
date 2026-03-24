@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>India — Team Profile · Cricklytics</title>
-  <link rel="icon" type="image/png" href="img1.png" />
+  <title>India — Team Profile · Criclytics</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
@@ -613,11 +613,8 @@
 ════════════════════════════════════════ -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="nav-logo-icon">
-        <img src="img1.png" alt="Cricklytics" style="width:22px;height:22px;object-fit:contain;"
-          onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
-      </div>
-      <span class="nav-logo-text">Cricket<span>lytics</span></span>
+      <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Cric<span>lytics</span></span>
     </a>
     <div class="nav-search-wrap">
       <span class="nav-search-icon"><i class="fa fa-search"></i></span>
@@ -656,16 +653,20 @@
       <div class="team-hero-inner">
 
         <div class="team-hero-top">
-          <div class="team-crest">🇮🇳</div>
+          <div class="team-crest" id="teamCrest" style="overflow:hidden;">
+            <img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg"
+              id="teamCrestImg" alt="India"
+              style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-lg);">
+          </div>
 
           <div class="team-hero-info">
             <div class="breadcrumb">
               <a href="index.html">Home</a><span class="breadcrumb-sep">/</span>
               <a href="teams.html">Teams</a><span class="breadcrumb-sep">/</span>
-              <span>India</span>
+              <span id="breadcrumbTeam">India</span>
             </div>
-            <h1 class="team-hero-name">India</h1>
-            <div class="team-hero-fullname">Board of Control for Cricket in India (BCCI) · Founded: 1928</div>
+            <h1 class="team-hero-name" id="teamName">India</h1>
+            <div class="team-hero-fullname" id="teamFullName">Board of Control for Cricket in India (BCCI) · Founded: 1928</div>
             <div class="team-hero-tags">
               <span class="ptag"><i class="fa fa-globe" style="font-size:.65rem"></i> Asia</span>
               <span class="ptag">ICC Full Member</span>
@@ -679,7 +680,7 @@
           </div>
 
           <div class="team-hero-actions">
-            <a href="compare.html" class="btn btn-primary btn-sm"><i class="fa fa-scale-balanced"></i> Compare</a>
+            <a id="compareBtn" href="compare.html" class="btn btn-primary btn-sm"><i class="fa fa-scale-balanced"></i> Compare</a>
             <button class="btn btn-secondary btn-sm"><i class="fa fa-bookmark"></i> Follow</button>
           </div>
         </div>
@@ -1009,7 +1010,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="bold"><span style="margin-right:.4rem">🇦🇺</span>Australia</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Australia</td>
                     <td class="mono">248</td>
                     <td class="mono" style="color:var(--green-live)">128</td>
                     <td class="mono" style="color:var(--red)">109</td>
@@ -1019,7 +1020,7 @@
                     <td><span class="status-badge status-completed" style="font-size:.62rem;">W</span></td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.4rem">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>England</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">England</td>
                     <td class="mono">212</td>
                     <td class="mono" style="color:var(--green-live)">103</td>
                     <td class="mono" style="color:var(--red)">96</td>
@@ -1029,7 +1030,7 @@
                     <td><span class="status-badge status-completed" style="font-size:.62rem;">W</span></td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.4rem">🇵🇰</span>Pakistan</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/PK.svg" alt="Pakistan" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Pakistan</td>
                     <td class="mono">203</td>
                     <td class="mono" style="color:var(--green-live)">73</td>
                     <td class="mono" style="color:var(--red)">73</td>
@@ -1039,7 +1040,7 @@
                     <td><span class="status-badge status-completed" style="font-size:.62rem;">W</span></td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.4rem">🇿🇦</span>South Africa</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">South Africa</td>
                     <td class="mono">149</td>
                     <td class="mono" style="color:var(--green-live)">78</td>
                     <td class="mono" style="color:var(--red)">64</td>
@@ -1049,7 +1050,7 @@
                     <td><span class="status-badge status-completed" style="font-size:.62rem;">W</span></td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.4rem">🇳🇿</span>New Zealand</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/NZ.svg" alt="New Zealand" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">New Zealand</td>
                     <td class="mono">132</td>
                     <td class="mono" style="color:var(--green-live)">62</td>
                     <td class="mono" style="color:var(--red)">61</td>
@@ -1061,7 +1062,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.4rem">🇱🇰</span>Sri Lanka</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/LK.svg" alt="Sri Lanka" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Sri Lanka</td>
                     <td class="mono">184</td>
                     <td class="mono" style="color:var(--green-live)">97</td>
                     <td class="mono" style="color:var(--red)">76</td>
@@ -1071,7 +1072,7 @@
                     <td><span class="status-badge status-completed" style="font-size:.62rem;">W</span></td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.4rem">🇧🇩</span>Bangladesh</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/BD.svg" alt="Bangladesh" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">Bangladesh</td>
                     <td class="mono">64</td>
                     <td class="mono" style="color:var(--green-live)">41</td>
                     <td class="mono" style="color:var(--red)">18</td>
@@ -1081,7 +1082,7 @@
                     <td><span class="status-badge status-completed" style="font-size:.62rem;">W</span></td>
                   </tr>
                   <tr>
-                    <td class="bold"><span style="margin-right:.4rem">🇼🇸</span>West Indies</td>
+                    <td class="bold"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/WI.svg" alt="West Indies" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display='none'">West Indies</td>
                     <td class="mono">146</td>
                     <td class="mono" style="color:var(--green-live)">71</td>
                     <td class="mono" style="color:var(--red)">61</td>
@@ -1396,7 +1397,7 @@
         <div class="ts-card">
           <div class="ts-head">Top Rivals (Win%)</div>
           <a href="team-profile.html" class="rival-row">
-            <span class="rival-flag">🇧🇩</span>
+            <span class="rival-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/BD.svg" alt="Bangladesh" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="rival-info">
               <div class="rival-name">vs Bangladesh</div>
               <div class="rival-rec">41W–18L in 64 matches</div>
@@ -1404,7 +1405,7 @@
             <span class="rival-win">70%</span>
           </a>
           <a href="team-profile.html" class="rival-row">
-            <span class="rival-flag">🇿🇦</span>
+            <span class="rival-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ZA.svg" alt="South Africa" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="rival-info">
               <div class="rival-name">vs South Africa</div>
               <div class="rival-rec">78W–64L in 149 matches</div>
@@ -1412,7 +1413,7 @@
             <span class="rival-win">55%</span>
           </a>
           <a href="team-profile.html" class="rival-row">
-            <span class="rival-flag">🇦🇺</span>
+            <span class="rival-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="rival-info">
               <div class="rival-name">vs Australia</div>
               <div class="rival-rec">128W–109L in 248</div>
@@ -1420,7 +1421,7 @@
             <span class="rival-win">54%</span>
           </a>
           <a href="team-profile.html" class="rival-row">
-            <span class="rival-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+            <span class="rival-flag"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display='none'"></span>
             <div class="rival-info">
               <div class="rival-name">vs England</div>
               <div class="rival-rec">103W–96L in 212</div>
@@ -1477,9 +1478,8 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a href="index.html" class="nav-logo">
-            <div class="nav-logo-icon"><img src="img1.png" alt="" style="width:22px;height:22px;object-fit:contain;"
-                onerror="this.style.display='none';this.parentElement.textContent='🏏'" /></div>
-            <span class="nav-logo-text">Cricket<span>lytics</span></span>
+            <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+            <span class="nav-logo-text">Cric<span>lytics</span></span>
           </a>
           <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
             models.</p>
@@ -1515,13 +1515,13 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span class="footer-copy">© 2025 Cricklytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-copy">© 2025 Criclytics. All data sourced from public cricket APIs.</span>
         <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
           prediction platform.</span>
       </div>
       <div class="webcraft-watermark">
         <span class="webcraft-by">Designed &amp; Developed by</span>
-        <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+        <a href="https://webcraft-dev.vercel.app/" target="_blank" rel="noopener" class="webcraft-brand">
           <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
@@ -1530,7 +1530,7 @@
           </svg>
           <span class="webcraft-name">WebCraft</span>
         </a>
-        <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+        <a href="https://webcraft-dev.vercel.app/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
       </div>
     </footer>
 
@@ -1561,6 +1561,8 @@
         window.location.href = 'search.html?q=' + encodeURIComponent(this.value.trim());
     });
   </script>
+  <script src="cricklytics.js"></script>
+  <script src="team-profile-api.js"></script>
 </body>
 
 </html>
