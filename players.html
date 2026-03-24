@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Players — Cricklytics</title>
+  <link rel="icon" type="image/png" href="img1.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Players listing page ───────────────────────── */
+    .players-hero {
+      background: var(--surface-1);
+      border-bottom: 1px solid var(--border);
+      padding: 2.8rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .players-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 120% at 100% 50%, rgba(74, 127, 167, 0.1) 0%, transparent 65%),
+        radial-gradient(ellipse 30% 80% at 0% 50%, rgba(94, 184, 255, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .players-hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .players-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      color: var(--frost);
+      margin-bottom: 0.3rem;
+    }
+
+    .players-hero p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 1.6rem;
+    }
+
+    /* ── Hero search bar (big) ──────────────────────── */
+    .hero-search-wrap {
+      position: relative;
+      max-width: 500px;
+    }
+
+    .hero-search {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 0.75rem 1.2rem 0.75rem 3rem;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .hero-search::placeholder {
+      color: var(--text-muted);
+    }
+
+    .hero-search:focus {
+      border-color: var(--steel);
+      box-shadow: 0 0 0 3px rgba(74, 127, 167, 0.15);
+    }
+
+    .hero-search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .hero-search-count {
+      position: absolute;
+      right: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ── Sticky filter bar ──────────────────────────── */
+    .filter-sticky {
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 100;
+      background: rgba(10, 25, 49, 0.93);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 2rem;
+    }
+
+    .filter-sticky-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── A-Z alpha bar ──────────────────────────────── */
+    .alpha-bar {
+      display: flex;
+      gap: 2px;
+      flex-wrap: wrap;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 3px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .alpha-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .alpha-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
+    }
+
+    .alpha-btn:hover {
+      color: var(--text-primary);
+      background: rgba(74, 127, 167, 0.12);
+    }
+
+    .alpha-btn.active {
+      background: var(--navy-mid);
+      color: var(--accent);
+    }
+
+    .alpha-btn.disabled {
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    /* ── Main layout ────────────────────────────────── */
+    .players-layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 1.8rem;
+      align-items: start;
+    }
+
+    /* ── Left sidebar / facets ──────────────────────── */
+    .facets-panel {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--nav-h) + 56px);
+    }
+
+    .facets-header {
+      padding: 0.85rem 1.1rem;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .facets-section {
+      padding: 0.85rem 1.1rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .facets-section:last-child {
+      border-bottom: none;
+    }
+
+    .facets-section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.65rem;
+    }
+
+    .facet-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .facet-opt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.32rem 0.5rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background var(--transition);
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    .facet-opt:hover {
+      background: rgba(74, 127, 167, 0.08);
+      color: var(--text-primary);
+    }
+
+    .facet-opt.active {
+      background: rgba(94, 184, 255, 0.1);
+      color: var(--accent);
+    }
+
+    .facet-count {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    /* ── Results area ───────────────────────────────── */
+    .results-area {
+      min-width: 0;
+    }
+
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .results-count {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .results-count strong {
+      color: var(--text-primary);
+    }
+
+    /* view toggle */
+    .view-toggle {
+      display: flex;
+      gap: 2px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+    }
+
+    .view-btn {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      transition: all var(--transition);
+    }
+
+    .view-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .view-btn.active {
+      background: var(--navy-mid);
+      color: var(--accent);
+    }
+
+    /* ── Player card — grid view ────────────────────── */
+    .players-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+
+    .pcard {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+      position: relative;
+    }
+
+    .pcard:hover {
+      transform: translateY(-4px);
+      border-color: rgba(74, 127, 167, 0.5);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+    }
+
+    /* country stripe at top */
+    .pcard-stripe {
+      height: 3px;
+      background: linear-gradient(90deg, var(--steel), var(--accent));
+    }
+
+    .pcard-body {
+      padding: 1.1rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
+    }
+
+    .pcard-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .pcard-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy-mid), var(--surface-3));
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .pcard-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pcard-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pcard-role {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .pcard-country {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .pcard-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.4rem;
+    }
+
+    .pcard-stat {
+      background: var(--surface-2);
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.3rem;
+      text-align: center;
+    }
+
+    .pcard-stat-val {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .pcard-stat-lbl {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 1px;
+    }
+
+    .pcard-formats {
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    .pcard-fmt {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      background: rgba(74, 127, 167, 0.12);
+      border: 1px solid rgba(74, 127, 167, 0.2);
+      color: var(--sky);
+      padding: 0.12rem 0.45rem;
+      border-radius: 20px;
+    }
+
+    .pcard-footer {
+      padding: 0.6rem 1rem;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pcard-rank {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .pcard-trending {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--accent-warm);
+      background: rgba(255, 179, 71, 0.1);
+      border: 1px solid rgba(255, 179, 71, 0.2);
+      padding: 0.1rem 0.4rem;
+      border-radius: 20px;
+    }
+
+    /* ── Player card — list view ────────────────────── */
+    .players-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .prow {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.2rem;
+      display: grid;
+      grid-template-columns: 36px auto 1fr auto auto auto auto;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color var(--transition), background var(--transition), transform var(--transition);
+    }
+
+    .prow:hover {
+      border-color: rgba(74, 127, 167, 0.45);
+      background: var(--surface-2);
+      transform: translateX(3px);
+    }
+
+    .prow-num {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .prow-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .prow-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .prow-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .prow-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .prow-stat {
+      text-align: center;
+      min-width: 55px;
+    }
+
+    .prow-stat-val {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--sky);
+    }
+
+    .prow-stat-lbl {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 1px;
+    }
+
+    /* ── Pagination ─────────────────────────────────── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .page-btn:hover {
+      border-color: var(--steel);
+      color: var(--text-primary);
+    }
+
+    .page-btn.active {
+      background: var(--navy-mid);
+      border-color: var(--steel);
+      color: var(--accent);
+    }
+
+    .page-btn.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* ── Responsive overrides ───────────────────────── */
+    @media (max-width: 1024px) {
+      .players-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .facets-panel {
+        display: none;
+      }
+
+      /* moved to filter bar on tablet */
+    }
+
+    @media (max-width: 768px) {
+      .players-layout {
+        padding: 1.5rem;
+      }
+
+      .players-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .prow {
+        grid-template-columns: auto 1fr auto auto;
+      }
+
+      .prow-num,
+      .prow-stat:nth-child(n+5) {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .players-layout {
+        padding: 1rem;
+      }
+
+      .players-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .prow {
+        grid-template-columns: auto 1fr auto;
+      }
+
+      .hero-search-wrap {
+        max-width: 100%;
+      }
+
+      .players-hero {
+        padding: 2rem 1rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <img src="img1.png" alt="Cricklytics" style="width:22px;height:22px;object-fit:contain;"
+          onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
+      </div>
+      <span class="nav-logo-text">Cricket<span>lytics</span></span>
+    </a>
+    <div class="nav-search-wrap">
+      <span class="nav-search-icon"><i class="fa fa-search"></i></span>
+      <input type="text" class="nav-search" placeholder="Search players, teams, venues…" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="matches.html" class="nav-link">Matches</a></li>
+      <li><a href="players.html" class="nav-link active">Players</a></li>
+      <li><a href="teams.html" class="nav-link">Teams</a></li>
+      <li><a href="venues.html" class="nav-link">Venues</a></li>
+      <li><a href="rankings.html" class="nav-link">Rankings</a></li>
+      <li><a href="records.html" class="nav-link">Records</a></li>
+      <li><a href="compare.html" class="nav-link">Compare</a></li>
+    </ul>
+    <button class="nav-menu-btn" onclick="toggleMobileNav()" aria-label="Menu"><i class="fa fa-bars"></i></button>
+  </nav>
+  <div class="nav-mobile" id="mobileNav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="matches.html" class="nav-link">Matches</a>
+    <a href="players.html" class="nav-link active">Players</a>
+    <a href="teams.html" class="nav-link">Teams</a>
+    <a href="venues.html" class="nav-link">Venues</a>
+    <a href="rankings.html" class="nav-link">Rankings</a>
+    <a href="records.html" class="nav-link">Records</a>
+    <a href="compare.html" class="nav-link">Compare</a>
+  </div>
+
+  <div class="page-wrap">
+
+    <!-- ══════════════════════════════════════
+     HERO HEADER
+════════════════════════════════════════ -->
+    <div class="players-hero">
+      <div class="players-hero-inner">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span>Players</span>
+        </div>
+        <h1>Cricket Players</h1>
+        <p>Browse 3,800+ player profiles with career stats, venue records, and probability insights.</p>
+        <div class="hero-search-wrap">
+          <span class="hero-search-icon"><i class="fa fa-search"></i></span>
+          <input type="text" class="hero-search" id="heroSearch" placeholder="Search by name, country, or role…" />
+          <span class="hero-search-count">3,847 players</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     STICKY FILTER BAR
+════════════════════════════════════════ -->
+    <div class="filter-sticky">
+      <div class="filter-sticky-inner">
+        <!-- Sort/View mode -->
+        <button class="filter-chip active" data-sort="trending">🔥 Trending</button>
+        <button class="filter-chip" data-sort="alpha">A–Z</button>
+        <button class="filter-chip" data-sort="ranking">ICC Ranked</button>
+        <button class="filter-chip" data-sort="country">By Country</button>
+
+        <div style="width:1px; height:20px; background:var(--border); flex-shrink:0;"></div>
+
+        <!-- Format -->
+        <button class="filter-chip" data-fmt="t20">T20I</button>
+        <button class="filter-chip" data-fmt="odi">ODI</button>
+        <button class="filter-chip" data-fmt="test">Test</button>
+
+        <div style="flex:1"></div>
+
+        <!-- Role dropdown -->
+        <select class="filter-select" id="roleFilter">
+          <option value="">All Roles</option>
+          <option>Batsman</option>
+          <option>Bowler</option>
+          <option>All-Rounder</option>
+          <option>Wicketkeeper</option>
+        </select>
+
+        <!-- Country dropdown -->
+        <select class="filter-select" id="countryFilter">
+          <option value="">All Countries</option>
+          <option>India</option>
+          <option>Australia</option>
+          <option>England</option>
+          <option>Pakistan</option>
+          <option>South Africa</option>
+          <option>New Zealand</option>
+          <option>West Indies</option>
+          <option>Sri Lanka</option>
+          <option>Bangladesh</option>
+          <option>Afghanistan</option>
+          <option>Zimbabwe</option>
+          <option>Ireland</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     ALPHA BAR
+════════════════════════════════════════ -->
+    <div style="max-width:1280px; margin:0 auto; padding:0.75rem 2rem 0;">
+      <div class="alpha-bar" id="alphaBar">
+        <button class="alpha-btn active" data-letter="all">All</button>
+        <button class="alpha-btn" data-letter="A">A</button>
+        <button class="alpha-btn" data-letter="B">B</button>
+        <button class="alpha-btn" data-letter="C">C</button>
+        <button class="alpha-btn" data-letter="D">D</button>
+        <button class="alpha-btn" data-letter="E">E</button>
+        <button class="alpha-btn" data-letter="F">F</button>
+        <button class="alpha-btn" data-letter="G">G</button>
+        <button class="alpha-btn" data-letter="H">H</button>
+        <button class="alpha-btn" data-letter="I">I</button>
+        <button class="alpha-btn" data-letter="J">J</button>
+        <button class="alpha-btn" data-letter="K">K</button>
+        <button class="alpha-btn" data-letter="L">L</button>
+        <button class="alpha-btn" data-letter="M">M</button>
+        <button class="alpha-btn" data-letter="N">N</button>
+        <button class="alpha-btn" data-letter="O">O</button>
+        <button class="alpha-btn" data-letter="P">P</button>
+        <button class="alpha-btn" data-letter="Q">Q</button>
+        <button class="alpha-btn" data-letter="R">R</button>
+        <button class="alpha-btn" data-letter="S">S</button>
+        <button class="alpha-btn" data-letter="T">T</button>
+        <button class="alpha-btn" data-letter="U">U</button>
+        <button class="alpha-btn" data-letter="V">V</button>
+        <button class="alpha-btn" data-letter="W">W</button>
+        <button class="alpha-btn" data-letter="X disabled" data-letter="X">X</button>
+        <button class="alpha-btn" data-letter="Y">Y</button>
+        <button class="alpha-btn" data-letter="Z">Z</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     MAIN LAYOUT
+════════════════════════════════════════ -->
+    <div class="players-layout">
+
+      <!-- ── Left Facet Panel ──────────────────────────── -->
+      <aside class="facets-panel">
+        <div class="facets-header">
+          Filters
+          <button class="btn-ghost" style="font-size:0.72rem; color:var(--accent); cursor:pointer; padding:0;">Clear
+            all</button>
+        </div>
+
+        <div class="facets-section">
+          <div class="facets-section-title">Role</div>
+          <div class="facet-options">
+            <div class="facet-opt active"><span>All Roles</span><span class="facet-count">3,847</span></div>
+            <div class="facet-opt"><span>Batsman</span><span class="facet-count">1,412</span></div>
+            <div class="facet-opt"><span>Bowler</span><span class="facet-count">1,108</span></div>
+            <div class="facet-opt"><span>All-Rounder</span><span class="facet-count">892</span></div>
+            <div class="facet-opt"><span>Wicketkeeper</span><span class="facet-count">435</span></div>
+          </div>
+        </div>
+
+        <div class="facets-section">
+          <div class="facets-section-title">Format</div>
+          <div class="facet-options">
+            <div class="facet-opt"><span>T20 International</span><span class="facet-count">2,180</span></div>
+            <div class="facet-opt"><span>ODI</span><span class="facet-count">2,540</span></div>
+            <div class="facet-opt"><span>Test</span><span class="facet-count">1,920</span></div>
+          </div>
+        </div>
+
+        <div class="facets-section">
+          <div class="facets-section-title">Country</div>
+          <div class="facet-options">
+            <div class="facet-opt"><span>🇮🇳 India</span><span class="facet-count">287</span></div>
+            <div class="facet-opt"><span>🇦🇺 Australia</span><span class="facet-count">241</span></div>
+            <div class="facet-opt"><span>🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span><span class="facet-count">268</span></div>
+            <div class="facet-opt"><span>🇵🇰 Pakistan</span><span class="facet-count">254</span></div>
+            <div class="facet-opt"><span>🇿🇦 South Africa</span><span class="facet-count">198</span></div>
+            <div class="facet-opt"><span>🇳🇿 New Zealand</span><span class="facet-count">187</span></div>
+            <div class="facet-opt"><span>🇼🇸 West Indies</span><span class="facet-count">312</span></div>
+            <div class="facet-opt"><span>🇱🇰 Sri Lanka</span><span class="facet-count">224</span></div>
+          </div>
+        </div>
+
+        <div class="facets-section">
+          <div class="facets-section-title">Batting Style</div>
+          <div class="facet-options">
+            <div class="facet-opt"><span>Right-hand bat</span><span class="facet-count">2,810</span></div>
+            <div class="facet-opt"><span>Left-hand bat</span><span class="facet-count">1,037</span></div>
+          </div>
+        </div>
+
+        <div class="facets-section">
+          <div class="facets-section-title">Active Status</div>
+          <div class="facet-options">
+            <div class="facet-opt active"><span>Active players</span><span class="facet-count">1,240</span></div>
+            <div class="facet-opt"><span>Retired</span><span class="facet-count">2,607</span></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ── Results Area ──────────────────────────────── -->
+      <div class="results-area">
+        <div class="results-bar">
+          <div class="results-count">Showing <strong>24</strong> of <strong>3,847</strong> players</div>
+          <div style="display:flex; align-items:center; gap:0.75rem;">
+            <select class="filter-select" style="font-size:0.78rem; padding:0.35rem 0.75rem;">
+              <option>Sort: Trending</option>
+              <option>Sort: A–Z</option>
+              <option>Sort: Avg (High)</option>
+              <option>Sort: Strike Rate</option>
+              <option>Sort: Wickets</option>
+            </select>
+            <div class="view-toggle">
+              <button class="view-btn active" id="gridViewBtn" title="Grid view"><i class="fa fa-grip"></i></button>
+              <button class="view-btn" id="listViewBtn" title="List view"><i class="fa fa-list"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── GRID VIEW ────────────────────────────────── -->
+        <div class="players-grid" id="gridView">
+
+          <!-- Player 1 -->
+          <a href="player-profile.html" class="pcard anim-up delay-1">
+            <div class="pcard-stripe"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇮🇳</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Virat Kohli</div>
+                  <div class="pcard-role">Batsman · RHB</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇮🇳</span> India</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">58.7</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">136</div>
+                  <div class="pcard-stat-lbl">SR</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">80</div>
+                  <div class="pcard-stat-lbl">100s</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">T20I</span>
+                <span class="pcard-fmt">ODI</span>
+                <span class="pcard-fmt">Test</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#FFD700; font-size:0.65rem;"></i> ICC #2
+                ODI</span>
+              <span class="pcard-trending">🔥 Hot</span>
+            </div>
+          </a>
+
+          <!-- Player 2 -->
+          <a href="player-profile.html" class="pcard anim-up delay-2">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#3DDC84,#1A8A50)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇦🇺</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Pat Cummins</div>
+                  <div class="pcard-role">Bowler · RFM</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇦🇺</span> Australia</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">20.5</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">2.87</div>
+                  <div class="pcard-stat-lbl">Econ</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">298</div>
+                  <div class="pcard-stat-lbl">Wkts</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">T20I</span>
+                <span class="pcard-fmt">ODI</span>
+                <span class="pcard-fmt">Test</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#FFD700; font-size:0.65rem;"></i> ICC #1
+                Test</span>
+              <span class="pcard-trending"
+                style="color:var(--green-live);background:rgba(61,220,132,0.1);border-color:rgba(61,220,132,0.2)">📈
+                Rising</span>
+            </div>
+          </a>
+
+          <!-- Player 3 -->
+          <a href="player-profile.html" class="pcard anim-up delay-3">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#FFB347,#FF6B35)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇵🇰</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Babar Azam</div>
+                  <div class="pcard-role">Batsman · RHB</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇵🇰</span> Pakistan</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">46.2</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">129</div>
+                  <div class="pcard-stat-lbl">SR</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">30</div>
+                  <div class="pcard-stat-lbl">100s</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">T20I</span>
+                <span class="pcard-fmt">ODI</span>
+                <span class="pcard-fmt">Test</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#C0C0C0; font-size:0.65rem;"></i> ICC #1
+                T20I</span>
+              <span class="pcard-trending">🔥 Hot</span>
+            </div>
+          </a>
+
+          <!-- Player 4 -->
+          <a href="player-profile.html" class="pcard anim-up delay-4">
+            <div class="pcard-stripe"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇮🇳</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Jasprit Bumrah</div>
+                  <div class="pcard-role">Bowler · RFM</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇮🇳</span> India</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">21.8</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">2.43</div>
+                  <div class="pcard-stat-lbl">Econ</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">187</div>
+                  <div class="pcard-stat-lbl">Wkts</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">T20I</span>
+                <span class="pcard-fmt">ODI</span>
+                <span class="pcard-fmt">Test</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#FFD700; font-size:0.65rem;"></i> ICC #1 ODI
+                Bowl</span>
+            </div>
+          </a>
+
+          <!-- Player 5 -->
+          <a href="player-profile.html" class="pcard anim-up">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#5EB8FF,#3DDC84)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Joe Root</div>
+                  <div class="pcard-role">Batsman · RHB</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">50.4</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">55.9</div>
+                  <div class="pcard-stat-lbl">SR</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">35</div>
+                  <div class="pcard-stat-lbl">100s</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">Test</span>
+                <span class="pcard-fmt">ODI</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#FFD700; font-size:0.65rem;"></i> ICC #1
+                Test Bat</span>
+            </div>
+          </a>
+
+          <!-- Player 6 -->
+          <a href="player-profile.html" class="pcard anim-up delay-1">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#FFB347,#F6D365)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇳🇿</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Kane Williamson</div>
+                  <div class="pcard-role">Batsman · RHB</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇳🇿</span> New Zealand</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">54.8</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">47.1</div>
+                  <div class="pcard-stat-lbl">SR</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">33</div>
+                  <div class="pcard-stat-lbl">100s</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">Test</span>
+                <span class="pcard-fmt">ODI</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#C0C0C0; font-size:0.65rem;"></i> ICC #3
+                Test</span>
+            </div>
+          </a>
+
+          <!-- Player 7 -->
+          <a href="player-profile.html" class="pcard anim-up delay-2">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#FF5252,#FFB347)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇿🇦</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Kagiso Rabada</div>
+                  <div class="pcard-role">Bowler · RF</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇿🇦</span> South Africa</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">22.7</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">3.37</div>
+                  <div class="pcard-stat-lbl">Econ</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">241</div>
+                  <div class="pcard-stat-lbl">Wkts</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">T20I</span>
+                <span class="pcard-fmt">ODI</span>
+                <span class="pcard-fmt">Test</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#CD7F32; font-size:0.65rem;"></i> ICC #4
+                Test Bowl</span>
+            </div>
+          </a>
+
+          <!-- Player 8 -->
+          <a href="player-profile.html" class="pcard anim-up delay-3">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#B3CFE5,#4A7FA7)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇱🇰</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Kusal Mendis</div>
+                  <div class="pcard-role">Wicketkeeper · RHB</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇱🇰</span> Sri Lanka</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">34.1</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">138</div>
+                  <div class="pcard-stat-lbl">SR</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">8</div>
+                  <div class="pcard-stat-lbl">100s</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">T20I</span>
+                <span class="pcard-fmt">ODI</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank">WK Batsman</span>
+            </div>
+          </a>
+
+          <!-- Player 9 -->
+          <a href="player-profile.html" class="pcard anim-up">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#3DDC84,#5EB8FF)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇦🇫</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Rashid Khan</div>
+                  <div class="pcard-role">Bowler · LBG</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇦🇫</span> Afghanistan</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">15.2</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">5.47</div>
+                  <div class="pcard-stat-lbl">Econ</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">162</div>
+                  <div class="pcard-stat-lbl">Wkts</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">T20I</span>
+                <span class="pcard-fmt">ODI</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#FFD700; font-size:0.65rem;"></i> ICC #1
+                T20I Bowl</span>
+              <span class="pcard-trending">🔥 Hot</span>
+            </div>
+          </a>
+
+          <!-- Player 10 -->
+          <a href="player-profile.html" class="pcard anim-up delay-1">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#4A7FA7,#B3CFE5)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇳🇿</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Trent Boult</div>
+                  <div class="pcard-role">Bowler · LFM</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇳🇿</span> New Zealand</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">27.6</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">4.02</div>
+                  <div class="pcard-stat-lbl">Econ</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">317</div>
+                  <div class="pcard-stat-lbl">Wkts</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">T20I</span>
+                <span class="pcard-fmt">ODI</span>
+                <span class="pcard-fmt">Test</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank">Pace Bowler</span>
+            </div>
+          </a>
+
+          <!-- Player 11 -->
+          <a href="player-profile.html" class="pcard anim-up delay-2">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#FF5252,#B71C1C)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇮🇳</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Rohit Sharma</div>
+                  <div class="pcard-role">Batsman · RHB</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇮🇳</span> India</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">48.6</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">139</div>
+                  <div class="pcard-stat-lbl">SR</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">30</div>
+                  <div class="pcard-stat-lbl">100s</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">T20I</span>
+                <span class="pcard-fmt">ODI</span>
+                <span class="pcard-fmt">Test</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#FFD700; font-size:0.65rem;"></i> ICC #3
+                ODI</span>
+            </div>
+          </a>
+
+          <!-- Player 12 -->
+          <a href="player-profile.html" class="pcard anim-up delay-3">
+            <div class="pcard-stripe" style="background:linear-gradient(90deg,#FFB347,#3DDC84)"></div>
+            <div class="pcard-body">
+              <div class="pcard-top">
+                <div class="pcard-avatar">🇦🇺</div>
+                <div class="pcard-info">
+                  <div class="pcard-name">Steve Smith</div>
+                  <div class="pcard-role">Batsman · RHB</div>
+                </div>
+              </div>
+              <div class="pcard-country"><span>🇦🇺</span> Australia</div>
+              <div class="pcard-stats">
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">60.1</div>
+                  <div class="pcard-stat-lbl">Avg</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">55.4</div>
+                  <div class="pcard-stat-lbl">SR</div>
+                </div>
+                <div class="pcard-stat">
+                  <div class="pcard-stat-val">32</div>
+                  <div class="pcard-stat-lbl">100s</div>
+                </div>
+              </div>
+              <div class="pcard-formats">
+                <span class="pcard-fmt">Test</span>
+                <span class="pcard-fmt">ODI</span>
+              </div>
+            </div>
+            <div class="pcard-footer">
+              <span class="pcard-rank"><i class="fa fa-trophy" style="color:#C0C0C0; font-size:0.65rem;"></i> ICC #2
+                Test</span>
+            </div>
+          </a>
+
+        </div><!-- end players-grid -->
+
+        <!-- ── LIST VIEW (hidden by default) ────────────── -->
+        <div class="players-list" id="listView" style="display:none;">
+          <div
+            style="background:var(--surface-2); border-radius:var(--radius-md); padding:0.6rem 1.2rem; display:grid; grid-template-columns:36px auto 1fr auto auto auto auto; gap:1rem; align-items:center;">
+            <span style="font-size:0.68rem;color:var(--text-muted);font-weight:700;">#</span>
+            <span style="width:38px;"></span>
+            <span
+              style="font-size:0.68rem;color:var(--text-muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;">Player</span>
+            <span
+              style="font-size:0.68rem;color:var(--text-muted);font-weight:700;text-align:center;min-width:55px;">Avg</span>
+            <span style="font-size:0.68rem;color:var(--text-muted);font-weight:700;text-align:center;min-width:55px;">SR
+              / Econ</span>
+            <span
+              style="font-size:0.68rem;color:var(--text-muted);font-weight:700;text-align:center;min-width:55px;">100s /
+              Wkts</span>
+            <span style="width:20px;"></span>
+          </div>
+
+          <!-- rows -->
+          <a href="player-profile.html" class="prow">
+            <span class="prow-num">1</span>
+            <div class="prow-avatar">🇮🇳</div>
+            <div class="prow-info">
+              <div class="prow-name">Virat Kohli</div>
+              <div class="prow-sub">India · Batsman · T20I / ODI / Test</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">58.7</div>
+              <div class="prow-stat-lbl">Avg</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">136</div>
+              <div class="prow-stat-lbl">SR</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">80</div>
+              <div class="prow-stat-lbl">100s</div>
+            </div>
+            <i class="fa fa-chevron-right" style="color:var(--text-muted);font-size:0.72rem;"></i>
+          </a>
+          <a href="player-profile.html" class="prow">
+            <span class="prow-num">2</span>
+            <div class="prow-avatar">🇦🇺</div>
+            <div class="prow-info">
+              <div class="prow-name">Pat Cummins</div>
+              <div class="prow-sub">Australia · Bowler · T20I / ODI / Test</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">20.5</div>
+              <div class="prow-stat-lbl">Avg</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">2.87</div>
+              <div class="prow-stat-lbl">Econ</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">298</div>
+              <div class="prow-stat-lbl">Wkts</div>
+            </div>
+            <i class="fa fa-chevron-right" style="color:var(--text-muted);font-size:0.72rem;"></i>
+          </a>
+          <a href="player-profile.html" class="prow">
+            <span class="prow-num">3</span>
+            <div class="prow-avatar">🇵🇰</div>
+            <div class="prow-info">
+              <div class="prow-name">Babar Azam</div>
+              <div class="prow-sub">Pakistan · Batsman · T20I / ODI / Test</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">46.2</div>
+              <div class="prow-stat-lbl">Avg</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">129</div>
+              <div class="prow-stat-lbl">SR</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">30</div>
+              <div class="prow-stat-lbl">100s</div>
+            </div>
+            <i class="fa fa-chevron-right" style="color:var(--text-muted);font-size:0.72rem;"></i>
+          </a>
+          <a href="player-profile.html" class="prow">
+            <span class="prow-num">4</span>
+            <div class="prow-avatar">🇮🇳</div>
+            <div class="prow-info">
+              <div class="prow-name">Jasprit Bumrah</div>
+              <div class="prow-sub">India · Bowler · T20I / ODI / Test</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">21.8</div>
+              <div class="prow-stat-lbl">Avg</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">2.43</div>
+              <div class="prow-stat-lbl">Econ</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">187</div>
+              <div class="prow-stat-lbl">Wkts</div>
+            </div>
+            <i class="fa fa-chevron-right" style="color:var(--text-muted);font-size:0.72rem;"></i>
+          </a>
+          <a href="player-profile.html" class="prow">
+            <span class="prow-num">5</span>
+            <div class="prow-avatar">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+            <div class="prow-info">
+              <div class="prow-name">Joe Root</div>
+              <div class="prow-sub">England · Batsman · Test / ODI</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">50.4</div>
+              <div class="prow-stat-lbl">Avg</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">55.9</div>
+              <div class="prow-stat-lbl">SR</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">35</div>
+              <div class="prow-stat-lbl">100s</div>
+            </div>
+            <i class="fa fa-chevron-right" style="color:var(--text-muted);font-size:0.72rem;"></i>
+          </a>
+          <a href="player-profile.html" class="prow">
+            <span class="prow-num">6</span>
+            <div class="prow-avatar">🇦🇫</div>
+            <div class="prow-info">
+              <div class="prow-name">Rashid Khan</div>
+              <div class="prow-sub">Afghanistan · Bowler · T20I / ODI</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">15.2</div>
+              <div class="prow-stat-lbl">Avg</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">5.47</div>
+              <div class="prow-stat-lbl">Econ</div>
+            </div>
+            <div class="prow-stat">
+              <div class="prow-stat-val">162</div>
+              <div class="prow-stat-lbl">Wkts</div>
+            </div>
+            <i class="fa fa-chevron-right" style="color:var(--text-muted);font-size:0.72rem;"></i>
+          </a>
+        </div><!-- end list view -->
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <button class="page-btn disabled"><i class="fa fa-chevron-left"></i></button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span style="color:var(--text-muted);font-size:.85rem;padding:0 .3rem">…</span>
+          <button class="page-btn">161</button>
+          <button class="page-btn"><i class="fa fa-chevron-right"></i></button>
+        </div>
+      </div><!-- end results-area -->
+
+    </div><!-- end players-layout -->
+
+    <!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+    <footer class="footer">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <div class="nav-logo-icon"><img src="img1.png" alt="" style="width:22px;height:22px;object-fit:contain;"
+                onerror="this.style.display='none';this.parentElement.textContent='🏏'" /></div>
+            <span class="nav-logo-text">Cricket<span>lytics</span></span>
+          </a>
+          <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
+            models.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Platform</div>
+          <ul class="footer-links">
+            <li><a href="matches.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Matches</a></li>
+            <li><a href="players.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Players</a></li>
+            <li><a href="teams.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Teams</a></li>
+            <li><a href="venues.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Venues</a></li>
+            <li><a href="rankings.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Rankings</a></li>
+            <li><a href="records.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Records</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Tools</div>
+          <ul class="footer-links">
+            <li><a href="compare.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Compare Players</a>
+            </li>
+            <li><a href="compare.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Compare Teams</a></li>
+            <li><a href="search.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Global Search</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Info</div>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> About</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Data Sources</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Disclaimer</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2025 Cricklytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
+          prediction platform.</span>
+      </div>
+      <div class="webcraft-watermark">
+        <span class="webcraft-by">Designed &amp; Developed by</span>
+        <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+          <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
+            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
+            <text x="9" y="12.5" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7" font-weight="700"
+              fill="#99FFCC">W</text>
+          </svg>
+          <span class="webcraft-name">WebCraft</span>
+        </a>
+        <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+      </div>
+    </footer>
+
+  </div><!-- end page-wrap -->
+
+  <script>
+    function toggleMobileNav() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+
+    // View toggle: grid / list
+    const gridView = document.getElementById('gridView');
+    const listView = document.getElementById('listView');
+    const gridViewBtn = document.getElementById('gridViewBtn');
+    const listViewBtn = document.getElementById('listViewBtn');
+
+    gridViewBtn.addEventListener('click', () => {
+      gridView.style.display = ''; listView.style.display = 'none';
+      gridViewBtn.classList.add('active'); listViewBtn.classList.remove('active');
+    });
+    listViewBtn.addEventListener('click', () => {
+      listView.style.display = ''; gridView.style.display = 'none';
+      listViewBtn.classList.add('active'); gridViewBtn.classList.remove('active');
+    });
+
+    // Sort filter chips
+    document.querySelectorAll('[data-sort]').forEach(c => {
+      c.addEventListener('click', () => {
+        document.querySelectorAll('[data-sort]').forEach(x => x.classList.remove('active'));
+        c.classList.add('active');
+      });
+    });
+
+    // Format filter chips
+    document.querySelectorAll('[data-fmt]').forEach(c => {
+      c.addEventListener('click', () => {
+        c.classList.toggle('active');
+      });
+    });
+
+    // Alpha bar
+    document.querySelectorAll('.alpha-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    // Facet options
+    document.querySelectorAll('.facet-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        opt.closest('.facet-options').querySelectorAll('.facet-opt').forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+      });
+    });
+
+    // Pagination
+    document.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    document.querySelector('.nav-search').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && this.value.trim())
+        window.location.href = 'search.html?q=' + encodeURIComponent(this.value.trim());
+    });
+  </script>
+</body>
+
+</html>

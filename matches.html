@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matches — Cricklytics</title>
+  <link rel="icon" type="image/png" href="img1.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Matches page specific ───────────────────────── */
+
+    /* Page header gradient strip */
+    .matches-hero {
+      background: var(--surface-1);
+      border-bottom: 1px solid var(--border);
+      padding: 2.8rem 2rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .matches-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 120% at 95% 50%, rgba(74, 127, 167, 0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 30% 60% at 5% 50%, rgba(61, 220, 132, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .matches-hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .matches-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      color: var(--frost);
+      margin-bottom: 0.35rem;
+    }
+
+    .matches-hero p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 1.8rem;
+    }
+
+    /* ── Sticky filter bar ───────────────────────────── */
+    .filter-sticky {
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 100;
+      background: rgba(10, 25, 49, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+    }
+
+    .filter-sticky-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── Tab-style status switcher ───────────────────── */
+    .status-tabs {
+      display: flex;
+      gap: 0;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .status-tab {
+      padding: 0.42rem 1.1rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+
+    .status-tab:last-child {
+      border-right: none;
+    }
+
+    .status-tab:hover {
+      color: var(--text-primary);
+      background: rgba(74, 127, 167, 0.08);
+    }
+
+    .status-tab.active {
+      background: var(--navy-mid);
+      color: var(--accent);
+    }
+
+    .status-tab .count-pill {
+      background: rgba(94, 184, 255, 0.15);
+      color: var(--accent);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.05rem 0.42rem;
+      border-radius: var(--radius-xl);
+    }
+
+    .status-tab.live-tab.active .count-pill {
+      background: rgba(61, 220, 132, 0.2);
+      color: var(--green-live);
+    }
+
+    /* ── Main layout ─────────────────────────────────── */
+    .matches-layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 1.8rem;
+      align-items: start;
+    }
+
+    /* ── Match group (date label + cards) ────────────── */
+    .match-group {
+      margin-bottom: 2.2rem;
+    }
+
+    .match-group-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .match-group-date {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .match-group-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Full-width match row card ───────────────────── */
+    .match-row-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 0.75rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color var(--transition), background var(--transition), transform var(--transition), box-shadow var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .match-row-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      border-radius: 3px 0 0 3px;
+      background: transparent;
+      transition: background var(--transition);
+    }
+
+    .match-row-card:hover {
+      border-color: rgba(74, 127, 167, 0.45);
+      background: var(--surface-2);
+      transform: translateX(3px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .match-row-card:hover::before {
+      background: var(--steel);
+    }
+
+    .match-row-card.is-live::before {
+      background: var(--green-live);
+    }
+
+    .match-row-card.is-live {
+      border-color: rgba(61, 220, 132, 0.2);
+    }
+
+    /* Badges col */
+    .match-row-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      align-items: flex-start;
+      min-width: 80px;
+    }
+
+    /* Teams col */
+    .match-row-teams {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .match-row-team {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .match-row-flag {
+      font-size: 1.25rem;
+      line-height: 1;
+      width: 26px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .match-row-team-name {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--text-primary);
+      min-width: 130px;
+    }
+
+    .match-row-score {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--sky);
+    }
+
+    .match-row-overs {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-left: 0.4rem;
+    }
+
+    .match-row-batting {
+      width: 6px;
+      height: 6px;
+      background: var(--green-live);
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse-dot 1.4s infinite;
+    }
+
+    .match-row-winner {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--green-live);
+      background: rgba(61, 220, 132, 0.08);
+      border: 1px solid rgba(61, 220, 132, 0.2);
+      border-radius: var(--radius-xl);
+      padding: 0.12rem 0.5rem;
+      white-space: nowrap;
+    }
+
+    /* Info col */
+    .match-row-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      text-align: right;
+      min-width: 170px;
+    }
+
+    .match-row-venue {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      justify-content: flex-end;
+    }
+
+    .match-row-time {
+      font-size: 0.75rem;
+      color: var(--accent-warm);
+      font-family: var(--font-mono);
+      font-weight: 500;
+    }
+
+    .match-row-series {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .match-row-result {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* Arrow col */
+    .match-row-arrow {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .match-row-card:hover .match-row-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* ── Divider between teams inside card ───────────── */
+    .match-row-divider {
+      height: 1px;
+      background: var(--border-light);
+      margin: 0 0 0 2rem;
+    }
+
+    /* ── Sidebar ─────────────────────────────────────── */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .sidebar-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .sidebar-card-header {
+      padding: 0.9rem 1.1rem 0.7rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-card-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .sidebar-series-item {
+      padding: 0.75rem 1.1rem;
+      border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: background var(--transition);
+      text-decoration: none;
+      display: block;
+    }
+
+    .sidebar-series-item:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-series-item:hover {
+      background: var(--surface-2);
+    }
+
+    .series-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .series-meta {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .series-progress {
+      height: 3px;
+      background: var(--surface-3);
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .series-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--steel), var(--accent));
+      border-radius: 2px;
+    }
+
+    /* ── Pagination ──────────────────────────────────── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 2rem;
+      padding-bottom: 1rem;
+    }
+
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .page-btn:hover {
+      border-color: var(--steel);
+      color: var(--text-primary);
+    }
+
+    .page-btn.active {
+      background: var(--navy-mid);
+      border-color: var(--steel);
+      color: var(--accent);
+    }
+
+    .page-btn.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* ── Context insight mini strip (sidebar) ─────── */
+    .sidebar-insight {
+      padding: 0.8rem 1.1rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      gap: 0.7rem;
+      align-items: center;
+      transition: background var(--transition);
+      cursor: pointer;
+    }
+
+    .sidebar-insight:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-insight:hover {
+      background: var(--surface-2);
+    }
+
+    .sidebar-insight-val {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 42px;
+      text-align: center;
+    }
+
+    .sidebar-insight-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .sidebar-insight-text strong {
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 1024px) {
+      .matches-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .match-row-card {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .match-row-info {
+        grid-column: 2;
+        text-align: left;
+      }
+
+      .match-row-arrow {
+        display: none;
+      }
+
+      .filter-sticky {
+        padding: 0.6rem 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <img src="img1.png" alt="Cricklytics" style="width:22px;height:22px;object-fit:contain;"
+          onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
+      </div>
+      <span class="nav-logo-text">Cricket<span>lytics</span></span>
+    </a>
+
+    <div class="nav-search-wrap">
+      <span class="nav-search-icon"><i class="fa fa-search"></i></span>
+      <input type="text" class="nav-search" placeholder="Search players, teams, venues…" />
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="matches.html" class="nav-link active">Matches</a></li>
+      <li><a href="players.html" class="nav-link">Players</a></li>
+      <li><a href="teams.html" class="nav-link">Teams</a></li>
+      <li><a href="venues.html" class="nav-link">Venues</a></li>
+      <li><a href="rankings.html" class="nav-link">Rankings</a></li>
+      <li><a href="records.html" class="nav-link">Records</a></li>
+      <li><a href="compare.html" class="nav-link">Compare</a></li>
+    </ul>
+
+    <button class="nav-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">
+      <i class="fa fa-bars"></i>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="mobileNav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="matches.html" class="nav-link active">Matches</a>
+    <a href="players.html" class="nav-link">Players</a>
+    <a href="teams.html" class="nav-link">Teams</a>
+    <a href="venues.html" class="nav-link">Venues</a>
+    <a href="rankings.html" class="nav-link">Rankings</a>
+    <a href="records.html" class="nav-link">Records</a>
+    <a href="compare.html" class="nav-link">Compare</a>
+  </div>
+
+  <div class="page-wrap">
+
+    <!-- ══════════════════════════════════════
+     MATCHES HERO HEADER
+════════════════════════════════════════ -->
+    <div class="matches-hero">
+      <div class="matches-hero-inner">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span>Matches</span>
+        </div>
+        <h1>Cricket Matches</h1>
+        <p>Live scores, upcoming fixtures, and completed match results across all formats.</p>
+
+        <!-- Status tabs inside hero -->
+        <div class="status-tabs">
+          <button class="status-tab live-tab active" data-status="live">
+            <span class="dot"
+              style="width:6px;height:6px;background:var(--green-live);border-radius:50%;display:inline-block;animation:pulse-dot 1.2s infinite;"></span>
+            Live <span class="count-pill">3</span>
+          </button>
+          <button class="status-tab" data-status="upcoming">
+            Upcoming <span class="count-pill">12</span>
+          </button>
+          <button class="status-tab" data-status="completed">
+            Completed <span class="count-pill">240+</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     STICKY FILTER BAR
+════════════════════════════════════════ -->
+    <div class="filter-sticky">
+      <div class="filter-sticky-inner">
+        <!-- Format chips -->
+        <button class="filter-chip active" data-format="all">All Formats</button>
+        <button class="filter-chip" data-format="t20">T20I</button>
+        <button class="filter-chip" data-format="odi">ODI</button>
+        <button class="filter-chip" data-format="test">Test</button>
+        <button class="filter-chip" data-format="ipl">IPL</button>
+
+        <div style="flex:1"></div>
+
+        <!-- Team filter -->
+        <select class="filter-select">
+          <option value="">All Teams</option>
+          <option>India</option>
+          <option>Australia</option>
+          <option>England</option>
+          <option>Pakistan</option>
+          <option>South Africa</option>
+          <option>New Zealand</option>
+          <option>West Indies</option>
+          <option>Sri Lanka</option>
+        </select>
+
+        <!-- Sort -->
+        <select class="filter-select">
+          <option>Sort: Newest First</option>
+          <option>Sort: Oldest First</option>
+          <option>Sort: By Format</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     MAIN CONTENT + SIDEBAR
+════════════════════════════════════════ -->
+    <div class="matches-layout">
+
+      <!-- ── LEFT: Match Cards ──────────────────────────── -->
+      <div id="matchesMain">
+
+        <!-- ─── LIVE ─────────────────────────────────────── -->
+        <div class="match-group" id="group-live">
+          <div class="match-group-label">
+            <span class="match-group-date" style="color:var(--green-live)">
+              <span
+                style="width:7px;height:7px;background:var(--green-live);border-radius:50%;display:inline-block;animation:pulse-dot 1.2s infinite;margin-right:4px;"></span>
+              Live Now
+            </span>
+            <div class="match-group-line"></div>
+          </div>
+
+          <!-- Live card 1 -->
+          <a href="match-detail.html" class="match-row-card is-live anim-up">
+            <div class="match-row-badges">
+              <span class="status-badge status-live">Live</span>
+              <span class="match-format-badge">T20I</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇮🇳</span>
+                <span class="match-row-team-name">India</span>
+                <span class="match-row-score">187 / 4</span>
+                <span class="match-row-overs">(18.2)</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇦🇺</span>
+                <span class="match-row-team-name">Australia</span>
+                <span class="match-row-score">143 / 6</span>
+                <span class="match-row-overs">(15.0)</span>
+                <span class="match-row-batting"></span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> Wankhede, Mumbai</div>
+              <div class="match-row-series">IND vs AUS · 3rd T20I</div>
+              <div style="font-size:0.75rem; color:var(--green-live); font-weight:600;">AUS need 45 off 30 balls</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+
+          <!-- Live card 2 -->
+          <a href="match-detail.html" class="match-row-card is-live anim-up delay-1">
+            <div class="match-row-badges">
+              <span class="status-badge status-live">Live</span>
+              <span class="match-format-badge">ODI</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="match-row-team-name">England</span>
+                <span class="match-row-score">252 / 7</span>
+                <span class="match-row-overs">(50.0)</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇿🇦</span>
+                <span class="match-row-team-name">South Africa</span>
+                <span class="match-row-score">178 / 3</span>
+                <span class="match-row-overs">(32.4)</span>
+                <span class="match-row-batting"></span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> The Oval, London</div>
+              <div class="match-row-series">ENG vs SA · 2nd ODI</div>
+              <div style="font-size:0.75rem; color:var(--green-live); font-weight:600;">SA need 75 off 104 balls</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+
+          <!-- Live card 3 -->
+          <a href="match-detail.html" class="match-row-card is-live anim-up delay-2">
+            <div class="match-row-badges">
+              <span class="status-badge status-live">Live</span>
+              <span class="match-format-badge">Test</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇵🇰</span>
+                <span class="match-row-team-name">Pakistan</span>
+                <span class="match-row-score">389 &amp; 110 / 2</span>
+                <span class="match-row-batting"></span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇳🇿</span>
+                <span class="match-row-team-name">New Zealand</span>
+                <span class="match-row-score">301 all out</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> National Stadium, Karachi</div>
+              <div class="match-row-series">PAK vs NZ · 1st Test · Day 3</div>
+              <div style="font-size:0.75rem; color:var(--accent-warm); font-weight:600;">PAK lead by 198 runs</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+        </div>
+
+        <!-- ─── UPCOMING ────────────────────────────────── -->
+        <div class="match-group" id="group-upcoming">
+          <div class="match-group-label">
+            <span class="match-group-date">Tomorrow · Mar 6, 2026</span>
+            <div class="match-group-line"></div>
+          </div>
+
+          <a href="match-detail.html" class="match-row-card anim-up">
+            <div class="match-row-badges">
+              <span class="status-badge status-upcoming">Soon</span>
+              <span class="match-format-badge">T20I</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇮🇳</span>
+                <span class="match-row-team-name">India</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇦🇺</span>
+                <span class="match-row-team-name">Australia</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> M. Chinnaswamy, Bengaluru</div>
+              <div class="match-row-series">IND vs AUS · 4th T20I</div>
+              <div class="match-row-time">7:00 PM IST</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+
+          <a href="match-detail.html" class="match-row-card anim-up delay-1">
+            <div class="match-row-badges">
+              <span class="status-badge status-upcoming">Soon</span>
+              <span class="match-format-badge">ODI</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇿🇦</span>
+                <span class="match-row-team-name">South Africa</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇼🇸</span>
+                <span class="match-row-team-name">West Indies</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> SuperSport Park, Centurion</div>
+              <div class="match-row-series">SA vs WI · 2nd ODI</div>
+              <div class="match-row-time">1:00 PM SAST</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+        </div>
+
+        <div class="match-group">
+          <div class="match-group-label">
+            <span class="match-group-date">Mar 7, 2026</span>
+            <div class="match-group-line"></div>
+          </div>
+
+          <a href="match-detail.html" class="match-row-card anim-up">
+            <div class="match-row-badges">
+              <span class="status-badge status-upcoming">Soon</span>
+              <span class="match-format-badge">Test</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇵🇰</span>
+                <span class="match-row-team-name">Pakistan</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇳🇿</span>
+                <span class="match-row-team-name">New Zealand</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> Gaddafi Stadium, Lahore</div>
+              <div class="match-row-series">PAK vs NZ · 2nd Test</div>
+              <div class="match-row-time">10:00 AM PKT</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+
+          <a href="match-detail.html" class="match-row-card anim-up delay-1">
+            <div class="match-row-badges">
+              <span class="status-badge status-upcoming">Soon</span>
+              <span class="match-format-badge">ODI</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="match-row-team-name">England</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇿🇦</span>
+                <span class="match-row-team-name">South Africa</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> Lord's, London</div>
+              <div class="match-row-series">ENG vs SA · 3rd ODI</div>
+              <div class="match-row-time">11:00 AM GMT</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+
+          <a href="match-detail.html" class="match-row-card anim-up delay-2">
+            <div class="match-row-badges">
+              <span class="status-badge status-upcoming">Soon</span>
+              <span class="match-format-badge">T20I</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇧🇩</span>
+                <span class="match-row-team-name">Bangladesh</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇱🇰</span>
+                <span class="match-row-team-name">Sri Lanka</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> Sher-e-Bangla, Dhaka</div>
+              <div class="match-row-series">BAN vs SL · 1st T20I</div>
+              <div class="match-row-time">2:00 PM BST</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+        </div>
+
+        <!-- ─── COMPLETED ───────────────────────────────── -->
+        <div class="match-group" id="group-completed">
+          <div class="match-group-label">
+            <span class="match-group-date">Mar 4, 2026 · Completed</span>
+            <div class="match-group-line"></div>
+          </div>
+
+          <a href="match-detail.html" class="match-row-card anim-up">
+            <div class="match-row-badges">
+              <span class="status-badge status-completed">Done</span>
+              <span class="match-format-badge">T20I</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇮🇳</span>
+                <span class="match-row-team-name">India</span>
+                <span class="match-row-score">198 / 4</span>
+                <span class="match-row-overs">(20)</span>
+                <span class="match-row-winner">WON</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇦🇺</span>
+                <span class="match-row-team-name">Australia</span>
+                <span class="match-row-score">180 / 8</span>
+                <span class="match-row-overs">(20)</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> Rajiv Gandhi, Hyderabad</div>
+              <div class="match-row-series">IND vs AUS · 2nd T20I</div>
+              <div class="match-row-result">India won by 18 runs</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+
+          <a href="match-detail.html" class="match-row-card anim-up delay-1">
+            <div class="match-row-badges">
+              <span class="status-badge status-completed">Done</span>
+              <span class="match-format-badge">ODI</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="match-row-team-name">England</span>
+                <span class="match-row-score">287 / 6</span>
+                <span class="match-row-overs">(50)</span>
+                <span class="match-row-winner">WON</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇿🇦</span>
+                <span class="match-row-team-name">South Africa</span>
+                <span class="match-row-score">281 / 9</span>
+                <span class="match-row-overs">(50)</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> Headingley, Leeds</div>
+              <div class="match-row-series">ENG vs SA · 1st ODI</div>
+              <div class="match-row-result">England won by 6 runs</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+
+          <a href="match-detail.html" class="match-row-card anim-up delay-2">
+            <div class="match-row-badges">
+              <span class="status-badge status-completed">Done</span>
+              <span class="match-format-badge">T20I</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇮🇳</span>
+                <span class="match-row-team-name">India</span>
+                <span class="match-row-score">203 / 5</span>
+                <span class="match-row-overs">(20)</span>
+                <span class="match-row-winner">WON</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇦🇺</span>
+                <span class="match-row-team-name">Australia</span>
+                <span class="match-row-score">176 / 7</span>
+                <span class="match-row-overs">(20)</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> Eden Gardens, Kolkata</div>
+              <div class="match-row-series">IND vs AUS · 1st T20I</div>
+              <div class="match-row-result">India won by 27 runs</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+
+          <a href="match-detail.html" class="match-row-card anim-up delay-3">
+            <div class="match-row-badges">
+              <span class="status-badge status-completed">Done</span>
+              <span class="match-format-badge">Test</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇵🇰</span>
+                <span class="match-row-team-name">Pakistan</span>
+                <span class="match-row-score">389 &amp; 210</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇳🇿</span>
+                <span class="match-row-team-name">New Zealand</span>
+                <span class="match-row-score">301 &amp; 198</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> National Stadium, Karachi</div>
+              <div class="match-row-series">PAK vs NZ · 1st Test</div>
+              <div class="match-row-result">Match Drawn</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+
+          <a href="match-detail.html" class="match-row-card anim-up delay-4">
+            <div class="match-row-badges">
+              <span class="status-badge status-completed">Done</span>
+              <span class="match-format-badge">T20I</span>
+            </div>
+            <div class="match-row-teams">
+              <div class="match-row-team">
+                <span class="match-row-flag">🇼🇸</span>
+                <span class="match-row-team-name">West Indies</span>
+                <span class="match-row-score">189 / 5</span>
+                <span class="match-row-overs">(20)</span>
+                <span class="match-row-winner">WON</span>
+              </div>
+              <div class="match-row-divider"></div>
+              <div class="match-row-team">
+                <span class="match-row-flag">🇿🇦</span>
+                <span class="match-row-team-name">South Africa</span>
+                <span class="match-row-score">187 / 8</span>
+                <span class="match-row-overs">(20)</span>
+              </div>
+            </div>
+            <div class="match-row-info">
+              <div class="match-row-venue"><i class="fa fa-location-dot"></i> Kensington Oval, Barbados</div>
+              <div class="match-row-series">WI vs SA · 3rd T20I</div>
+              <div class="match-row-result">West Indies won by 2 runs</div>
+            </div>
+            <i class="fa fa-chevron-right match-row-arrow"></i>
+          </a>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <button class="page-btn disabled"><i class="fa fa-chevron-left"></i></button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span style="color:var(--text-muted); font-size:0.85rem; padding:0 0.3rem;">…</span>
+          <button class="page-btn">12</button>
+          <button class="page-btn"><i class="fa fa-chevron-right"></i></button>
+        </div>
+
+      </div><!-- end matchesMain -->
+
+      <!-- ── SIDEBAR ─────────────────────────────────────── -->
+      <aside class="sidebar">
+
+        <!-- Active Series -->
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">
+            <div class="sidebar-card-title"><i class="fa fa-list-ul"></i> Active Series</div>
+            <a href="#" class="btn btn-ghost" style="font-size:0.72rem; padding:0.2rem 0.5rem;">All</a>
+          </div>
+
+          <a href="#" class="sidebar-series-item">
+            <div class="series-name">India vs Australia</div>
+            <div class="series-meta"><span class="match-format-badge" style="font-size:0.62rem;">T20I</span> 5-match
+              series · 2-1 IND</div>
+            <div class="series-progress">
+              <div class="series-progress-fill" style="width:60%"></div>
+            </div>
+          </a>
+
+          <a href="#" class="sidebar-series-item">
+            <div class="series-name">England vs South Africa</div>
+            <div class="series-meta"><span class="match-format-badge" style="font-size:0.62rem;">ODI</span> 3-match
+              series · 1-1</div>
+            <div class="series-progress">
+              <div class="series-progress-fill" style="width:66%"></div>
+            </div>
+          </a>
+
+          <a href="#" class="sidebar-series-item">
+            <div class="series-name">Pakistan vs New Zealand</div>
+            <div class="series-meta"><span class="match-format-badge" style="font-size:0.62rem;">Test</span> 2-match
+              series · 0-0</div>
+            <div class="series-progress">
+              <div class="series-progress-fill" style="width:50%"></div>
+            </div>
+          </a>
+
+          <a href="#" class="sidebar-series-item">
+            <div class="series-name">Bangladesh vs Sri Lanka</div>
+            <div class="series-meta"><span class="match-format-badge" style="font-size:0.62rem;">T20I</span> 3-match
+              series · Not started</div>
+            <div class="series-progress">
+              <div class="series-progress-fill" style="width:0%"></div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Contextual Insights -->
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">
+            <div class="sidebar-card-title"><i class="fa fa-brain"></i> Match Insights</div>
+          </div>
+
+          <div class="sidebar-insight">
+            <div class="sidebar-insight-val">61%</div>
+            <div class="sidebar-insight-text"><strong>India</strong> win probability chasing 183+ at Wankhede (T20I)
+            </div>
+          </div>
+          <div class="sidebar-insight">
+            <div class="sidebar-insight-val">68%</div>
+            <div class="sidebar-insight-text"><strong>SA</strong> historically chase 250+ successfully at The Oval</div>
+          </div>
+          <div class="sidebar-insight">
+            <div class="sidebar-insight-val">178</div>
+            <div class="sidebar-insight-text">Average 1st innings T20I total at Wankhede (last 5 yrs)</div>
+          </div>
+          <div class="sidebar-insight">
+            <div class="sidebar-insight-val">54%</div>
+            <div class="sidebar-insight-text"><strong>Defenders</strong> win rate in Karachi Tests (last 10 matches)
+            </div>
+          </div>
+
+          <div style="padding:0.7rem 1.1rem; border-top:1px solid var(--border-light);">
+            <div class="disclaimer-banner" style="padding:0.5rem 0.7rem;">
+              <span class="icon">⚠</span>
+              Historical data only. Not a prediction service.
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Performers this week -->
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">
+            <div class="sidebar-card-title"><i class="fa fa-fire"></i> This Week's Best</div>
+          </div>
+          <div style="padding:0.5rem 0;">
+            <div class="sidebar-insight">
+              <div class="player-avatar" style="width:36px;height:36px;font-size:1.1rem;flex-shrink:0;">🇮🇳</div>
+              <div class="sidebar-insight-text">
+                <strong>Virat Kohli</strong><br>
+                92 runs (57 balls) · IND vs AUS
+              </div>
+            </div>
+            <div class="sidebar-insight">
+              <div class="player-avatar" style="width:36px;height:36px;font-size:1.1rem;flex-shrink:0;">🇦🇺</div>
+              <div class="sidebar-insight-text">
+                <strong>Pat Cummins</strong><br>
+                4/28 · AUS vs IND 2nd T20I
+              </div>
+            </div>
+            <div class="sidebar-insight">
+              <div class="player-avatar" style="width:36px;height:36px;font-size:1.1rem;flex-shrink:0;">🏴󠁧󠁢󠁥󠁮󠁧󠁿
+              </div>
+              <div class="sidebar-insight-text">
+                <strong>Joe Root</strong><br>
+                118 runs (124 balls) · ENG vs SA ODI
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+    </div><!-- end matches-layout -->
+
+    <!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+    <footer class="footer">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <div class="nav-logo-icon">
+              <img src="img1.png" alt="" style="width:22px;height:22px;object-fit:contain;"
+                onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
+            </div>
+            <span class="nav-logo-text">Cricket<span>lytics</span></span>
+          </a>
+          <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
+            models.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Platform</div>
+          <ul class="footer-links">
+            <li><a href="matches.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Matches</a></li>
+            <li><a href="players.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Players</a></li>
+            <li><a href="teams.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Teams</a></li>
+            <li><a href="venues.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Venues</a></li>
+            <li><a href="rankings.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Rankings</a></li>
+            <li><a href="records.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Records</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Tools</div>
+          <ul class="footer-links">
+            <li><a href="compare.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Compare Players</a>
+            </li>
+            <li><a href="compare.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Compare Teams</a></li>
+            <li><a href="search.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Global Search</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Info</div>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> About</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Data Sources</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Disclaimer</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2025 Cricklytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
+          prediction platform.</span>
+      </div>
+      <div class="webcraft-watermark">
+        <span class="webcraft-by">Designed &amp; Developed by</span>
+        <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+          <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
+            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
+            <text x="9" y="12.5" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7" font-weight="700"
+              fill="#99FFCC">W</text>
+          </svg>
+          <span class="webcraft-name">WebCraft</span>
+        </a>
+        <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+      </div>
+    </footer>
+
+  </div><!-- end page-wrap -->
+
+  <script>
+    function toggleMobileNav() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+
+    // Status tab switching
+    document.querySelectorAll('.status-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.status-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const status = tab.dataset.status;
+        // Show/hide groups
+        if (status === 'live') {
+          document.getElementById('group-live').style.display = '';
+          document.getElementById('group-upcoming').style.display = 'none';
+          document.getElementById('group-completed').style.display = 'none';
+        } else if (status === 'upcoming') {
+          document.getElementById('group-live').style.display = 'none';
+          document.getElementById('group-upcoming').style.display = '';
+          document.getElementById('group-completed').style.display = 'none';
+        } else if (status === 'completed') {
+          document.getElementById('group-live').style.display = 'none';
+          document.getElementById('group-upcoming').style.display = 'none';
+          document.getElementById('group-completed').style.display = '';
+        }
+      });
+    });
+
+    // Hide upcoming/completed on load; show only live
+    document.getElementById('group-upcoming').style.display = 'none';
+    document.getElementById('group-completed').style.display = 'none';
+
+    // Format filter chips
+    document.querySelectorAll('[data-format]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('[data-format]').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+
+    // Page buttons
+    document.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    document.querySelector('.nav-search').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && this.value.trim())
+        window.location.href = 'search.html?q=' + encodeURIComponent(this.value.trim());
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Venues — Cricklytics</title>
+  <link rel="icon" type="image/png" href="img1.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Venues hero ─────────────────────────────────── */
+    .venues-hero {
+      background: var(--surface-1);
+      border-bottom: 1px solid var(--border);
+      padding: 2.8rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .venues-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 120% at 100% 40%, rgba(74, 127, 167, 0.13) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 80% at 0% 60%, rgba(94, 184, 255, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .venues-hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .venues-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      color: var(--frost);
+      margin-bottom: 0.3rem;
+    }
+
+    .venues-hero p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Hero summary stats ──────────────────────────── */
+    .hero-stats-row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    .hero-stat-pill {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.55rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .hero-stat-pill i {
+      color: var(--steel);
+      font-size: 0.85rem;
+    }
+
+    .hero-stat-pill span {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    .hero-stat-pill strong {
+      color: var(--frost);
+      font-family: var(--font-mono);
+    }
+
+    /* ── Main layout ─────────────────────────────────── */
+    .venues-layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 1.8rem;
+      align-items: start;
+    }
+
+    /* ── Region group ────────────────────────────────── */
+    .region-group {
+      margin-bottom: 2.4rem;
+    }
+
+    .region-group-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .region-group-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .region-group-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Venue cards grid ────────────────────────────── */
+    .venues-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .venue-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+      position: relative;
+    }
+
+    .venue-card:hover {
+      border-color: rgba(74, 127, 167, 0.5);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Top visual strip with stadium icon */
+    .venue-card-visual {
+      height: 90px;
+      background: linear-gradient(135deg, var(--surface-2), var(--surface-3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .venue-card-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 110%, rgba(74, 127, 167, 0.18) 0%, transparent 70%);
+    }
+
+    .venue-card-visual-icon {
+      font-size: 3rem;
+      opacity: 0.35;
+      position: absolute;
+    }
+
+    .venue-capacity-badge {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.7rem;
+      background: rgba(10, 25, 49, 0.75);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 0.18rem 0.55rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      backdrop-filter: blur(6px);
+    }
+
+    .venue-country-flag {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.7rem;
+      font-size: 1.3rem;
+    }
+
+    .venue-pitch-badge {
+      position: absolute;
+      bottom: 0.6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 25, 49, 0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 0.15rem 0.6rem;
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--sky);
+      white-space: nowrap;
+      backdrop-filter: blur(6px);
+    }
+
+    .venue-card-body {
+      padding: 1rem 1.1rem;
+      flex: 1;
+    }
+
+    .venue-card-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.15rem;
+      line-height: 1.3;
+    }
+
+    .venue-card-location {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Mini stats row inside card */
+    .venue-mini-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.4rem;
+    }
+
+    .venue-mini-stat {
+      background: var(--surface-2);
+      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.4rem;
+      text-align: center;
+    }
+
+    .venue-mini-stat-val {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .venue-mini-stat-label {
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 0.1rem;
+    }
+
+    /* Bias indicator */
+    .venue-card-footer {
+      padding: 0.6rem 1.1rem;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bias-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .bias-bar {
+      width: 60px;
+      height: 4px;
+      background: var(--surface-3);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bias-fill-bat {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--steel));
+      border-radius: 3px;
+    }
+
+    .bias-fill-bowl {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green-live), #2ab869);
+      border-radius: 3px;
+    }
+
+    .venue-card-arrow {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .venue-card:hover .venue-card-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* ── Sidebar ─────────────────────────────────────── */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .sidebar-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .sidebar-card-header {
+      padding: 0.9rem 1.1rem 0.7rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-card-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sidebar-venue-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 1.1rem;
+      border-bottom: 1px solid var(--border-light);
+      text-decoration: none;
+      transition: background var(--transition);
+      cursor: pointer;
+    }
+
+    .sidebar-venue-row:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-venue-row:hover {
+      background: var(--surface-2);
+    }
+
+    .svr-flag {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .svr-info {
+      flex: 1;
+    }
+
+    .svr-name {
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .svr-meta {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .svr-stat {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .sidebar-insight {
+      padding: 0.75rem 1.1rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .sidebar-insight:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-insight-val {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .sidebar-insight-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .sidebar-insight-text strong {
+      color: var(--text-secondary);
+    }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .venues-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .venues-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats-row {
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <img src="img1.png" alt="Cricklytics" style="width:22px;height:22px;object-fit:contain;"
+          onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
+      </div>
+      <span class="nav-logo-text">Cricket<span>lytics</span></span>
+    </a>
+    <div class="nav-search-wrap">
+      <span class="nav-search-icon"><i class="fa fa-search"></i></span>
+      <input type="text" class="nav-search" placeholder="Search players, teams, venues…" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="matches.html" class="nav-link">Matches</a></li>
+      <li><a href="players.html" class="nav-link">Players</a></li>
+      <li><a href="teams.html" class="nav-link">Teams</a></li>
+      <li><a href="venues.html" class="nav-link active">Venues</a></li>
+      <li><a href="rankings.html" class="nav-link">Rankings</a></li>
+      <li><a href="records.html" class="nav-link">Records</a></li>
+      <li><a href="compare.html" class="nav-link">Compare</a></li>
+    </ul>
+    <button class="nav-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">
+      <i class="fa fa-bars"></i>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="mobileNav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="matches.html" class="nav-link">Matches</a>
+    <a href="players.html" class="nav-link">Players</a>
+    <a href="teams.html" class="nav-link">Teams</a>
+    <a href="venues.html" class="nav-link active">Venues</a>
+    <a href="rankings.html" class="nav-link">Rankings</a>
+    <a href="records.html" class="nav-link">Records</a>
+    <a href="compare.html" class="nav-link">Compare</a>
+  </div>
+
+  <div class="page-wrap">
+
+    <!-- ══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+    <div class="venues-hero">
+      <div class="venues-hero-inner">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span>Venues</span>
+        </div>
+        <h1>Cricket Venues</h1>
+        <p>Explore stadiums worldwide — pitch profiles, scoring trends, and historical match data.</p>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat-pill"><i class="fa fa-stadium"></i><span><strong>94</strong> Venues</span></div>
+          <div class="hero-stat-pill"><i class="fa fa-globe"></i><span><strong>22</strong> Countries</span></div>
+          <div class="hero-stat-pill"><i class="fa fa-calendar-check"></i><span><strong>4,800+</strong> Matches
+              tracked</span></div>
+          <div class="hero-stat-pill"><i class="fa fa-users"></i><span>Avg capacity <strong>38,500</strong></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     STICKY FILTER BAR
+════════════════════════════════════════ -->
+    <div class="filter-sticky">
+      <div class="filter-sticky-inner">
+        <!-- Search -->
+        <div class="nav-search-wrap" style="max-width:220px;">
+          <span class="nav-search-icon"><i class="fa fa-search"></i></span>
+          <input type="text" class="nav-search" placeholder="Search venues…" style="font-size:0.8rem;" />
+        </div>
+
+        <!-- Region chips -->
+        <button class="filter-chip active" data-region="all">All</button>
+        <button class="filter-chip" data-region="asia">Asia</button>
+        <button class="filter-chip" data-region="aus">Australia</button>
+        <button class="filter-chip" data-region="eng">England</button>
+        <button class="filter-chip" data-region="sa">South Africa</button>
+        <button class="filter-chip" data-region="wi">West Indies</button>
+        <button class="filter-chip" data-region="nz">New Zealand</button>
+
+        <div style="flex:1"></div>
+
+        <!-- Sort -->
+        <select class="filter-select">
+          <option>Sort: Matches Hosted</option>
+          <option>Sort: Capacity</option>
+          <option>Sort: Alphabetical</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     MAIN LAYOUT
+════════════════════════════════════════ -->
+    <div class="venues-layout">
+
+      <!-- ── LEFT: Venue Cards ─────────────────────────── -->
+      <div>
+
+        <!-- ─── INDIA ──────────────────────────────────── -->
+        <div class="region-group">
+          <div class="region-group-label">
+            <span class="region-group-title">🇮🇳 India</span>
+            <div class="region-group-line"></div>
+          </div>
+          <div class="venues-grid">
+
+            <a href="venue-profile.html" class="venue-card anim-up">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇮🇳</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 66,000</span>
+                <span class="venue-pitch-badge">Flat · High-scoring</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">Wankhede Stadium</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Mumbai, India</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">178</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">287</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">61%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bat</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bat" style="width:72%"></div>
+                  </div>
+                  <span>72%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇮🇳</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 110,000</span>
+                <span class="venue-pitch-badge">Flat · Very high-scoring</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">Narendra Modi Stadium</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Ahmedabad, India</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">181</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">296</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">58%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bat</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bat" style="width:75%"></div>
+                  </div>
+                  <span>75%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+            <a href="venue-profile.html" class="venue-card anim-up delay-2">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇮🇳</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 68,000</span>
+                <span class="venue-pitch-badge">Spin-friendly</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">Eden Gardens</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Kolkata, India</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">163</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">271</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">54%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bowl</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bowl" style="width:55%"></div>
+                  </div>
+                  <span>55%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+            <a href="venue-profile.html" class="venue-card anim-up delay-3">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇮🇳</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 55,000</span>
+                <span class="venue-pitch-badge">Balanced</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">M. Chinnaswamy Stadium</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Bengaluru, India</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">174</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">279</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">59%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bat</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bat" style="width:65%"></div>
+                  </div>
+                  <span>65%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- ─── AUSTRALIA ───────────────────────────────── -->
+        <div class="region-group">
+          <div class="region-group-label">
+            <span class="region-group-title">🇦🇺 Australia</span>
+            <div class="region-group-line"></div>
+          </div>
+          <div class="venues-grid">
+
+            <a href="venue-profile.html" class="venue-card anim-up">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇦🇺</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 100,024</span>
+                <span class="venue-pitch-badge">Bouncy · Pace-friendly</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">Melbourne Cricket Ground</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Melbourne, Australia</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">161</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">258</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">47%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bowl</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bowl" style="width:60%"></div>
+                  </div>
+                  <span>60%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇦🇺</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 53,500</span>
+                <span class="venue-pitch-badge">Flat · High-scoring</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">Sydney Cricket Ground</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Sydney, Australia</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">168</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">268</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">52%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bat</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bat" style="width:60%"></div>
+                  </div>
+                  <span>60%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+            <a href="venue-profile.html" class="venue-card anim-up delay-2">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇦🇺</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 22,000</span>
+                <span class="venue-pitch-badge">Seam · Bounce · Pace</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">WACA Ground</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Perth, Australia</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">155</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">244</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">44%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bowl</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bowl" style="width:68%"></div>
+                  </div>
+                  <span>68%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- ─── ENGLAND ─────────────────────────────────── -->
+        <div class="region-group">
+          <div class="region-group-label">
+            <span class="region-group-title">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span>
+            <div class="region-group-line"></div>
+          </div>
+          <div class="venues-grid">
+
+            <a href="venue-profile.html" class="venue-card anim-up">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 30,000</span>
+                <span class="venue-pitch-badge">Seam-friendly · Variable</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">Lord's Cricket Ground</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> London, England</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">158</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">255</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">49%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bowl</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bowl" style="width:58%"></div>
+                  </div>
+                  <span>58%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 25,000</span>
+                <span class="venue-pitch-badge">Flat · High-scoring</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">The Oval</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> London, England</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">170</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">278</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">57%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bat</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bat" style="width:62%"></div>
+                  </div>
+                  <span>62%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+            <a href="venue-profile.html" class="venue-card anim-up delay-2">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 17,500</span>
+                <span class="venue-pitch-badge">Swing · Seam</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">Headingley</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Leeds, England</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">152</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">249</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">46%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bowl</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bowl" style="width:63%"></div>
+                  </div>
+                  <span>63%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- ─── PAKISTAN ─────────────────────────────────── -->
+        <div class="region-group">
+          <div class="region-group-label">
+            <span class="region-group-title">🇵🇰 Pakistan</span>
+            <div class="region-group-line"></div>
+          </div>
+          <div class="venues-grid">
+
+            <a href="venue-profile.html" class="venue-card anim-up">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇵🇰</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 34,228</span>
+                <span class="venue-pitch-badge">Flat · Spin later</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">National Stadium</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Karachi, Pakistan</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">166</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">262</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">54%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bat</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bat" style="width:58%"></div>
+                  </div>
+                  <span>58%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇵🇰</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 27,000</span>
+                <span class="venue-pitch-badge">Flat · High-scoring</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">Gaddafi Stadium</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Lahore, Pakistan</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">172</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">274</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">56%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bat</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bat" style="width:66%"></div>
+                  </div>
+                  <span>66%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- ─── SOUTH AFRICA ─────────────────────────────── -->
+        <div class="region-group">
+          <div class="region-group-label">
+            <span class="region-group-title">🇿🇦 South Africa</span>
+            <div class="region-group-line"></div>
+          </div>
+          <div class="venues-grid">
+
+            <a href="venue-profile.html" class="venue-card anim-up">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇿🇦</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 25,000</span>
+                <span class="venue-pitch-badge">Pace & Bounce</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">SuperSport Park</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Centurion, South Africa</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">169</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">269</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">55%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bowl</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bowl" style="width:57%"></div>
+                  </div>
+                  <span>57%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+            <a href="venue-profile.html" class="venue-card anim-up delay-1">
+              <div class="venue-card-visual">
+                <span class="venue-card-visual-icon">🏟️</span>
+                <span class="venue-country-flag">🇿🇦</span>
+                <span class="venue-capacity-badge"><i class="fa fa-users"></i> 28,000</span>
+                <span class="venue-pitch-badge">Balanced · Seam</span>
+              </div>
+              <div class="venue-card-body">
+                <div class="venue-card-name">Newlands Cricket Ground</div>
+                <div class="venue-card-location"><i class="fa fa-location-dot"></i> Cape Town, South Africa</div>
+                <div class="venue-mini-stats">
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">162</span><span
+                      class="venue-mini-stat-label">Avg T20</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">260</span><span
+                      class="venue-mini-stat-label">Avg ODI</span></div>
+                  <div class="venue-mini-stat"><span class="venue-mini-stat-val">51%</span><span
+                      class="venue-mini-stat-label">Chase wins</span></div>
+                </div>
+              </div>
+              <div class="venue-card-footer">
+                <div class="bias-indicator">
+                  <span>Bowl</span>
+                  <div class="bias-bar">
+                    <div class="bias-fill-bowl" style="width:54%"></div>
+                  </div>
+                  <span>54%</span>
+                </div>
+                <i class="fa fa-chevron-right venue-card-arrow"></i>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <button class="page-btn disabled"><i class="fa fa-chevron-left"></i></button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span style="color:var(--text-muted);font-size:0.85rem;padding:0 0.3rem;">…</span>
+          <button class="page-btn">8</button>
+          <button class="page-btn"><i class="fa fa-chevron-right"></i></button>
+        </div>
+
+      </div><!-- /main col -->
+
+      <!-- ── SIDEBAR ─────────────────────────────────────── -->
+      <aside class="sidebar">
+
+        <!-- Most active venues -->
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">
+            <div class="sidebar-card-title"><i class="fa fa-fire"></i> Most Active (2024–25)</div>
+          </div>
+          <a href="venue-profile.html" class="sidebar-venue-row">
+            <span class="svr-flag">🇮🇳</span>
+            <div class="svr-info">
+              <div class="svr-name">Wankhede, Mumbai</div>
+              <div class="svr-meta">18 matches this season</div>
+            </div>
+            <span class="svr-stat">18</span>
+          </a>
+          <a href="venue-profile.html" class="sidebar-venue-row">
+            <span class="svr-flag">🇦🇺</span>
+            <div class="svr-info">
+              <div class="svr-name">MCG, Melbourne</div>
+              <div class="svr-meta">14 matches this season</div>
+            </div>
+            <span class="svr-stat">14</span>
+          </a>
+          <a href="venue-profile.html" class="sidebar-venue-row">
+            <span class="svr-flag">🇮🇳</span>
+            <div class="svr-info">
+              <div class="svr-name">Eden Gardens, Kolkata</div>
+              <div class="svr-meta">12 matches this season</div>
+            </div>
+            <span class="svr-stat">12</span>
+          </a>
+          <a href="venue-profile.html" class="sidebar-venue-row">
+            <span class="svr-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+            <div class="svr-info">
+              <div class="svr-name">Lord's, London</div>
+              <div class="svr-meta">11 matches this season</div>
+            </div>
+            <span class="svr-stat">11</span>
+          </a>
+          <a href="venue-profile.html" class="sidebar-venue-row">
+            <span class="svr-flag">🇵🇰</span>
+            <div class="svr-info">
+              <div class="svr-name">Gaddafi Stadium, Lahore</div>
+              <div class="svr-meta">10 matches this season</div>
+            </div>
+            <span class="svr-stat">10</span>
+          </a>
+        </div>
+
+        <!-- Highest scoring venues -->
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">
+            <div class="sidebar-card-title"><i class="fa fa-chart-simple"></i> Highest Avg T20 Score</div>
+          </div>
+          <a href="venue-profile.html" class="sidebar-venue-row">
+            <span class="svr-flag">🇮🇳</span>
+            <div class="svr-info">
+              <div class="svr-name">Narendra Modi Stadium</div>
+              <div class="svr-meta">Ahmedabad · Flat pitch</div>
+            </div>
+            <span class="svr-stat">181</span>
+          </a>
+          <a href="venue-profile.html" class="sidebar-venue-row">
+            <span class="svr-flag">🇮🇳</span>
+            <div class="svr-info">
+              <div class="svr-name">Wankhede Stadium</div>
+              <div class="svr-meta">Mumbai · High-scoring</div>
+            </div>
+            <span class="svr-stat">178</span>
+          </a>
+          <a href="venue-profile.html" class="sidebar-venue-row">
+            <span class="svr-flag">🇮🇳</span>
+            <div class="svr-info">
+              <div class="svr-name">M. Chinnaswamy Stadium</div>
+              <div class="svr-meta">Bengaluru · Balanced</div>
+            </div>
+            <span class="svr-stat">174</span>
+          </a>
+          <a href="venue-profile.html" class="sidebar-venue-row">
+            <span class="svr-flag">🇵🇰</span>
+            <div class="svr-info">
+              <div class="svr-name">Gaddafi Stadium</div>
+              <div class="svr-meta">Lahore · Flat surface</div>
+            </div>
+            <span class="svr-stat">172</span>
+          </a>
+        </div>
+
+        <!-- Venue insights -->
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">
+            <div class="sidebar-card-title"><i class="fa fa-brain"></i> Venue Insights</div>
+          </div>
+          <div class="sidebar-insight">
+            <div class="sidebar-insight-val">61%</div>
+            <div class="sidebar-insight-text"><strong>Wankhede</strong> — chasing teams win 61% of T20Is here</div>
+          </div>
+          <div class="sidebar-insight">
+            <div class="sidebar-insight-val">68%</div>
+            <div class="sidebar-insight-text"><strong>WACA Perth</strong> — pace bowlers take 68% of wickets</div>
+          </div>
+          <div class="sidebar-insight">
+            <div class="sidebar-insight-val">55%</div>
+            <div class="sidebar-insight-text"><strong>Eden Gardens</strong> — spin takes over after over 10</div>
+          </div>
+          <div class="sidebar-insight">
+            <div class="sidebar-insight-val">181</div>
+            <div class="sidebar-insight-text"><strong>Narendra Modi</strong> — highest avg T20I first innings total
+            </div>
+          </div>
+          <div style="padding:0.7rem 1.1rem;border-top:1px solid var(--border-light);">
+            <div class="disclaimer-banner" style="padding:0.45rem 0.65rem;">
+              <span class="icon">⚠</span>
+              Historical data only. Not a prediction service.
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+    </div><!-- /venues-layout -->
+
+    <!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+    <footer class="footer">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <div class="nav-logo-icon">
+              <img src="img1.png" alt="" style="width:22px;height:22px;object-fit:contain;"
+                onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
+            </div>
+            <span class="nav-logo-text">Cricket<span>lytics</span></span>
+          </a>
+          <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
+            models.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Platform</div>
+          <ul class="footer-links">
+            <li><a href="matches.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Matches</a></li>
+            <li><a href="players.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Players</a></li>
+            <li><a href="teams.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Teams</a></li>
+            <li><a href="venues.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Venues</a></li>
+            <li><a href="rankings.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Rankings</a></li>
+            <li><a href="records.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Records</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Tools</div>
+          <ul class="footer-links">
+            <li><a href="compare.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Compare Players</a>
+            </li>
+            <li><a href="compare.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Compare Teams</a></li>
+            <li><a href="search.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Global Search</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Info</div>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> About</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Data Sources</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Disclaimer</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 Cricklytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
+          prediction platform.</span>
+      </div>
+      <div class="webcraft-watermark">
+        <span class="webcraft-by">Designed &amp; Developed by</span>
+        <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+          <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
+            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
+            <text x="9" y="12.5" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7" font-weight="700"
+              fill="#99FFCC">W</text>
+          </svg>
+          <span class="webcraft-name">WebCraft</span>
+        </a>
+        <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+      </div>
+    </footer>
+
+  </div><!-- /page-wrap -->
+
+  <script>
+    function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
+
+    document.querySelectorAll('[data-region]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-region]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    document.querySelector('.nav-search').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && this.value.trim())
+        window.location.href = 'search.html?q=' + encodeURIComponent(this.value.trim());
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Compare — Cricklytics</title>
-  <link rel="icon" type="image/png" href="img1.png"/>
-  <link rel="stylesheet" href="styles.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <style>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare — Cricklytics</title>
+  <link rel="icon" type="image/png" href="img1.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
     /* ── Compare Page Specific ─────────────────────── */
 
     /* Type Switcher */
@@ -32,16 +32,21 @@
       cursor: pointer;
       transition: all var(--transition);
     }
+
     .type-btn:hover {
       border-color: var(--steel);
       color: var(--text-primary);
     }
+
     .type-btn.active {
-      background: rgba(94,184,255,0.12);
-      border-color: rgba(94,184,255,0.4);
+      background: rgba(94, 184, 255, 0.12);
+      border-color: rgba(94, 184, 255, 0.4);
       color: var(--accent);
     }
-    .type-btn i { font-size: 0.9rem; }
+
+    .type-btn i {
+      font-size: 0.9rem;
+    }
 
     /* Selector Panel */
     .selector-panel {
@@ -59,7 +64,10 @@
       overflow: hidden;
       transition: border-color var(--transition);
     }
-    .selector-card:hover { border-color: rgba(74,127,167,0.4); }
+
+    .selector-card:hover {
+      border-color: rgba(74, 127, 167, 0.4);
+    }
 
     .selector-header {
       padding: 1rem 1.25rem;
@@ -69,6 +77,7 @@
       align-items: center;
       justify-content: space-between;
     }
+
     .selector-label {
       font-size: 0.72rem;
       font-weight: 700;
@@ -76,6 +85,7 @@
       text-transform: uppercase;
       color: var(--text-muted);
     }
+
     .selector-label span {
       color: var(--accent);
       margin-left: 0.3rem;
@@ -90,8 +100,15 @@
       max-height: 300px;
       overflow-y: auto;
     }
-    .selector-list::-webkit-scrollbar { width: 4px; }
-    .selector-list::-webkit-scrollbar-thumb { background: var(--navy-mid); border-radius: 2px; }
+
+    .selector-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .selector-list::-webkit-scrollbar-thumb {
+      background: var(--navy-mid);
+      border-radius: 2px;
+    }
 
     .selector-item {
       display: flex;
@@ -102,26 +119,41 @@
       border-bottom: 1px solid var(--border-light);
       transition: background var(--transition);
     }
-    .selector-item:last-child { border-bottom: none; }
-    .selector-item:hover { background: rgba(74,127,167,0.06); }
+
+    .selector-item:last-child {
+      border-bottom: none;
+    }
+
+    .selector-item:hover {
+      background: rgba(74, 127, 167, 0.06);
+    }
+
     .selector-item.selected {
-      background: rgba(94,184,255,0.08);
+      background: rgba(94, 184, 255, 0.08);
     }
 
     .selector-item-avatar {
-      width: 36px; height: 36px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: var(--surface-3);
       border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 1.1rem;
       flex-shrink: 0;
     }
+
     .selector-item-avatar.team-shape {
       border-radius: var(--radius-sm);
     }
 
-    .selector-item-info { flex: 1; min-width: 0; }
+    .selector-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
     .selector-item-name {
       font-size: 0.88rem;
       font-weight: 600;
@@ -130,6 +162,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .selector-item-meta {
       font-size: 0.72rem;
       color: var(--text-muted);
@@ -137,15 +170,19 @@
     }
 
     .selector-item-check {
-      width: 20px; height: 20px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       border: 1.5px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 0.65rem;
       color: transparent;
       flex-shrink: 0;
       transition: all var(--transition);
     }
+
     .selector-item.selected .selector-item-check {
       background: var(--accent);
       border-color: var(--accent);
@@ -161,17 +198,22 @@
       gap: 0.75rem;
       padding-top: 3rem;
     }
+
     .vs-badge {
-      width: 52px; height: 52px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--navy-mid), var(--surface-3));
       border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: var(--font-display);
       font-size: 1rem;
       color: var(--text-muted);
       box-shadow: var(--shadow-md);
     }
+
     .vs-line {
       width: 1px;
       height: 60px;
@@ -186,11 +228,15 @@
       font-size: 0.8rem;
       color: var(--text-secondary);
     }
+
     .selected-preview-avatar {
-      width: 24px; height: 24px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       background: var(--surface-3);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 0.75rem;
     }
 
@@ -225,6 +271,7 @@
       display: flex;
       align-items: flex-end;
     }
+
     .compare-header-label-text {
       font-size: 0.68rem;
       font-weight: 700;
@@ -242,32 +289,49 @@
       position: relative;
       overflow: hidden;
     }
-    .compare-profile-header:last-child { border-right: none; }
+
+    .compare-profile-header:last-child {
+      border-right: none;
+    }
+
     .compare-profile-header::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 3px;
     }
+
     .compare-profile-header.side-a::before {
       background: linear-gradient(90deg, var(--steel), var(--accent));
     }
+
     .compare-profile-header.side-b::before {
       background: linear-gradient(90deg, #FF7043, #FFB347);
     }
 
     .cph-avatar {
-      width: 56px; height: 56px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: var(--surface-3);
       border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 1.8rem;
       flex-shrink: 0;
     }
-    .cph-avatar.team-shape { border-radius: var(--radius-md); }
 
-    .cph-info { min-width: 0; }
+    .cph-avatar.team-shape {
+      border-radius: var(--radius-md);
+    }
+
+    .cph-info {
+      min-width: 0;
+    }
+
     .cph-name {
       font-family: var(--font-display);
       font-size: 1.1rem;
@@ -277,6 +341,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .cph-meta {
       font-size: 0.75rem;
       color: var(--text-muted);
@@ -326,16 +391,22 @@
       color: var(--sky);
       position: relative;
     }
-    .compare-cell:last-child { border-right: none; }
+
+    .compare-cell:last-child {
+      border-right: none;
+    }
+
     .compare-cell.winner {
       color: var(--accent);
     }
+
     .compare-cell.winner::after {
       content: '▲';
       font-size: 0.6rem;
       color: var(--green-live);
       margin-left: 0.3rem;
     }
+
     .compare-cell.loser {
       color: var(--text-muted);
     }
@@ -344,7 +415,7 @@
     .compare-section-row {
       grid-column: 1 / -1;
       padding: 0.55rem 1.5rem;
-      background: rgba(74,127,167,0.06);
+      background: rgba(74, 127, 167, 0.06);
       border-bottom: 1px solid var(--border-light);
       font-size: 0.68rem;
       font-weight: 700;
@@ -381,7 +452,11 @@
       gap: 1.25rem;
     }
 
-    .bar-compare-row { display: flex; flex-direction: column; gap: 0.45rem; }
+    .bar-compare-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
 
     .bar-compare-header {
       display: flex;
@@ -390,7 +465,10 @@
       font-size: 0.78rem;
       color: var(--text-muted);
     }
-    .bar-compare-header strong { color: var(--text-secondary); }
+
+    .bar-compare-header strong {
+      color: var(--text-secondary);
+    }
 
     .bar-compare-track {
       display: grid;
@@ -404,10 +482,12 @@
       border-radius: 4px;
       min-width: 4px;
     }
+
     .bar-fill-a {
       background: linear-gradient(90deg, var(--steel), var(--accent));
       justify-self: end;
     }
+
     .bar-fill-b {
       background: linear-gradient(90deg, #FF7043, #FFB347);
       justify-self: start;
@@ -423,8 +503,15 @@
       white-space: nowrap;
     }
 
-    .bar-a-wrap { display: flex; justify-content: flex-end; }
-    .bar-b-wrap { display: flex; justify-content: flex-start; }
+    .bar-a-wrap {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .bar-b-wrap {
+      display: flex;
+      justify-content: flex-start;
+    }
 
     /* Probability comparison */
     .prob-compare-section {
@@ -445,6 +532,7 @@
       flex-wrap: wrap;
       margin-bottom: 1.25rem;
     }
+
     .legend-item {
       display: flex;
       align-items: center;
@@ -452,13 +540,21 @@
       font-size: 0.78rem;
       color: var(--text-muted);
     }
+
     .legend-dot {
-      width: 10px; height: 10px;
+      width: 10px;
+      height: 10px;
       border-radius: 2px;
       flex-shrink: 0;
     }
-    .legend-dot-a { background: linear-gradient(135deg, var(--steel), var(--accent)); }
-    .legend-dot-b { background: linear-gradient(135deg, #FF7043, #FFB347); }
+
+    .legend-dot-a {
+      background: linear-gradient(135deg, var(--steel), var(--accent));
+    }
+
+    .legend-dot-b {
+      background: linear-gradient(135deg, #FF7043, #FFB347);
+    }
 
     /* Format tabs inside results */
     .results-format-bar {
@@ -481,16 +577,19 @@
       flex-direction: column;
       gap: 1rem;
     }
+
     .radar-title {
       font-family: var(--font-display);
       font-size: 1rem;
       color: var(--frost);
     }
+
     .radar-attribute-rows {
       display: flex;
       flex-direction: column;
       gap: 0.65rem;
     }
+
     .radar-attr-row {
       display: grid;
       grid-template-columns: 110px 1fr 40px 1fr 110px;
@@ -498,6 +597,7 @@
       gap: 0.6rem;
       font-size: 0.78rem;
     }
+
     .radar-val-a {
       font-family: var(--font-mono);
       font-size: 0.8rem;
@@ -505,12 +605,14 @@
       text-align: right;
       font-weight: 700;
     }
+
     .radar-val-b {
       font-family: var(--font-mono);
       font-size: 0.8rem;
       color: #FF7043;
       font-weight: 700;
     }
+
     .radar-attr-name {
       font-size: 0.7rem;
       text-align: center;
@@ -518,6 +620,7 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
+
     .radar-bar-a {
       height: 6px;
       background: var(--surface-2);
@@ -526,17 +629,20 @@
       display: flex;
       justify-content: flex-end;
     }
+
     .radar-bar-b {
       height: 6px;
       background: var(--surface-2);
       border-radius: 3px;
       overflow: hidden;
     }
+
     .radar-fill-a {
       height: 100%;
       background: linear-gradient(90deg, var(--steel), var(--accent));
       border-radius: 3px;
     }
+
     .radar-fill-b {
       height: 100%;
       background: linear-gradient(90deg, #FF7043, #FFB347);
@@ -545,8 +651,8 @@
 
     /* Summary card */
     .summary-card {
-      background: linear-gradient(135deg, rgba(94,184,255,0.05), rgba(74,127,167,0.08));
-      border: 1px solid rgba(94,184,255,0.18);
+      background: linear-gradient(135deg, rgba(94, 184, 255, 0.05), rgba(74, 127, 167, 0.08));
+      border: 1px solid rgba(94, 184, 255, 0.18);
       border-radius: var(--radius-lg);
       padding: 1.5rem;
       margin-top: 1.5rem;
@@ -555,27 +661,38 @@
       align-items: center;
       flex-wrap: wrap;
     }
+
     .summary-icon {
-      width: 52px; height: 52px;
+      width: 52px;
+      height: 52px;
       border-radius: var(--radius-md);
-      background: rgba(94,184,255,0.1);
-      border: 1px solid rgba(94,184,255,0.2);
-      display: flex; align-items: center; justify-content: center;
+      background: rgba(94, 184, 255, 0.1);
+      border: 1px solid rgba(94, 184, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 1.4rem;
       flex-shrink: 0;
     }
-    .summary-body { flex: 1; min-width: 200px; }
+
+    .summary-body {
+      flex: 1;
+      min-width: 200px;
+    }
+
     .summary-title {
       font-family: var(--font-display);
       font-size: 1.1rem;
       color: var(--frost);
       margin-bottom: 0.3rem;
     }
+
     .summary-text {
       font-size: 0.82rem;
       color: var(--text-muted);
       line-height: 1.55;
     }
+
     .summary-verdict {
       font-family: var(--font-mono);
       font-size: 0.8rem;
@@ -583,20 +700,23 @@
       padding: 0.4rem 1rem;
       border-radius: var(--radius-md);
     }
+
     .verdict-a {
-      background: rgba(94,184,255,0.12);
+      background: rgba(94, 184, 255, 0.12);
       color: var(--accent);
-      border: 1px solid rgba(94,184,255,0.25);
+      border: 1px solid rgba(94, 184, 255, 0.25);
     }
+
     .verdict-b {
-      background: rgba(255,112,67,0.12);
+      background: rgba(255, 112, 67, 0.12);
       color: #FF7043;
-      border: 1px solid rgba(255,112,67,0.25);
+      border: 1px solid rgba(255, 112, 67, 0.25);
     }
+
     .verdict-tie {
-      background: rgba(255,179,71,0.1);
+      background: rgba(255, 179, 71, 0.1);
       color: var(--accent-warm);
-      border: 1px solid rgba(255,179,71,0.25);
+      border: 1px solid rgba(255, 179, 71, 0.25);
     }
 
     /* Head-to-head strip */
@@ -610,12 +730,17 @@
       overflow: hidden;
       margin-top: 1.5rem;
     }
+
     .h2h-side {
       flex: 1;
       padding: 1.4rem 1.25rem;
       text-align: center;
     }
-    .h2h-side-a { border-right: 1px solid var(--border); }
+
+    .h2h-side-a {
+      border-right: 1px solid var(--border);
+    }
+
     .h2h-name {
       font-size: 0.78rem;
       color: var(--text-muted);
@@ -623,24 +748,34 @@
       letter-spacing: 0.06em;
       margin-bottom: 0.4rem;
     }
+
     .h2h-wins {
       font-family: var(--font-display);
       font-size: 2.2rem;
       line-height: 1;
     }
-    .h2h-wins-a { color: var(--accent); }
-    .h2h-wins-b { color: #FF7043; }
+
+    .h2h-wins-a {
+      color: var(--accent);
+    }
+
+    .h2h-wins-b {
+      color: #FF7043;
+    }
+
     .h2h-sub {
       font-size: 0.72rem;
       color: var(--text-muted);
       margin-top: 0.3rem;
     }
+
     .h2h-center {
       padding: 1.4rem 1.75rem;
       text-align: center;
       border-left: 1px solid var(--border);
       border-right: 1px solid var(--border);
     }
+
     .h2h-center-label {
       font-size: 0.62rem;
       font-weight: 700;
@@ -649,828 +784,997 @@
       color: var(--text-muted);
       margin-bottom: 0.4rem;
     }
+
     .h2h-draws {
       font-family: var(--font-display);
       font-size: 2.2rem;
       color: var(--text-muted);
       line-height: 1;
     }
+
     .h2h-bar {
       height: 5px;
       display: flex;
       margin-top: 1rem;
     }
-    .h2h-bar-a { background: linear-gradient(90deg, var(--steel), var(--accent)); }
-    .h2h-bar-b { background: linear-gradient(90deg, #FF7043, #FFB347); }
-    .h2h-bar-d { background: var(--surface-2); }
+
+    .h2h-bar-a {
+      background: linear-gradient(90deg, var(--steel), var(--accent));
+    }
+
+    .h2h-bar-b {
+      background: linear-gradient(90deg, #FF7043, #FFB347);
+    }
+
+    .h2h-bar-d {
+      background: var(--surface-2);
+    }
 
     /* Responsive */
     @media (max-width: 900px) {
-      .selector-panel { grid-template-columns: 1fr; }
-      .vs-divider { flex-direction: row; padding-top: 0; padding: 0.5rem 0; }
-      .vs-line { width: 60px; height: 1px; }
-      .compare-header-grid { grid-template-columns: 140px 1fr 1fr; }
-      .compare-stat-grid { grid-template-columns: 140px 1fr 1fr; }
-      .radar-attr-row { grid-template-columns: 80px 1fr 30px 1fr 80px; }
+      .selector-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .vs-divider {
+        flex-direction: row;
+        padding-top: 0;
+        padding: 0.5rem 0;
+      }
+
+      .vs-line {
+        width: 60px;
+        height: 1px;
+      }
+
+      .compare-header-grid {
+        grid-template-columns: 140px 1fr 1fr;
+      }
+
+      .compare-stat-grid {
+        grid-template-columns: 140px 1fr 1fr;
+      }
+
+      .radar-attr-row {
+        grid-template-columns: 80px 1fr 30px 1fr 80px;
+      }
     }
+
     @media (max-width: 640px) {
-      .compare-header-grid { grid-template-columns: 1fr 1fr; }
-      .compare-stat-grid { grid-template-columns: 1fr 1fr; }
-      .compare-header-label { display: none; }
-      .compare-row-label { display: none; }
-      .prob-compare-grid { grid-template-columns: 1fr; }
-      .radar-attr-row { grid-template-columns: 60px 1fr 28px 1fr 60px; font-size: 0.68rem; }
-      .radar-val-a, .radar-val-b { font-size: 0.7rem; }
-      .h2h-side { padding: 1rem 0.75rem; }
+      .compare-header-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .compare-stat-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .compare-header-label {
+        display: none;
+      }
+
+      .compare-row-label {
+        display: none;
+      }
+
+      .prob-compare-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .radar-attr-row {
+        grid-template-columns: 60px 1fr 28px 1fr 60px;
+        font-size: 0.68rem;
+      }
+
+      .radar-val-a,
+      .radar-val-b {
+        font-size: 0.7rem;
+      }
+
+      .h2h-side {
+        padding: 1rem 0.75rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- ══ NAVBAR ════════════════════════════════════════════════ -->
-<nav class="navbar">
-  <a href="index.html" class="nav-logo">
-    <div class="nav-logo-icon">🏏</div>
-    <span class="nav-logo-text">Cricket<span>lytics</span></span>
-  </a>
-
-  <div class="nav-search-wrap">
-    <span class="nav-search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-    <input type="text" class="nav-search" placeholder="Search players, teams, venues…"/>
-  </div>
-
-  <ul class="nav-links">
-    <li><a href="matches.html"  class="nav-link">Matches</a></li>
-    <li><a href="players.html"  class="nav-link">Players</a></li>
-    <li><a href="teams.html"    class="nav-link">Teams</a></li>
-    <li><a href="venues.html"   class="nav-link">Venues</a></li>
-    <li><a href="rankings.html" class="nav-link">Rankings</a></li>
-    <li><a href="records.html"  class="nav-link">Records</a></li>
-    <li><a href="compare.html"  class="nav-link active">Compare</a></li>
-  </ul>
-
-  <button class="nav-menu-btn" onclick="document.querySelector('.nav-mobile').classList.toggle('open')">
-    <i class="fa-solid fa-bars"></i>
-  </button>
-</nav>
-
-<div class="nav-mobile">
-  <a href="matches.html"  class="nav-link">Matches</a>
-  <a href="players.html"  class="nav-link">Players</a>
-  <a href="teams.html"    class="nav-link">Teams</a>
-  <a href="venues.html"   class="nav-link">Venues</a>
-  <a href="rankings.html" class="nav-link">Rankings</a>
-  <a href="records.html"  class="nav-link">Records</a>
-  <a href="compare.html"  class="nav-link active">Compare</a>
-</div>
-
-<!-- ══ PAGE WRAP ═════════════════════════════════════════════ -->
-<div class="page-wrap">
-
-  <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="page-header-inner">
-      <div class="breadcrumb">
-        <a href="index.html">Home</a>
-        <span class="breadcrumb-sep">›</span>
-        <span>Compare</span>
-      </div>
-      <h1 class="page-title">Side-by-Side <em style="font-style:italic;color:var(--accent)">Comparison</em></h1>
-      <p class="page-desc">Compare players or teams across formats, stats, and probability insights.</p>
-    </div>
-  </div>
-
-  <!-- ══ MAIN CONTENT ══════════════════════════════════════ -->
-  <div class="section">
-
-    <!-- TYPE SWITCHER -->
-    <div class="section-header anim-down">
-      <div>
-        <div class="section-label">Compare Mode</div>
-        <div class="compare-type-switcher">
-          <button class="type-btn active" onclick="switchMode('player', this)">
-            <i class="fa-solid fa-user"></i> Players
-          </button>
-          <button class="type-btn" onclick="switchMode('team', this)">
-            <i class="fa-solid fa-shield-halved"></i> Teams
-          </button>
-        </div>
-      </div>
-      <div class="compare-legend">
-        <div class="legend-item">
-          <div class="legend-dot legend-dot-a"></div>
-          <span id="legend-a-label">Player A</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot legend-dot-b"></div>
-          <span id="legend-b-label">Player B</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── SELECTOR PANEL ──────────────────────────────── -->
-    <div class="selector-panel anim-up delay-1">
-
-      <!-- SIDE A -->
-      <div class="selector-card">
-        <div class="selector-header">
-          <span class="selector-label">Select <span>Player A</span></span>
-          <div class="selected-preview" id="preview-a">
-            <span style="color:var(--text-muted);font-size:0.72rem;">None selected</span>
-          </div>
-        </div>
-        <div class="selector-search">
-          <div class="search-input-wrap" style="max-width:100%;">
-            <span class="search-input-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <input type="text" class="search-input" placeholder="Search player…"/>
-          </div>
-        </div>
-        <div class="selector-list" id="list-a">
-          <!-- Player items -->
-          <div class="selector-item selected" onclick="selectItem('a', this, 'Virat Kohli', '🇮🇳', 'India · Batsman')">
-            <div class="selector-item-avatar">🇮🇳</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Virat Kohli</div>
-              <div class="selector-item-meta">India · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('a', this, 'Rohit Sharma', '🇮🇳', 'India · Batsman')">
-            <div class="selector-item-avatar">🇮🇳</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Rohit Sharma</div>
-              <div class="selector-item-meta">India · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('a', this, 'Joe Root', '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'England · Batsman')">
-            <div class="selector-item-avatar">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Joe Root</div>
-              <div class="selector-item-meta">England · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('a', this, 'Steve Smith', '🇦🇺', 'Australia · Batsman')">
-            <div class="selector-item-avatar">🇦🇺</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Steve Smith</div>
-              <div class="selector-item-meta">Australia · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('a', this, 'Babar Azam', '🇵🇰', 'Pakistan · Batsman')">
-            <div class="selector-item-avatar">🇵🇰</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Babar Azam</div>
-              <div class="selector-item-meta">Pakistan · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('a', this, 'Jasprit Bumrah', '🇮🇳', 'India · Fast Bowler')">
-            <div class="selector-item-avatar">🇮🇳</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Jasprit Bumrah</div>
-              <div class="selector-item-meta">India · Right-arm Fast</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('a', this, 'Kane Williamson', '🇳🇿', 'New Zealand · Batsman')">
-            <div class="selector-item-avatar">🇳🇿</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Kane Williamson</div>
-              <div class="selector-item-meta">New Zealand · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- VS DIVIDER -->
-      <div class="vs-divider">
-        <div class="vs-line"></div>
-        <div class="vs-badge">vs</div>
-        <div class="vs-line"></div>
-      </div>
-
-      <!-- SIDE B -->
-      <div class="selector-card">
-        <div class="selector-header">
-          <span class="selector-label">Select <span>Player B</span></span>
-          <div class="selected-preview" id="preview-b">
-            <span style="color:var(--text-muted);font-size:0.72rem;">None selected</span>
-          </div>
-        </div>
-        <div class="selector-search">
-          <div class="search-input-wrap" style="max-width:100%;">
-            <span class="search-input-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <input type="text" class="search-input" placeholder="Search player…"/>
-          </div>
-        </div>
-        <div class="selector-list" id="list-b">
-          <div class="selector-item" onclick="selectItem('b', this, 'Virat Kohli', '🇮🇳', 'India · Batsman')">
-            <div class="selector-item-avatar">🇮🇳</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Virat Kohli</div>
-              <div class="selector-item-meta">India · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('b', this, 'Rohit Sharma', '🇮🇳', 'India · Batsman')">
-            <div class="selector-item-avatar">🇮🇳</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Rohit Sharma</div>
-              <div class="selector-item-meta">India · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('b', this, 'Joe Root', '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'England · Batsman')">
-            <div class="selector-item-avatar">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Joe Root</div>
-              <div class="selector-item-meta">England · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item selected" onclick="selectItem('b', this, 'Steve Smith', '🇦🇺', 'Australia · Batsman')">
-            <div class="selector-item-avatar">🇦🇺</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Steve Smith</div>
-              <div class="selector-item-meta">Australia · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('b', this, 'Babar Azam', '🇵🇰', 'Pakistan · Batsman')">
-            <div class="selector-item-avatar">🇵🇰</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Babar Azam</div>
-              <div class="selector-item-meta">Pakistan · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('b', this, 'Jasprit Bumrah', '🇮🇳', 'India · Fast Bowler')">
-            <div class="selector-item-avatar">🇮🇳</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Jasprit Bumrah</div>
-              <div class="selector-item-meta">India · Right-arm Fast</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-          <div class="selector-item" onclick="selectItem('b', this, 'Kane Williamson', '🇳🇿', 'New Zealand · Batsman')">
-            <div class="selector-item-avatar">🇳🇿</div>
-            <div class="selector-item-info">
-              <div class="selector-item-name">Kane Williamson</div>
-              <div class="selector-item-meta">New Zealand · Right-hand Bat</div>
-            </div>
-            <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
-          </div>
-        </div>
-      </div>
-    </div><!-- /selector-panel -->
-
-    <!-- Format + Compare Btn -->
-    <div class="compare-btn-wrap anim-up delay-2">
-      <div style="display:flex; flex-direction:column; align-items:center; gap:1rem;">
-        <div class="tabs" style="margin-bottom:0;">
-          <button class="tab active" onclick="setTab(this)">All Formats</button>
-          <button class="tab" onclick="setTab(this)">Test</button>
-          <button class="tab" onclick="setTab(this)">ODI</button>
-          <button class="tab" onclick="setTab(this)">T20I</button>
-        </div>
-        <button class="btn btn-primary" style="padding:0.75rem 2.5rem; font-size:1rem;" onclick="showResults()">
-          <i class="fa-solid fa-chart-column"></i> Compare Now
-        </button>
-      </div>
-    </div>
-
-    <!-- ══ COMPARISON RESULTS ═══════════════════════════════ -->
-    <div class="compare-results" id="compare-results">
-
-      <!-- Summary card -->
-      <div class="summary-card anim-up">
-        <div class="summary-icon">🏆</div>
-        <div class="summary-body">
-          <div class="summary-title">Virat Kohli vs Steve Smith</div>
-          <div class="summary-text">
-            Comparing across all formats based on career statistics. Kohli leads in ODI batting average and T20I strike rate, while Smith holds an edge in Test batting average and conversion rate.
-          </div>
-        </div>
-        <div>
-          <span class="summary-verdict verdict-a">Kohli edges overall</span>
-        </div>
-      </div>
-
-      <!-- Profile headers + stats table -->
-      <div style="margin-top:1.5rem;">
-        <div class="results-format-bar">
-          <div class="section-label" style="margin:0;">Career Statistics</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">
-            <i class="fa-solid fa-circle-info" style="margin-right:0.3rem;"></i>
-            ▲ indicates statistical advantage
-          </div>
-        </div>
-
-        <!-- Header row -->
-        <div class="compare-header-grid">
-          <div class="compare-header-label">
-            <span class="compare-header-label-text">Statistic</span>
-          </div>
-          <div class="compare-profile-header side-a">
-            <div class="cph-avatar">🇮🇳</div>
-            <div class="cph-info">
-              <div class="cph-name">Virat Kohli</div>
-              <div class="cph-meta">India · Right-hand Bat · Age 35</div>
-            </div>
-          </div>
-          <div class="compare-profile-header side-b">
-            <div class="cph-avatar">🇦🇺</div>
-            <div class="cph-info">
-              <div class="cph-name">Steve Smith</div>
-              <div class="cph-meta">Australia · Right-hand Bat · Age 35</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Stats rows -->
-        <div class="compare-stat-grid">
-          <!-- Section: Batting -->
-          <div class="compare-section-row">
-            <i class="fa-solid fa-cricket-bat-ball"></i> Batting
-          </div>
-
-          <div class="compare-row-label">Matches</div>
-          <div class="compare-cell">500</div>
-          <div class="compare-cell">398</div>
-
-          <div class="compare-row-label">Innings</div>
-          <div class="compare-cell">476</div>
-          <div class="compare-cell">374</div>
-
-          <div class="compare-row-label">Runs</div>
-          <div class="compare-cell winner">26,565</div>
-          <div class="compare-cell loser">16,843</div>
-
-          <div class="compare-row-label">Batting Avg</div>
-          <div class="compare-cell loser">53.6</div>
-          <div class="compare-cell winner">57.9</div>
-
-          <div class="compare-row-label">Strike Rate</div>
-          <div class="compare-cell winner">92.4</div>
-          <div class="compare-cell loser">78.1</div>
-
-          <div class="compare-row-label">100s / 50s</div>
-          <div class="compare-cell winner">80 / 131</div>
-          <div class="compare-cell loser">32 / 38</div>
-
-          <div class="compare-row-label">Highest Score</div>
-          <div class="compare-cell loser">254*</div>
-          <div class="compare-cell winner">239</div>
-
-          <div class="compare-row-label">Not Outs</div>
-          <div class="compare-cell">80</div>
-          <div class="compare-cell winner">84</div>
-
-          <!-- Section: Test -->
-          <div class="compare-section-row">
-            <i class="fa-solid fa-flag"></i> Test Cricket
-          </div>
-
-          <div class="compare-row-label">Test Avg</div>
-          <div class="compare-cell loser">48.7</div>
-          <div class="compare-cell winner">59.4</div>
-
-          <div class="compare-row-label">Test Runs</div>
-          <div class="compare-cell winner">8,848</div>
-          <div class="compare-cell loser">9,074</div>
-
-          <div class="compare-row-label">Test 100s</div>
-          <div class="compare-cell loser">29</div>
-          <div class="compare-cell winner">32</div>
-
-          <!-- Section: ODI -->
-          <div class="compare-section-row">
-            <i class="fa-solid fa-circle-dot"></i> ODI Cricket
-          </div>
-
-          <div class="compare-row-label">ODI Avg</div>
-          <div class="compare-cell winner">58.1</div>
-          <div class="compare-cell loser">42.3</div>
-
-          <div class="compare-row-label">ODI Runs</div>
-          <div class="compare-cell winner">13,906</div>
-          <div class="compare-cell loser">3,571</div>
-
-          <div class="compare-row-label">ODI 100s</div>
-          <div class="compare-cell winner">50</div>
-          <div class="compare-cell loser">11</div>
-
-          <!-- Section: T20I -->
-          <div class="compare-section-row">
-            <i class="fa-solid fa-bolt"></i> T20 International
-          </div>
-
-          <div class="compare-row-label">T20I Avg</div>
-          <div class="compare-cell winner">51.6</div>
-          <div class="compare-cell loser">34.2</div>
-
-          <div class="compare-row-label">T20I SR</div>
-          <div class="compare-cell winner">139.5</div>
-          <div class="compare-cell loser">127.8</div>
-
-          <div class="compare-row-label">T20I Runs</div>
-          <div class="compare-cell winner">4,188</div>
-          <div class="compare-cell loser">776</div>
-        </div>
-      </div>
-
-      <!-- Bar visual comparison -->
-      <div class="compare-bar-section">
-        <div class="compare-bar-header">
-          <i class="fa-solid fa-chart-bar" style="color:var(--accent);"></i>
-          <span class="section-label" style="margin:0;">Visual Stat Comparison</span>
-        </div>
-        <div class="compare-bar-rows">
-
-          <!-- Batting Average -->
-          <div class="bar-compare-row">
-            <div class="bar-compare-header">
-              <strong>Batting Average (Overall)</strong>
-              <span>Higher is better</span>
-            </div>
-            <div class="bar-compare-track">
-              <div class="bar-a-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-a" style="width:82%"></div>
-              </div>
-              <div class="bar-center-label">AVG</div>
-              <div class="bar-b-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-b" style="width:89%"></div>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
-              <span style="color:var(--accent);">53.6</span>
-              <span style="color:#FF7043;">57.9</span>
-            </div>
-          </div>
-
-          <!-- Strike Rate -->
-          <div class="bar-compare-row">
-            <div class="bar-compare-header">
-              <strong>Strike Rate (T20I)</strong>
-              <span>Higher is better</span>
-            </div>
-            <div class="bar-compare-track">
-              <div class="bar-a-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-a" style="width:94%"></div>
-              </div>
-              <div class="bar-center-label">S/R</div>
-              <div class="bar-b-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-b" style="width:84%"></div>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
-              <span style="color:var(--accent);">139.5</span>
-              <span style="color:#FF7043;">127.8</span>
-            </div>
-          </div>
-
-          <!-- Centuries -->
-          <div class="bar-compare-row">
-            <div class="bar-compare-header">
-              <strong>International Centuries</strong>
-              <span>Higher is better</span>
-            </div>
-            <div class="bar-compare-track">
-              <div class="bar-a-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-a" style="width:96%"></div>
-              </div>
-              <div class="bar-center-label">100s</div>
-              <div class="bar-b-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-b" style="width:40%"></div>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
-              <span style="color:var(--accent);">80</span>
-              <span style="color:#FF7043;">32</span>
-            </div>
-          </div>
-
-          <!-- ODI Avg -->
-          <div class="bar-compare-row">
-            <div class="bar-compare-header">
-              <strong>ODI Batting Average</strong>
-              <span>Higher is better</span>
-            </div>
-            <div class="bar-compare-track">
-              <div class="bar-a-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-a" style="width:92%"></div>
-              </div>
-              <div class="bar-center-label">ODI</div>
-              <div class="bar-b-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-b" style="width:67%"></div>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
-              <span style="color:var(--accent);">58.1</span>
-              <span style="color:#FF7043;">42.3</span>
-            </div>
-          </div>
-
-          <!-- Test Avg -->
-          <div class="bar-compare-row">
-            <div class="bar-compare-header">
-              <strong>Test Batting Average</strong>
-              <span>Higher is better</span>
-            </div>
-            <div class="bar-compare-track">
-              <div class="bar-a-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-a" style="width:76%"></div>
-              </div>
-              <div class="bar-center-label">TEST</div>
-              <div class="bar-b-wrap" style="flex:1;">
-                <div class="bar-compare-fill bar-fill-b" style="width:93%"></div>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
-              <span style="color:var(--accent);">48.7</span>
-              <span style="color:#FF7043;">59.4</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Attribute comparison (radar-style) -->
-      <div class="radar-section">
-        <div class="radar-title">Attribute Breakdown</div>
-        <div style="display:flex; gap:1.5rem; margin-bottom:1rem; flex-wrap:wrap;">
-          <div class="legend-item"><div class="legend-dot legend-dot-a"></div> Virat Kohli</div>
-          <div class="legend-item"><div class="legend-dot legend-dot-b"></div> Steve Smith</div>
-        </div>
-        <div class="radar-attribute-rows">
-
-          <div class="radar-attr-row">
-            <div class="radar-val-a">92/100</div>
-            <div class="radar-bar-a"><div class="radar-fill-a" style="width:92%"></div></div>
-            <div class="radar-attr-name">ODI Form</div>
-            <div class="radar-bar-b"><div class="radar-fill-b" style="width:68%"></div></div>
-            <div class="radar-val-b">68/100</div>
-          </div>
-
-          <div class="radar-attr-row">
-            <div class="radar-val-a">74/100</div>
-            <div class="radar-bar-a"><div class="radar-fill-a" style="width:74%"></div></div>
-            <div class="radar-attr-name">Test Form</div>
-            <div class="radar-bar-b"><div class="radar-fill-b" style="width:91%"></div></div>
-            <div class="radar-val-b">91/100</div>
-          </div>
-
-          <div class="radar-attr-row">
-            <div class="radar-val-a">88/100</div>
-            <div class="radar-bar-a"><div class="radar-fill-a" style="width:88%"></div></div>
-            <div class="radar-attr-name">T20 Form</div>
-            <div class="radar-bar-b"><div class="radar-fill-b" style="width:55%"></div></div>
-            <div class="radar-val-b">55/100</div>
-          </div>
-
-          <div class="radar-attr-row">
-            <div class="radar-val-a">85/100</div>
-            <div class="radar-bar-a"><div class="radar-fill-a" style="width:85%"></div></div>
-            <div class="radar-attr-name">Consistency</div>
-            <div class="radar-bar-b"><div class="radar-fill-b" style="width:89%"></div></div>
-            <div class="radar-val-b">89/100</div>
-          </div>
-
-          <div class="radar-attr-row">
-            <div class="radar-val-a">95/100</div>
-            <div class="radar-bar-a"><div class="radar-fill-a" style="width:95%"></div></div>
-            <div class="radar-attr-name">Big Match</div>
-            <div class="radar-bar-b"><div class="radar-fill-b" style="width:82%"></div></div>
-            <div class="radar-val-b">82/100</div>
-          </div>
-
-          <div class="radar-attr-row">
-            <div class="radar-val-a">78/100</div>
-            <div class="radar-bar-a"><div class="radar-fill-a" style="width:78%"></div></div>
-            <div class="radar-attr-name">Away Record</div>
-            <div class="radar-bar-b"><div class="radar-fill-b" style="width:84%"></div></div>
-            <div class="radar-val-b">84/100</div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Probability Insights -->
-      <div class="prob-compare-section">
-        <div class="results-format-bar">
-          <div class="section-label" style="margin:0;">
-            <i class="fa-solid fa-brain" style="margin-right:0.4rem;"></i>Probability Insights
-          </div>
-        </div>
-
-        <div class="prob-compare-grid">
-
-          <!-- Kohli Probabilities -->
-          <div class="prob-block">
-            <div class="prob-header">
-              <span class="prob-icon">🇮🇳</span>
-              <span class="prob-label">Virat Kohli — Likelihoods</span>
-            </div>
-            <div class="prob-bar-wrap">
-              <div class="prob-row">
-                <div class="prob-row-header">
-                  <span class="prob-row-name">Scoring 50+ in ODIs</span>
-                  <span class="prob-row-val">71%</span>
-                </div>
-                <div class="prob-bar"><div class="prob-bar-fill" style="width:71%"></div></div>
-              </div>
-              <div class="prob-row">
-                <div class="prob-row-header">
-                  <span class="prob-row-name">Scoring 30+ in T20Is</span>
-                  <span class="prob-row-val">64%</span>
-                </div>
-                <div class="prob-bar"><div class="prob-bar-fill" style="width:64%"></div></div>
-              </div>
-              <div class="prob-row">
-                <div class="prob-row-header">
-                  <span class="prob-row-name">Century in Tests</span>
-                  <span class="prob-row-val">28%</span>
-                </div>
-                <div class="prob-bar"><div class="prob-bar-fill" style="width:28%"></div></div>
-              </div>
-              <div class="prob-row">
-                <div class="prob-row-header">
-                  <span class="prob-row-name">Top scorer in match</span>
-                  <span class="prob-row-val">44%</span>
-                </div>
-                <div class="prob-bar"><div class="prob-bar-fill" style="width:44%"></div></div>
-              </div>
-            </div>
-            <div class="prob-disclaimer">
-              Based on 476 innings of historical data. Probabilities derived from logistic regression model trained on format-specific match conditions.
-            </div>
-          </div>
-
-          <!-- Smith Probabilities -->
-          <div class="prob-block" style="border-color:rgba(255,112,67,0.25); background:linear-gradient(135deg,rgba(255,112,67,0.04),rgba(255,179,71,0.07));">
-            <div class="prob-header">
-              <span class="prob-icon">🇦🇺</span>
-              <span class="prob-label" style="color:#FF7043;">Steve Smith — Likelihoods</span>
-            </div>
-            <div class="prob-bar-wrap">
-              <div class="prob-row">
-                <div class="prob-row-header">
-                  <span class="prob-row-name">Scoring 50+ in ODIs</span>
-                  <span class="prob-row-val" style="color:#FF7043;">52%</span>
-                </div>
-                <div class="prob-bar">
-                  <div class="prob-bar-fill" style="width:52%; background:linear-gradient(90deg,#FF7043,#FFB347);"></div>
-                </div>
-              </div>
-              <div class="prob-row">
-                <div class="prob-row-header">
-                  <span class="prob-row-name">Scoring 30+ in T20Is</span>
-                  <span class="prob-row-val" style="color:#FF7043;">41%</span>
-                </div>
-                <div class="prob-bar">
-                  <div class="prob-bar-fill" style="width:41%; background:linear-gradient(90deg,#FF7043,#FFB347);"></div>
-                </div>
-              </div>
-              <div class="prob-row">
-                <div class="prob-row-header">
-                  <span class="prob-row-name">Century in Tests</span>
-                  <span class="prob-row-val" style="color:#FF7043;">31%</span>
-                </div>
-                <div class="prob-bar">
-                  <div class="prob-bar-fill" style="width:31%; background:linear-gradient(90deg,#FF7043,#FFB347);"></div>
-                </div>
-              </div>
-              <div class="prob-row">
-                <div class="prob-row-header">
-                  <span class="prob-row-name">Top scorer in match</span>
-                  <span class="prob-row-val" style="color:#FF7043;">38%</span>
-                </div>
-                <div class="prob-bar">
-                  <div class="prob-bar-fill" style="width:38%; background:linear-gradient(90deg,#FF7043,#FFB347);"></div>
-                </div>
-              </div>
-            </div>
-            <div class="prob-disclaimer">
-              Based on 374 innings of historical data. Probabilities derived from logistic regression model trained on format-specific match conditions.
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Disclaimer -->
-      <div class="disclaimer-banner mt-3">
-        <span class="icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
-        <span>All insights are based on historical data and statistical models. Actual outcomes may vary significantly. This is not a prediction tool — probabilities reflect patterns in past performance only.</span>
-      </div>
-
-    </div><!-- /compare-results -->
-
-  </div><!-- /section -->
-</div><!-- /page-wrap -->
-
-<!-- ══ FOOTER ════════════════════════════════════════════════ -->
-<footer class="footer">
-  <div class="footer-main">
-    <div class="footer-brand">
-      <a href="index.html" class="nav-logo">
-        <div class="nav-logo-icon">🏏</div>
-        <span class="nav-logo-text">Cricket<span>lytics</span></span>
-      </a>
-      <p class="footer-brand-desc">Context-aware cricket analytics and probability insights powered by historical data.</p>
-    </div>
-    <div>
-      <div class="footer-col-title">Navigation</div>
-      <ul class="footer-links">
-        <li><a href="matches.html"  class="footer-link"><i class="fa-solid fa-calendar"></i> Matches</a></li>
-        <li><a href="players.html"  class="footer-link"><i class="fa-solid fa-user"></i> Players</a></li>
-        <li><a href="teams.html"    class="footer-link"><i class="fa-solid fa-shield-halved"></i> Teams</a></li>
-        <li><a href="venues.html"   class="footer-link"><i class="fa-solid fa-location-dot"></i> Venues</a></li>
-        <li><a href="compare.html"  class="footer-link"><i class="fa-solid fa-chart-column"></i> Compare</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">Analytics</div>
-      <ul class="footer-links">
-        <li><a href="rankings.html" class="footer-link"><i class="fa-solid fa-ranking-star"></i> Rankings</a></li>
-        <li><a href="records.html"  class="footer-link"><i class="fa-solid fa-trophy"></i> Records</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">About</div>
-      <ul class="footer-links">
-        <li><a href="#" class="footer-link">About Cricklytics</a></li>
-        <li><a href="#" class="footer-link">Data Sources</a></li>
-        <li><a href="#" class="footer-link">Disclaimer</a></li>
-        <li><a href="#" class="footer-link">Contact</a></li>
-        <li><a href="#" class="footer-link">Future Roadmap</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2025 Cricklytics. All rights reserved.</span>
-    <span class="footer-disclaimer">All probabilities are based on historical data. Not a prediction or gambling platform.</span>
-  </div>
-
-  <!-- WebCraft Watermark -->
-  <div class="webcraft-watermark">
-    <span class="webcraft-by">Designed &amp; Developed by</span>
-    <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
-      <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 1.5L16 5.25V12.75L9 16.5L2 12.75V5.25L9 1.5Z" stroke="#99FFCC" stroke-width="1.2" stroke-linejoin="round"/>
-        <text x="9" y="12" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7" font-weight="700" fill="#99FFCC">W</text>
-      </svg>
-      <span class="webcraft-name">WebCraft</span>
+  <!-- ══ NAVBAR ════════════════════════════════════════════════ -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">🏏</div>
+      <span class="nav-logo-text">Cricket<span>lytics</span></span>
     </a>
-    <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+
+    <div class="nav-search-wrap">
+      <span class="nav-search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <input type="text" class="nav-search" placeholder="Search players, teams, venues…" />
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="matches.html" class="nav-link">Matches</a></li>
+      <li><a href="players.html" class="nav-link">Players</a></li>
+      <li><a href="teams.html" class="nav-link">Teams</a></li>
+      <li><a href="venues.html" class="nav-link">Venues</a></li>
+      <li><a href="rankings.html" class="nav-link">Rankings</a></li>
+      <li><a href="records.html" class="nav-link">Records</a></li>
+      <li><a href="compare.html" class="nav-link active">Compare</a></li>
+    </ul>
+
+    <button class="nav-menu-btn" onclick="document.querySelector('.nav-mobile').classList.toggle('open')">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </nav>
+
+  <div class="nav-mobile">
+    <a href="matches.html" class="nav-link">Matches</a>
+    <a href="players.html" class="nav-link">Players</a>
+    <a href="teams.html" class="nav-link">Teams</a>
+    <a href="venues.html" class="nav-link">Venues</a>
+    <a href="rankings.html" class="nav-link">Rankings</a>
+    <a href="records.html" class="nav-link">Records</a>
+    <a href="compare.html" class="nav-link active">Compare</a>
   </div>
-</footer>
 
-<script>
-  // Mode switcher
-  function switchMode(mode, btn) {
-    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const isTeam = mode === 'team';
-    document.querySelectorAll('.selector-label span').forEach((el, i) => {
-      el.textContent = isTeam ? (i === 0 ? 'Team A' : 'Team B') : (i === 0 ? 'Player A' : 'Player B');
+  <!-- ══ PAGE WRAP ═════════════════════════════════════════════ -->
+  <div class="page-wrap">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="page-header-inner">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep">›</span>
+          <span>Compare</span>
+        </div>
+        <h1 class="page-title">Side-by-Side <em style="font-style:italic;color:var(--accent)">Comparison</em></h1>
+        <p class="page-desc">Compare players or teams across formats, stats, and probability insights.</p>
+      </div>
+    </div>
+
+    <!-- ══ MAIN CONTENT ══════════════════════════════════════ -->
+    <div class="section">
+
+      <!-- TYPE SWITCHER -->
+      <div class="section-header anim-down">
+        <div>
+          <div class="section-label">Compare Mode</div>
+          <div class="compare-type-switcher">
+            <button class="type-btn active" data-mode="player" onclick="switchMode('player', this)">
+              <i class="fa-solid fa-user"></i> Players
+            </button>
+            <button class="type-btn" data-mode="team" onclick="switchMode('team', this)">
+              <i class="fa-solid fa-shield-halved"></i> Teams
+            </button>
+          </div>
+        </div>
+        <div class="compare-legend">
+          <div class="legend-item">
+            <div class="legend-dot legend-dot-a"></div>
+            <span id="legend-a-label">Player A</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot legend-dot-b"></div>
+            <span id="legend-b-label">Player B</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SELECTOR PANEL ──────────────────────────────── -->
+      <div class="selector-panel anim-up delay-1">
+
+        <!-- SIDE A -->
+        <div class="selector-card">
+          <div class="selector-header">
+            <span class="selector-label">Select <span>Player A</span></span>
+            <div class="selected-preview" id="preview-a">
+              <span style="color:var(--text-muted);font-size:0.72rem;">None selected</span>
+            </div>
+          </div>
+          <div class="selector-search">
+            <div class="search-input-wrap" style="max-width:100%;">
+              <span class="search-input-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <input type="text" class="search-input" placeholder="Search player…" />
+            </div>
+          </div>
+          <div class="selector-list" id="list-a">
+            <!-- Player items -->
+            <div class="selector-item selected"
+              onclick="selectItem('a', this, 'Virat Kohli', '🇮🇳', 'India · Batsman')">
+              <div class="selector-item-avatar">🇮🇳</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Virat Kohli</div>
+                <div class="selector-item-meta">India · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item" onclick="selectItem('a', this, 'Rohit Sharma', '🇮🇳', 'India · Batsman')">
+              <div class="selector-item-avatar">🇮🇳</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Rohit Sharma</div>
+                <div class="selector-item-meta">India · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item"
+              onclick="selectItem('a', this, 'Joe Root', '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'England · Batsman')">
+              <div class="selector-item-avatar">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Joe Root</div>
+                <div class="selector-item-meta">England · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item" onclick="selectItem('a', this, 'Steve Smith', '🇦🇺', 'Australia · Batsman')">
+              <div class="selector-item-avatar">🇦🇺</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Steve Smith</div>
+                <div class="selector-item-meta">Australia · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item" onclick="selectItem('a', this, 'Babar Azam', '🇵🇰', 'Pakistan · Batsman')">
+              <div class="selector-item-avatar">🇵🇰</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Babar Azam</div>
+                <div class="selector-item-meta">Pakistan · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item" onclick="selectItem('a', this, 'Jasprit Bumrah', '🇮🇳', 'India · Fast Bowler')">
+              <div class="selector-item-avatar">🇮🇳</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Jasprit Bumrah</div>
+                <div class="selector-item-meta">India · Right-arm Fast</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item"
+              onclick="selectItem('a', this, 'Kane Williamson', '🇳🇿', 'New Zealand · Batsman')">
+              <div class="selector-item-avatar">🇳🇿</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Kane Williamson</div>
+                <div class="selector-item-meta">New Zealand · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VS DIVIDER -->
+        <div class="vs-divider">
+          <div class="vs-line"></div>
+          <div class="vs-badge">vs</div>
+          <div class="vs-line"></div>
+        </div>
+
+        <!-- SIDE B -->
+        <div class="selector-card">
+          <div class="selector-header">
+            <span class="selector-label">Select <span>Player B</span></span>
+            <div class="selected-preview" id="preview-b">
+              <span style="color:var(--text-muted);font-size:0.72rem;">None selected</span>
+            </div>
+          </div>
+          <div class="selector-search">
+            <div class="search-input-wrap" style="max-width:100%;">
+              <span class="search-input-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <input type="text" class="search-input" placeholder="Search player…" />
+            </div>
+          </div>
+          <div class="selector-list" id="list-b">
+            <div class="selector-item" onclick="selectItem('b', this, 'Virat Kohli', '🇮🇳', 'India · Batsman')">
+              <div class="selector-item-avatar">🇮🇳</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Virat Kohli</div>
+                <div class="selector-item-meta">India · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item" onclick="selectItem('b', this, 'Rohit Sharma', '🇮🇳', 'India · Batsman')">
+              <div class="selector-item-avatar">🇮🇳</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Rohit Sharma</div>
+                <div class="selector-item-meta">India · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item"
+              onclick="selectItem('b', this, 'Joe Root', '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'England · Batsman')">
+              <div class="selector-item-avatar">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Joe Root</div>
+                <div class="selector-item-meta">England · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item selected"
+              onclick="selectItem('b', this, 'Steve Smith', '🇦🇺', 'Australia · Batsman')">
+              <div class="selector-item-avatar">🇦🇺</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Steve Smith</div>
+                <div class="selector-item-meta">Australia · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item" onclick="selectItem('b', this, 'Babar Azam', '🇵🇰', 'Pakistan · Batsman')">
+              <div class="selector-item-avatar">🇵🇰</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Babar Azam</div>
+                <div class="selector-item-meta">Pakistan · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item" onclick="selectItem('b', this, 'Jasprit Bumrah', '🇮🇳', 'India · Fast Bowler')">
+              <div class="selector-item-avatar">🇮🇳</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Jasprit Bumrah</div>
+                <div class="selector-item-meta">India · Right-arm Fast</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <div class="selector-item"
+              onclick="selectItem('b', this, 'Kane Williamson', '🇳🇿', 'New Zealand · Batsman')">
+              <div class="selector-item-avatar">🇳🇿</div>
+              <div class="selector-item-info">
+                <div class="selector-item-name">Kane Williamson</div>
+                <div class="selector-item-meta">New Zealand · Right-hand Bat</div>
+              </div>
+              <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /selector-panel -->
+
+      <!-- Format + Compare Btn -->
+      <div class="compare-btn-wrap anim-up delay-2">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:1rem;">
+          <div class="tabs" style="margin-bottom:0;">
+            <button class="tab active" onclick="setTab(this)">All Formats</button>
+            <button class="tab" onclick="setTab(this)">Test</button>
+            <button class="tab" onclick="setTab(this)">ODI</button>
+            <button class="tab" onclick="setTab(this)">T20I</button>
+          </div>
+          <button class="btn btn-primary" style="padding:0.75rem 2.5rem; font-size:1rem;" onclick="showResults()">
+            <i class="fa-solid fa-chart-column"></i> Compare Now
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ COMPARISON RESULTS ═══════════════════════════════ -->
+      <div class="compare-results" id="compare-results">
+
+        <!-- Summary card -->
+        <div class="summary-card anim-up">
+          <div class="summary-icon">🏆</div>
+          <div class="summary-body">
+            <div class="summary-title">Virat Kohli vs Steve Smith</div>
+            <div class="summary-text">
+              Comparing across all formats based on career statistics. Kohli leads in ODI batting average and T20I
+              strike rate, while Smith holds an edge in Test batting average and conversion rate.
+            </div>
+          </div>
+          <div>
+            <span class="summary-verdict verdict-a">Kohli edges overall</span>
+          </div>
+        </div>
+
+        <!-- Profile headers + stats table -->
+        <div style="margin-top:1.5rem;">
+          <div class="results-format-bar">
+            <div class="section-label" style="margin:0;">Career Statistics</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">
+              <i class="fa-solid fa-circle-info" style="margin-right:0.3rem;"></i>
+              ▲ indicates statistical advantage
+            </div>
+          </div>
+
+          <!-- Header row -->
+          <div class="compare-header-grid">
+            <div class="compare-header-label">
+              <span class="compare-header-label-text">Statistic</span>
+            </div>
+            <div class="compare-profile-header side-a">
+              <div class="cph-avatar">🇮🇳</div>
+              <div class="cph-info">
+                <div class="cph-name">Virat Kohli</div>
+                <div class="cph-meta">India · Right-hand Bat · Age 35</div>
+              </div>
+            </div>
+            <div class="compare-profile-header side-b">
+              <div class="cph-avatar">🇦🇺</div>
+              <div class="cph-info">
+                <div class="cph-name">Steve Smith</div>
+                <div class="cph-meta">Australia · Right-hand Bat · Age 35</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats rows -->
+          <div class="compare-stat-grid">
+            <!-- Section: Batting -->
+            <div class="compare-section-row">
+              <i class="fa-solid fa-cricket-bat-ball"></i> Batting
+            </div>
+
+            <div class="compare-row-label">Matches</div>
+            <div class="compare-cell">500</div>
+            <div class="compare-cell">398</div>
+
+            <div class="compare-row-label">Innings</div>
+            <div class="compare-cell">476</div>
+            <div class="compare-cell">374</div>
+
+            <div class="compare-row-label">Runs</div>
+            <div class="compare-cell winner">26,565</div>
+            <div class="compare-cell loser">16,843</div>
+
+            <div class="compare-row-label">Batting Avg</div>
+            <div class="compare-cell loser">53.6</div>
+            <div class="compare-cell winner">57.9</div>
+
+            <div class="compare-row-label">Strike Rate</div>
+            <div class="compare-cell winner">92.4</div>
+            <div class="compare-cell loser">78.1</div>
+
+            <div class="compare-row-label">100s / 50s</div>
+            <div class="compare-cell winner">80 / 131</div>
+            <div class="compare-cell loser">32 / 38</div>
+
+            <div class="compare-row-label">Highest Score</div>
+            <div class="compare-cell loser">254*</div>
+            <div class="compare-cell winner">239</div>
+
+            <div class="compare-row-label">Not Outs</div>
+            <div class="compare-cell">80</div>
+            <div class="compare-cell winner">84</div>
+
+            <!-- Section: Test -->
+            <div class="compare-section-row">
+              <i class="fa-solid fa-flag"></i> Test Cricket
+            </div>
+
+            <div class="compare-row-label">Test Avg</div>
+            <div class="compare-cell loser">48.7</div>
+            <div class="compare-cell winner">59.4</div>
+
+            <div class="compare-row-label">Test Runs</div>
+            <div class="compare-cell winner">8,848</div>
+            <div class="compare-cell loser">9,074</div>
+
+            <div class="compare-row-label">Test 100s</div>
+            <div class="compare-cell loser">29</div>
+            <div class="compare-cell winner">32</div>
+
+            <!-- Section: ODI -->
+            <div class="compare-section-row">
+              <i class="fa-solid fa-circle-dot"></i> ODI Cricket
+            </div>
+
+            <div class="compare-row-label">ODI Avg</div>
+            <div class="compare-cell winner">58.1</div>
+            <div class="compare-cell loser">42.3</div>
+
+            <div class="compare-row-label">ODI Runs</div>
+            <div class="compare-cell winner">13,906</div>
+            <div class="compare-cell loser">3,571</div>
+
+            <div class="compare-row-label">ODI 100s</div>
+            <div class="compare-cell winner">50</div>
+            <div class="compare-cell loser">11</div>
+
+            <!-- Section: T20I -->
+            <div class="compare-section-row">
+              <i class="fa-solid fa-bolt"></i> T20 International
+            </div>
+
+            <div class="compare-row-label">T20I Avg</div>
+            <div class="compare-cell winner">51.6</div>
+            <div class="compare-cell loser">34.2</div>
+
+            <div class="compare-row-label">T20I SR</div>
+            <div class="compare-cell winner">139.5</div>
+            <div class="compare-cell loser">127.8</div>
+
+            <div class="compare-row-label">T20I Runs</div>
+            <div class="compare-cell winner">4,188</div>
+            <div class="compare-cell loser">776</div>
+          </div>
+        </div>
+
+        <!-- Bar visual comparison -->
+        <div class="compare-bar-section">
+          <div class="compare-bar-header">
+            <i class="fa-solid fa-chart-bar" style="color:var(--accent);"></i>
+            <span class="section-label" style="margin:0;">Visual Stat Comparison</span>
+          </div>
+          <div class="compare-bar-rows">
+
+            <!-- Batting Average -->
+            <div class="bar-compare-row">
+              <div class="bar-compare-header">
+                <strong>Batting Average (Overall)</strong>
+                <span>Higher is better</span>
+              </div>
+              <div class="bar-compare-track">
+                <div class="bar-a-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-a" style="width:82%"></div>
+                </div>
+                <div class="bar-center-label">AVG</div>
+                <div class="bar-b-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-b" style="width:89%"></div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
+                <span style="color:var(--accent);">53.6</span>
+                <span style="color:#FF7043;">57.9</span>
+              </div>
+            </div>
+
+            <!-- Strike Rate -->
+            <div class="bar-compare-row">
+              <div class="bar-compare-header">
+                <strong>Strike Rate (T20I)</strong>
+                <span>Higher is better</span>
+              </div>
+              <div class="bar-compare-track">
+                <div class="bar-a-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-a" style="width:94%"></div>
+                </div>
+                <div class="bar-center-label">S/R</div>
+                <div class="bar-b-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-b" style="width:84%"></div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
+                <span style="color:var(--accent);">139.5</span>
+                <span style="color:#FF7043;">127.8</span>
+              </div>
+            </div>
+
+            <!-- Centuries -->
+            <div class="bar-compare-row">
+              <div class="bar-compare-header">
+                <strong>International Centuries</strong>
+                <span>Higher is better</span>
+              </div>
+              <div class="bar-compare-track">
+                <div class="bar-a-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-a" style="width:96%"></div>
+                </div>
+                <div class="bar-center-label">100s</div>
+                <div class="bar-b-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-b" style="width:40%"></div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
+                <span style="color:var(--accent);">80</span>
+                <span style="color:#FF7043;">32</span>
+              </div>
+            </div>
+
+            <!-- ODI Avg -->
+            <div class="bar-compare-row">
+              <div class="bar-compare-header">
+                <strong>ODI Batting Average</strong>
+                <span>Higher is better</span>
+              </div>
+              <div class="bar-compare-track">
+                <div class="bar-a-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-a" style="width:92%"></div>
+                </div>
+                <div class="bar-center-label">ODI</div>
+                <div class="bar-b-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-b" style="width:67%"></div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
+                <span style="color:var(--accent);">58.1</span>
+                <span style="color:#FF7043;">42.3</span>
+              </div>
+            </div>
+
+            <!-- Test Avg -->
+            <div class="bar-compare-row">
+              <div class="bar-compare-header">
+                <strong>Test Batting Average</strong>
+                <span>Higher is better</span>
+              </div>
+              <div class="bar-compare-track">
+                <div class="bar-a-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-a" style="width:76%"></div>
+                </div>
+                <div class="bar-center-label">TEST</div>
+                <div class="bar-b-wrap" style="flex:1;">
+                  <div class="bar-compare-fill bar-fill-b" style="width:93%"></div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted);">
+                <span style="color:var(--accent);">48.7</span>
+                <span style="color:#FF7043;">59.4</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Attribute comparison (radar-style) -->
+        <div class="radar-section">
+          <div class="radar-title">Attribute Breakdown</div>
+          <div style="display:flex; gap:1.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+            <div class="legend-item">
+              <div class="legend-dot legend-dot-a"></div> Virat Kohli
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot legend-dot-b"></div> Steve Smith
+            </div>
+          </div>
+          <div class="radar-attribute-rows">
+
+            <div class="radar-attr-row">
+              <div class="radar-val-a">92/100</div>
+              <div class="radar-bar-a">
+                <div class="radar-fill-a" style="width:92%"></div>
+              </div>
+              <div class="radar-attr-name">ODI Form</div>
+              <div class="radar-bar-b">
+                <div class="radar-fill-b" style="width:68%"></div>
+              </div>
+              <div class="radar-val-b">68/100</div>
+            </div>
+
+            <div class="radar-attr-row">
+              <div class="radar-val-a">74/100</div>
+              <div class="radar-bar-a">
+                <div class="radar-fill-a" style="width:74%"></div>
+              </div>
+              <div class="radar-attr-name">Test Form</div>
+              <div class="radar-bar-b">
+                <div class="radar-fill-b" style="width:91%"></div>
+              </div>
+              <div class="radar-val-b">91/100</div>
+            </div>
+
+            <div class="radar-attr-row">
+              <div class="radar-val-a">88/100</div>
+              <div class="radar-bar-a">
+                <div class="radar-fill-a" style="width:88%"></div>
+              </div>
+              <div class="radar-attr-name">T20 Form</div>
+              <div class="radar-bar-b">
+                <div class="radar-fill-b" style="width:55%"></div>
+              </div>
+              <div class="radar-val-b">55/100</div>
+            </div>
+
+            <div class="radar-attr-row">
+              <div class="radar-val-a">85/100</div>
+              <div class="radar-bar-a">
+                <div class="radar-fill-a" style="width:85%"></div>
+              </div>
+              <div class="radar-attr-name">Consistency</div>
+              <div class="radar-bar-b">
+                <div class="radar-fill-b" style="width:89%"></div>
+              </div>
+              <div class="radar-val-b">89/100</div>
+            </div>
+
+            <div class="radar-attr-row">
+              <div class="radar-val-a">95/100</div>
+              <div class="radar-bar-a">
+                <div class="radar-fill-a" style="width:95%"></div>
+              </div>
+              <div class="radar-attr-name">Big Match</div>
+              <div class="radar-bar-b">
+                <div class="radar-fill-b" style="width:82%"></div>
+              </div>
+              <div class="radar-val-b">82/100</div>
+            </div>
+
+            <div class="radar-attr-row">
+              <div class="radar-val-a">78/100</div>
+              <div class="radar-bar-a">
+                <div class="radar-fill-a" style="width:78%"></div>
+              </div>
+              <div class="radar-attr-name">Away Record</div>
+              <div class="radar-bar-b">
+                <div class="radar-fill-b" style="width:84%"></div>
+              </div>
+              <div class="radar-val-b">84/100</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Probability Insights -->
+        <div class="prob-compare-section">
+          <div class="results-format-bar">
+            <div class="section-label" style="margin:0;">
+              <i class="fa-solid fa-brain" style="margin-right:0.4rem;"></i>Probability Insights
+            </div>
+          </div>
+
+          <div class="prob-compare-grid">
+
+            <!-- Kohli Probabilities -->
+            <div class="prob-block">
+              <div class="prob-header">
+                <span class="prob-icon">🇮🇳</span>
+                <span class="prob-label">Virat Kohli — Likelihoods</span>
+              </div>
+              <div class="prob-bar-wrap">
+                <div class="prob-row">
+                  <div class="prob-row-header">
+                    <span class="prob-row-name">Scoring 50+ in ODIs</span>
+                    <span class="prob-row-val">71%</span>
+                  </div>
+                  <div class="prob-bar">
+                    <div class="prob-bar-fill" style="width:71%"></div>
+                  </div>
+                </div>
+                <div class="prob-row">
+                  <div class="prob-row-header">
+                    <span class="prob-row-name">Scoring 30+ in T20Is</span>
+                    <span class="prob-row-val">64%</span>
+                  </div>
+                  <div class="prob-bar">
+                    <div class="prob-bar-fill" style="width:64%"></div>
+                  </div>
+                </div>
+                <div class="prob-row">
+                  <div class="prob-row-header">
+                    <span class="prob-row-name">Century in Tests</span>
+                    <span class="prob-row-val">28%</span>
+                  </div>
+                  <div class="prob-bar">
+                    <div class="prob-bar-fill" style="width:28%"></div>
+                  </div>
+                </div>
+                <div class="prob-row">
+                  <div class="prob-row-header">
+                    <span class="prob-row-name">Top scorer in match</span>
+                    <span class="prob-row-val">44%</span>
+                  </div>
+                  <div class="prob-bar">
+                    <div class="prob-bar-fill" style="width:44%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="prob-disclaimer">
+                Based on 476 innings of historical data. Probabilities derived from logistic regression model trained on
+                format-specific match conditions.
+              </div>
+            </div>
+
+            <!-- Smith Probabilities -->
+            <div class="prob-block"
+              style="border-color:rgba(255,112,67,0.25); background:linear-gradient(135deg,rgba(255,112,67,0.04),rgba(255,179,71,0.07));">
+              <div class="prob-header">
+                <span class="prob-icon">🇦🇺</span>
+                <span class="prob-label" style="color:#FF7043;">Steve Smith — Likelihoods</span>
+              </div>
+              <div class="prob-bar-wrap">
+                <div class="prob-row">
+                  <div class="prob-row-header">
+                    <span class="prob-row-name">Scoring 50+ in ODIs</span>
+                    <span class="prob-row-val" style="color:#FF7043;">52%</span>
+                  </div>
+                  <div class="prob-bar">
+                    <div class="prob-bar-fill" style="width:52%; background:linear-gradient(90deg,#FF7043,#FFB347);">
+                    </div>
+                  </div>
+                </div>
+                <div class="prob-row">
+                  <div class="prob-row-header">
+                    <span class="prob-row-name">Scoring 30+ in T20Is</span>
+                    <span class="prob-row-val" style="color:#FF7043;">41%</span>
+                  </div>
+                  <div class="prob-bar">
+                    <div class="prob-bar-fill" style="width:41%; background:linear-gradient(90deg,#FF7043,#FFB347);">
+                    </div>
+                  </div>
+                </div>
+                <div class="prob-row">
+                  <div class="prob-row-header">
+                    <span class="prob-row-name">Century in Tests</span>
+                    <span class="prob-row-val" style="color:#FF7043;">31%</span>
+                  </div>
+                  <div class="prob-bar">
+                    <div class="prob-bar-fill" style="width:31%; background:linear-gradient(90deg,#FF7043,#FFB347);">
+                    </div>
+                  </div>
+                </div>
+                <div class="prob-row">
+                  <div class="prob-row-header">
+                    <span class="prob-row-name">Top scorer in match</span>
+                    <span class="prob-row-val" style="color:#FF7043;">38%</span>
+                  </div>
+                  <div class="prob-bar">
+                    <div class="prob-bar-fill" style="width:38%; background:linear-gradient(90deg,#FF7043,#FFB347);">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="prob-disclaimer">
+                Based on 374 innings of historical data. Probabilities derived from logistic regression model trained on
+                format-specific match conditions.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer-banner mt-3">
+          <span class="icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+          <span>All insights are based on historical data and statistical models. Actual outcomes may vary
+            significantly. This is not a prediction tool — probabilities reflect patterns in past performance
+            only.</span>
+        </div>
+
+      </div><!-- /compare-results -->
+
+    </div><!-- /section -->
+  </div><!-- /page-wrap -->
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <div class="nav-logo-icon">🏏</div>
+          <span class="nav-logo-text">Cricket<span>lytics</span></span>
+        </a>
+        <p class="footer-brand-desc">Context-aware cricket analytics and probability insights powered by historical
+          data.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="matches.html" class="footer-link"><i class="fa-solid fa-calendar"></i> Matches</a></li>
+          <li><a href="players.html" class="footer-link"><i class="fa-solid fa-user"></i> Players</a></li>
+          <li><a href="teams.html" class="footer-link"><i class="fa-solid fa-shield-halved"></i> Teams</a></li>
+          <li><a href="venues.html" class="footer-link"><i class="fa-solid fa-location-dot"></i> Venues</a></li>
+          <li><a href="compare.html" class="footer-link"><i class="fa-solid fa-chart-column"></i> Compare</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Analytics</div>
+        <ul class="footer-links">
+          <li><a href="rankings.html" class="footer-link"><i class="fa-solid fa-ranking-star"></i> Rankings</a></li>
+          <li><a href="records.html" class="footer-link"><i class="fa-solid fa-trophy"></i> Records</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">About</div>
+        <ul class="footer-links">
+          <li><a href="#" class="footer-link">About Cricklytics</a></li>
+          <li><a href="#" class="footer-link">Data Sources</a></li>
+          <li><a href="#" class="footer-link">Disclaimer</a></li>
+          <li><a href="#" class="footer-link">Contact</a></li>
+          <li><a href="#" class="footer-link">Future Roadmap</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Cricklytics. All rights reserved.</span>
+      <span class="footer-disclaimer">All probabilities are based on historical data. Not a prediction or gambling
+        platform.</span>
+    </div>
+
+    <!-- WebCraft Watermark -->
+    <div class="webcraft-watermark">
+      <span class="webcraft-by">Designed &amp; Developed by</span>
+      <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+        <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 1.5L16 5.25V12.75L9 16.5L2 12.75V5.25L9 1.5Z" stroke="#99FFCC" stroke-width="1.2"
+            stroke-linejoin="round" />
+          <text x="9" y="12" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7" font-weight="700"
+            fill="#99FFCC">W</text>
+        </svg>
+        <span class="webcraft-name">WebCraft</span>
+      </a>
+      <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const PLAYER_ITEMS = [
+      { name: 'Virat Kohli', flag: '🇮🇳', meta: 'India · Right-hand Bat' },
+      { name: 'Rohit Sharma', flag: '🇮🇳', meta: 'India · Right-hand Bat' },
+      { name: 'Joe Root', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', meta: 'England · Right-hand Bat' },
+      { name: 'Steve Smith', flag: '🇦🇺', meta: 'Australia · Right-hand Bat' },
+      { name: 'Babar Azam', flag: '🇵🇰', meta: 'Pakistan · Right-hand Bat' },
+      { name: 'Jasprit Bumrah', flag: '🇮🇳', meta: 'India · Right-arm Fast' },
+      { name: 'Kane Williamson', flag: '🇳🇿', meta: 'New Zealand · Right-hand Bat' },
+    ];
+
+    const TEAM_ITEMS = [
+      { name: 'India', flag: '🇮🇳', meta: 'ICC Rank #1 · All Formats' },
+      { name: 'Australia', flag: '🇦🇺', meta: 'ICC Rank #2 · All Formats' },
+      { name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', meta: 'ICC Rank #3 · All Formats' },
+      { name: 'Pakistan', flag: '🇵🇰', meta: 'ICC Rank #4 · All Formats' },
+      { name: 'New Zealand', flag: '🇳🇿', meta: 'ICC Rank #5 · All Formats' },
+      { name: 'South Africa', flag: '🇿🇦', meta: 'ICC Rank #6 · All Formats' },
+      { name: 'West Indies', flag: '🏝️', meta: 'ICC Rank #7 · All Formats' },
+    ];
+
+    function buildList(side, items, defaultSelectedIndex) {
+      const isTeam = document.querySelector('.type-btn.active').dataset.mode === 'team';
+      return items.map((item, i) => `
+      <div class="selector-item ${i === defaultSelectedIndex ? 'selected' : ''}"
+           onclick="selectItem('${side}', this, '${item.name}', '${item.flag}', '${item.meta}')">
+        <div class="selector-item-avatar ${isTeam ? 'team-shape' : ''}">${item.flag}</div>
+        <div class="selector-item-info">
+          <div class="selector-item-name">${item.name}</div>
+          <div class="selector-item-meta">${item.meta}</div>
+        </div>
+        <div class="selector-item-check"><i class="fa-solid fa-check"></i></div>
+      </div>`).join('');
+    }
+
+    // Mode switcher
+    function switchMode(mode, btn) {
+      document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      btn.dataset.mode = mode;
+      const isTeam = mode === 'team';
+
+      document.querySelectorAll('.selector-label span').forEach((el, i) => {
+        el.textContent = isTeam ? (i === 0 ? 'Team A' : 'Team B') : (i === 0 ? 'Player A' : 'Player B');
+      });
+      document.getElementById('legend-a-label').textContent = isTeam ? 'Team A' : 'Player A';
+      document.getElementById('legend-b-label').textContent = isTeam ? 'Team B' : 'Player B';
+
+      const items = isTeam ? TEAM_ITEMS : PLAYER_ITEMS;
+      const defaultA = isTeam ? 0 : 0; // India or Virat Kohli
+      const defaultB = isTeam ? 1 : 3; // Australia or Steve Smith
+
+      document.getElementById('list-a').innerHTML = buildList('a', items, defaultA);
+      document.getElementById('list-b').innerHTML = buildList('b', items, defaultB);
+
+      const a = items[defaultA], b = items[defaultB];
+      document.getElementById('preview-a').innerHTML = `<div class="selected-preview-avatar">${a.flag}</div><span>${a.name}</span>`;
+      document.getElementById('preview-b').innerHTML = `<div class="selected-preview-avatar">${b.flag}</div><span>${b.name}</span>`;
+    }
+
+    // Item selection
+    function selectItem(side, el, name, flag, meta) {
+      const list = document.getElementById('list-' + side);
+      list.querySelectorAll('.selector-item').forEach(i => i.classList.remove('selected'));
+      el.classList.add('selected');
+      const preview = document.getElementById('preview-' + side);
+      preview.innerHTML = `<div class="selected-preview-avatar">${flag}</div><span>${name}</span>`;
+    }
+
+    // Tab switcher
+    function setTab(btn) {
+      btn.closest('.tabs').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // Show results (already shown by default with dummy data)
+    function showResults() {
+      const r = document.getElementById('compare-results');
+      r.style.animation = 'none';
+      r.offsetHeight; // reflow
+      r.style.animation = 'fadeSlideUp 0.5s ease both';
+      r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Init preview
+    document.getElementById('preview-a').innerHTML = `<div class="selected-preview-avatar">🇮🇳</div><span>Virat Kohli</span>`;
+    document.getElementById('preview-b').innerHTML = `<div class="selected-preview-avatar">🇦🇺</div><span>Steve Smith</span>`;
+
+
+    document.querySelector('.nav-search').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && this.value.trim())
+        window.location.href = 'search.html?q=' + encodeURIComponent(this.value.trim());
     });
-    document.getElementById('legend-a-label').textContent = isTeam ? 'Team A' : 'Player A';
-    document.getElementById('legend-b-label').textContent = isTeam ? 'Team B' : 'Player B';
-  }
-
-  // Item selection
-  function selectItem(side, el, name, flag, meta) {
-    const list = document.getElementById('list-' + side);
-    list.querySelectorAll('.selector-item').forEach(i => i.classList.remove('selected'));
-    el.classList.add('selected');
-    const preview = document.getElementById('preview-' + side);
-    preview.innerHTML = `<div class="selected-preview-avatar">${flag}</div><span>${name}</span>`;
-  }
-
-  // Tab switcher
-  function setTab(btn) {
-    btn.closest('.tabs').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  // Show results (already shown by default with dummy data)
-  function showResults() {
-    const r = document.getElementById('compare-results');
-    r.style.animation = 'none';
-    r.offsetHeight; // reflow
-    r.style.animation = 'fadeSlideUp 0.5s ease both';
-    r.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  // Init preview
-  document.getElementById('preview-a').innerHTML = `<div class="selected-preview-avatar">🇮🇳</div><span>Virat Kohli</span>`;
-  document.getElementById('preview-b').innerHTML = `<div class="selected-preview-avatar">🇦🇺</div><span>Steve Smith</span>`;
-</script>
+  </script>
 </body>
+
 </html>

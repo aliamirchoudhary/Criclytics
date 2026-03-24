@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search Results — Cricklytics</title>
+  <link rel="icon" type="image/png" href="img1.png"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+
+    /* ── Search Hero ─────────────────────────────────── */
+    .search-hero {
+      background: var(--surface-1);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .search-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 0%, rgba(74,127,167,0.14) 0%, transparent 65%),
+        radial-gradient(ellipse 30% 60% at 90% 80%, rgba(94,184,255,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .search-hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* Big search bar */
+    .big-search-wrap {
+      position: relative;
+      max-width: 680px;
+      margin-bottom: 1.25rem;
+    }
+    .big-search-icon {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%; transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1rem;
+      pointer-events: none;
+    }
+    .big-search-input {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 0.85rem 1.25rem 0.85rem 3.2rem;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .big-search-input::placeholder { color: var(--text-muted); }
+    .big-search-input:focus {
+      border-color: var(--steel);
+      box-shadow: 0 0 0 3px rgba(74,127,167,0.15);
+    }
+    .big-search-clear {
+      position: absolute;
+      right: 1rem;
+      top: 50%; transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      transition: color var(--transition), background var(--transition);
+    }
+    .big-search-clear:hover { color: var(--text-primary); background: rgba(74,127,167,0.1); }
+
+    /* Result meta line */
+    .search-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .search-meta strong { color: var(--text-secondary); }
+    .search-meta-divider { opacity: 0.3; }
+
+    /* ── Category Filter tabs ────────────────────────── */
+    .search-category-bar {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 1rem 2rem;
+      background: var(--surface-1);
+      border-bottom: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .search-category-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .cat-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.42rem 1rem;
+      border-radius: var(--radius-xl);
+      font-size: 0.82rem;
+      font-weight: 500;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .cat-tab:hover { border-color: var(--steel); color: var(--text-primary); }
+    .cat-tab.active {
+      background: rgba(94,184,255,0.12);
+      border-color: rgba(94,184,255,0.4);
+      color: var(--accent);
+    }
+    .cat-tab .count {
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: rgba(94,184,255,0.15);
+      color: var(--accent);
+      padding: 0.05rem 0.45rem;
+      border-radius: 10px;
+    }
+    .cat-tab.active .count {
+      background: rgba(94,184,255,0.25);
+    }
+
+    /* ── Layout ──────────────────────────────────────── */
+    .search-layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 2rem;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* ── Sidebar Filters ─────────────────────────────── */
+    .search-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: sticky;
+      top: calc(var(--nav-h) + 1rem);
+    }
+
+    .sidebar-block {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .sidebar-block-header {
+      padding: 0.75rem 1.1rem;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .sidebar-options {
+      padding: 0.5rem 0;
+    }
+    .sidebar-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1.1rem;
+      cursor: pointer;
+      transition: background var(--transition);
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      gap: 0.5rem;
+    }
+    .sidebar-option:hover { background: rgba(74,127,167,0.06); color: var(--text-primary); }
+    .sidebar-option.active { color: var(--accent); }
+    .sidebar-option-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sidebar-check {
+      width: 16px; height: 16px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+      color: transparent;
+      flex-shrink: 0;
+      transition: all var(--transition);
+    }
+    .sidebar-option.active .sidebar-check {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--navy);
+    }
+    .sidebar-count {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    /* ── Results main ────────────────────────────────── */
+    .search-results-main { min-width: 0; }
+
+    /* Category group heading */
+    .result-group { margin-bottom: 2.5rem; }
+    .result-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .result-group-title {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--frost);
+    }
+    .result-group-icon {
+      width: 30px; height: 30px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+    }
+    .icon-player  { background: rgba(94,184,255,0.12); color: var(--accent); }
+    .icon-team    { background: rgba(61,220,132,0.1);  color: var(--green-live); }
+    .icon-venue   { background: rgba(255,179,71,0.1);  color: var(--accent-warm); }
+    .icon-match   { background: rgba(179,207,229,0.1); color: var(--sky); }
+
+    .result-group-count {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ── Result Cards ────────────────────────────────── */
+
+    /* Player result row */
+    .result-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.1rem;
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 0.6rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+      color: inherit;
+    }
+    .result-row:hover {
+      transform: translateX(4px);
+      border-color: rgba(74,127,167,0.45);
+      box-shadow: var(--shadow-sm), var(--shadow-glow);
+    }
+
+    .result-avatar {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .result-avatar.rect { border-radius: var(--radius-md); }
+    .result-avatar.venue-icon {
+      background: rgba(255,179,71,0.08);
+      border-color: rgba(255,179,71,0.2);
+      font-size: 1.2rem;
+    }
+
+    .result-info { flex: 1; min-width: 0; }
+    .result-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.2rem;
+    }
+    .result-name mark {
+      background: rgba(94,184,255,0.2);
+      color: var(--accent);
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+    .result-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+    .result-tag {
+      background: rgba(74,127,167,0.1);
+      border: 1px solid rgba(74,127,167,0.2);
+      border-radius: var(--radius-xl);
+      padding: 0.1rem 0.55rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--sky);
+    }
+    .result-tag.green {
+      background: rgba(61,220,132,0.08);
+      border-color: rgba(61,220,132,0.2);
+      color: var(--green-live);
+    }
+    .result-tag.warm {
+      background: rgba(255,179,71,0.08);
+      border-color: rgba(255,179,71,0.2);
+      color: var(--accent-warm);
+    }
+
+    .result-stats {
+      display: flex;
+      gap: 1.25rem;
+      flex-shrink: 0;
+      align-items: center;
+    }
+    .result-stat {
+      text-align: center;
+    }
+    .result-stat-val {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .result-stat-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .result-arrow {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      transition: color var(--transition), transform var(--transition);
+    }
+    .result-row:hover .result-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* Match result card (slightly different layout) */
+    .result-match {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.1rem;
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 0.6rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+      color: inherit;
+    }
+    .result-match:hover {
+      transform: translateX(4px);
+      border-color: rgba(74,127,167,0.45);
+      box-shadow: var(--shadow-sm), var(--shadow-glow);
+    }
+
+    .match-mini-teams {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 1;
+      min-width: 0;
+    }
+    .match-mini-flag {
+      font-size: 1.3rem;
+    }
+    .match-mini-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+    .match-mini-vs {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 0 0.2rem;
+    }
+    .match-mini-meta {
+      flex: 1;
+      min-width: 0;
+    }
+    .match-mini-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .match-mini-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* "Show more" link */
+    .show-more-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      padding: 0.4rem 0;
+      transition: gap var(--transition);
+    }
+    .show-more-link:hover { gap: 0.6rem; }
+
+    /* ── No results state ────────────────────────────── */
+    .no-results {
+      text-align: center;
+      padding: 5rem 2rem;
+      color: var(--text-muted);
+    }
+    .no-results-icon { font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.4; }
+    .no-results-title { font-family: var(--font-display); font-size: 1.4rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+    .no-results-desc { font-size: 0.88rem; line-height: 1.6; max-width: 340px; margin: 0 auto 1.5rem; }
+
+    /* Suggested searches */
+    .suggestion-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .suggestion-chip {
+      padding: 0.35rem 0.9rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .suggestion-chip:hover {
+      border-color: var(--steel);
+      color: var(--accent);
+    }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .search-layout {
+        grid-template-columns: 1fr;
+        padding: 1.5rem 1.25rem;
+      }
+      .search-sidebar {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .sidebar-block { flex: 1; min-width: 160px; }
+    }
+
+    @media (max-width: 600px) {
+      .search-hero { padding: 2rem 1rem 1.5rem; }
+      .search-category-bar { padding: 0.75rem 1rem; }
+      .result-stats { display: none; }
+      .result-row, .result-match { padding: 0.75rem; }
+      .search-layout { padding: 1.25rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ════════════════════════════════════════════════ -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">🏏</div>
+    <span class="nav-logo-text">Cricket<span>lytics</span></span>
+  </a>
+
+  <div class="nav-search-wrap">
+    <span class="nav-search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+    <input type="text" class="nav-search" placeholder="Search players, teams, venues…"/>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="matches.html"  class="nav-link">Matches</a></li>
+    <li><a href="players.html"  class="nav-link">Players</a></li>
+    <li><a href="teams.html"    class="nav-link">Teams</a></li>
+    <li><a href="venues.html"   class="nav-link">Venues</a></li>
+    <li><a href="rankings.html" class="nav-link">Rankings</a></li>
+    <li><a href="records.html"  class="nav-link">Records</a></li>
+    <li><a href="compare.html"  class="nav-link">Compare</a></li>
+  </ul>
+
+  <button class="nav-menu-btn" onclick="document.querySelector('.nav-mobile').classList.toggle('open')">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+</nav>
+
+<div class="nav-mobile">
+  <a href="matches.html"  class="nav-link">Matches</a>
+  <a href="players.html"  class="nav-link">Players</a>
+  <a href="teams.html"    class="nav-link">Teams</a>
+  <a href="venues.html"   class="nav-link">Venues</a>
+  <a href="rankings.html" class="nav-link">Rankings</a>
+  <a href="records.html"  class="nav-link">Records</a>
+  <a href="compare.html"  class="nav-link">Compare</a>
+</div>
+
+<!-- ══ PAGE WRAP ═════════════════════════════════════════════ -->
+<div class="page-wrap">
+
+  <!-- ── SEARCH HERO ──────────────────────────────────────── -->
+  <div class="search-hero">
+    <div class="search-hero-inner">
+      <div class="breadcrumb" style="margin-bottom:1rem;">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>Search</span>
+      </div>
+
+      <div class="big-search-wrap">
+        <span class="big-search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input
+          type="text"
+          class="big-search-input"
+          id="main-search-input"
+          value="Kohli"
+          placeholder="Search players, teams, venues, matches…"
+          oninput="handleSearch(this.value)"
+        />
+        <span class="big-search-clear" onclick="clearSearch()">
+          <i class="fa-solid fa-xmark"></i>
+        </span>
+      </div>
+
+      <div class="search-meta">
+        <span>Showing results for <strong>"Kohli"</strong></span>
+        <span class="search-meta-divider">·</span>
+        <span id="result-count"><strong>14</strong> results found</span>
+        <span class="search-meta-divider">·</span>
+        <span>across 4 categories</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CATEGORY FILTER BAR ──────────────────────────────── -->
+  <div class="search-category-bar">
+    <div class="search-category-bar-inner">
+      <button class="cat-tab active" onclick="setCat(this, 'all')">
+        <i class="fa-solid fa-border-all"></i> All
+        <span class="count">14</span>
+      </button>
+      <button class="cat-tab" onclick="setCat(this, 'players')">
+        <i class="fa-solid fa-user"></i> Players
+        <span class="count">5</span>
+      </button>
+      <button class="cat-tab" onclick="setCat(this, 'teams')">
+        <i class="fa-solid fa-shield-halved"></i> Teams
+        <span class="count">2</span>
+      </button>
+      <button class="cat-tab" onclick="setCat(this, 'venues')">
+        <i class="fa-solid fa-location-dot"></i> Venues
+        <span class="count">3</span>
+      </button>
+      <button class="cat-tab" onclick="setCat(this, 'matches')">
+        <i class="fa-solid fa-calendar-days"></i> Matches
+        <span class="count">4</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── LAYOUT ────────────────────────────────────────────── -->
+  <div class="search-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="search-sidebar anim-in">
+
+      <!-- Format filter -->
+      <div class="sidebar-block">
+        <div class="sidebar-block-header">
+          <i class="fa-solid fa-filter"></i> Format
+        </div>
+        <div class="sidebar-options">
+          <div class="sidebar-option active" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              All Formats
+            </div>
+            <span class="sidebar-count">14</span>
+          </div>
+          <div class="sidebar-option" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              Test
+            </div>
+            <span class="sidebar-count">6</span>
+          </div>
+          <div class="sidebar-option" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              ODI
+            </div>
+            <span class="sidebar-count">5</span>
+          </div>
+          <div class="sidebar-option" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              T20I
+            </div>
+            <span class="sidebar-count">3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Country filter -->
+      <div class="sidebar-block">
+        <div class="sidebar-block-header">
+          <i class="fa-solid fa-earth-asia"></i> Country
+        </div>
+        <div class="sidebar-options">
+          <div class="sidebar-option active" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              India 🇮🇳
+            </div>
+            <span class="sidebar-count">9</span>
+          </div>
+          <div class="sidebar-option" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              Australia 🇦🇺
+            </div>
+            <span class="sidebar-count">2</span>
+          </div>
+          <div class="sidebar-option" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              England 🏴󠁧󠁢󠁥󠁮󠁧󠁿
+            </div>
+            <span class="sidebar-count">2</span>
+          </div>
+          <div class="sidebar-option" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              Pakistan 🇵🇰
+            </div>
+            <span class="sidebar-count">1</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sort -->
+      <div class="sidebar-block">
+        <div class="sidebar-block-header">
+          <i class="fa-solid fa-arrow-up-wide-short"></i> Sort By
+        </div>
+        <div class="sidebar-options">
+          <div class="sidebar-option active" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              Relevance
+            </div>
+          </div>
+          <div class="sidebar-option" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              Alphabetical
+            </div>
+          </div>
+          <div class="sidebar-option" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              Most Matches
+            </div>
+          </div>
+          <div class="sidebar-option" onclick="toggleFilter(this)">
+            <div class="sidebar-option-left">
+              <div class="sidebar-check"><i class="fa-solid fa-check"></i></div>
+              Highest Rated
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- RESULTS MAIN -->
+    <div class="search-results-main" id="results-container">
+
+      <!-- ── PLAYERS ───────────────────────────────────── -->
+      <div class="result-group anim-up" id="group-players">
+        <div class="result-group-header">
+          <div class="result-group-title">
+            <div class="result-group-icon icon-player">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            Players
+          </div>
+          <span class="result-group-count">5 results</span>
+        </div>
+
+        <!-- Virat Kohli -->
+        <a href="player-profile.html" class="result-row">
+          <div class="result-avatar">🇮🇳</div>
+          <div class="result-info">
+            <div class="result-name"><mark>Kohli</mark>, Virat</div>
+            <div class="result-meta">
+              India
+              <span class="result-tag">Right-hand Bat</span>
+              <span class="result-tag green">Active</span>
+              <span>Age 35</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">80</div>
+              <div class="result-stat-label">Int'l 100s</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">58.1</div>
+              <div class="result-stat-label">ODI Avg</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">500</div>
+              <div class="result-stat-label">Matches</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+        <!-- Nicky Kohli (fictional) -->
+        <a href="player-profile.html" class="result-row">
+          <div class="result-avatar">🇮🇳</div>
+          <div class="result-info">
+            <div class="result-name"><mark>Kohli</mark>, Nicky</div>
+            <div class="result-meta">
+              India A
+              <span class="result-tag">All-Rounder</span>
+              <span>Age 24</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">12</div>
+              <div class="result-stat-label">Matches</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">31.4</div>
+              <div class="result-stat-label">Avg</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+        <!-- Arnav Kohli -->
+        <a href="player-profile.html" class="result-row">
+          <div class="result-avatar">🇮🇳</div>
+          <div class="result-info">
+            <div class="result-name"><mark>Kohli</mark>, Arnav</div>
+            <div class="result-meta">
+              India U-19
+              <span class="result-tag">Left-arm Spin</span>
+              <span>Age 18</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">8</div>
+              <div class="result-stat-label">Matches</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">14</div>
+              <div class="result-stat-label">Wickets</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+        <!-- Raj Kohli -->
+        <a href="player-profile.html" class="result-row">
+          <div class="result-avatar">🇮🇳</div>
+          <div class="result-info">
+            <div class="result-name"><mark>Kohli</mark>, Raj</div>
+            <div class="result-meta">
+              India Women
+              <span class="result-tag">Right-hand Bat</span>
+              <span class="result-tag warm">Retired</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">86</div>
+              <div class="result-stat-label">Matches</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">38.2</div>
+              <div class="result-stat-label">Avg</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+        <!-- Sunil Kohli -->
+        <a href="player-profile.html" class="result-row">
+          <div class="result-avatar">🇮🇳</div>
+          <div class="result-info">
+            <div class="result-name"><mark>Kohli</mark>, Sunil</div>
+            <div class="result-meta">
+              Delhi Capitals
+              <span class="result-tag">Wicket-Keeper</span>
+              <span>Age 27</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">54</div>
+              <div class="result-stat-label">Matches</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">29.8</div>
+              <div class="result-stat-label">Avg</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+      </div><!-- /group-players -->
+
+      <!-- ── TEAMS ─────────────────────────────────────── -->
+      <div class="result-group anim-up delay-1" id="group-teams">
+        <div class="result-group-header">
+          <div class="result-group-title">
+            <div class="result-group-icon icon-team">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            Teams
+          </div>
+          <span class="result-group-count">2 results</span>
+        </div>
+
+        <a href="team-profile.html" class="result-row">
+          <div class="result-avatar rect">🇮🇳</div>
+          <div class="result-info">
+            <div class="result-name">India — <mark>Kohli</mark> Era XI (Historical)</div>
+            <div class="result-meta">
+              India
+              <span class="result-tag">Historical Squad</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">188</div>
+              <div class="result-stat-label">Matches</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">64%</div>
+              <div class="result-stat-label">Win Rate</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+        <a href="team-profile.html" class="result-row">
+          <div class="result-avatar rect">🏏</div>
+          <div class="result-info">
+            <div class="result-name"><mark>Kohli</mark> XI — Charity Match 2023</div>
+            <div class="result-meta">
+              Exhibition
+              <span class="result-tag warm">Exhibition</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">1</div>
+              <div class="result-stat-label">Match</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+      </div><!-- /group-teams -->
+
+      <!-- ── VENUES ─────────────────────────────────────── -->
+      <div class="result-group anim-up delay-2" id="group-venues">
+        <div class="result-group-header">
+          <div class="result-group-title">
+            <div class="result-group-icon icon-venue">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+            Venues
+          </div>
+          <span class="result-group-count">3 results</span>
+        </div>
+
+        <a href="venue-profile.html" class="result-row">
+          <div class="result-avatar venue-icon">🏟️</div>
+          <div class="result-info">
+            <div class="result-name">Arun Jaitley Stadium — <mark>Kohli</mark>'s Home Ground</div>
+            <div class="result-meta">
+              Delhi, India
+              <span class="result-tag">Test · ODI · T20I</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">46</div>
+              <div class="result-stat-label">Int'l Matches</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">289</div>
+              <div class="result-stat-label">Avg Score</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+        <a href="venue-profile.html" class="result-row">
+          <div class="result-avatar venue-icon">🏟️</div>
+          <div class="result-info">
+            <div class="result-name">M. Chinnaswamy Stadium — <mark>Kohli</mark>'s IPL Home</div>
+            <div class="result-meta">
+              Bengaluru, India
+              <span class="result-tag">ODI · T20I · IPL</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">52</div>
+              <div class="result-stat-label">Int'l Matches</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">179</div>
+              <div class="result-stat-label">T20 Avg</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+        <a href="venue-profile.html" class="result-row">
+          <div class="result-avatar venue-icon">🏟️</div>
+          <div class="result-info">
+            <div class="result-name">Wankhede Stadium — <mark>Kohli</mark> Top Scorer Venue</div>
+            <div class="result-meta">
+              Mumbai, India
+              <span class="result-tag">Test · ODI · T20I</span>
+            </div>
+          </div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <div class="result-stat-val">71</div>
+              <div class="result-stat-label">Int'l Matches</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-val">302</div>
+              <div class="result-stat-label">ODI Avg</div>
+            </div>
+          </div>
+          <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+        </a>
+
+      </div><!-- /group-venues -->
+
+      <!-- ── MATCHES ────────────────────────────────────── -->
+      <div class="result-group anim-up delay-3" id="group-matches">
+        <div class="result-group-header">
+          <div class="result-group-title">
+            <div class="result-group-icon icon-match">
+              <i class="fa-solid fa-calendar-days"></i>
+            </div>
+            Matches
+          </div>
+          <span class="result-group-count">4 results</span>
+        </div>
+
+        <!-- Match rows -->
+        <a href="match-detail.html" class="result-match">
+          <div class="match-mini-teams">
+            <span class="match-mini-flag">🇮🇳</span>
+            <span class="match-mini-name">India</span>
+            <span class="match-mini-vs">vs</span>
+            <span class="match-mini-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+            <span class="match-mini-name">England</span>
+          </div>
+          <div class="match-mini-meta">
+            <div class="match-mini-title"><mark>Kohli</mark> 149* · 3rd ODI · Edgbaston 2022</div>
+            <div class="match-mini-sub">12 Jul 2022 · Edgbaston, Birmingham · ODI</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.6rem; flex-shrink:0;">
+            <span class="status-badge status-completed">Completed</span>
+            <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+          </div>
+        </a>
+
+        <a href="match-detail.html" class="result-match">
+          <div class="match-mini-teams">
+            <span class="match-mini-flag">🇮🇳</span>
+            <span class="match-mini-name">India</span>
+            <span class="match-mini-vs">vs</span>
+            <span class="match-mini-flag">🇵🇰</span>
+            <span class="match-mini-name">Pakistan</span>
+          </div>
+          <div class="match-mini-meta">
+            <div class="match-mini-title"><mark>Kohli</mark> 82* (53) · Asia Cup T20 2022</div>
+            <div class="match-mini-sub">28 Aug 2022 · Dubai International Stadium · T20I</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.6rem; flex-shrink:0;">
+            <span class="status-badge status-completed">Completed</span>
+            <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+          </div>
+        </a>
+
+        <a href="match-detail.html" class="result-match">
+          <div class="match-mini-teams">
+            <span class="match-mini-flag">🇮🇳</span>
+            <span class="match-mini-name">India</span>
+            <span class="match-mini-vs">vs</span>
+            <span class="match-mini-flag">🇦🇺</span>
+            <span class="match-mini-name">Australia</span>
+          </div>
+          <div class="match-mini-meta">
+            <div class="match-mini-title"><mark>Kohli</mark> 186 · 1st ODI · Hyderabad 2013</div>
+            <div class="match-mini-sub">2 Nov 2013 · Rajiv Gandhi Intl. Stadium · ODI</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.6rem; flex-shrink:0;">
+            <span class="status-badge status-completed">Completed</span>
+            <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+          </div>
+        </a>
+
+        <a href="match-detail.html" class="result-match">
+          <div class="match-mini-teams">
+            <span class="match-mini-flag">🇮🇳</span>
+            <span class="match-mini-name">India</span>
+            <span class="match-mini-vs">vs</span>
+            <span class="match-mini-flag">🇿🇦</span>
+            <span class="match-mini-name">South Africa</span>
+          </div>
+          <div class="match-mini-meta">
+            <div class="match-mini-title"><mark>Kohli</mark> 100* · T20 WC 2024 SF</div>
+            <div class="match-mini-sub">26 Jun 2024 · Providence Stadium, Guyana · T20I</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.6rem; flex-shrink:0;">
+            <span class="status-badge status-completed">Completed</span>
+            <span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+          </div>
+        </a>
+
+        <div style="margin-top:0.5rem;">
+          <span class="show-more-link" onclick="">
+            View all matches <i class="fa-solid fa-arrow-right"></i>
+          </span>
+        </div>
+
+      </div><!-- /group-matches -->
+
+    </div><!-- /results-main -->
+  </div><!-- /layout -->
+
+  <!-- ══ EMPTY STATE (hidden by default, shown via JS) ════ -->
+  <div class="no-results hidden" id="no-results">
+    <div class="no-results-icon">🔍</div>
+    <div class="no-results-title">No results found</div>
+    <div class="no-results-desc">We couldn't find anything matching your search. Try a different keyword or browse by category.</div>
+    <div class="suggestion-chips">
+      <span class="suggestion-chip" onclick="setSearch('Rohit Sharma')">Rohit Sharma</span>
+      <span class="suggestion-chip" onclick="setSearch('Lord\'s Cricket Ground')">Lord's Cricket Ground</span>
+      <span class="suggestion-chip" onclick="setSearch('India vs Australia')">India vs Australia</span>
+      <span class="suggestion-chip" onclick="setSearch('Jasprit Bumrah')">Jasprit Bumrah</span>
+      <span class="suggestion-chip" onclick="setSearch('Wankhede')">Wankhede</span>
+      <span class="suggestion-chip" onclick="setSearch('T20 World Cup')">T20 World Cup</span>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🏏</div>
+        <span class="nav-logo-text">Cricket<span>lytics</span></span>
+      </a>
+      <p class="footer-brand-desc">Context-aware cricket analytics and probability insights powered by historical data.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <ul class="footer-links">
+        <li><a href="matches.html"  class="footer-link"><i class="fa-solid fa-calendar"></i> Matches</a></li>
+        <li><a href="players.html"  class="footer-link"><i class="fa-solid fa-user"></i> Players</a></li>
+        <li><a href="teams.html"    class="footer-link"><i class="fa-solid fa-shield-halved"></i> Teams</a></li>
+        <li><a href="venues.html"   class="footer-link"><i class="fa-solid fa-location-dot"></i> Venues</a></li>
+        <li><a href="compare.html"  class="footer-link"><i class="fa-solid fa-chart-column"></i> Compare</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Analytics</div>
+      <ul class="footer-links">
+        <li><a href="rankings.html" class="footer-link"><i class="fa-solid fa-ranking-star"></i> Rankings</a></li>
+        <li><a href="records.html"  class="footer-link"><i class="fa-solid fa-trophy"></i> Records</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">About</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">About Cricklytics</a></li>
+        <li><a href="#" class="footer-link">Data Sources</a></li>
+        <li><a href="#" class="footer-link">Disclaimer</a></li>
+        <li><a href="#" class="footer-link">Contact</a></li>
+        <li><a href="#" class="footer-link">Future Roadmap</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Cricklytics. All rights reserved.</span>
+    <span class="footer-disclaimer">All probabilities are based on historical data. Not a prediction or gambling platform.</span>
+  </div>
+
+  <div class="webcraft-watermark">
+    <span class="webcraft-by">Designed &amp; Developed by</span>
+    <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+      <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 1.5L16 5.25V12.75L9 16.5L2 12.75V5.25L9 1.5Z" stroke="#99FFCC" stroke-width="1.2" stroke-linejoin="round"/>
+        <text x="9" y="12" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7" font-weight="700" fill="#99FFCC">W</text>
+      </svg>
+      <span class="webcraft-name">WebCraft</span>
+    </a>
+    <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Category tab switcher
+  function setCat(btn, cat) {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    const groups = {
+      players: document.getElementById('group-players'),
+      teams:   document.getElementById('group-teams'),
+      venues:  document.getElementById('group-venues'),
+      matches: document.getElementById('group-matches'),
+    };
+
+    if (cat === 'all') {
+      Object.values(groups).forEach(g => g.classList.remove('hidden'));
+    } else {
+      Object.entries(groups).forEach(([key, el]) => {
+        key === cat ? el.classList.remove('hidden') : el.classList.add('hidden');
+      });
+    }
+  }
+
+  // Sidebar filter toggle
+  function toggleFilter(el) {
+    el.classList.toggle('active');
+  }
+
+  // Dummy search handler
+  function handleSearch(val) {
+    const trimmed = val.trim();
+    const container = document.getElementById('results-container');
+    const noResults = document.getElementById('no-results');
+
+    if (trimmed.length === 0) {
+      container.classList.add('hidden');
+      noResults.classList.remove('hidden');
+      document.getElementById('result-count').innerHTML = '<strong>0</strong> results found';
+    } else {
+      container.classList.remove('hidden');
+      noResults.classList.add('hidden');
+      document.getElementById('result-count').innerHTML = '<strong>14</strong> results found';
+      document.querySelector('.search-meta strong').textContent = `"${trimmed}"`;
+    }
+  }
+
+  function clearSearch() {
+    const input = document.getElementById('main-search-input');
+    input.value = '';
+    input.focus();
+    handleSearch('');
+  }
+
+  function setSearch(term) {
+    const input = document.getElementById('main-search-input');
+    input.value = term;
+    handleSearch(term);
+  }
+</script>
+</body>
+</html>
