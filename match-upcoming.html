@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Match Fixture — Criclytics</title>
+  <link rel="icon" type="image/png" href="logo-icon.png"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Cric<span>lytics</span></span>
+    </a>
+
+    <div class="nav-search-wrap">
+      <span class="nav-search-icon"><i class="fa fa-search"></i></span>
+      <input type="text" class="nav-search" placeholder="Search players, teams, venues…" />
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="matches.html" class="nav-link active">Matches</a></li>
+      <li><a href="players.html" class="nav-link">Players</a></li>
+      <li><a href="teams.html" class="nav-link">Teams</a></li>
+      <li><a href="venues.html" class="nav-link">Venues</a></li>
+      <li><a href="rankings.html" class="nav-link">Rankings</a></li>
+      <li><a href="records.html" class="nav-link">Records</a></li>
+      <li><a href="compare.html" class="nav-link">Compare</a></li>
+    </ul>
+
+    <button class="nav-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">
+      <i class="fa fa-bars"></i>
+    </button>
+  </nav>
+
+<div class="nav-mobile" id="mobileNav">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="matches.html" class="nav-link active">Matches</a>
+    <a href="players.html" class="nav-link">Players</a>
+    <a href="teams.html" class="nav-link">Teams</a>
+    <a href="venues.html" class="nav-link">Venues</a>
+    <a href="rankings.html" class="nav-link">Rankings</a>
+    <a href="records.html" class="nav-link">Records</a>
+    <a href="compare.html" class="nav-link">Compare</a>
+  </div>
+
+  <div class="page-wrap">
+
+    <!-- Breadcrumb -->
+    <div style="max-width:1100px;margin:0 auto;padding:1.2rem 2rem 0;">
+      <div class="breadcrumb" style="font-size:.82rem;color:var(--text-muted);">
+        <a href="index.html">Home</a> /
+        <a href="matches.html">Matches</a> /
+        <span id="breadcrumbName">Match Fixture</span>
+      </div>
+    </div>
+
+    <!-- Match hero -->
+    <div style="max-width:1100px;margin:0 auto;padding:1rem 2rem 2rem;">
+
+      <!-- Scoreboard -->
+      <div class="section-card" style="margin-bottom:1.5rem;padding:2rem;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap;">
+          <div style="text-align:center;min-width:120px;">
+            <div id="team1Flag" style="width:72px;height:72px;border-radius:50%;overflow:hidden;margin:0 auto 0.75rem;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:2rem;"></div>
+            <div id="team1Name" style="font-size:1.4rem;font-weight:700;">—</div>
+            <div id="team1Score" style="font-size:1.1rem;color:var(--text-muted);margin-top:.3rem;"></div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1rem;color:var(--text-muted);font-weight:600;margin-bottom:.5rem;">VS</div>
+            <div id="matchStatus" class="status-badge" style="font-size:.75rem;background:rgba(94,184,255,.1);color:var(--accent);border:1px solid rgba(94,184,255,.2);">Upcoming</div>
+            <div id="matchDate" style="font-size:.85rem;color:var(--accent-warm);margin-top:.5rem;font-weight:600;"></div>
+          </div>
+          <div style="text-align:center;min-width:120px;">
+            <div id="team2Flag" style="width:72px;height:72px;border-radius:50%;overflow:hidden;margin:0 auto 0.75rem;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:2rem;"></div>
+            <div id="team2Name" style="font-size:1.4rem;font-weight:700;">—</div>
+            <div id="team2Score" style="font-size:1.1rem;color:var(--text-muted);margin-top:.3rem;"></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--border-light);font-size:.82rem;color:var(--text-muted);">
+          <span id="metaVenue"><i class="fa fa-location-dot"></i> —</span>
+          <span id="metaDate"><i class="fa fa-calendar"></i> —</span>
+          <span id="metaFormat"><i class="fa fa-circle-dot" style="color:var(--accent)"></i> —</span>
+          <span id="metaSeries"><i class="fa fa-trophy"></i> —</span>
+        </div>
+      </div>
+
+      <!-- Two column layout -->
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:start;">
+
+        <!-- Left -->
+        <div style="flex:1;min-width:280px;">
+          <div class="section-card" style="margin-bottom:1.2rem;">
+            <div class="section-card-header"><div class="section-card-title"><i class="fa fa-info-circle"></i> Fixture Details</div></div>
+            <div style="padding:1.2rem;display:grid;grid-template-columns:1fr 1fr;gap:.75rem;font-size:.85rem;">
+              <div><span style="color:var(--text-muted);">Format</span><br><strong id="fxFormat">—</strong></div>
+              <div><span style="color:var(--text-muted);">Date</span><br><strong id="fxDate">—</strong></div>
+              <div style="grid-column:1/-1;"><span style="color:var(--text-muted);">Venue</span><br><strong id="fxVenue">—</strong></div>
+              <div style="grid-column:1/-1;"><span style="color:var(--text-muted);">Series</span><br><strong id="fxSeries">—</strong></div>
+            </div>
+          </div>
+          <div class="section-card">
+            <div class="section-card-header"><div class="section-card-title"><i class="fa fa-handshake"></i> Head to Head</div></div>
+            <div id="h2hContent" style="padding:1.2rem;font-size:.85rem;color:var(--text-muted);">Loading…</div>
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div style="flex:1;min-width:280px;">
+          <div class="section-card" style="margin-bottom:1.2rem;">
+            <div class="section-card-header"><div class="section-card-title"><i class="fa fa-building"></i> Venue Context</div></div>
+            <div id="venueContent" style="padding:1.2rem;font-size:.85rem;color:var(--text-muted);">Loading…</div>
+          </div>
+          <div class="section-card">
+            <div class="section-card-header"><div class="section-card-title"><i class="fa fa-chart-pie"></i> Win Probability</div></div>
+            <div style="padding:1.2rem;">
+              <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.5rem;">
+                <span id="wpTeam1" style="font-weight:600;">—</span>
+                <span id="wpTeam2" style="font-weight:600;">—</span>
+              </div>
+              <div style="background:var(--surface-2);border-radius:4px;height:10px;overflow:hidden;">
+                <div id="wpBar" style="height:100%;width:50%;background:var(--accent);border-radius:4px;transition:width .5s;"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:.78rem;color:var(--text-muted);margin-top:.3rem;">
+                <span id="wpPct1">50%</span><span id="wpPct2">50%</span>
+              </div>
+              <div style="font-size:.72rem;color:var(--text-muted);margin-top:.6rem;text-align:center;">Based on H2H history</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<footer class="footer">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+            <span class="nav-logo-text">Cric<span>lytics</span></span>
+          </a>
+          <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
+            models.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Platform</div>
+          <ul class="footer-links">
+            <li><a href="matches.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Matches</a></li>
+            <li><a href="players.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Players</a></li>
+            <li><a href="teams.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Teams</a></li>
+            <li><a href="venues.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Venues</a></li>
+            <li><a href="rankings.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Rankings</a></li>
+            <li><a href="records.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Records</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Tools</div>
+          <ul class="footer-links">
+            <li><a href="compare.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Compare Players</a>
+            </li>
+            <li><a href="compare.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Compare Teams</a></li>
+            <li><a href="search.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Global Search</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Info</div>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> About</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Data Sources</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Disclaimer</a></li>
+            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2025 Criclytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
+          prediction platform.</span>
+      </div>
+      <div class="webcraft-watermark">
+        <span class="webcraft-by">Designed &amp; Developed by</span>
+        <a href="https://webcraft-dev.vercel.app/" target="_blank" rel="noopener" class="webcraft-brand">
+          <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
+            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
+            <text x="9" y="12.5" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7" font-weight="700"
+              fill="#99FFCC">W</text>
+          </svg>
+          <span class="webcraft-name">WebCraft</span>
+        </a>
+        <a href="https://webcraft-dev.vercel.app/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+      </div>
+    </footer>
+
+  <script>
+    function toggleMobileNav() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+  </script>
+  <script src="cricklytics.js"></script>
+  <script src="match-upcoming-api.js"></script>
+</body>
+</html>

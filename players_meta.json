@@ -1,0 +1,1649 @@
+{
+  "V Kohli": {
+    "full_name": "Virat Kohli",
+    "dob": "November 5, 1988",
+    "age": 37,
+    "birthplace": "Delhi, India",
+    "country": "India",
+    "iso_code": "IN",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm medium",
+    "role": "Batsman",
+    "debut_test": "20 Jun 2011 vs WI",
+    "debut_odi": "18 Aug 2008 vs SL",
+    "debut_t20i": "12 Jun 2010 vs ZIM",
+    "status": "active",
+    "image_url": "https://h.cricapi.com/img/players/c61d247d-7f77-452c-b495-2813a9cd0ac4.jpg"
+  },
+  "RG Sharma": {
+    "full_name": "Rohit Sharma",
+    "dob": "April 30, 1987",
+    "age": 38,
+    "birthplace": "Nagpur, Maharashtra",
+    "country": "India",
+    "iso_code": "IN",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm offbreak",
+    "role": "Batsman",
+    "debut_test": "Nov 2013 vs WI",
+    "debut_odi": "Jun 2007 vs IRE",
+    "debut_t20i": "Sep 2007 vs ENG",
+    "status": "active",
+    "image_url": "https://h.cricapi.com/img/players/03bda674-3916-4d64-952e-00a6c19c01e1.jpg"
+  },
+  "JJ Bumrah": {
+    "full_name": "Jasprit Bumrah",
+    "dob": "December 6, 1993",
+    "age": 32,
+    "birthplace": "Ahmedabad, Gujarat",
+    "country": "India",
+    "iso_code": "IN",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm fast",
+    "role": "Bowler",
+    "debut_test": "Jan 2018 vs SA",
+    "debut_odi": "Jan 2016 vs AUS",
+    "debut_t20i": "Jan 2016 vs AUS",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Jasprit_Bumrah_-_2019.jpg/300px-Jasprit_Bumrah_-_2019.jpg"
+  },
+  "HH Pandya": {
+    "full_name": "Hardik Pandya",
+    "dob": "October 11, 1993",
+    "age": 32,
+    "birthplace": "Surat, Gujarat",
+    "country": "India",
+    "iso_code": "IN",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm fast-medium",
+    "role": "All-Rounder",
+    "debut_test": "Jul 2017 vs SL",
+    "debut_odi": "Oct 2016 vs NZ",
+    "debut_t20i": "Jan 2016 vs AUS",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Hardik_Pandya.jpg/300px-Hardik_Pandya.jpg"
+  },
+  "KL Rahul": {
+    "full_name": "KL Rahul",
+    "dob": "April 18, 1992",
+    "age": 33,
+    "birthplace": "Mangalore, Karnataka",
+    "country": "India",
+    "iso_code": "IN",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm offbreak",
+    "role": "WK-Batsman",
+    "debut_test": "Jan 2015 vs AUS",
+    "debut_odi": "Jun 2016 vs ZIM",
+    "debut_t20i": "Jun 2016 vs ZIM",
+    "status": "active",
+    "image_url": "https://h.cricapi.com/img/players/a034346c-b408-4d29-a0f0-8b12430be28e.jpg"
+  },
+  "RA Jadeja": {
+    "full_name": "Ravindra Jadeja",
+    "dob": "December 6, 1988",
+    "age": 37,
+    "birthplace": "Nawanagar, Gujarat",
+    "country": "India",
+    "iso_code": "IN",
+    "batting_style": "Left-hand bat",
+    "bowling_style": "Left-arm orthodox",
+    "role": "All-Rounder",
+    "debut_test": "Dec 2012 vs ENG",
+    "debut_odi": "Feb 2009 vs SL",
+    "debut_t20i": "Feb 2009 vs SL",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Ravindra_Jadeja_2018.jpg/300px-Ravindra_Jadeja_2018.jpg"
+  },
+  "JE Root": {
+    "full_name": "Joe Root",
+    "dob": "December 30, 1990",
+    "age": 35,
+    "birthplace": "Sheffield, England",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm offbreak",
+    "role": "Batsman",
+    "debut_test": "Dec 2012 vs IND",
+    "debut_odi": "Jan 2013 vs IND",
+    "debut_t20i": "Sep 2012 vs PAK",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Joe_Root_in_2021.jpg/300px-Joe_Root_in_2021.jpg"
+  },
+  "BA Stokes": {
+    "full_name": "Ben Stokes",
+    "dob": "June 4, 1991",
+    "age": 34,
+    "birthplace": "Christchurch, New Zealand",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "batting_style": "Left-hand bat",
+    "bowling_style": "Right-arm fast-medium",
+    "role": "All-Rounder",
+    "debut_test": "Dec 2013 vs AUS",
+    "debut_odi": "Aug 2011 vs IRL",
+    "debut_t20i": "Jun 2011 vs SL",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Ben_Stokes_in_2019.jpg/300px-Ben_Stokes_in_2019.jpg"
+  },
+  "PJ Cummins": {
+    "full_name": "Pat Cummins",
+    "dob": "May 8, 1993",
+    "age": 32,
+    "birthplace": "Sydney, Australia",
+    "country": "Australia",
+    "iso_code": "AU",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm fast",
+    "role": "Bowler",
+    "debut_test": "Nov 2011 vs SA",
+    "debut_odi": "Sep 2012 vs ZIM",
+    "debut_t20i": "Oct 2011 vs SA",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Pat_Cummins_2019.jpg/300px-Pat_Cummins_2019.jpg"
+  },
+  "SPD Smith": {
+    "full_name": "Steve Smith",
+    "dob": "June 2, 1989",
+    "age": 36,
+    "birthplace": "Kogarah, Australia",
+    "country": "Australia",
+    "iso_code": "AU",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm legbreak",
+    "role": "Batsman",
+    "debut_test": "Jul 2010 vs PAK",
+    "debut_odi": "Feb 2010 vs WI",
+    "debut_t20i": "Feb 2010 vs WI",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Steve_Smith%2C_Adelaide_2014.jpg/300px-Steve_Smith%2C_Adelaide_2014.jpg"
+  },
+  "Babar Azam": {
+    "full_name": "Babar Azam",
+    "dob": "October 15, 1994",
+    "age": 31,
+    "birthplace": "Lahore, Pakistan",
+    "country": "Pakistan",
+    "iso_code": "PK",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm offbreak",
+    "role": "Batsman",
+    "debut_test": "Oct 2016 vs WI",
+    "debut_odi": "May 2015 vs ZIM",
+    "debut_t20i": "Sep 2016 vs WI",
+    "status": "active",
+    "image_url": ""
+  },
+  "Shaheen Shah Afridi": {
+    "full_name": "Shaheen Shah Afridi",
+    "dob": "April 6, 2000",
+    "age": 25,
+    "birthplace": "Khyber Agency, Pakistan",
+    "country": "Pakistan",
+    "iso_code": "PK",
+    "batting_style": "Left-hand bat",
+    "bowling_style": "Left-arm fast",
+    "role": "Bowler",
+    "debut_test": "Nov 2018 vs NZ",
+    "debut_odi": "Jul 2018 vs ZIM",
+    "debut_t20i": "Oct 2019 vs SL",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Shaheen_Shah_Afridi.jpg/300px-Shaheen_Shah_Afridi.jpg"
+  },
+  "KS Williamson": {
+    "full_name": "Kane Williamson",
+    "dob": "August 8, 1990",
+    "age": 35,
+    "birthplace": "Tauranga, New Zealand",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm offbreak",
+    "role": "Batsman",
+    "debut_test": "Nov 2010 vs IND",
+    "debut_odi": "Aug 2010 vs IND",
+    "debut_t20i": "Aug 2010 vs IND",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Kane_Williamson_2015.jpg/300px-Kane_Williamson_2015.jpg"
+  },
+  "K Rabada": {
+    "full_name": "Kagiso Rabada",
+    "dob": "May 25, 1995",
+    "age": 30,
+    "birthplace": "Johannesburg, South Africa",
+    "country": "South Africa",
+    "iso_code": "ZA",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm fast",
+    "role": "Bowler",
+    "debut_test": "Feb 2016 vs ENG",
+    "debut_odi": "Oct 2014 vs AUS",
+    "debut_t20i": "Oct 2014 vs AUS",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kagiso_Rabada_2019.jpg/300px-Kagiso_Rabada_2019.jpg"
+  },
+  "Rashid Khan": {
+    "full_name": "Rashid Khan",
+    "dob": "September 20, 1998",
+    "age": 27,
+    "birthplace": "Nangarhar, Afghanistan",
+    "country": "Afghanistan",
+    "iso_code": "AF",
+    "batting_style": "Right-hand bat",
+    "bowling_style": "Right-arm legbreak",
+    "role": "All-Rounder",
+    "debut_test": "Jun 2018 vs IND",
+    "debut_odi": "Oct 2015 vs ZIM",
+    "debut_t20i": "Oct 2015 vs ZIM",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Rashid_Khan_2019.jpg/300px-Rashid_Khan_2019.jpg"
+  },
+  "Shakib Al Hasan": {
+    "full_name": "Shakib Al Hasan",
+    "dob": "March 24, 1987",
+    "age": 39,
+    "birthplace": "Magura, Bangladesh",
+    "country": "Bangladesh",
+    "iso_code": "BD",
+    "batting_style": "Left-hand bat",
+    "bowling_style": "Left-arm orthodox",
+    "role": "All-Rounder",
+    "debut_test": "Nov 2007 vs IND",
+    "debut_odi": "Aug 2006 vs ZIM",
+    "debut_t20i": "Nov 2006 vs ZIM",
+    "status": "active",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Shakib_Al_Hasan_2019.jpg/300px-Shakib_Al_Hasan_2019.jpg"
+  },
+  "HB Brook": {
+    "full_name": "Harry Brook",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "role": "Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm medium",
+    "image_url": "https://h.cricapi.com/img/players/87e87390-b14f-455b-8526-5eaa19735aed.jpg",
+    "status": "active"
+  },
+  "ZD Crawley": {
+    "full_name": "Zak Crawley",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "role": "Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm medium",
+    "image_url": "https://h.cricapi.com/img/players/53b7aeeb-f966-4398-a1cf-6f29d27d934c.jpg",
+    "status": "active"
+  },
+  "LA Dawson": {
+    "full_name": "Liam Dawson",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "role": "Bowling Allrounder",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Left-arm orthodox",
+    "image_url": "https://h.cricapi.com/img/players/c905128d-cb52-43f8-b0af-a4cc4d022cd0.jpg",
+    "status": "active"
+  },
+  "T Banton": {
+    "full_name": "Tom Banton",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "role": "WK-Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "",
+    "image_url": "https://h.cricapi.com/img/players/6364e591-1f4b-4fe6-867c-ae61ea21f6f0.jpg",
+    "status": "active"
+  },
+  "LW Wood": {
+    "full_name": "Luke Wood",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/fe5f4f96-c207-4e3f-b0d5-cebc74435448.jpg",
+    "status": "active"
+  },
+  "SM Curran": {
+    "full_name": "Sam Curran",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "role": "Bowling Allrounder",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/45613012-5c4f-4a7a-a1c4-d9827939b2bf.jpg",
+    "status": "active"
+  },
+  "JC Buttler": {
+    "full_name": "Jos Buttler",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "role": "WK-Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "",
+    "image_url": "https://h.cricapi.com/img/players/7567e305-1b40-4eee-9290-e2fcb8804496.jpg",
+    "status": "active"
+  },
+  "AU Rashid": {
+    "full_name": "Adil Rashid",
+    "country": "England",
+    "iso_code": "ENGLAND",
+    "role": "Bowler",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm legbreak",
+    "image_url": "https://h.cricapi.com/img/players/a2e40330-ea26-4ad7-a21d-f27a00ba3228.jpg",
+    "status": "active"
+  },
+  "KA Jamieson": {
+    "full_name": "Kyle Jamieson",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "Bowler",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/5673ee27-bf33-44b8-8973-41fd37923fed.jpg",
+    "status": "active"
+  },
+  "MW Bracewell": {
+    "full_name": "Michael Bracewell",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "Batting Allrounder",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm offbreak",
+    "image_url": "https://h.cricapi.com/img/players/f059d7fe-16dc-4065-bcfc-51decb09e58d.jpg",
+    "status": "active"
+  },
+  "MJ Henry": {
+    "full_name": "Matt Henry",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "Bowler",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/36e929d1-32f1-4d41-96c2-7df1364d0bab.jpg",
+    "status": "active"
+  },
+  "Rachin Ravindra": {
+    "full_name": "Rachin Ravindra",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "Batting Allrounder",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm orthodox",
+    "image_url": "https://h.cricapi.com/img/players/e6d28951-8524-43ca-95cf-9e73ae68bc12.jpg",
+    "status": "active"
+  },
+  "MW Chapman": {
+    "full_name": "Mark Chapman",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "Batsman",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm orthodox",
+    "image_url": "https://h.cricapi.com/img/players/b5208054-8543-482d-9d83-a9f0a3bbfada.jpg",
+    "status": "active"
+  },
+  "JC Duffy": {
+    "full_name": "Jacob Duffy",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "Bowler",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/6e05cbea-6a4b-42ef-8e2e-b44e4b434c2f.jpg",
+    "status": "active"
+  },
+  "TA Seifert": {
+    "full_name": "Tim Seifert",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "WK-Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "",
+    "image_url": "https://h.cricapi.com/img/players/812fc568-a932-4f29-a1c4-b7c929e6a248.jpg",
+    "status": "active"
+  },
+  "MJ Santner": {
+    "full_name": "Mitchell Santner",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "Bowling Allrounder",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm orthodox",
+    "image_url": "https://h.cricapi.com/img/players/16ec245b-022d-4104-bd8f-ccc780428390.jpg",
+    "status": "active"
+  },
+  "DJ Mitchell": {
+    "full_name": "Daryl Mitchell",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "Batting Allrounder",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm medium",
+    "image_url": "https://h.cricapi.com/img/players/f75212f8-37fb-4cf0-8f37-d681b4cb66b2.jpg",
+    "status": "active"
+  },
+  "DS Conway": {
+    "full_name": "Devon Conway",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "WK-Batsman",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm medium",
+    "image_url": "https://h.cricapi.com/img/players/eac0032b-055a-497b-9d4e-f54008414515.jpg",
+    "status": "active"
+  },
+  "JDS Neesham": {
+    "full_name": "James Neesham",
+    "country": "New Zealand",
+    "iso_code": "NZ",
+    "role": "Batting Allrounder",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/f8fdffff-13a9-4c84-939d-f5db814519cc.jpg",
+    "status": "active"
+  },
+  "Hasan Mahmud": {
+    "full_name": "Hasan Mahmud",
+    "country": "Bangladesh",
+    "iso_code": "BD",
+    "role": "Bowler",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/6177f30d-6d67-4f53-b014-3c41eb8cb757-637955581054240980.png",
+    "status": "active"
+  },
+  "Taskin Ahmed": {
+    "full_name": "Taskin Ahmed",
+    "country": "Bangladesh",
+    "iso_code": "BD",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm fast",
+    "image_url": "https://h.cricapi.com/img/players/9b19bd38-a54b-4071-b1e1-8ad78743235f.jpg",
+    "status": "active"
+  },
+  "Mustafizur Rahman": {
+    "full_name": "Mustafizur Rahman",
+    "country": "Bangladesh",
+    "iso_code": "BD",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/4a0a483d-de7f-4313-b2ed-8eceb3d8bb45.jpg",
+    "status": "active"
+  },
+  "Mehidy Hasan": {
+    "full_name": "Mehidy Hasan Miraz",
+    "country": "Bangladesh",
+    "iso_code": "BD",
+    "role": "Bowling Allrounder",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm offbreak",
+    "image_url": "https://h.cricapi.com/img/players/218cc9f0-91f3-4927-af4a-a4601336d545.jpg",
+    "status": "active"
+  },
+  "Nurul Hasan": {
+    "full_name": "Nurul Hasan",
+    "country": "Bangladesh",
+    "iso_code": "BD",
+    "role": "WK-Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "",
+    "image_url": "https://h.cricapi.com/img/players/e0cee753-5f0b-4fa9-8ff6-a7f8addbc883.jpg",
+    "status": "active"
+  },
+  "Soumya Sarkar": {
+    "full_name": "Soumya Sarkar",
+    "country": "Bangladesh",
+    "iso_code": "BD",
+    "role": "Batsman",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm medium",
+    "image_url": "https://h.cricapi.com/img/players/2097f94e-8074-41c5-8c6b-de1c76ec129f.jpg",
+    "status": "active"
+  },
+  "R Shepherd": {
+    "full_name": "Romario Shepherd",
+    "country": "West Indies",
+    "iso_code": "WI",
+    "role": "Bowling Allrounder",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/7fd4fa20-bc49-4337-ae8a-540b67cb011d.jpg",
+    "status": "active"
+  },
+  "AL Athanaze": {
+    "full_name": "Alick Athanaze",
+    "country": "West Indies",
+    "iso_code": "WI",
+    "role": "Batsman",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm offbreak",
+    "image_url": "https://h.cricapi.com/img/players/63ea49da-8242-4cc5-a918-747a9db877b1.jpg",
+    "status": "active"
+  },
+  "SR Rutherford": {
+    "full_name": "Sherfane Rutherford",
+    "country": "West Indies",
+    "iso_code": "WI",
+    "role": "Batting Allrounder",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/c978ce48-495b-4773-89c9-8a64d0257896.jpg",
+    "status": "active"
+  },
+  "JN Seales": {
+    "full_name": "Jayden Seales",
+    "country": "West Indies",
+    "iso_code": "WI",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm medium",
+    "image_url": "https://h.cricapi.com/img/players/47ef7e3e-5808-49a8-934d-8d98b7889d28.jpg",
+    "status": "active"
+  },
+  "SD Hope": {
+    "full_name": "Shai Hope",
+    "country": "West Indies",
+    "iso_code": "WI",
+    "role": "WK-Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "",
+    "image_url": "https://h.cricapi.com/img/players/e5790c27-c428-4de8-82f7-d69a5452923e.jpg",
+    "status": "active"
+  },
+  "RL Chase": {
+    "full_name": "Roston Chase",
+    "country": "West Indies",
+    "iso_code": "WI",
+    "role": "Bowling Allrounder",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm offbreak",
+    "image_url": "https://h.cricapi.com/img/players/90173068-f2ad-4278-b10c-dc5749bca0d3.jpg",
+    "status": "active"
+  },
+  "BR King": {
+    "full_name": "Brandon King",
+    "country": "West Indies",
+    "iso_code": "WI",
+    "role": "Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "",
+    "image_url": "https://h.cricapi.com/img/players/444e0a55-ec85-4ee1-9557-f1a51a96a7d5.jpg",
+    "status": "active"
+  },
+  "MR Marsh": {
+    "full_name": "Mitchell Marsh",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Batting Allrounder",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/6eaac800-13e7-4a07-8ee2-14acd04cc53f.jpg",
+    "status": "active"
+  },
+  "M Labuschagne": {
+    "full_name": "Marnus Labuschagne",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm legbreak",
+    "image_url": "https://h.cricapi.com/img/players/80e6923c-5773-4292-a4c7-20fcf48bb8c7.jpg",
+    "status": "active"
+  },
+  "XC Bartlett": {
+    "full_name": "Xavier Bartlett",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Bowler",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/cba19be9-7aec-4083-ba61-26f0aee31721.jpg",
+    "status": "active"
+  },
+  "MT Renshaw": {
+    "full_name": "Matt Renshaw",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Batsman",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm offbreak",
+    "image_url": "https://h.cricapi.com/img/players/884c5915-5e62-4cef-9b78-2c18261c051c.jpg",
+    "status": "active"
+  },
+  "BCJ Dwarshuis": {
+    "full_name": "Ben Dwarshuis",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/388b664b-de80-4290-ab82-420873293b91.jpg",
+    "status": "active"
+  },
+  "MA Starc": {
+    "full_name": "Mitchell Starc",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm fast",
+    "image_url": "https://h.cricapi.com/img/players/bceb7084-1dda-4d76-b691-43c5a29d39a7.jpg",
+    "status": "active"
+  },
+  "MS Short": {
+    "full_name": "Matthew Short",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm offbreak",
+    "image_url": "https://h.cricapi.com/img/players/b55e1386-231c-4d40-9f6a-4d5a9512079c.jpg",
+    "status": "active"
+  },
+  "MJ Kuhnemann": {
+    "full_name": "Matthew Kuhnemann",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm orthodox",
+    "image_url": "https://h.cricapi.com/img/players/23295fca-e9a4-472a-ac3c-82bc79c3b5bd.jpg",
+    "status": "active"
+  },
+  "JR Hazlewood": {
+    "full_name": "Josh Hazlewood",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/2190c28d-1712-4fd2-ae44-9ac54319fc21.jpg",
+    "status": "active"
+  },
+  "JR Philippe": {
+    "full_name": "Josh Philippe",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "WK-Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "",
+    "image_url": "https://h.cricapi.com/img/players/d5efbba6-8c15-44aa-9476-b01f8202f29d.jpg",
+    "status": "active"
+  },
+  "TM Head": {
+    "full_name": "Travis Head",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Batsman",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm offbreak",
+    "image_url": "https://h.cricapi.com/img/players/d6720897-e81d-4703-bf33-d2b60c973d30.jpg",
+    "status": "active"
+  },
+  "NJ Ellis": {
+    "full_name": "Nathan Ellis",
+    "country": "Australia",
+    "iso_code": "AU",
+    "role": "Bowler",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/6731db45-8132-49c6-8fcb-f59258d15082.jpg",
+    "status": "active"
+  },
+  "Arshdeep Singh": {
+    "full_name": "Arshdeep Singh",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm fast-medium",
+    "image_url": "https://h.cricapi.com/img/players/607ff10c-5619-411d-a822-06ba28992230.jpg",
+    "status": "active"
+  },
+  "Mohammed Siraj": {
+    "full_name": "Mohammed Siraj",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "Bowler",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast",
+    "image_url": "https://h.cricapi.com/img/players/2a8d8640-2213-4cf6-ac7e-309d8b733e96.jpg",
+    "status": "active"
+  },
+  "AR Patel": {
+    "full_name": "Axar Patel",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "Bowling Allrounder",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm orthodox",
+    "image_url": "https://h.cricapi.com/img/players/670ae8ac-4fe9-4f0c-84ee-320b13039f34.jpg",
+    "status": "active"
+  },
+  "SB Gill": {
+    "full_name": "Shubman Gill",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm offbreak",
+    "image_url": "https://h.cricapi.com/img/players/7263e990-a9e9-4829-8adf-760d18d1315c.jpg",
+    "status": "active"
+  },
+  "YBK Jaiswal": {
+    "full_name": "Yashasvi Jaiswal",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "Batsman",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm legbreak",
+    "image_url": "https://h.cricapi.com/img/players/a254feed-0d7c-4f04-a2ab-7bf9ceef156b.jpg",
+    "status": "active"
+  },
+  "Kuldeep Yadav": {
+    "full_name": "Kuldeep Yadav",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "Bowler",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Left-arm wrist-spin",
+    "image_url": "https://h.cricapi.com/img/players/1e651cfb-57f1-48da-bf9d-83cbff1733d1.jpg",
+    "status": "active"
+  },
+  "DI Jurel": {
+    "full_name": "Dhruv Jurel",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "WK-Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "",
+    "image_url": "https://h.cricapi.com/img/players/21d693c2-b4dd-4d24-b747-90dfc8357ef5.jpg",
+    "status": "active"
+  },
+  "W Sundar": {
+    "full_name": "Washington Sundar",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "Bowling Allrounder",
+    "batting_style": "Left Handed Bat",
+    "bowling_style": "Right-arm offbreak",
+    "image_url": "https://h.cricapi.com/img/players/309d3ffd-3d06-460d-9427-c559a604d471.jpg",
+    "status": "active"
+  },
+  "P Krishna": {
+    "full_name": "Prasidh Krishna",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "Bowler",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm fast",
+    "image_url": "https://h.cricapi.com/img/players/99eb6b5c-379f-46da-bab7-dc8fd31ba435.jpg",
+    "status": "active"
+  },
+  "SS Iyer": {
+    "full_name": "Shreyas Iyer",
+    "country": "India",
+    "iso_code": "IN",
+    "role": "Batsman",
+    "batting_style": "Right Handed Bat",
+    "bowling_style": "Right-arm legbreak",
+    "image_url": "https://h.cricapi.com/img/players/77791963-6c1b-4979-b07a-f910dee28cd9.jpg",
+    "status": "active"
+  },
+  "SR Tendulkar": {
+    "country": "India",
+    "role": "Batsman",
+    "iso_code": "IN",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Sachin_Tendulkar_at_the_2012_Australian_Open.jpg/300px-Sachin_Tendulkar_at_the_2012_Australian_Open.jpg",
+    "aliases": [],
+    "full_name": "Sachin Tendulkar",
+    "wiki_name": "Sachin_Tendulkar"
+  },
+  "OJ Pope": {
+    "country": "England",
+    "role": "Wicketkeeper",
+    "iso_code": "GB-ENG",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Ollie_Pope_%28cricketer%29.jpg/300px-Ollie_Pope_%28cricketer%29.jpg",
+    "aliases": [],
+    "full_name": "Ollie Pope",
+    "wiki_name": "Ollie_Pope"
+  },
+  "R Dravid": {
+    "country": "India",
+    "role": "Batsman",
+    "iso_code": "IN",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Rahul_Dravid.jpg/300px-Rahul_Dravid.jpg",
+    "aliases": [],
+    "full_name": "Rahul Dravid",
+    "wiki_name": "Rahul_Dravid"
+  },
+  "MJ Guptill": {
+    "country": "New Zealand",
+    "role": "Batsman",
+    "iso_code": "NZ",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Martin Guptill",
+    "wiki_name": "Martin_Guptill"
+  },
+  "AJ Finch": {
+    "country": "Australia",
+    "role": "Batsman",
+    "iso_code": "AU",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Aaron Finch",
+    "wiki_name": "Aaron_Finch_(cricketer)"
+  },
+  "Q de Kock": {
+    "country": "South Africa",
+    "role": "Wicketkeeper",
+    "iso_code": "ZA",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Quinton de Kock",
+    "wiki_name": "Quinton_de_Kock"
+  },
+  "Virandeep Singh": {
+    "country": "Malaysia",
+    "role": "Bowler",
+    "iso_code": "MY",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Virandeep Singh"
+  },
+  "Imam-ul-Haq": {
+    "country": "Pakistan",
+    "role": "Batsman",
+    "iso_code": "PK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Imam-ul-Haq",
+    "wiki_name": "Imam-ul-Haq"
+  },
+  "GJ Maxwell": {
+    "country": "Australia",
+    "role": "All-Rounder",
+    "iso_code": "AU",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Glenn Maxwell",
+    "wiki_name": "Glenn_Maxwell"
+  },
+  "DA Miller": {
+    "country": "South Africa",
+    "role": "Batsman",
+    "iso_code": "ZA",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "David Miller",
+    "wiki_name": "David_Miller_(cricketer)"
+  },
+  "Sikandar Raza": {
+    "country": "Zimbabwe",
+    "role": "All-Rounder",
+    "iso_code": "ZW",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Sikandar Raza",
+    "wiki_name": "Sikandar_Raza"
+  },
+  "JL Langer": {
+    "country": "Australia",
+    "role": "Batsman",
+    "iso_code": "AU",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Justin Langer",
+    "wiki_name": "Justin_Langer"
+  },
+  "P Nissanka": {
+    "country": "Sri Lanka",
+    "role": "Batsman",
+    "iso_code": "LK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Pathum Nissanka",
+    "wiki_name": "Pathum_Nissanka"
+  },
+  "RR Hendricks": {
+    "country": "South Africa",
+    "role": "Batsman",
+    "iso_code": "ZA",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Reeza Hendricks",
+    "wiki_name": "Reeza_Hendricks"
+  },
+  "SC Ganguly": {
+    "country": "India",
+    "role": "Batsman",
+    "iso_code": "IN",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Sourav Ganguly",
+    "wiki_name": "Sourav_Ganguly"
+  },
+  "EJG Morgan": {
+    "country": "England",
+    "role": "Batsman",
+    "iso_code": "GB-ENG",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Eoin Morgan",
+    "wiki_name": "Eoin_Morgan"
+  },
+  "Syed Aziz": {
+    "country": "Malaysia",
+    "role": "Batsman",
+    "iso_code": "MY",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Syed Aziz"
+  },
+  "BKG Mendis": {
+    "country": "Sri Lanka",
+    "role": "Batsman",
+    "iso_code": "LK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Bhanuka Rajapaksa",
+    "wiki_name": "Bhanuka_Rajapaksa"
+  },
+  "Mohammad Hafeez": {
+    "country": "Pakistan",
+    "role": "All-Rounder",
+    "iso_code": "PK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Mohammad Hafeez",
+    "wiki_name": "Mohammad_Hafeez"
+  },
+  "Liton Das": {
+    "country": "Bangladesh",
+    "role": "Wicketkeeper",
+    "iso_code": "BD",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Liton Das",
+    "wiki_name": "Liton_Das"
+  },
+  "Shoaib Malik": {
+    "country": "Pakistan",
+    "role": "All-Rounder",
+    "iso_code": "PK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Shoaib Malik",
+    "wiki_name": "Shoaib_Malik"
+  },
+  "Fakhar Zaman": {
+    "country": "Pakistan",
+    "role": "Batsman",
+    "iso_code": "PK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Fakhar Zaman",
+    "wiki_name": "Fakhar_Zaman"
+  },
+  "HG Munsey": {
+    "country": "Scotland",
+    "role": "Batsman",
+    "iso_code": "GB-SCT",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "HG Munsey"
+  },
+  "MDKJ Perera": {
+    "country": "Sri Lanka",
+    "role": "Batsman",
+    "iso_code": "LK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "MDKJ Perera"
+  },
+  "MP O'Dowd": {
+    "country": "Netherlands",
+    "role": "Batsman",
+    "iso_code": "NL",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "MP O'Dowd"
+  },
+  "Nizakat Khan": {
+    "country": "Hong Kong",
+    "role": "Batsman",
+    "iso_code": "HK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Nizakat Khan"
+  },
+  "R Powell": {
+    "country": "West Indies",
+    "role": "Batsman",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Rovman Powell",
+    "wiki_name": "Rovman_Powell"
+  },
+  "TL Seifert": {
+    "country": "New Zealand",
+    "role": "Wicketkeeper",
+    "iso_code": "NZ",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Tim Seifert",
+    "wiki_name": "Tim_Seifert"
+  },
+  "GD Phillips": {
+    "country": "New Zealand",
+    "role": "Batsman",
+    "iso_code": "NZ",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Glenn Phillips",
+    "wiki_name": "Glenn_Phillips"
+  },
+  "Mahmudullah": {
+    "country": "Bangladesh",
+    "role": "All-Rounder",
+    "iso_code": "BD",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Mahmudullah",
+    "wiki_name": "Mahmudullah"
+  },
+  "N Pooran": {
+    "country": "West Indies",
+    "role": "Wicketkeeper",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Nicholas Pooran",
+    "wiki_name": "Nicholas_Pooran"
+  },
+  "BB McCullum": {
+    "country": "New Zealand",
+    "role": "Wicketkeeper",
+    "iso_code": "NZ",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Brendon McCullum",
+    "wiki_name": "Brendon_McCullum"
+  },
+  "Babar Hayat": {
+    "country": "Hong Kong",
+    "role": "Batsman",
+    "iso_code": "HK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Babar Hayat"
+  },
+  "JK Silva": {
+    "country": "Sri Lanka",
+    "role": "Batsman",
+    "iso_code": "LK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "JK Silva"
+  },
+  "DS Airee": {
+    "country": "Nepal",
+    "role": "Batsman",
+    "iso_code": "NP",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "DS Airee"
+  },
+  "A Balbirnie": {
+    "country": "Ireland",
+    "role": "Batsman",
+    "iso_code": "IE",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Andrew Balbirnie",
+    "wiki_name": "Andrew_Balbirnie"
+  },
+  "MS Atapattu": {
+    "country": "Sri Lanka",
+    "role": "Batsman",
+    "iso_code": "LK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "MS Atapattu"
+  },
+  "AD Hales": {
+    "country": "England",
+    "role": "Batsman",
+    "iso_code": "GB-ENG",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Alex Hales",
+    "wiki_name": "Alex_Hales"
+  },
+  "CJL Rogers": {
+    "country": "Australia",
+    "role": "Batsman",
+    "iso_code": "AU",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Chris Rogers",
+    "wiki_name": "Chris_Rogers_(cricketer)"
+  },
+  "RD Berrington": {
+    "country": "Scotland",
+    "role": "Batsman",
+    "iso_code": "GB-SCT",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Richie Berrington",
+    "wiki_name": "Richie_Berrington"
+  },
+  "LRPL Taylor": {
+    "country": "New Zealand",
+    "role": "Batsman",
+    "iso_code": "NZ",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Ross Taylor",
+    "wiki_name": "Ross_Taylor"
+  },
+  "S Sesazi": {
+    "country": "Zimbabwe",
+    "role": "Bowler",
+    "iso_code": "ZW",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "S Sesazi"
+  },
+  "AK Markram": {
+    "country": "South Africa",
+    "role": "Batsman",
+    "iso_code": "ZA",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Aiden Markram",
+    "wiki_name": "Aiden_Markram"
+  },
+  "MS Chapman": {
+    "country": "New Zealand",
+    "role": "Batsman",
+    "iso_code": "NZ",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Mark Chapman",
+    "wiki_name": "Mark_Chapman_(cricketer)"
+  },
+  "CH Gayle": {
+    "country": "West Indies",
+    "role": "Batsman",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Chris Gayle",
+    "wiki_name": "Chris_Gayle_(cricketer)"
+  },
+  "Anshuman Rath": {
+    "country": "Hong Kong",
+    "role": "Batsman",
+    "iso_code": "HK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Anshuman Rath"
+  },
+  "Inzamam-ul-Haq": {
+    "country": "Pakistan",
+    "role": "Batsman",
+    "iso_code": "PK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Inzamam-ul-Haq",
+    "wiki_name": "Inzamam-ul-Haq"
+  },
+  "MD Shanaka": {
+    "country": "Sri Lanka",
+    "role": "All-Rounder",
+    "iso_code": "LK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Dasun Shanaka",
+    "wiki_name": "Dasun_Shanaka"
+  },
+  "JP Duminy": {
+    "country": "South Africa",
+    "role": "All-Rounder",
+    "iso_code": "ZA",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "JP Duminy",
+    "wiki_name": "JP_Duminy"
+  },
+  "Sohail Ahmed": {
+    "country": "Bahrain",
+    "role": "Batsman",
+    "iso_code": "BH",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Sohail Ahmed"
+  },
+  "BC Lara": {
+    "country": "West Indies",
+    "role": "Batsman",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Brian Lara",
+    "wiki_name": "Brian_Lara"
+  },
+  "DJ Malan": {
+    "country": "England",
+    "role": "Batsman",
+    "iso_code": "GB-ENG",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Dawid Malan",
+    "wiki_name": "Dawid_Malan"
+  },
+  "K Bhurtel": {
+    "country": "Nepal",
+    "role": "Batsman",
+    "iso_code": "NP",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Kushal Bhurtel",
+    "wiki_name": "Kushal_Bhurtel"
+  },
+  "MG Erasmus": {
+    "country": "Namibia",
+    "role": "Batsman",
+    "iso_code": "NA",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "MG Erasmus"
+  },
+  "BA King": {
+    "country": "West Indies",
+    "role": "Batsman",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Brandon King",
+    "wiki_name": "Brandon_King_(cricketer)"
+  },
+  "Azhar Ali": {
+    "country": "Pakistan",
+    "role": "Batsman",
+    "iso_code": "PK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Azhar Ali",
+    "wiki_name": "Azhar_Ali"
+  },
+  "NT Paranavitana": {
+    "country": "Sri Lanka",
+    "role": "Batsman",
+    "iso_code": "LK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "NT Paranavitana"
+  },
+  "RJ Burns": {
+    "country": "England",
+    "role": "Batsman",
+    "iso_code": "GB-ENG",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "RJ Burns"
+  },
+  "BJ Bennett": {
+    "country": "Zimbabwe",
+    "role": "Batsman",
+    "iso_code": "ZW",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "BJ Bennett"
+  },
+  "Asif Ali": {
+    "country": "Pakistan",
+    "role": "Batsman",
+    "iso_code": "PK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Asif Ali",
+    "wiki_name": "Asif_Ali_(cricketer)"
+  },
+  "Ahmed Faiz": {
+    "country": "Malaysia",
+    "role": "Batsman",
+    "iso_code": "MY",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Ahmed Faiz"
+  },
+  "S Dhawan": {
+    "country": "India",
+    "role": "Batsman",
+    "iso_code": "IN",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Shikhar Dhawan",
+    "wiki_name": "Shikhar_Dhawan"
+  },
+  "TM Dilshan": {
+    "country": "Sri Lanka",
+    "role": "Batsman",
+    "iso_code": "LK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Tillakaratne Dilshan",
+    "wiki_name": "Tillakaratne_Dilshan"
+  },
+  "Yousuf Youhana": {
+    "country": "Pakistan",
+    "role": "Batsman",
+    "iso_code": "PK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Mohammad Yousuf",
+    "wiki_name": "Mohammad_Yousuf"
+  },
+  "C Munro": {
+    "country": "New Zealand",
+    "role": "Batsman",
+    "iso_code": "NZ",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Colin Munro",
+    "wiki_name": "Colin_Munro_(cricketer)"
+  },
+  "RP Burl": {
+    "country": "Zimbabwe",
+    "role": "Batsman",
+    "iso_code": "ZW",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "RP Burl"
+  },
+  "PD Salt": {
+    "country": "England",
+    "role": "Wicketkeeper",
+    "iso_code": "GB-ENG",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Phil Salt",
+    "wiki_name": "Phil_Salt"
+  },
+  "Aasif Sheikh": {
+    "country": "Nepal",
+    "role": "Wicketkeeper",
+    "iso_code": "NP",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Aasif Sheikh"
+  },
+  "RR Patel": {
+    "country": "Kenya",
+    "role": "Batsman",
+    "iso_code": "KE",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "RR Patel"
+  },
+  "A Sharafu": {
+    "country": "UAE",
+    "role": "Batsman",
+    "iso_code": "AE",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "A Sharafu"
+  },
+  "Umar Akmal": {
+    "country": "Pakistan",
+    "role": "Wicketkeeper",
+    "iso_code": "PK",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Umar Akmal",
+    "wiki_name": "Umar_Akmal"
+  },
+  "Karanbir Singh": {
+    "country": "Austria",
+    "role": "Batsman",
+    "iso_code": "AT",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Karanbir Singh"
+  },
+  "JM Bairstow": {
+    "country": "England",
+    "role": "Wicketkeeper",
+    "iso_code": "GB-ENG",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Jonny Bairstow",
+    "wiki_name": "Jonny_Bairstow"
+  },
+  "FH Allen": {
+    "country": "New Zealand",
+    "role": "All-Rounder",
+    "iso_code": "NZ",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Finn Allen",
+    "wiki_name": "Finn_Allen"
+  },
+  "W Jaffer": {
+    "country": "India",
+    "role": "Batsman",
+    "iso_code": "IN",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Wasim Jaffer",
+    "wiki_name": "Wasim_Jaffer"
+  },
+  "RK Paudel": {
+    "country": "Nepal",
+    "role": "Batsman",
+    "iso_code": "NP",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Rohit Paudel",
+    "wiki_name": "Rohit_Paudel"
+  },
+  "Tamim Iqbal": {
+    "country": "Bangladesh",
+    "role": "Batsman",
+    "iso_code": "BD",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Tamim Iqbal",
+    "wiki_name": "Tamim_Iqbal"
+  },
+  "HT Tector": {
+    "country": "Ireland",
+    "role": "Batsman",
+    "iso_code": "IE",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Harry Tector",
+    "wiki_name": "Harry_Tector"
+  },
+  "SC Williams": {
+    "country": "Zimbabwe",
+    "role": "Batsman",
+    "iso_code": "ZW",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "SC Williams"
+  },
+  "E Lewis": {
+    "country": "West Indies",
+    "role": "Batsman",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Evin Lewis",
+    "wiki_name": "Evin_Lewis"
+  },
+  "TH David": {
+    "country": "Singapore",
+    "role": "Batsman",
+    "iso_code": "SG",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Tim David",
+    "wiki_name": "Tim_David"
+  },
+  "AB de Villiers": {
+    "country": "South Africa",
+    "role": "Batsman",
+    "iso_code": "ZA",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "AB de Villiers",
+    "wiki_name": "AB_de_Villiers"
+  },
+  "MS Dhoni": {
+    "country": "India",
+    "role": "Wicketkeeper",
+    "iso_code": "IN",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "MS Dhoni",
+    "wiki_name": "MS_Dhoni"
+  },
+  "KJ O'Brien": {
+    "country": "Ireland",
+    "role": "All-Rounder",
+    "iso_code": "IE",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Kevin O'Brien",
+    "wiki_name": "Kevin_O%27Brien"
+  },
+  "Riazat Ali Shah": {
+    "country": "Afghanistan",
+    "role": "Batsman",
+    "iso_code": "AF",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Riazat Ali Shah"
+  },
+  "SK Raina": {
+    "country": "India",
+    "role": "Batsman",
+    "iso_code": "IN",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Suresh Raina",
+    "wiki_name": "Suresh_Raina"
+  },
+  "SO Dowrich": {
+    "country": "West Indies",
+    "role": "Wicketkeeper",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "SO Dowrich"
+  },
+  "KA Pollard": {
+    "country": "West Indies",
+    "role": "All-Rounder",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Kieron Pollard",
+    "wiki_name": "Kieron_Pollard"
+  },
+  "JJ Roy": {
+    "country": "England",
+    "role": "Batsman",
+    "iso_code": "GB-ENG",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Jason Roy",
+    "wiki_name": "Jason_Roy"
+  },
+  "R Sandaruwan": {
+    "country": "Kuwait",
+    "role": "Batsman",
+    "iso_code": "KW",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "R Sandaruwan"
+  },
+  "L Tucker": {
+    "country": "Ireland",
+    "role": "Wicketkeeper",
+    "iso_code": "IE",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "L Tucker"
+  },
+  "Fiaz Ahmed": {
+    "country": "Bahrain",
+    "role": "Batsman",
+    "iso_code": "BH",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Fiaz Ahmed"
+  },
+  "SO Hetmyer": {
+    "country": "West Indies",
+    "role": "Batsman",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Shimron Hetmyer",
+    "wiki_name": "Shimron_Hetmyer"
+  },
+  "F du Plessis": {
+    "country": "South Africa",
+    "role": "Batsman",
+    "iso_code": "ZA",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Faf du Plessis",
+    "wiki_name": "Faf_du_Plessis"
+  },
+  "LMP Simmons": {
+    "country": "West Indies",
+    "role": "Batsman",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "LMP Simmons"
+  },
+  "Jatinder Singh": {
+    "country": "Oman",
+    "role": "Batsman",
+    "iso_code": "OM",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Jatinder Singh"
+  },
+  "MN Samuels": {
+    "country": "West Indies",
+    "role": "All-Rounder",
+    "iso_code": "WI",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Marlon Samuels",
+    "wiki_name": "Marlon_Samuels"
+  },
+  "SR Watson": {
+    "country": "Australia",
+    "role": "All-Rounder",
+    "iso_code": "AU",
+    "image_url": "",
+    "aliases": [],
+    "full_name": "Shane Watson",
+    "wiki_name": "Shane_Watson"
+  }
+}

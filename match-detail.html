@@ -1409,7 +1409,7 @@
             </div>
 
             <!-- Batting -->
-            <table class="scorecard-table">
+            <table id="innings1-batting" class="scorecard-table">
               <thead>
                 <tr>
                   <th>Batter</th>
@@ -1497,7 +1497,7 @@
               <div class="innings-label" style="background:var(--surface-2);">
                 <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia — Bowling</span>
               </div>
-              <table class="scorecard-table">
+              <table id="innings1-bowling" class="scorecard-table">
                 <thead>
                   <tr>
                     <th>Bowler</th>
@@ -1575,7 +1575,7 @@
               <span class="innings-total">143 / 6 &nbsp;(15.0 ov)</span>
             </div>
 
-            <table class="scorecard-table">
+            <table id="innings2-batting" class="scorecard-table">
               <thead>
                 <tr>
                   <th>Batter</th>
@@ -1691,7 +1691,7 @@
               <div class="innings-label" style="background:var(--surface-2);">
                 <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India — Bowling</span>
               </div>
-              <table class="scorecard-table">
+              <table id="innings2-bowling" class="scorecard-table">
                 <thead>
                   <tr>
                     <th>Bowler</th>
@@ -2155,8 +2155,8 @@
     }
 
     // Tab switching
-    const tabs = document.querySelectorAll('.match-tab');
-    const panels = document.querySelectorAll('.tab-panel');
+    var tabs = document.querySelectorAll('.match-tab');
+    var panels = document.querySelectorAll('.tab-panel');
 
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
