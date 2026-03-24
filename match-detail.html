@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>India vs Australia — Match Detail · Cricklytics</title>
-  <link rel="icon" type="image/png" href="img1.png" />
+  <title>India vs Australia — Match Detail · Criclytics</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
@@ -1119,11 +1119,8 @@
 ════════════════════════════════════════ -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <div class="nav-logo-icon">
-        <img src="img1.png" alt="Cricklytics" style="width:22px;height:22px;object-fit:contain;"
-          onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
-      </div>
-      <span class="nav-logo-text">Cricket<span>lytics</span></span>
+      <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Cric<span>lytics</span></span>
     </a>
 
     <div class="nav-search-wrap">
@@ -1180,9 +1177,9 @@
 
           <!-- India -->
           <div class="scoreboard-team batting">
-            <span class="scoreboard-flag">🇮🇳</span>
-            <div class="scoreboard-name">India</div>
-            <div class="scoreboard-score">187 / 4</div>
+            <span class="scoreboard-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></span>
+            <div class="scoreboard-name" id="team1Name">India</div>
+            <div class="scoreboard-score" id="team1Score">187 / 4</div>
             <div class="scoreboard-overs">18.2 overs</div>
             <div class="scoreboard-crr">CRR: 10.20</div>
           </div>
@@ -1205,9 +1202,9 @@
 
           <!-- Australia -->
           <div class="scoreboard-team not-batting">
-            <span class="scoreboard-flag">🇦🇺</span>
-            <div class="scoreboard-name">Australia</div>
-            <div class="scoreboard-score">143 / 6</div>
+            <span class="scoreboard-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></span>
+            <div class="scoreboard-name" id="team2Name">Australia</div>
+            <div class="scoreboard-score" id="team2Score">143 / 6</div>
             <div class="scoreboard-overs">15.0 overs</div>
             <div class="scoreboard-crr">CRR: 9.53</div>
           </div>
@@ -1218,7 +1215,7 @@
       <!-- Chase bar -->
       <div class="chase-bar-wrap">
         <div class="chase-bar-labels">
-          <span>🇦🇺 Australia 143/6</span>
+          <span><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia 143/6</span>
           <span>Need 45 off 30 balls</span>
           <span>Target 188</span>
         </div>
@@ -1407,7 +1404,7 @@
           <div class="section-card">
             <div class="innings-label">
               <span class="match-format-badge">T20I</span>
-              <span class="innings-label-text">🇮🇳 India — 1st Innings</span>
+              <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India — 1st Innings</span>
               <span class="innings-total">187 / 4 &nbsp;(18.2 ov)</span>
             </div>
 
@@ -1498,7 +1495,7 @@
             <!-- Bowling -->
             <div class="bowling-section">
               <div class="innings-label" style="background:var(--surface-2);">
-                <span class="innings-label-text">🇦🇺 Australia — Bowling</span>
+                <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia — Bowling</span>
               </div>
               <table class="scorecard-table">
                 <thead>
@@ -1573,7 +1570,7 @@
           <div class="section-card">
             <div class="innings-label">
               <span class="match-format-badge">T20I</span>
-              <span class="innings-label-text">🇦🇺 Australia — 2nd Innings <span
+              <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia — 2nd Innings <span
                   style="color:var(--green-live);font-size:0.72rem;margin-left:0.5rem;font-weight:700;">LIVE</span></span>
               <span class="innings-total">143 / 6 &nbsp;(15.0 ov)</span>
             </div>
@@ -1692,7 +1689,7 @@
             <!-- India Bowling -->
             <div class="bowling-section">
               <div class="innings-label" style="background:var(--surface-2);">
-                <span class="innings-label-text">🇮🇳 India — Bowling</span>
+                <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India — Bowling</span>
               </div>
               <table class="scorecard-table">
                 <thead>
@@ -1816,7 +1813,7 @@
             </div>
             <div class="h2h-grid">
               <div class="h2h-team">
-                <span class="h2h-team-name">🇮🇳 India</span>
+                <span class="h2h-team-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India</span>
                 <span class="h2h-team-wins">18</span>
                 <span class="h2h-team-winpct">wins · 58.0%</span>
               </div>
@@ -1825,7 +1822,7 @@
                 <span>total matches</span>
               </div>
               <div class="h2h-team right">
-                <span class="h2h-team-name">Australia 🇦🇺</span>
+                <span class="h2h-team-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia</span>
                 <span class="h2h-team-wins">13</span>
                 <span class="h2h-team-winpct">wins · 42.0%</span>
               </div>
@@ -1930,7 +1927,7 @@
               <div class="insight-card-title">Key Players to Watch</div>
             </div>
             <a href="player-profile.html" class="key-player-row">
-              <div class="key-player-avatar">🇮🇳</div>
+              <div class="key-player-avatar" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               <div class="key-player-info">
                 <div class="key-player-name">Virat Kohli</div>
                 <div class="key-player-stat">Avg 52.4 at Wankhede · 3 fifties in last 4 T20Is vs AUS</div>
@@ -1938,7 +1935,7 @@
               <div class="key-player-prob">68%</div>
             </a>
             <a href="player-profile.html" class="key-player-row">
-              <div class="key-player-avatar">🇦🇺</div>
+              <div class="key-player-avatar" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               <div class="key-player-info">
                 <div class="key-player-name">Glenn Maxwell</div>
                 <div class="key-player-stat">44% chance of 30+ · Key finisher in chase situations</div>
@@ -1946,7 +1943,7 @@
               <div class="key-player-prob">44%</div>
             </a>
             <a href="player-profile.html" class="key-player-row">
-              <div class="key-player-avatar">🇮🇳</div>
+              <div class="key-player-avatar" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               <div class="key-player-info">
                 <div class="key-player-name">Jasprit Bumrah</div>
                 <div class="key-player-stat">Death over economy 6.2 · 57% chance of 2+ wickets</div>
@@ -1954,7 +1951,7 @@
               <div class="key-player-prob">57%</div>
             </a>
             <a href="player-profile.html" class="key-player-row">
-              <div class="key-player-avatar">🇦🇺</div>
+              <div class="key-player-avatar" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
               <div class="key-player-info">
                 <div class="key-player-name">Marcus Stoinis</div>
                 <div class="key-player-stat">Avg SR 172 in final 5 overs · Currently 24* off 15</div>
@@ -1978,11 +1975,11 @@
           <div class="win-prob-visual">
             <div class="win-prob-teams">
               <div>
-                <div class="win-prob-team">🇮🇳 India</div>
+                <div class="win-prob-team"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India</div>
                 <div class="win-prob-pct ind">72%</div>
               </div>
               <div style="text-align:right;">
-                <div class="win-prob-team">Australia 🇦🇺</div>
+                <div class="win-prob-team"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia</div>
                 <div class="win-prob-pct aus">28%</div>
               </div>
             </div>
@@ -2059,10 +2056,10 @@
           </div>
           <div style="padding:0.9rem 1.1rem;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.7rem;">
-              <span style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">🇮🇳 India</span>
+              <span style="font-size:0.85rem;font-weight:700;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India</span>
               <span style="font-family:var(--font-mono);font-size:1.4rem;font-weight:700;color:var(--frost);">2 –
                 0</span>
-              <span style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Australia 🇦🇺</span>
+              <span style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Australia <img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;" onerror="this.style.display='none'"></span>
             </div>
             <div style="height:4px;background:var(--surface-3);border-radius:3px;overflow:hidden;">
               <div style="width:100%;height:100%;background:linear-gradient(90deg,#FF9933,#FF671F);border-radius:3px;">
@@ -2094,11 +2091,8 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a href="index.html" class="nav-logo">
-            <div class="nav-logo-icon">
-              <img src="img1.png" alt="" style="width:22px;height:22px;object-fit:contain;"
-                onerror="this.style.display='none';this.parentElement.textContent='🏏'" />
-            </div>
-            <span class="nav-logo-text">Cricket<span>lytics</span></span>
+            <img src="logo-icon.png" alt="Criclytics" style="height:34px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
+            <span class="nav-logo-text">Cric<span>lytics</span></span>
           </a>
           <p class="footer-brand-desc">Context-aware cricket analytics powered by historical data and statistical
             models.</p>
@@ -2134,13 +2128,13 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span class="footer-copy">© 2026 Cricklytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-copy">© 2026 Criclytics. All data sourced from public cricket APIs.</span>
         <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
           prediction platform.</span>
       </div>
       <div class="webcraft-watermark">
         <span class="webcraft-by">Designed &amp; Developed by</span>
-        <a href="https://webcraft.dev" target="_blank" rel="noopener" class="webcraft-brand">
+        <a href="https://webcraft-dev.vercel.app/" target="_blank" rel="noopener" class="webcraft-brand">
           <svg class="webcraft-hex" width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <polygon points="9,1 16.5,5 16.5,13 9,17 1.5,13 1.5,5" stroke="#99FFCC" stroke-width="1.2" fill="none" />
@@ -2149,7 +2143,7 @@
           </svg>
           <span class="webcraft-name">WebCraft</span>
         </a>
-        <a href="https://webcraft.dev/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
+        <a href="https://webcraft-dev.vercel.app/#contact" target="_blank" rel="noopener" class="webcraft-contact">Contact</a>
       </div>
     </footer>
 
@@ -2180,6 +2174,8 @@
     });
   </script>
 
+  <script src="cricklytics.js"></script>
+  <script src="match-detail-api.js"></script>
 </body>
 
 </html>

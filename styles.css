@@ -102,21 +102,23 @@ ul { list-style: none; }
 }
 
 .nav-logo-icon {
-  width: auto;
+  width: 38px;
   height: 38px;
-  background: transparent;
-  border-radius: 0;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
-  box-shadow: none;
+  box-shadow: 0 0 12px rgba(94,184,255,0.15);
   flex-shrink: 0;
+  overflow: hidden;
+  padding: 4px;
 }
 
 .nav-logo-icon img {
-  height: 38px;
-  width: auto;
+  height: 100%;
+  width: 100%;
   object-fit: contain;
   display: block;
 }
