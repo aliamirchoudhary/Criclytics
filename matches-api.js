@@ -65,8 +65,7 @@ function buildMatchCard(match, statusClass, delay) {
   const s1html = score1 ? '<span class="match-row-score">' + esc(score1) + '</span>' : '';
   const s2html = score2 ? '<span class="match-row-score">' + esc(score2) + '</span>' : '';
 
-  var dp=(statusClass==='is-upcoming')?'match-upcoming':'match-detail';
-  return '<a href="'+dp+'.html?id=' + esc(id) + '" class="match-row-card ' + statusClass + ' anim-up ' + delay + '">'
+  return '<a href="match-detail.html?id=' + esc(id) + '" class="match-row-card ' + statusClass + ' anim-up ' + delay + '">'
     + '<div class="match-row-badges">' + badge + '<span class="match-format-badge">' + esc(fmt) + '</span></div>'
     + '<div class="match-row-teams">'
       + '<div class="match-row-team">'
@@ -91,37 +90,24 @@ function buildMatchCard(match, statusClass, delay) {
 }
 
 // ── Inject cards into a group, preserving the label header ───────────────────
-var _ms={},_ps={},_PSZ=10;
-function injectCards(g,all,sc,msg){_ms[g]={matches:all,statusClass:sc,emptyMsg:msg};_ps[g]=1;_rg(g);}
-function _rg(g){
-  var grp=document.getElementById(g);if(!grp)return;
-  var s=_ms[g]||{},all=s.matches||[],sc=s.statusClass||'',msg=s.emptyMsg||'No matches.';
-  var pg=_ps[g]||1,lbl=grp.querySelector('.match-group-label'),lh=lbl?lbl.outerHTML:'';
-  if(!all.length){grp.innerHTML=lh+'<div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:.88rem;"><i class="fa fa-calendar-xmark" style="font-size:1.5rem;display:block;margin-bottom:.5rem;opacity:.4;"></i>'+esc(msg)+'</div>';return;}
-  var tot=Math.ceil(all.length/_PSZ);pg=Math.max(1,Math.min(pg,tot));_ps[g]=pg;
-  var dl=['','delay-1','delay-2','delay-3','delay-4','delay-5'];
-  var sl=all.slice((pg-1)*_PSZ,pg*_PSZ);
-  var cards=sl.map(function(m,i){return buildMatchCard(m,sc,dl[i%dl.length]);}).join('');
-  var pag='';
-  if(tot>1){
-    var b='<button class="page-btn'+(pg===1?' disabled':'')+'" data-group="'+g+'" data-page="'+(pg-1)+'"><i class="fa fa-chevron-left"></i></button>';
-    for(var p=1;p<=tot;p++){
-      if(tot<=7||p===1||p===tot||Math.abs(p-pg)<=1)b+='<button class="page-btn'+(p===pg?' active':'')+'" data-group="'+g+'" data-page="'+p+'">'+p+'</button>';
-      else if(Math.abs(p-pg)===2)b+='<button class="page-btn" style="pointer-events:none">…</button>';
-    }
-    b+='<button class="page-btn'+(pg===tot?' disabled':'')+'" data-group="'+g+'" data-page="'+(pg+1)+'"><i class="fa fa-chevron-right"></i></button>';
-    pag='<div class="pagination">'+b+'</div>';
+function injectCards(groupId, matches, statusClass, emptyMsg) {
+  const group = document.getElementById(groupId);
+  if (!group) return;
+
+  // Always preserve only the label header — remove ALL existing match cards
+  const label = group.querySelector('.match-group-label');
+  const labelHtml = label ? label.outerHTML : '';
+
+  if (!matches.length) {
+    group.innerHTML = labelHtml + '<div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:0.88rem;">' + emptyMsg + '</div>';
+    return;
   }
-  grp.innerHTML=lh+cards+pag;
+
+  const delays = ['','delay-1','delay-2','delay-3','delay-4','delay-5'];
+  group.innerHTML = labelHtml + matches.map(function(m, i) {
+    return buildMatchCard(m, statusClass, delays[i % delays.length]);
+  }).join('');
 }
-document.addEventListener('click',function(e){
-  var btn=e.target.closest&&e.target.closest('.page-btn');
-  if(!btn||btn.classList.contains('disabled')||btn.style.pointerEvents==='none')return;
-  var g=btn.dataset.group,p=parseInt(btn.dataset.page,10);
-  if(!g||isNaN(p))return;
-  _ps[g]=p;_rg(g);
-  var el=document.getElementById(g);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
-});
 
 // ── Load live matches ─────────────────────────────────────────────────────────
 async function loadLive() {
@@ -183,10 +169,10 @@ async function loadFixtures() {
   if (upcomingPill)  upcomingPill.textContent  = upcoming.length;
   if (completedPill) completedPill.textContent = completed.length;
 
-  if (upcoming.length)  injectCards('group-upcoming',  upcoming, 'is-upcoming',  'No upcoming matches scheduled.');
+  if (upcoming.length)  injectCards('group-upcoming',  upcoming.slice(0, 15), 'is-upcoming',  'No upcoming matches scheduled.');
   else                  injectCards('group-upcoming',  [], 'is-upcoming', 'No upcoming matches found.');
 
-  if (completed.length) injectCards('group-completed', completed, 'is-completed', 'No recent results.');
+  if (completed.length) injectCards('group-completed', completed.slice(0, 15), 'is-completed', 'No recent results.');
   else                  injectCards('group-completed', [], 'is-completed', 'No recent results found.');
   // Also inject live if live group wasn't filled by loadLive
   if (live.length) {

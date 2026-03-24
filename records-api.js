@@ -12,15 +12,6 @@
  *   .record-card inside each cat-panel       — each record table card
  */
 
-'use strict';
-
-const FLAG_BASE = 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/';
-const COUNTRY_ISO = {
-  'India':'IN','Australia':'AU','England':'ENGLAND','Pakistan':'PK',
-  'New Zealand':'NZ','South Africa':'ZA','West Indies':'WI','Sri Lanka':'LK',
-  'Bangladesh':'BD','Afghanistan':'AF','Zimbabwe':'ZW','Ireland':'IE',
-};
-
 function guessCountry(name) {
   // Try to match against known country names
   const n = (name || '').toLowerCase();
@@ -34,7 +25,7 @@ function flagImg(country, size) {
   size = size || 24;
   const code = COUNTRY_ISO[country] || country;
   if (!code) return '';
-  return '<img src="' + FLAG_BASE + code + '.svg" alt="' + esc(country) + '" '
+  return '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(country) + '" '
     + 'style="width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;vertical-align:middle;" '
     + 'onerror="this.style.display=\'none\'">';
 }
@@ -43,22 +34,28 @@ const medalClass = {1:'gold', 2:'silver', 3:'bronze'};
 
 // ── Build player record row ───────────────────────────────────────────────────
 function buildPlayerRow(entry, rank, stats) {
-  const player  = entry.player || '—';
-  const matches = entry.matches || '—';
-  const medal   = medalClass[rank] || 'plain';
+  var player  = entry.player || '—';
+  var matches = entry.matches || '—';
+  var medal   = medalClass[rank] || 'plain';
+  // Country comes from entry.country if present (added by enrichment),
+  // otherwise leave blank — never fall back to hardcoded 'IN'
+  var country = entry.country || '';
+  var code    = COUNTRY_ISO[country] || '';
+  var flagHtml = code
+    ? '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display=\'none\'">'
+    : '<span style="width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:var(--surface-2);font-size:0.7rem;font-weight:700;color:var(--accent);">' + (player[0]||'?') + '</span>';
 
-  // stats is an array of {val, label} to show
-  const statsHtml = stats.map(function(s) {
-    const cls = s.primary ? 'rec-stat primary' : s.green ? 'rec-stat green' : 'rec-stat';
-    return '<span class="' + cls + '">' + esc(String(s.val || '—')) + '</span>';
+  var statsHtml = stats.map(function(s) {
+    var cls = s.primary ? 'rec-stat primary' : s.green ? 'rec-stat green' : 'rec-stat';
+    return '<span class="' + cls + '">' + esc(String(s.val == null ? '—' : s.val)) + '</span>';
   }).join('');
 
   return '<a href="player-profile.html?name=' + encodeURIComponent(player) + '" class="record-row">'
     + '<div class="rec-medal ' + medal + '">' + rank + '</div>'
-    + '<span class="rec-flag"><img src="' + FLAG_BASE + 'IN.svg" alt="" id="recflag-' + rank + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;"></span>'
+    + '<span class="rec-flag">' + flagHtml + '</span>'
     + '<div class="rec-identity">'
       + '<div class="rec-name">' + esc(player) + '</div>'
-      + '<div class="rec-sub">' + esc(matches) + ' matches</div>'
+      + '<div class="rec-sub">' + esc(String(matches)) + ' matches' + (country ? ' · ' + esc(country) : '') + '</div>'
     + '</div>'
     + statsHtml
   + '</a>';
@@ -78,7 +75,7 @@ function buildTeamRow(entry, rank, stats) {
   return '<a href="team-profile.html?name=' + encodeURIComponent(team) + '" class="record-row">'
     + '<div class="rec-medal ' + medal + '">' + rank + '</div>'
     + '<span class="rec-flag">'
-      + (code ? '<img src="' + FLAG_BASE + code + '.svg" alt="' + esc(team) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">' : '')
+      + (code ? '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(team) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">' : '')
     + '</span>'
     + '<div class="rec-identity">'
       + '<div class="rec-name">' + esc(team) + '</div>'
@@ -97,13 +94,19 @@ function injectRecordCard(card, rows) {
 }
 
 // ── Populate batting records ──────────────────────────────────────────────────
-function populateBatting(panelId, data) {
+function populateBatting(panelId, data, fmtKey) {
+  // fmtKey is the exact records.json key: 'Test', 'ODI', or 'T20I'
+  // Derive it from panelId if not explicitly passed
+  if (!fmtKey) {
+    var p = panelId.split('-')[0]; // 'test', 'odi', or 't20'
+    fmtKey = p === 't20' ? 'T20I' : p === 'test' ? 'Test' : 'ODI';
+  }
   const panel = document.getElementById(panelId);
   if (!panel) return;
   const cards = panel.querySelectorAll('.record-card');
 
   // Card 0: Most Runs
-  const runsData = data.most_runs ? data.most_runs[panelId.split('-')[0].toUpperCase()] || [] : [];
+  const runsData = (data.most_runs && data.most_runs[fmtKey]) ? data.most_runs[fmtKey] : [];
   if (cards[0] && runsData.length) {
     const rows = runsData.slice(0,10).map(function(e, i) {
       return buildPlayerRow(e, i+1, [
@@ -116,7 +119,7 @@ function populateBatting(panelId, data) {
   }
 
   // Card 1: Best Averages
-  const avgData = data.best_averages ? data.best_averages[panelId.split('-')[0].toUpperCase()] || [] : [];
+  const avgData = (data.best_averages && data.best_averages[fmtKey]) ? data.best_averages[fmtKey] : [];
   if (cards[1] && avgData.length) {
     const rows = avgData.slice(0,10).map(function(e, i) {
       return buildPlayerRow(e, i+1, [
@@ -129,7 +132,7 @@ function populateBatting(panelId, data) {
   }
 
   // Card 2: Most Centuries
-  const hundredsData = data.most_hundreds ? data.most_hundreds[panelId.split('-')[0].toUpperCase()] || [] : [];
+  const hundredsData = (data.most_hundreds && data.most_hundreds[fmtKey]) ? data.most_hundreds[fmtKey] : [];
   if (cards[2] && hundredsData.length) {
     const rows = hundredsData.slice(0,10).map(function(e, i) {
       return buildPlayerRow(e, i+1, [
@@ -143,14 +146,17 @@ function populateBatting(panelId, data) {
 }
 
 // ── Populate bowling records ──────────────────────────────────────────────────
-function populateBowling(panelId, data) {
+function populateBowling(panelId, data, fmtKey) {
+  if (!fmtKey) {
+    var p = panelId.split('-')[0];
+    fmtKey = p === 't20' ? 'T20I' : p === 'test' ? 'Test' : 'ODI';
+  }
   const panel = document.getElementById(panelId);
   if (!panel) return;
   const cards = panel.querySelectorAll('.record-card');
-  const fmt   = panelId.split('-')[0].toUpperCase();
 
   // Card 0: Most Wickets
-  const wicketsData = data.most_wickets ? data.most_wickets[fmt] || [] : [];
+  const wicketsData = (data.most_wickets && data.most_wickets[fmtKey]) ? data.most_wickets[fmtKey] : [];
   if (cards[0] && wicketsData.length) {
     const rows = wicketsData.slice(0,10).map(function(e, i) {
       return buildPlayerRow(e, i+1, [
@@ -169,24 +175,20 @@ async function loadRecords() {
   if (!data) return;
 
   // Populate all format panels
+  // fmt is the HTML panel prefix: 'test', 'odi', 't20'
+  // fmtKey is the exact key in records.json: 'Test', 'ODI', 'T20I'
   ['test','odi','t20'].forEach(function(fmt) {
-    // Map t20 → T20I for the records data keys
-    const fmtKey = fmt === 't20' ? 'T20I' : fmt.toUpperCase();
-    const fmtData = {
+    var fmtKey = fmt === 't20' ? 'T20I' : fmt === 'test' ? 'Test' : 'ODI';
+
+    // Pass fmtKey (e.g. 'Test') as the data key — NOT fmt.toUpperCase() which gives 'TEST'/'T20'
+    populateBatting(fmt + '-batting', {
       most_runs:     {[fmtKey]: data.most_runs?.[fmtKey]},
       best_averages: {[fmtKey]: data.best_averages?.[fmtKey]},
       most_hundreds: {[fmtKey]: data.most_hundreds?.[fmtKey]},
-      most_wickets:  {[fmtKey]: data.most_wickets?.[fmtKey]},
-    };
-
-    populateBatting(fmt + '-batting', {
-      most_runs:     {[fmt.toUpperCase()]: data.most_runs?.[fmtKey]},
-      best_averages: {[fmt.toUpperCase()]: data.best_averages?.[fmtKey]},
-      most_hundreds: {[fmt.toUpperCase()]: data.most_hundreds?.[fmtKey]},
     });
 
     populateBowling(fmt + '-bowling', {
-      most_wickets: {[fmt.toUpperCase()]: data.most_wickets?.[fmtKey]},
+      most_wickets: {[fmtKey]: data.most_wickets?.[fmtKey]},
     });
   });
 
@@ -194,26 +196,51 @@ async function loadRecords() {
   updateSidebarBests(data);
 }
 
-// ── Update sidebar all-time bests ─────────────────────────────────────────────
 function updateSidebarBests(data) {
-  // Most Test runs: most_runs.Test[0]
-  const testRuns = data.most_runs?.Test?.[0];
-  const odiRuns  = data.most_runs?.ODI?.[0];
-  const testWkts = data.most_wickets?.Test?.[0];
+  var testRuns = data.most_runs && data.most_runs.Test && data.most_runs.Test[0];
+  var odiRuns  = data.most_runs && data.most_runs.ODI  && data.most_runs.ODI[0];
+  var testWkts = data.most_wickets && data.most_wickets.Test && data.most_wickets.Test[0];
 
-  const srecRows = document.querySelectorAll('.sidebar-rec-row');
+  var srecRows = document.querySelectorAll('.sidebar-rec-row');
   if (srecRows[0] && testRuns) {
-    const flag = srecRows[0].querySelector('.srec-flag');
-    const name = srecRows[0].querySelector('.srec-name');
-    const val  = srecRows[0].querySelector('.srec-val');
-    if (name) name.textContent = testRuns.player;
-    if (val)  val.textContent  = (testRuns.runs||'').toLocaleString();
+    var flagEl = srecRows[0].querySelector('.srec-flag');
+    var nameEl = srecRows[0].querySelector('.srec-name');
+    var subEl  = srecRows[0].querySelector('.srec-sub');
+    var valEl  = srecRows[0].querySelector('.srec-val');
+    if (nameEl) nameEl.textContent = testRuns.player;
+    if (valEl)  valEl.textContent  = (testRuns.runs||0).toLocaleString();
+    if (subEl)  subEl.textContent  = 'Most Test runs';
+    if (flagEl && testRuns.country) {
+      var code = COUNTRY_ISO[testRuns.country] || '';
+      if (code) flagEl.innerHTML = '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(testRuns.country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">';
+    }
   }
   if (srecRows[1] && testWkts) {
-    const name = srecRows[1].querySelector('.srec-name');
-    const val  = srecRows[1].querySelector('.srec-val');
-    if (name) name.textContent = testWkts.player;
-    if (val)  val.textContent  = testWkts.wickets;
+    var flagEl2 = srecRows[1].querySelector('.srec-flag');
+    var nameEl2 = srecRows[1].querySelector('.srec-name');
+    var subEl2  = srecRows[1].querySelector('.srec-sub');
+    var valEl2  = srecRows[1].querySelector('.srec-val');
+    if (nameEl2) nameEl2.textContent = testWkts.player;
+    if (valEl2)  valEl2.textContent  = testWkts.wickets;
+    if (subEl2)  subEl2.textContent  = 'Most Test wickets';
+    if (flagEl2 && testWkts.country) {
+      var code2 = COUNTRY_ISO[testWkts.country] || '';
+      if (code2) flagEl2.innerHTML = '<img src="' + FLAG_CDN + code2 + '.svg" alt="' + esc(testWkts.country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">';
+    }
+  }
+  // Third row: most ODI runs
+  if (srecRows[2] && odiRuns) {
+    var nameEl3 = srecRows[2].querySelector('.srec-name');
+    var valEl3  = srecRows[2].querySelector('.srec-val');
+    var subEl3  = srecRows[2].querySelector('.srec-sub');
+    if (nameEl3) nameEl3.textContent = odiRuns.player;
+    if (valEl3)  valEl3.textContent  = (odiRuns.runs||0).toLocaleString();
+    if (subEl3)  subEl3.textContent  = 'Most ODI runs';
+    var flagEl3 = srecRows[2].querySelector('.srec-flag');
+    if (flagEl3 && odiRuns.country) {
+      var code3 = COUNTRY_ISO[odiRuns.country] || '';
+      if (code3) flagEl3.innerHTML = '<img src="' + FLAG_CDN + code3 + '.svg" alt="' + esc(odiRuns.country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">';
+    }
   }
 }
 

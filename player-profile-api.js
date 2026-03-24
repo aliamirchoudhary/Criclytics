@@ -47,8 +47,7 @@ async function loadProfile() {
   const displayName = meta.full_name || playerName;
   // country: meta has it for featured players; stats.country from Cricsheet for everyone else
   const country     = meta.country || stats.country || '';
-  // Use stats.country from players_index (covers ALL players, not just 70 in meta)
-  const isoCode     = meta.iso_code || stats.iso_code || COUNTRY_ISO[country] || COUNTRY_ISO[stats.country || ''] || '';
+  const isoCode     = meta.iso_code || COUNTRY_ISO[country] || '';
   const photoUrl    = meta.image_url || '';
   const initials    = displayName.split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
 

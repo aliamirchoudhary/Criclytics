@@ -100,9 +100,8 @@ async function loadLiveMatches() {
   var sectionTitle = document.querySelector('#right-now-section .section-title, .section-title');
   // Try to find the "Live Matches" title and update it
   document.querySelectorAll('.section-title').forEach(function(el) {
-    if (el.textContent.includes('Live Matches') || el.textContent.includes('Up Next')) {
-      if (isLive) el.innerHTML = '<span class="icon">🔴</span> Live Matches';
-      else if (matches.length) el.innerHTML = '<span class="icon">⏰</span> Up Next';
+    if (el.textContent.includes('Live Matches') && !isLive && matches.length) {
+      el.innerHTML = '<span class="icon">📅</span> Upcoming Matches';
     }
   });
 
@@ -141,7 +140,7 @@ async function loadLiveMatches() {
           + '<div class="featured-team-score">' + esc(s2) + '</div></div></div>'
       + '</div>'
       + '<div class="featured-footer"><div class="featured-venue"><i class="fa fa-location-dot"></i> ' + esc(m.venue||'—') + '</div>'
-      + '<a href="' + (isLive?'match-detail':'match-upcoming') + '.html?id=' + esc(m.id||'') + '" class="btn btn-secondary btn-sm">Details <i class="fa fa-arrow-right"></i></a></div>';
+      + '<a href="match-detail.html?id=' + esc(m.id||'') + '" class="btn btn-secondary btn-sm">Details <i class="fa fa-arrow-right"></i></a></div>';
     }
   }
 
@@ -155,8 +154,7 @@ async function loadLiveMatches() {
         var t1 = m.t1||m.team1||''; var t2 = m.t2||m.team2||'';
         var s1 = m.t1s||'—'; var s2 = m.t2s||'—';
         var iso1 = COUNTRY_ISO[t1]||''; var iso2 = COUNTRY_ISO[t2]||'';
-        var pg2=isLive?'match-detail':'match-upcoming';
-        return '<a href="' + pg2 + '.html?id=' + esc(m.id||'') + '" class="card match-card anim-up">'
+        return '<a href="match-detail.html?id=' + esc(m.id||'') + '" class="card match-card anim-up">'
           + '<div class="match-card-header"><span class="status-badge status-live">Live</span><span class="match-format-badge">' + esc(m.matchType||'') + '</span></div>'
           + '<div class="match-teams">'
             + '<div class="match-team"><div class="team-flag">' + (iso1?'<img src="'+FLAG_CDN+iso1+'.svg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">':'') + '</div><div class="team-name">' + esc(t1) + '</div><div class="team-score">' + esc(s1) + '</div></div>'
@@ -302,13 +300,10 @@ async function loadTrendingPlayers() {
         + '<div class="pcard-stat"><div class="pcard-stat-val">' + (bestBowl.wickets||'—') + '</div><div class="pcard-stat-lbl">Wkts</div></div>'
       : '';
 
-    var photoUrl=(meta[name]&&meta[name].image_url)||p.image_url||'';
-    var isoCode2=(meta[name]&&meta[name].iso_code)||COUNTRY_ISO[country]||'';
     return '<div class="card player-card anim-up ' + delays[i] + '">'
-      + '<div class="player-avatar" style="position:relative;overflow:hidden;">'\
-        + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--accent);">' + initials + '</span>'\
-        + (photoUrl ? '<img src="' + photoUrl + '" alt="' + esc(name) + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">' : '')\
-        + (isoCode2 ? '<img src="' + FLAG_CDN + isoCode2 + '.svg" style="position:absolute;bottom:2px;right:2px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--surface-1);object-fit:cover;" onerror="this.style.display=\'none\'">' : '')\
+      + '<div class="player-avatar" style="position:relative;overflow:hidden;">'
+        + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--accent);">' + initials + '</span>'
+        + (country ? '<img src="' + FLAG_CDN + (COUNTRY_ISO[country]||country) + '.svg" style="position:absolute;bottom:2px;right:2px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--surface-1);object-fit:cover;" onerror="this.style.display=\'none\'">' : '')
       + '</div>'
       + '<div class="player-name">' + esc(name) + '</div>'
       + '<div class="player-meta">' + (country ? fl(country,14) + esc(country) : '—') + '</div>'
@@ -349,17 +344,15 @@ async function loadRecentResults() {
   var completed = allMatches.filter(function(m){ return m.matchEnded; }).slice(0,4);
 
   // Find recent results container
-  var recentEl = document.querySelector('[data-recent]');
-  if (!recentEl) {
-    document.querySelectorAll('[style*="flex-direction:column"]').forEach(function(el) {
-      if (!recentEl) {
-        var sec = el.closest('section');
-        if (sec) { sec.querySelectorAll('.section-title').forEach(function(ti){
-          if (ti.textContent.toLowerCase().includes('recent')) recentEl = el;
-        }); }
+  var recentEl = null;
+  document.querySelectorAll('[style*="flex-direction:column"]').forEach(function(el) {
+    if (el.querySelector('a.upcoming-row') && !recentEl) {
+      var section = el.closest('section');
+      if (section && (section.querySelector('.section-title')||{}).textContent.toLowerCase().includes('recent')) {
+        recentEl = el;
       }
-    });
-  }
+    }
+  });
   if (!recentEl) return;
 
   if (!completed.length) {

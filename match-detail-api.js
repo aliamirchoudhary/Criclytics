@@ -183,40 +183,6 @@ function wipePage(t1, t2) {
     el.innerHTML = (team !== dash) ? flInline(team, 14) + esc(team) : dash;
   });
 
-  // ── Sidebar Match Stats card ──────────────────────────────────────────────
-  document.querySelectorAll('.sidebar-stat-value').forEach(function(el) {
-    el.textContent = '—';
-  });
-  document.querySelectorAll('.sidebar-stat-label').forEach(function(el) {
-    var txt = el.textContent;
-    // Update team references in labels (IND → t1, AUS → t2)
-    if (t1 && t2) {
-      el.textContent = txt
-        .replace(/\(IND\)/g, '(' + t1 + ')')
-        .replace(/\(AUS\)/g, '(' + t2 + ')');
-    }
-  });
-
-  // ── Series Status sidebar card ─────────────────────────────────────────────
-  var seriesCards = document.querySelectorAll('.sidebar-card');
-  seriesCards.forEach(function(card) {
-    var title = (card.querySelector('.sidebar-card-title') || {}).textContent || '';
-    if (title.includes('Series Status')) {
-      // Replace hardcoded India 2-0 Australia
-      var hdr = card.querySelector('.sidebar-card-header');
-      card.innerHTML = (hdr ? hdr.outerHTML : '<div class="sidebar-card-header"><div class="sidebar-card-title"><i class="fa fa-trophy"></i> Series Status</div></div>')
-        + '<div style="padding:1rem 1.1rem;text-align:center;color:var(--text-muted);font-size:.83rem;">—</div>';
-    }
-  });
-
-  // ── Context Insights hardcoded titles ──────────────────────────────────────
-  document.querySelectorAll('.insight-card-title').forEach(function(el) {
-    var txt = el.textContent;
-    if (txt.includes('Wankhede') || txt.includes('H2H') || txt.includes('Head-to-Head')) {
-      // Will be updated by updateH2H and updateVenueContext
-    }
-  });
-
   // Page title
   document.title = (t1 && t2 ? t1 + ' vs ' + t2 + ' — ' : '') + 'Match Detail · Criclytics';
 }
@@ -284,21 +250,12 @@ function updateScoreboard(match) {
     }
   });
 
-  if (t1 && t2) {
-    document.title = t1 + ' vs ' + t2 + ' — Match Detail · Criclytics';
-    // Update sidebar stat labels to show real team names
-    document.querySelectorAll('.sidebar-stat-label').forEach(function(el) {
-      var txt = el.textContent;
-      el.textContent = txt.replace('(IND)', '(' + t1 + ')').replace('(AUS)', '(' + t2 + ')');
-    });
-  }
+  if (t1 && t2) document.title = t1 + ' vs ' + t2 + ' — Match Detail · Criclytics';
 
-  var totals=document.querySelectorAll('.innings-total');
-  if(totals[0]&&s1)totals[0].textContent=s1;
-  if(totals[1]&&s2)totals[1].textContent=s2;
-  if(s1){var rm=s1.match(/(\d+)/);if(rm){var tEl=document.querySelector('.target-box .value');if(tEl)tEl.textContent=parseInt(rm[1])+1;}}
-  if(match.name){var bc=document.querySelector('.breadcrumb span:last-child');if(bc)bc.textContent=match.name;document.title=match.name+' · Criclytics';}
-  if(match.matchEnded)document.querySelectorAll('.scoreboard-crr').forEach(function(el){el.textContent='Final';});
+  // Update innings-total spans with real scores
+  var totals = document.querySelectorAll('.innings-total');
+  if (totals[0] && s1) totals[0].textContent = s1;
+  if (totals[1] && s2) totals[1].textContent = s2;
 }
 
 // ── Batting scorecard ─────────────────────────────────────────────────────────
@@ -394,41 +351,30 @@ async function updateVenueContext(venue) {
 async function loadMatchDetail() {
   var matchId = getParam('id');
 
-  // ALWAYS wipe hardcoded content first
+  // Step 1: wipe all hardcoded India/Australia content immediately
   wipePage();
 
   if (!matchId) {
-    var ma=document.getElementById('panel-overview')||document.querySelector('.tab-panels');
-    if(ma)ma.innerHTML='<div style="text-align:center;padding:4rem 2rem;color:var(--text-muted);"><i class="fa fa-cricket-bat-ball" style="font-size:3rem;display:block;margin-bottom:1.5rem;opacity:0.25;"></i><div style="font-size:1.1rem;font-weight:600;margin-bottom:0.5rem;color:var(--text-primary);">No match selected</div><div style="margin-bottom:1.5rem;font-size:.9rem;">Browse matches to view scorecard.</div><a href="matches.html" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Browse Matches</a></div>';
+    // No id — just show dashes. Already done by wipePage().
+    // Add a subtle hint in the scoreboard area
+    var statusEl = document.querySelector('.match-status-live');
+    if (statusEl) {
+      statusEl.innerHTML = 'Browse <a href="matches.html" style="color:var(--accent);text-decoration:none;">Matches</a> to view a live scorecard';
+      statusEl.style.fontSize = '0.8rem';
+    }
     return;
   }
 
-  // Try to find match in cached matches list first (fastest, most reliable)
+  // Step 2: try to get match data
   var match = null;
-  var allData = await apiFetch('/api/matches');
-  if (allData && allData.data) {
-    match = allData.data.find(function(m) {
-      return String(m.id || m.unique_id || '') === String(matchId);
-    }) || null;
+
+  // Try score endpoint first
+  var scoreData = await apiFetch('/api/matches/' + matchId + '/score');
+  if (scoreData && scoreData.data && Object.keys(scoreData.data).length) {
+    match = scoreData.data;
   }
 
-  // Also try live endpoint
-  if (!match) {
-    var liveData = await apiFetch('/api/live');
-    if (liveData && liveData.data) {
-      match = liveData.data.find(function(m) {
-        return String(m.id || m.unique_id || '') === String(matchId);
-      }) || null;
-    }
-  }
-
-  // Try CricAPI direct endpoints (works when API is accessible)
-  if (!match) {
-    var scoreData = await apiFetch('/api/matches/' + matchId + '/score');
-    if (scoreData && scoreData.data && Object.keys(scoreData.data).length) {
-      match = scoreData.data;
-    }
-  }
+  // Try match detail endpoint
   if (!match) {
     var matchData = await apiFetch('/api/matches/' + matchId);
     if (matchData && matchData.data && Object.keys(matchData.data).length) {
@@ -436,76 +382,52 @@ async function loadMatchDetail() {
     }
   }
 
-  var t1 = (match && (match.t1 || match.team1)) || '';
-  var t2 = (match && (match.t2 || match.team2)) || '';
-
-  // Re-wipe with team names (shows flags + names even when no scorecard)
-  wipePage(t1, t2);
+  // Try searching the full matches list
+  if (!match) {
+    var allData = await apiFetch('/api/matches');
+    if (allData && allData.data) {
+      match = allData.data.find(function(m) {
+        return String(m.id || m.unique_id || '') === String(matchId);
+      }) || null;
+    }
+  }
 
   if (!match) {
+    // Still no data — wipe stays, show hint
     var statusEl2 = document.querySelector('.match-status-live');
     if (statusEl2) {
-      statusEl2.innerHTML = 'Live data unavailable · <a href="matches.html" style="color:var(--accent);text-decoration:none;">← Back to Matches</a>';
-      statusEl2.style.fontSize = '0.78rem';
+      statusEl2.textContent = 'Match data not available';
+      statusEl2.style.fontSize = '0.8rem';
     }
     return;
   }
 
-  // We have at least basic match info — fill in what we have
+  // Step 3: fill in real data
+  var t1 = match.t1 || match.team1 || '';
+  var t2 = match.t2 || match.team2 || '';
+
+  // First wipe again with correct team names so flags/names show
+  wipePage(t1, t2);
+
+  // Then fill in real scores and data
   updateScoreboard(match);
 
-  // COMPLETED: hide live-only sections, change badge
-  if (match.matchEnded) {
-    document.querySelectorAll('.section-card').forEach(function(card) {
-      var t=((card.querySelector('.section-card-title')||{}).textContent||'');
-      if(t.includes('Live Snapshot')||t.includes('At the Crease')||t.includes('Current Bowler')||t.includes('Recent Deliveries'))card.style.display='none';
-    });
-    document.querySelectorAll('.status-badge.status-live').forEach(function(el){el.textContent='Completed';el.className='status-badge status-completed';});
-  }
-
-  // UPCOMING: hide scorecard + live sections
-  if (!match.matchStarted && !match.matchEnded) {
-    var sp=document.getElementById('panel-scorecard');
-    if(sp)sp.innerHTML='<div style="text-align:center;padding:3rem 2rem;color:var(--text-muted);"><i class="fa fa-clock" style="font-size:2.5rem;display:block;margin-bottom:1rem;opacity:0.3;"></i><div style="font-size:1rem;font-weight:600;">Match not started</div><div style="font-size:.85rem;margin-top:.3rem;">Scorecard available once match begins.</div></div>';
-    document.querySelectorAll('.section-card').forEach(function(card){
-      var t=((card.querySelector('.section-card-title')||{}).textContent||'');
-      if(t.includes('Live Snapshot')||t.includes('At the Crease')||t.includes('Current Bowler')||t.includes('Recent Deliveries'))card.style.display='none';
-    });
-    document.querySelectorAll('.innings-total,.scoreboard-crr').forEach(function(el){el.textContent='';});
-  }
-
-  // Innings labels (always set even if no scorecard data)
-  document.querySelectorAll('.innings-label-text').forEach(function(el, i) {
-    var team = i === 0 ? t1 : (i === 1 ? t2 : (i === 2 ? t2 : t1));
-    var suffix = (i === 0) ? '1st Innings' : (i === 1 ? 'Bowling' : (i === 2 ? '2nd Innings' : 'Bowling'));
-    el.innerHTML = flInline(team, 16) + esc(team) + ' — ' + suffix;
-  });
-
-  // Innings scorecards — only if ball-by-ball data available (CricAPI live)
+  // Innings scorecards
   var innings = match.score || match.innings || [];
-  if (innings.length && innings[0] && innings[0].batting) {
+  if (innings[0] && innings[0].batting) {
     updateBattingScorecard(innings[0].batting, 'innings1-batting');
     updateBowlingScorecard(innings[0].bowling, 'innings1-bowling');
   }
-  if (innings.length > 1 && innings[1] && innings[1].batting) {
+  if (innings[1] && innings[1].batting) {
     updateBattingScorecard(innings[1].batting, 'innings2-batting');
     updateBowlingScorecard(innings[1].bowling, 'innings2-bowling');
   }
 
-  // Score from simple score array (CricAPI format: [{r,w,o,inning}])
-  var simpleScores = match.score;
-  if (simpleScores && simpleScores.length && !simpleScores[0].batting) {
-    // Simple score objects, not full innings
-    var totals = document.querySelectorAll('.innings-total');
-    if (simpleScores[0] && totals[0]) {
-      var s0 = simpleScores[0];
-      totals[0].textContent = s0.r + '/' + s0.w + ' (' + s0.o + 'ov)';
-    }
-    if (simpleScores[1] && totals[1]) {
-      var s1 = simpleScores[1];
-      totals[1].textContent = s1.r + '/' + s1.w + ' (' + s1.o + 'ov)';
-    }
-  }
+  // Innings label text
+  document.querySelectorAll('.innings-label-text').forEach(function(el, i) {
+    var team = i === 0 ? t1 : t2;
+    el.innerHTML = flInline(team, 16) + esc(team) + ' — ' + (i === 0 ? '1st' : '2nd') + ' Innings';
+  });
 
   if (t1 && t2) updateH2H(t1, t2);
   if (match.venue) updateVenueContext(match.venue);

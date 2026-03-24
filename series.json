@@ -1,0 +1,46 @@
+{
+  "data": [
+    {
+      "id": "sa-tour-nz-2025",
+      "name": "South Africa Tour of New Zealand 2025",
+      "status": "In Progress",
+      "matchType": "T20I",
+      "total": 3,
+      "current": 2
+    },
+    {
+      "id": "ipl-2025",
+      "name": "Indian Premier League 2025",
+      "status": "In Progress",
+      "matchType": "T20",
+      "total": 74,
+      "current": 12
+    },
+    {
+      "id": "wi-aus-2025",
+      "name": "West Indies Tour of Australia 2025",
+      "status": "Upcoming",
+      "matchType": "ODI",
+      "total": 3,
+      "current": 0
+    },
+    {
+      "id": "eng-zim-2025",
+      "name": "England Tour of Zimbabwe 2025",
+      "status": "Upcoming",
+      "matchType": "Test",
+      "total": 1,
+      "current": 0
+    },
+    {
+      "id": "pak-bang-2025",
+      "name": "Bangladesh Tour of Pakistan 2025",
+      "status": "Upcoming",
+      "matchType": "ODI",
+      "total": 3,
+      "current": 0
+    }
+  ],
+  "fetched_at": "2025-03-18T12:00:00",
+  "source": "sample_data"
+}

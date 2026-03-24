@@ -6,25 +6,16 @@
  * All team links pass ?name= to team-profile.html
  */
 
-'use strict';
-
-const FLAG_BASE = 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/';
-const COUNTRY_ISO = {
-  'India':'IN','Australia':'AU','England':'ENGLAND','Pakistan':'PK',
-  'New Zealand':'NZ','South Africa':'ZA','West Indies':'WI','Sri Lanka':'LK',
-  'Bangladesh':'BD','Afghanistan':'AF','Zimbabwe':'ZW','Ireland':'IE',
-};
-
 function fl(country, size=28) {
   const code = COUNTRY_ISO[country] || country;
-  return `<img src="${FLAG_BASE}${code}.svg" alt="${esc(country)}"
+  return `<img src="${FLAG_CDN}${code}.svg" alt="${esc(country)}"
     style="width:${size}px;height:${size}px;object-fit:cover;border-radius:50%;vertical-align:middle;"
     onerror="this.style.display='none'">`;
 }
 
 function flInline(country, size=18) {
   const code = COUNTRY_ISO[country] || country;
-  return `<img src="${FLAG_BASE}${code}.svg" alt="${esc(country)}"
+  return `<img src="${FLAG_CDN}${code}.svg" alt="${esc(country)}"
     style="width:${size}px;height:${size}px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;"
     onerror="this.style.display='none'">`;
 }
@@ -48,11 +39,12 @@ function renderRankings(teams, fmt) {
   if (!teams.length) return;
 
   wrap.innerHTML = headerHtml + teams.map((t, i) => {
-    const pos = i < 3 ? posClass[i] : '';
+    const rankNum = parseInt(t.rank) || (i+1);
+    const pos = rankNum === 1 ? posClass[0] : rankNum === 2 ? posClass[1] : rankNum === 3 ? posClass[2] : '';
     const delay = delays[i];
     const change = t.change || '—';
-    const changeClass = change.includes('+') || change.includes('▲') ? 'rank-up'
-                      : change.includes('-') || change.includes('▼') ? 'rank-down' : 'rank-same';
+    const ch = String(change);
+    const changeClass = ch.startsWith('+') ? 'rank-up' : ch.startsWith('-') ? 'rank-down' : 'rank-same';
     const teamName = t.team || t.name || '';
 
     return `
@@ -83,6 +75,9 @@ function renderRankings(teams, fmt) {
 
   // Enrich with win rates from team stats
   enrichWinRates(teams, fmt);
+
+  // Re-apply any active region/search filter after rebuild
+  if (_activeTeamRegion || _teamSearch) filterRankingRows();
 }
 
 // ── Enrich ranking rows with real win rates from Cricsheet ────────────────────
@@ -105,14 +100,20 @@ async function enrichWinRates(teams, fmt) {
   });
 }
 
-// ── Confederation map ─────────────────────────────────────────────────────────
-const CONF = {
-  'India':'Asia','Pakistan':'Asia','Sri Lanka':'Asia','Bangladesh':'Asia','Afghanistan':'Asia',
-  'Australia':'Pacific','New Zealand':'Pacific',
-  'England':'Europe','Ireland':'Europe','Scotland':'Europe','Netherlands':'Europe',
-  'South Africa':'Africa','Zimbabwe':'Africa','Kenya':'Africa','Namibia':'Africa',
-  'West Indies':'Americas','USA':'Americas','Canada':'Americas',
-};
+// ── Filter displayed ranking rows by region/search ────────────────────────────
+function filterRankingRows() {
+  document.querySelectorAll('.rank-table-wrap .rank-row:not([style*="grid"])').forEach(function(row) {
+    if (row.classList.contains('rank-row-header')) return;
+    var nameEl = row.querySelector('.rank-team-name, [data-team]');
+    var teamName = (nameEl ? nameEl.textContent : '') || (row.dataset.team || '');
+    teamName = teamName.trim();
+    var conf = CONF[teamName] || '';
+
+    var regionOk = !_activeTeamRegion || (REGION_TEAMS[_activeTeamRegion] || []).indexOf(teamName) !== -1;
+    var searchOk = !_teamSearch || teamName.toLowerCase().includes(_teamSearch);
+    row.style.display = (regionOk && searchOk) ? '' : 'none';
+  });
+}
 
 // ── Render team cards ─────────────────────────────────────────────────────────
 async function renderTeamCards() {
@@ -144,7 +145,7 @@ async function renderTeamCards() {
       <a href="team-profile.html?name=${encodeURIComponent(team)}" class="team-card anim-up ${delay}">
         <div class="team-card-banner" style="background:transparent;">
           <div class="team-card-flag-wrap" style="overflow:hidden;">
-            ${code ? `<img src="${FLAG_BASE}${code}.svg" alt="${esc(team)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : esc(team[0])}
+            ${code ? `<img src="${FLAG_CDN}${code}.svg" alt="${esc(team)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : esc(team[0])}
           </div>
         </div>
         <div class="team-card-body">
@@ -215,48 +216,112 @@ async function renderWinRatesSidebar() {
 
 // ── Render upcoming fixtures ──────────────────────────────────────────────────
 async function renderFixtures() {
-  const data = await apiFetch('/api/matches');
-  if (!data?.data?.length) return;
-
-  const upcoming = data.data.filter(m => !m.matchStarted).slice(0, 4);
-  if (!upcoming.length) return;
-
-  const fixtureCard = document.querySelectorAll('.sb-card')[1];
+  var fixtureCard = document.querySelectorAll('.sb-card')[1];
   if (!fixtureCard) return;
+  var head = fixtureCard.querySelector('.sb-head');
+  var headHtml = head ? head.outerHTML : '<div class="sb-head"><i class="fa fa-calendar"></i> Upcoming Fixtures</div>';
 
-  const head = fixtureCard.querySelector('.sb-head');
-  fixtureCard.innerHTML = (head?.outerHTML || '<div class="sb-head"><i class="fa fa-calendar"></i> Upcoming Fixtures</div>') +
-    upcoming.map(m => {
-      const t1 = m.t1 || m.team1 || '';
-      const t2 = m.t2 || m.team2 || '';
-      return `
-        <a href="match-detail.html?id=${esc(m.id||'')}" class="fixture-item">
-          <div class="fixture-teams">${esc(t1)} vs ${esc(t2)}</div>
-          <div class="fixture-meta">
-            <span class="match-format-badge" style="font-size:.6rem">${esc(m.matchType||'')}</span>
-            ${esc(m.venue||'')} · ${esc(m.date||'')}
-          </div>
-        </a>`;
-    }).join('');
+  var data = await apiFetch('/api/matches');
+  var upcoming = (data && data.data) ? data.data.filter(function(m){ return !m.matchStarted; }).slice(0,4) : [];
+
+  if (!upcoming.length) {
+    fixtureCard.innerHTML = headHtml
+      + '<div style="padding:1rem 1.1rem;font-size:0.78rem;color:var(--text-muted);">'
+      + '<i class="fa fa-calendar-xmark" style="display:block;font-size:1.2rem;margin-bottom:.5rem;opacity:.4;"></i>'
+      + 'No upcoming fixtures cached. Run <code>fetch_live.py</code> when connected to a network.'
+      + '</div>';
+    return;
+  }
+
+  fixtureCard.innerHTML = headHtml + upcoming.map(function(m) {
+    var t1 = m.t1 || m.team1 || '';
+    var t2 = m.t2 || m.team2 || '';
+    var iso1 = COUNTRY_ISO[t1] || ''; var iso2 = COUNTRY_ISO[t2] || '';
+    var f1 = iso1 ? '<img src="' + FLAG_CDN + iso1 + '.svg" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;">' : '';
+    var f2 = iso2 ? '<img src="' + FLAG_CDN + iso2 + '.svg" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;">' : '';
+    return '<a href="match-detail.html?id=' + esc(m.id||'') + '" class="fixture-item">'
+      + '<div class="fixture-teams">' + f1 + esc(t1) + ' vs ' + f2 + esc(t2) + '</div>'
+      + '<div class="fixture-meta"><span class="match-format-badge" style="font-size:.6rem">' + esc(m.matchType||'') + '</span> '
+      + esc(m.venue||'') + ' · ' + esc(m.date||'') + '</div>'
+    + '</a>';
+  }).join('');
 }
 
 // ── Format switcher for rankings ──────────────────────────────────────────────
-let rankingsCache = {};
+// Clear cache on page load so fresh data is fetched each visit
+var rankingsCache = {};
 
 async function switchRankingsFormat(fmt) {
   if (!rankingsCache[fmt]) {
-    const data = await apiFetch(`/api/icc-rankings?category=teams&format=${fmt}`);
-    rankingsCache[fmt] = data?.rankings || [];
+    var data = await apiFetch('/api/icc-rankings?category=teams&format=' + fmt);
+    rankingsCache[fmt] = (data && data.rankings) ? data.rankings : [];
   }
   renderRankings(rankingsCache[fmt], fmt);
 }
+
+// ── State for filtering ───────────────────────────────────────────────────────
+var _activeTeamFmt    = 'T20I';
+var _activeTeamRegion = '';
+var _teamSearch       = '';
+
+var CONF = {
+  'India':'Asia','Pakistan':'Asia','Sri Lanka':'Asia','Bangladesh':'Asia','Afghanistan':'Asia',
+  'Australia':'Pacific','New Zealand':'Pacific',
+  'England':'Europe','Ireland':'Europe','Scotland':'Europe','Netherlands':'Europe',
+  'South Africa':'Africa','Zimbabwe':'Africa','Kenya':'Africa','Namibia':'Africa',
+  'West Indies':'Americas','USA':'Americas','Canada':'Americas',
+};
+
+var REGION_TEAMS = {
+  'asia':     ['India','Pakistan','Sri Lanka','Bangladesh','Afghanistan'],
+  'europe':   ['England','Ireland','Scotland','Netherlands'],
+  'pacific':  ['Australia','New Zealand'],
+  'africa':   ['South Africa','Zimbabwe','Namibia'],
+  'americas': ['West Indies','USA','Canada'],
+};
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
   // Load T20I rankings by default
   await switchRankingsFormat('T20I');
 
-  // Wire format rank tabs
+  // Format filter chips (data-fmt="t20i"/"odi"/"test")
+  document.querySelectorAll('.filter-chip[data-fmt]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip[data-fmt]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const raw = btn.dataset.fmt.toLowerCase();
+      _activeTeamFmt = raw === 't20i' ? 'T20I' : raw === 'odi' ? 'ODI' : 'Test';
+      switchRankingsFormat(_activeTeamFmt);
+    });
+  });
+
+  // Region filter chips (data-region)
+  document.querySelectorAll('.filter-chip[data-region]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Toggle
+      const wasActive = btn.classList.contains('active');
+      document.querySelectorAll('.filter-chip[data-region]').forEach(b => b.classList.remove('active'));
+      if (!wasActive) {
+        btn.classList.add('active');
+        _activeTeamRegion = btn.dataset.region;
+      } else {
+        _activeTeamRegion = '';
+      }
+      filterRankingRows();
+    });
+  });
+
+  // Search input
+  const searchInput = document.querySelector('.filter-sticky .search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      _teamSearch = searchInput.value.trim().toLowerCase();
+      filterRankingRows();
+    });
+  }
+
+  // Wire format rank sub-tabs inside the table header
   document.querySelectorAll('[data-fmt-rank]').forEach(btn => {
     btn.addEventListener('click', () => {
       btn.closest('div').querySelectorAll('[data-fmt-rank]').forEach(b => b.classList.remove('active'));
