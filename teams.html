@@ -1403,15 +1403,15 @@
         <div>
           <div class="footer-col-title">Info</div>
           <ul class="footer-links">
-            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> About</a></li>
-            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Data Sources</a></li>
-            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Disclaimer</a></li>
-            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Contact</a></li>
+            <li><a href="about.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> About</a></li>
+            <li><a href="data-sources.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Data Sources</a></li>
+            <li><a href="disclaimer.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Disclaimer</a></li>
+            <li><a href="https://webcraft-dev.vercel.app/#contact" target="_blank" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Contact</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <span class="footer-copy">© 2025 Criclytics. All data sourced from public cricket APIs.</span>
+        <span class="footer-copy">© 2026 Criclytics. All data sourced from public cricket APIs.</span>
         <span class="footer-disclaimer">⚠ All insights are statistical observations based on historical data. Not a
           prediction platform.</span>
       </div>
@@ -1439,7 +1439,7 @@
       btn.addEventListener('click', () => {
         document.querySelectorAll('#rankSwitcher .rsw-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        const v = btn.dataset.view;
+        var v = btn.dataset.view;
         document.getElementById('view-rankings').style.display = v === 'rankings' ? '' : 'none';
         document.getElementById('view-cards').style.display = v === 'cards' ? '' : 'none';
       });
