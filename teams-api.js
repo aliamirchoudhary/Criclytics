@@ -189,7 +189,7 @@ async function renderWinRatesSidebar() {
     .sort((a, b) => b.win_pct - a.win_pct)
     .slice(0, 6);
 
-  const sbWinrate = document.querySelector('.sb-card:first-child');
+  const sbWinrate = document.getElementById('sbWinRates') || document.querySelector('.sb-card:first-child');
   if (!sbWinrate || !teams.length) return;
 
   const head = sbWinrate.querySelector('.sb-head');

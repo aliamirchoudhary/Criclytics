@@ -89,83 +89,54 @@ async function loadLiveMatches() {
   var matches = (liveData && liveData.data) ? liveData.data : [];
   var isLive = matches.length > 0;
 
-  // Fall back to upcoming matches when no live
+  // Fall back to first 2 upcoming when no live
   if (!matches.length) {
     var allData = await apiFetch('/api/matches');
     var allMatches = (allData && allData.data) ? allData.data : [];
-    matches = allMatches.filter(function(m) { return !m.matchEnded; }).slice(0, 3);
+    matches = allMatches.filter(function(m) { return !m.matchEnded; }).slice(0, 2);
   }
 
-  // Update section header
-  var sectionTitle = document.querySelector('#right-now-section .section-title, .section-title');
-  // Try to find the "Live Matches" title and update it
+  // Update section title
   document.querySelectorAll('.section-title').forEach(function(el) {
-    if (el.textContent.includes('Live Matches') && !isLive && matches.length) {
-      el.innerHTML = '<span class="icon">📅</span> Upcoming Matches';
+    if (el.textContent.includes('Live Matches') || el.textContent.includes('Up Next')) {
+      if (isLive) el.innerHTML = '<span class="icon">🔴</span> Live Matches';
+      else if (matches.length) el.innerHTML = '<span class="icon">⏰</span> Up Next';
+      else el.innerHTML = '<span class="icon">🔴</span> Live Matches';
     }
   });
 
-  // Featured match card
-  var featured = document.querySelector('.featured-match');
-  if (featured) {
-    if (!matches.length) {
-      featured.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-muted);">'
-        + '<i class="fa fa-calendar" style="font-size:2rem;display:block;margin-bottom:1rem;opacity:0.3;"></i>'
-        + '<div style="font-size:.9rem;">No matches scheduled right now.</div>'
-        + '<a href="matches.html" class="btn btn-ghost" style="margin-top:1rem;font-size:.8rem;">Browse all matches</a>'
-      + '</div>';
-    } else {
-      var m = matches[0];
-      var t1 = m.t1 || m.team1 || ''; var t2 = m.t2 || m.team2 || '';
-      var s1 = isLive ? (m.t1s || '—') : (m.date || 'Upcoming'); var s2 = isLive ? (m.t2s || '—') : '';
-      var iso1 = COUNTRY_ISO[t1] || ''; var iso2 = COUNTRY_ISO[t2] || '';
-      var f1Html = iso1 ? '<img src="' + FLAG_CDN + iso1 + '.svg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">' : '';
-      var f2Html = iso2 ? '<img src="' + FLAG_CDN + iso2 + '.svg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">' : '';
-      var badgeHtml = isLive
-        ? '<span class="status-badge status-live">Live</span>'
-        : '<span class="status-badge" style="background:rgba(94,184,255,0.1);color:var(--accent);border:1px solid rgba(94,184,255,0.2);">Upcoming</span>';
-      var centerText = isLive ? '● In Progress' : (m.date || 'Scheduled');
-      featured.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">'
-        + badgeHtml
-        + '<span class="match-format-badge">' + esc(m.matchType||'') + '</span>'
-        + '<span style="font-size:0.75rem;color:var(--text-muted)">' + esc(m.status || m.series || '') + '</span>'
-      + '</div>'
-      + '<div class="featured-match-body">'
-        + '<div class="featured-team"><div class="featured-flag">' + f1Html + '</div><div>'
-          + '<div class="featured-team-name">' + esc(t1) + '</div>'
-          + '<div class="featured-team-score">' + esc(s1) + '</div></div></div>'
-        + '<div class="featured-center"><div class="featured-vs">vs</div><div class="featured-status-text">' + esc(centerText) + '</div></div>'
-        + '<div class="featured-team right"><div class="featured-flag">' + f2Html + '</div><div style="text-align:right">'
-          + '<div class="featured-team-name">' + esc(t2) + '</div>'
-          + '<div class="featured-team-score">' + esc(s2) + '</div></div></div>'
-      + '</div>'
-      + '<div class="featured-footer"><div class="featured-venue"><i class="fa fa-location-dot"></i> ' + esc(m.venue||'—') + '</div>'
-      + '<a href="match-detail.html?id=' + esc(m.id||'') + '" class="btn btn-secondary btn-sm">Details <i class="fa fa-arrow-right"></i></a></div>';
-    }
+  // Inject into data-live-matches grid
+  var liveGrid = document.querySelector('[data-live-matches]');
+  if (!liveGrid) return;
+
+  if (!matches.length) {
+    liveGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted);font-size:.88rem;"><i class="fa fa-calendar" style="font-size:1.5rem;display:block;margin-bottom:.5rem;opacity:.4;"></i>No live or upcoming matches.</div>';
+    return;
   }
 
-  // Two small live cards (grid-2)
-  var smallGrid = document.querySelector('.featured-match + .grid-2, .live-small-grid');
-  if (smallGrid) {
-    if (matches.length < 2) {
-      smallGrid.innerHTML = '';
-    } else {
-      smallGrid.innerHTML = matches.slice(1, 3).map(function(m) {
-        var t1 = m.t1||m.team1||''; var t2 = m.t2||m.team2||'';
-        var s1 = m.t1s||'—'; var s2 = m.t2s||'—';
-        var iso1 = COUNTRY_ISO[t1]||''; var iso2 = COUNTRY_ISO[t2]||'';
-        return '<a href="match-detail.html?id=' + esc(m.id||'') + '" class="card match-card anim-up">'
-          + '<div class="match-card-header"><span class="status-badge status-live">Live</span><span class="match-format-badge">' + esc(m.matchType||'') + '</span></div>'
-          + '<div class="match-teams">'
-            + '<div class="match-team"><div class="team-flag">' + (iso1?'<img src="'+FLAG_CDN+iso1+'.svg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">':'') + '</div><div class="team-name">' + esc(t1) + '</div><div class="team-score">' + esc(s1) + '</div></div>'
-            + '<div class="match-vs">vs</div>'
-            + '<div class="match-team"><div class="team-flag">' + (iso2?'<img src="'+FLAG_CDN+iso2+'.svg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">':'') + '</div><div class="team-name">' + esc(t2) + '</div><div class="team-score">' + esc(s2) + '</div></div>'
-          + '</div>'
-          + '<div class="match-venue"><i class="fa fa-location-dot"></i> ' + esc(m.venue||'—') + '</div>'
-        + '</a>';
-      }).join('');
-    }
-  }
+  liveGrid.innerHTML = matches.slice(0, 2).map(function(m) {
+    var t1 = m.t1||m.team1||'', t2 = m.t2||m.team2||'';
+    var s1 = m.t1s||'', s2 = m.t2s||'';
+    var iso1 = COUNTRY_ISO[t1]||'', iso2 = COUNTRY_ISO[t2]||'';
+    var live = m.matchStarted && !m.matchEnded;
+    var page = live ? 'match-detail' : 'match-upcoming';
+    var badge = live
+      ? '<span class="status-badge status-live"><span style="width:6px;height:6px;background:var(--green-live);border-radius:50%;display:inline-block;margin-right:4px;animation:pulse-dot 1.2s infinite;"></span>Live</span>'
+      : '<span class="status-badge" style="background:rgba(94,184,255,.1);color:var(--accent);border:1px solid rgba(94,184,255,.2);">Upcoming</span>';
+    return '<a href="' + page + '.html?id=' + esc(m.id||'') + '" class="card match-card anim-up">'
+      + '<div class="match-card-header">' + badge + '<span class="match-format-badge">' + esc(m.matchType||'') + '</span></div>'
+      + '<div class="match-teams">'
+        + '<div class="match-team"><div class="team-flag">' + (iso1 ? '<img src="' + FLAG_CDN + iso1 + '.svg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">' : '') + '</div>'
+        + '<div class="team-name">' + esc(t1) + '</div>'
+        + '<div class="team-score">' + esc(live ? (s1||'—') : (m.date||'')) + '</div></div>'
+        + '<div class="match-vs">vs</div>'
+        + '<div class="match-team"><div class="team-flag">' + (iso2 ? '<img src="' + FLAG_CDN + iso2 + '.svg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">' : '') + '</div>'
+        + '<div class="team-name">' + esc(t2) + '</div>'
+        + '<div class="team-score">' + esc(live ? (s2||'—') : '') + '</div></div>'
+      + '</div>'
+      + '<div class="match-venue"><i class="fa fa-location-dot"></i> ' + esc(m.venue||'—') + '</div>'
+      + '</a>';
+  }).join('');
 }
 
 // ─── Quick Insights (from Cricsheet records) ──────────────────────────────────
@@ -238,7 +209,7 @@ async function loadUpcoming() {
     var fmt = m.matchType||m.type||'';
     var isLive = m.matchStarted && !m.matchEnded;
     var delays = ['delay-1','delay-2','delay-3','delay-4','delay-5'];
-    return '<a href="match-detail.html?id=' + esc(m.id||'') + '" class="upcoming-row anim-up ' + delays[i] + '">'
+    return '<a href="' + (m.matchEnded ? 'match-detail' : 'match-upcoming') + '.html?id=' + esc(m.id||'') + '" class="upcoming-row anim-up ' + delays[i] + '">'
       + '<div class="team-flag" style="width:36px;height:36px;">' + flCircle(t1, 36) + '</div>'
       + '<div style="flex:1">'
         + '<div class="upcoming-teams">' + esc(t1) + ' vs ' + esc(t2) + '</div>'
@@ -300,11 +271,10 @@ async function loadTrendingPlayers() {
         + '<div class="pcard-stat"><div class="pcard-stat-val">' + (bestBowl.wickets||'—') + '</div><div class="pcard-stat-lbl">Wkts</div></div>'
       : '';
 
+    var photoUrl=(meta[name]&&meta[name].image_url)||p.image_url||'';
+    var isoCode2=(meta[name]&&meta[name].iso_code)||COUNTRY_ISO[country]||'';
     return '<div class="card player-card anim-up ' + delays[i] + '">'
-      + '<div class="player-avatar" style="position:relative;overflow:hidden;">'
-        + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--accent);">' + initials + '</span>'
-        + (country ? '<img src="' + FLAG_CDN + (COUNTRY_ISO[country]||country) + '.svg" style="position:absolute;bottom:2px;right:2px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--surface-1);object-fit:cover;" onerror="this.style.display=\'none\'">' : '')
-      + '</div>'
+      + '<div class="player-avatar" style="position:relative;overflow:hidden;">'        + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--accent);">' + initials + '</span>'        + (photoUrl ? '<img src="' + photoUrl + '" alt="' + esc(name) + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">' : '')        + (isoCode2 ? '<img src="' + FLAG_CDN + isoCode2 + '.svg" style="position:absolute;bottom:2px;right:2px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--surface-1);object-fit:cover;" onerror="this.style.display=\'none\'">' : '')      + '</div>'
       + '<div class="player-name">' + esc(name) + '</div>'
       + '<div class="player-meta">' + (country ? fl(country,14) + esc(country) : '—') + '</div>'
       + '<div class="player-stat-row" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;">' + statsHtml + '</div>'
@@ -344,15 +314,17 @@ async function loadRecentResults() {
   var completed = allMatches.filter(function(m){ return m.matchEnded; }).slice(0,4);
 
   // Find recent results container
-  var recentEl = null;
-  document.querySelectorAll('[style*="flex-direction:column"]').forEach(function(el) {
-    if (el.querySelector('a.upcoming-row') && !recentEl) {
-      var section = el.closest('section');
-      if (section && (section.querySelector('.section-title')||{}).textContent.toLowerCase().includes('recent')) {
-        recentEl = el;
+  var recentEl = document.querySelector('[data-recent]');
+  if (!recentEl) {
+    document.querySelectorAll('[style*="flex-direction:column"]').forEach(function(el) {
+      if (!recentEl) {
+        var sec = el.closest('section');
+        if (sec) { sec.querySelectorAll('.section-title').forEach(function(ti){
+          if(ti.textContent.toLowerCase().includes('recent')) recentEl=el;
+        }); }
       }
-    }
-  });
+    });
+  }
   if (!recentEl) return;
 
   if (!completed.length) {
@@ -362,7 +334,7 @@ async function loadRecentResults() {
 
   recentEl.innerHTML = completed.map(function(m) {
     var t1 = m.t1||m.team1||''; var t2 = m.t2||m.team2||'';
-    return '<a href="match-detail.html?id=' + esc(m.id||'') + '" class="upcoming-row" style="padding:0.75rem 1rem;">'
+    return '<a href="' + (m.matchEnded ? 'match-detail' : 'match-upcoming') + '.html?id=' + esc(m.id||'') + '" class="upcoming-row" style="padding:0.75rem 1rem;">'
       + '<div style="flex:1">'
         + '<div style="font-size:.88rem;font-weight:600;color:var(--text-primary)">' + esc(m.status || (t1+' vs '+t2)) + '</div>'
         + '<div class="upcoming-meta"><span class="match-format-badge">' + esc(m.matchType||'') + '</span> ' + esc(m.venue||'') + '</div>'
