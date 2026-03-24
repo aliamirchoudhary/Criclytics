@@ -6,15 +6,6 @@
  * grid/list view rendering, and player photo loading.
  */
 
-'use strict';
-
-const FLAG_BASE = 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/';
-const COUNTRY_ISO = {
-  'India':'IN','Australia':'AU','England':'ENGLAND','Pakistan':'PK',
-  'New Zealand':'NZ','South Africa':'ZA','West Indies':'WI','Sri Lanka':'LK',
-  'Bangladesh':'BD','Afghanistan':'AF','Zimbabwe':'ZW','Ireland':'IE',
-};
-
 // ── State ─────────────────────────────────────────────────────────────────────
 let allPlayers   = [];
 let playersMeta  = {};
@@ -24,17 +15,20 @@ let activeFormat = '';
 let activeSearch = '';
 let activeSort   = 'runs';
 let activeLetter = 'all';
+let activeRole   = '';      // 'Batsman' | 'Bowler' | 'All-Rounder' | 'Wicketkeeper' | ''
+let activeCountry= '';      // country name
+let activeBatStyle = '';    // 'Right-hand bat' | 'Left-hand bat' | ''
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function fl(country, size = 16) {
   const code = COUNTRY_ISO[country] || country;
-  return `<img src="${FLAG_BASE}${code}.svg" alt="${country}"
+  return `<img src="${FLAG_CDN}${code}.svg" alt="${country}"
     style="width:${size}px;height:${size}px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;"
     onerror="this.style.display='none'">`;
 }
 
 function flCircle(iso, size = 18) {
-  return `<img src="${FLAG_BASE}${iso}.svg"
+  return `<img src="${FLAG_CDN}${iso}.svg"
     style="position:absolute;bottom:-2px;right:-2px;width:${size}px;height:${size}px;border-radius:50%;border:1.5px solid var(--surface-1);object-fit:cover;"
     onerror="this.style.display='none'">`;
 }
@@ -56,18 +50,41 @@ function getBestStats(player) {
 }
 
 function getCountry(player) {
+  // player.country comes from players_index.json (covers all 4769 players)
+  // meta.country is the fallback for the 70 players in players_meta.json
   const meta = playersMeta[player.name] || {};
-  return meta.country || '';
+  return player.country || meta.country || '';
 }
 
 function getIso(player) {
-  const country = getCountry(player);
+  const meta = playersMeta[player.name] || {};
+  if (meta.iso_code) return meta.iso_code;
+  // player.country is the Cricsheet team name — map directly
+  const country = player.country || meta.country || '';
   return COUNTRY_ISO[country] || '';
 }
 
 function getPhotoUrl(player) {
-  const meta = playersMeta[player.name] || {};
-  return meta.image_url || '';
+  // Try exact match first
+  var meta = playersMeta[player.name];
+  if (meta && meta.image_url) return meta.image_url;
+  
+  // Try case-insensitive match
+  var nameLower = (player.name || '').toLowerCase();
+  for (var k in playersMeta) {
+    if (k.toLowerCase() === nameLower && playersMeta[k].image_url) {
+      return playersMeta[k].image_url;
+    }
+  }
+  
+  // Try matching by last word (surname) - only if no ambiguity
+  // e.g. player.name="Ravindra Jadeja" might be in meta as "RA Jadeja"
+  // This is risky for common surnames, skip it
+  
+  // Use image_url from API response if meta enrichment already added it
+  if (player.image_url) return player.image_url;
+  
+  return '';
 }
 
 // ── Avatar HTML ───────────────────────────────────────────────────────────────
@@ -75,8 +92,8 @@ function avatarHtml(player, size = 52) {
   const ini  = initials(player.name);
   const iso  = getIso(player);
   const photo = getPhotoUrl(player);
-  const photoHtml = photo
-    ? `<img src="${photo}" alt="${esc(player.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;position:absolute;inset:0;">`
+  const photoHtml = (photo && photo.length > 0)
+    ? `<img src="${photo}" alt="${esc(player.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;position:absolute;inset:0;" onerror="this.style.display='none'">`
     : '';
   const flagBadge = iso ? flCircle(iso, size > 40 ? 18 : 14) : '';
   return `
@@ -163,7 +180,12 @@ function getFiltered() {
 
   if (activeSearch) {
     const q = activeSearch.toLowerCase();
-    players = players.filter(p => p.name.toLowerCase().includes(q));
+    players = players.filter(p => {
+      const meta = playersMeta[p.name] || {};
+      return p.name.toLowerCase().includes(q)
+        || (p.country||meta.country||'').toLowerCase().includes(q)
+        || (meta.full_name||'').toLowerCase().includes(q);
+    });
   }
 
   if (activeFormat) {
@@ -174,12 +196,56 @@ function getFiltered() {
     players = players.filter(p => p.name.toUpperCase().startsWith(activeLetter));
   }
 
+  if (activeRole) {
+    players = players.filter(p => {
+      const meta = playersMeta[p.name] || {};
+      const role = p.role || meta.role || '';
+      if (activeRole === 'Batsman') return role.toLowerCase().includes('bat') || (!role && p.batting && !p.bowling);
+      if (activeRole === 'Bowler') return role.toLowerCase().includes('bowl') || (!role && p.bowling && !p.batting);
+      if (activeRole === 'All-Rounder') return role.toLowerCase().includes('all') || (p.batting && p.bowling);
+      if (activeRole === 'Wicketkeeper') return role.toLowerCase().includes('keeper') || role.toLowerCase().includes('wicket');
+      return true;
+    });
+  }
+
+  if (activeCountry) {
+    players = players.filter(p => {
+      const meta = playersMeta[p.name] || {};
+      const c = p.country || meta.country || '';
+      return c.toLowerCase() === activeCountry.toLowerCase();
+    });
+  }
+
+  if (activeBatStyle) {
+    players = players.filter(p => {
+      const meta = playersMeta[p.name] || {};
+      return (meta.batting_style||'').toLowerCase().includes(activeBatStyle.toLowerCase().split('-')[0]);
+    });
+  }
+
   // Sort
   players.sort((a, b) => {
+    if (activeSort === 'alpha') return a.name.localeCompare(b.name);
     const aStats = getBestStats(a);
     const bStats = getBestStats(b);
-    const aVal = aStats ? (aStats.type === 'bat' ? (aStats.s.runs || 0) : (aStats.s.wickets || 0)) : 0;
-    const bVal = bStats ? (bStats.type === 'bat' ? (bStats.s.runs || 0) : (bStats.s.wickets || 0)) : 0;
+    if (activeSort === 'wickets') {
+      const aW = Object.values(a.bowling||{}).reduce((s,f)=>s+(f.wickets||0),0);
+      const bW = Object.values(b.bowling||{}).reduce((s,f)=>s+(f.wickets||0),0);
+      return bW - aW;
+    }
+    if (activeSort === 'avg') {
+      const aA = aStats ? (aStats.s.average||0) : 0;
+      const bA = bStats ? (bStats.s.average||0) : 0;
+      return bA - aA;
+    }
+    if (activeSort === 'sr') {
+      const aSR = aStats ? (aStats.s.strike_rate||0) : 0;
+      const bSR = bStats ? (bStats.s.strike_rate||0) : 0;
+      return bSR - aSR;
+    }
+    // Default: runs / wickets by best format
+    const aVal = aStats ? (aStats.type === 'bat' ? (aStats.s.runs||0) : (aStats.s.wickets||0)) : 0;
+    const bVal = bStats ? (bStats.type === 'bat' ? (bStats.s.runs||0) : (bStats.s.wickets||0)) : 0;
     return bVal - aVal;
   });
 
@@ -288,39 +354,56 @@ function updateFacetCounts() {
 }
 
 // ── Event wiring ──────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
   loadPlayers();
 
-  // Hero search
-  const heroSearch = document.getElementById('heroSearch');
+  // ── Hero search ──────────────────────────────────────────────────────────────
+  var heroSearch = document.getElementById('heroSearch');
   if (heroSearch) {
-    heroSearch.addEventListener('input', e => {
+    heroSearch.addEventListener('input', function(e) {
       activeSearch = e.target.value.trim();
       currentPage = 1;
       renderPage();
     });
   }
 
-  // Sort chips
-  document.querySelectorAll('[data-sort]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('[data-sort]').forEach(b => b.classList.remove('active'));
+  // ── Sort chips (filter bar: Trending / A-Z / ICC Ranked / By Country) ─────────
+  // Map chip data-sort → internal sort key
+  var SORT_MAP = { 'trending':'runs', 'alpha':'alpha', 'ranking':'runs', 'country':'alpha' };
+  document.querySelectorAll('[data-sort]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('[data-sort]').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
-      activeSort = btn.dataset.sort;
+      activeSort = SORT_MAP[btn.dataset.sort] || btn.dataset.sort;
       currentPage = 1;
       renderPage();
     });
   });
 
-  // Format chips
-  document.querySelectorAll('[data-fmt]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const fmt = btn.dataset.fmt.toUpperCase().replace('T20','T20I');
+  // ── Sort SELECT in results bar (Sort: Trending / A-Z / Avg High / SR / Wickets) ─
+  var sortSelect = document.querySelector('.results-area .filter-select, .results-bar .filter-select');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      var v = sortSelect.value.toLowerCase();
+      if (v.includes('a') && v.includes('z')) activeSort = 'alpha';
+      else if (v.includes('avg'))             activeSort = 'avg';
+      else if (v.includes('strike') || v.includes('sr')) activeSort = 'sr';
+      else if (v.includes('wicket'))          activeSort = 'wickets';
+      else                                    activeSort = 'runs';
+      currentPage = 1;
+      renderPage();
+    });
+  }
+
+  // ── Format chips ──────────────────────────────────────────────────────────────
+  document.querySelectorAll('[data-fmt]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var fmt = btn.dataset.fmt.toUpperCase().replace(/^T20$/, 'T20I');
       if (activeFormat === fmt) {
         activeFormat = '';
         btn.classList.remove('active');
       } else {
-        document.querySelectorAll('[data-fmt]').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('[data-fmt]').forEach(function(b) { b.classList.remove('active'); });
         activeFormat = fmt;
         btn.classList.add('active');
       }
@@ -329,10 +412,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Alpha bar
-  document.querySelectorAll('.alpha-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+  // ── Role dropdown ─────────────────────────────────────────────────────────────
+  var roleFilter = document.getElementById('roleFilter');
+  if (roleFilter) {
+    roleFilter.addEventListener('change', function() {
+      activeRole = roleFilter.value || '';
+      currentPage = 1;
+      renderPage();
+    });
+  }
+
+  // ── Country dropdown ──────────────────────────────────────────────────────────
+  var countryFilter = document.getElementById('countryFilter');
+  if (countryFilter) {
+    countryFilter.addEventListener('change', function() {
+      activeCountry = countryFilter.value || '';
+      currentPage = 1;
+      renderPage();
+    });
+  }
+
+  // ── Alpha bar ─────────────────────────────────────────────────────────────────
+  document.querySelectorAll('.alpha-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.alpha-btn').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
       activeLetter = btn.dataset.letter || 'all';
       currentPage = 1;
@@ -340,19 +443,80 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // View toggle
-  const gridView = document.getElementById('gridView');
-  const listView = document.getElementById('listView');
-  document.getElementById('gridViewBtn')?.addEventListener('click', () => {
-    gridView.style.display = '';
-    listView.style.display = 'none';
-    document.getElementById('gridViewBtn').classList.add('active');
-    document.getElementById('listViewBtn').classList.remove('active');
+  // ── Left facet panel ──────────────────────────────────────────────────────────
+  document.querySelectorAll('.facets-section').forEach(function(section) {
+    var title = ((section.querySelector('.facets-section-title') || {}).textContent || '').toLowerCase();
+    section.querySelectorAll('.facet-opt').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        section.querySelectorAll('.facet-opt').forEach(function(o) { o.classList.remove('active'); });
+        opt.classList.add('active');
+        // Get first span text, stripping flag images
+        var firstSpan = opt.querySelector('span:first-child');
+        var label = (firstSpan ? firstSpan.textContent : opt.textContent).trim();
+        // Try to get country name from img alt
+        var flagImg = opt.querySelector('img');
+        var cleanCountry = flagImg ? flagImg.alt.trim() : label.replace(/[^ -]/g,'').trim();
+
+        if (title.includes('role')) {
+          activeRole = (label.toLowerCase().includes('all role') || label.toLowerCase().includes('all roles')) ? '' : label.trim();
+        } else if (title.includes('format')) {
+          if      (label.toLowerCase().includes('t20')) activeFormat = 'T20I';
+          else if (label.toLowerCase().includes('odi'))  activeFormat = 'ODI';
+          else if (label.toLowerCase().includes('test')) activeFormat = 'Test';
+          else                                           activeFormat = '';
+        } else if (title.includes('country')) {
+          activeCountry = cleanCountry;
+        } else if (title.includes('batting') || title.includes('bat style')) {
+          activeBatStyle = label.toLowerCase().includes('left') ? 'Left' : label.toLowerCase().includes('right') ? 'Right' : '';
+        } else if (title.includes('active') || title.includes('status')) {
+          // Active status filter — we don't have this data so just reset
+          activeRole = '';
+        }
+        currentPage = 1;
+        renderPage();
+      });
+    });
   });
-  document.getElementById('listViewBtn')?.addEventListener('click', () => {
-    listView.style.display = '';
-    gridView.style.display = 'none';
-    document.getElementById('listViewBtn').classList.add('active');
-    document.getElementById('gridViewBtn').classList.remove('active');
-  });
+
+  // ── Clear all button ──────────────────────────────────────────────────────────
+  var clearBtn = document.querySelector('.facets-header .btn-ghost');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      activeSearch = ''; activeFormat = ''; activeRole = '';
+      activeCountry = ''; activeBatStyle = ''; activeLetter = 'all';
+      activeSort = 'runs'; currentPage = 1;
+      if (heroSearch)    heroSearch.value = '';
+      if (roleFilter)    roleFilter.value = '';
+      if (countryFilter) countryFilter.value = '';
+      document.querySelectorAll('.facet-opt').forEach(function(o) { o.classList.remove('active'); });
+      document.querySelectorAll('[data-sort]').forEach(function(b) {
+        b.classList.toggle('active', b.dataset.sort === 'trending');
+      });
+      document.querySelectorAll('[data-fmt]').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.alpha-btn').forEach(function(b) {
+        b.classList.toggle('active', b.dataset.letter === 'all');
+      });
+      renderPage();
+    });
+  }
+
+  // ── View toggle ───────────────────────────────────────────────────────────────
+  var gridViewBtn = document.getElementById('gridViewBtn');
+  var listViewBtn = document.getElementById('listViewBtn');
+  var gridViewEl  = document.getElementById('gridView');
+  var listViewEl  = document.getElementById('listView');
+  if (gridViewBtn && gridViewEl && listViewEl) {
+    gridViewBtn.addEventListener('click', function() {
+      gridViewEl.style.display = ''; listViewEl.style.display = 'none';
+      gridViewBtn.classList.add('active');
+      if (listViewBtn) listViewBtn.classList.remove('active');
+    });
+  }
+  if (listViewBtn && gridViewEl && listViewEl) {
+    listViewBtn.addEventListener('click', function() {
+      listViewEl.style.display = ''; gridViewEl.style.display = 'none';
+      listViewBtn.classList.add('active');
+      if (gridViewBtn) gridViewBtn.classList.remove('active');
+    });
+  }
 });
