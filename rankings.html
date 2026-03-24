@@ -2444,10 +2444,10 @@
         <div>
           <div class="footer-col-title">Info</div>
           <ul class="footer-links">
-            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> About</a></li>
-            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Data Sources</a></li>
-            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Disclaimer</a></li>
-            <li><a href="#" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Contact</a></li>
+            <li><a href="about.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> About</a></li>
+            <li><a href="data-sources.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Data Sources</a></li>
+            <li><a href="disclaimer.html" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Disclaimer</a></li>
+            <li><a href="https://webcraft-dev.vercel.app/#contact" target="_blank" class="footer-link"><i class="fa fa-circle-dot fa-xs"></i> Contact</a></li>
           </ul>
         </div>
       </div>
@@ -2475,46 +2475,6 @@
 
   <script>
     function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
-
-    // Format tab switching (Test / ODI / T20I)
-    const fmtTabs = document.querySelectorAll('.format-tab');
-    const fmtPanels = document.querySelectorAll('.fmt-panel');
-
-    fmtTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        fmtTabs.forEach(t => t.classList.remove('active'));
-        fmtPanels.forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('fmt-' + tab.dataset.fmt).classList.add('active');
-        // Reset category to batting when switching format
-        document.querySelectorAll('.cs-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('[data-cat="batting"]').classList.add('active');
-        showCatPanel(tab.dataset.fmt, 'batting');
-      });
-    });
-
-    // Category switcher (Batting / Bowling / All-Rounder / Teams)
-    const csBtns = document.querySelectorAll('.cs-btn');
-    csBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        csBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const activeFmt = document.querySelector('.format-tab.active').dataset.fmt;
-        showCatPanel(activeFmt, btn.dataset.cat);
-      });
-    });
-
-    function showCatPanel(fmt, cat) {
-      const fmtPanel = document.getElementById('fmt-' + fmt);
-      fmtPanel.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('active'));
-      const target = document.getElementById(fmt + '-' + cat);
-      if (target) target.classList.add('active');
-    }
-
-    document.querySelector('.nav-search').addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' && this.value.trim())
-        window.location.href = 'search.html?q=' + encodeURIComponent(this.value.trim());
-    });
   </script>
 
   <script src="cricklytics.js"></script>
