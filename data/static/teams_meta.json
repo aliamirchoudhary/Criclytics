@@ -1,0 +1,317 @@
+{
+  "India": {
+    "full_name": "India",
+    "code": "IND",
+    "iso_code": "IN",
+    "board": "Board of Control for Cricket in India (BCCI)",
+    "founded": 1928,
+    "confederation": "Asia",
+    "home_ground": "Narendra Modi Stadium, Ahmedabad",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [
+        1983,
+        2011
+      ],
+      "T20 World Cup": [
+        2007,
+        2024
+      ],
+      "Champions Trophy": [
+        2002,
+        2013
+      ],
+      "WTC": []
+    },
+    "icc_trophies": 4
+  },
+  "Australia": {
+    "full_name": "Australia",
+    "code": "AUS",
+    "iso_code": "AU",
+    "board": "Cricket Australia (CA)",
+    "founded": 1905,
+    "confederation": "Pacific",
+    "home_ground": "Melbourne Cricket Ground",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [
+        1987,
+        1999,
+        2003,
+        2007,
+        2015,
+        2023
+      ],
+      "T20 World Cup": [
+        2021
+      ],
+      "Champions Trophy": [
+        2006,
+        2009
+      ],
+      "WTC": [
+        2021,
+        2023
+      ]
+    },
+    "icc_trophies": 9
+  },
+  "England": {
+    "full_name": "England",
+    "code": "ENG",
+    "iso_code": "ENGLAND",
+    "board": "England and Wales Cricket Board (ECB)",
+    "founded": 1877,
+    "confederation": "Europe",
+    "home_ground": "Lord's Cricket Ground, London",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [
+        2019
+      ],
+      "T20 World Cup": [
+        2010,
+        2022
+      ],
+      "Champions Trophy": [
+        2004
+      ],
+      "WTC": []
+    },
+    "icc_trophies": 4
+  },
+  "Pakistan": {
+    "full_name": "Pakistan",
+    "code": "PAK",
+    "iso_code": "PK",
+    "board": "Pakistan Cricket Board (PCB)",
+    "founded": 1948,
+    "confederation": "Asia",
+    "home_ground": "Gaddafi Stadium, Lahore",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [
+        1992
+      ],
+      "T20 World Cup": [
+        2009
+      ],
+      "Champions Trophy": [
+        2017
+      ],
+      "WTC": []
+    },
+    "icc_trophies": 3
+  },
+  "South Africa": {
+    "full_name": "South Africa",
+    "code": "SA",
+    "iso_code": "ZA",
+    "board": "Cricket South Africa (CSA)",
+    "founded": 1909,
+    "confederation": "Africa",
+    "home_ground": "Newlands Cricket Ground, Cape Town",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [],
+      "T20 World Cup": [],
+      "Champions Trophy": [],
+      "WTC": []
+    },
+    "icc_trophies": 0
+  },
+  "New Zealand": {
+    "full_name": "New Zealand",
+    "code": "NZ",
+    "iso_code": "NZ",
+    "board": "New Zealand Cricket (NZC)",
+    "founded": 1894,
+    "confederation": "Pacific",
+    "home_ground": "Eden Park, Auckland",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [],
+      "T20 World Cup": [],
+      "Champions Trophy": [],
+      "WTC": [
+        2021
+      ]
+    },
+    "icc_trophies": 1
+  },
+  "West Indies": {
+    "full_name": "West Indies",
+    "code": "WI",
+    "iso_code": "WI",
+    "board": "Cricket West Indies (CWI)",
+    "founded": 1928,
+    "confederation": "Americas",
+    "home_ground": "Kensington Oval, Barbados",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [
+        1975,
+        1979
+      ],
+      "T20 World Cup": [
+        2012,
+        2016
+      ],
+      "Champions Trophy": [],
+      "WTC": []
+    },
+    "icc_trophies": 4
+  },
+  "Sri Lanka": {
+    "full_name": "Sri Lanka",
+    "code": "SL",
+    "iso_code": "LK",
+    "board": "Sri Lanka Cricket (SLC)",
+    "founded": 1922,
+    "confederation": "Asia",
+    "home_ground": "R. Premadasa Stadium, Colombo",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [
+        1996
+      ],
+      "T20 World Cup": [
+        2014
+      ],
+      "Champions Trophy": [],
+      "WTC": []
+    },
+    "icc_trophies": 2
+  },
+  "Bangladesh": {
+    "full_name": "Bangladesh",
+    "code": "BAN",
+    "iso_code": "BD",
+    "board": "Bangladesh Cricket Board (BCB)",
+    "founded": 1972,
+    "confederation": "Asia",
+    "home_ground": "Sher-e-Bangla National Cricket Stadium, Dhaka",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [],
+      "T20 World Cup": [],
+      "Champions Trophy": [],
+      "WTC": []
+    },
+    "icc_trophies": 0
+  },
+  "Afghanistan": {
+    "full_name": "Afghanistan",
+    "code": "AFG",
+    "iso_code": "AF",
+    "board": "Afghanistan Cricket Board (ACB)",
+    "founded": 2001,
+    "confederation": "Asia",
+    "home_ground": "Sharjah Cricket Stadium",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {
+      "ODI World Cup": [],
+      "T20 World Cup": [],
+      "Champions Trophy": [],
+      "WTC": []
+    },
+    "icc_trophies": 0
+  },
+  "Zimbabwe": {
+    "full_name": "Zimbabwe",
+    "code": "ZIM",
+    "iso_code": "ZW",
+    "board": "Zimbabwe Cricket (ZC)",
+    "founded": 1992,
+    "confederation": "Africa",
+    "home_ground": "Harare Sports Club",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {},
+    "icc_trophies": 0
+  },
+  "Ireland": {
+    "full_name": "Ireland",
+    "code": "IRE",
+    "iso_code": "IE",
+    "board": "Cricket Ireland",
+    "founded": 1923,
+    "confederation": "Europe",
+    "home_ground": "Malahide Cricket Club Ground, Dublin",
+    "formats": [
+      "Test",
+      "ODI",
+      "T20I"
+    ],
+    "icc_member": "Full Member",
+    "status": "active",
+    "wc_titles": {},
+    "icc_trophies": 0
+  }
+}

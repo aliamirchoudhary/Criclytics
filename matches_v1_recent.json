@@ -1,0 +1,2509 @@
+{
+  "typeMatches": [
+    {
+      "matchType": "International",
+      "seriesMatches": [
+        {
+          "seriesAdWrapper": {
+            "seriesId": 10234,
+            "seriesName": "South Africa tour of New Zealand, 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 122698,
+                  "seriesId": 10234,
+                  "seriesName": "South Africa tour of New Zealand, 2026",
+                  "matchDesc": "2nd T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773728100000",
+                  "endDate": "1773740700000",
+                  "state": "Complete",
+                  "status": "New Zealand won by 68 runs",
+                  "team1": {
+                    "teamId": 13,
+                    "teamName": "New Zealand",
+                    "teamSName": "NZ",
+                    "imageId": 776333
+                  },
+                  "team2": {
+                    "teamId": 11,
+                    "teamName": "South Africa",
+                    "teamSName": "RSA",
+                    "imageId": 776287
+                  },
+                  "venueInfo": {
+                    "id": 100,
+                    "ground": "Seddon Park",
+                    "city": "Hamilton",
+                    "timezone": "+13:00",
+                    "latitude": "-37.786654",
+                    "longitude": "175.266647"
+                  },
+                  "currBatTeamId": 13,
+                  "seriesStartDt": "1773532800000",
+                  "seriesEndDt": "1774569600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "NZ Won",
+                  "isFantasyEnabled": true
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 175,
+                      "wickets": 6,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 107,
+                      "wickets": 10,
+                      "overs": 15.3
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 122687,
+                  "seriesId": 10234,
+                  "seriesName": "South Africa tour of New Zealand, 2026",
+                  "matchDesc": "1st T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773555300000",
+                  "endDate": "1773567900000",
+                  "state": "Complete",
+                  "status": "South Africa won by 7 wkts",
+                  "team1": {
+                    "teamId": 13,
+                    "teamName": "New Zealand",
+                    "teamSName": "NZ",
+                    "imageId": 776333
+                  },
+                  "team2": {
+                    "teamId": 11,
+                    "teamName": "South Africa",
+                    "teamSName": "RSA",
+                    "imageId": 776287
+                  },
+                  "venueInfo": {
+                    "id": 393,
+                    "ground": "Bay Oval",
+                    "city": "Mount Maunganui",
+                    "timezone": "+13:00",
+                    "latitude": "-37.670300",
+                    "longitude": "176.212006"
+                  },
+                  "currBatTeamId": 11,
+                  "seriesStartDt": "1773532800000",
+                  "seriesEndDt": "1774569600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "RSA Won",
+                  "isFantasyEnabled": true
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 91,
+                      "wickets": 10,
+                      "overs": 14.3
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 93,
+                      "wickets": 3,
+                      "overs": 16.4
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11584,
+            "seriesName": "Pakistan tour of Bangladesh, 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 147885,
+                  "seriesId": 11584,
+                  "seriesName": "Pakistan tour of Bangladesh, 2026",
+                  "matchDesc": "3rd ODI",
+                  "matchFormat": "ODI",
+                  "startDate": "1773562500000",
+                  "endDate": "1773591300000",
+                  "state": "Complete",
+                  "status": "Bangladesh won by 11 runs",
+                  "team1": {
+                    "teamId": 6,
+                    "teamName": "Bangladesh",
+                    "teamSName": "BAN",
+                    "imageId": 776210
+                  },
+                  "team2": {
+                    "teamId": 3,
+                    "teamName": "Pakistan",
+                    "teamSName": "PAK",
+                    "imageId": 776308
+                  },
+                  "venueInfo": {
+                    "id": 128,
+                    "ground": "Shere Bangla National Stadium",
+                    "city": "Dhaka",
+                    "timezone": "+06:00",
+                    "latitude": "23.806966",
+                    "longitude": "90.363576"
+                  },
+                  "currBatTeamId": 6,
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1773705600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "BAN Won",
+                  "isFantasyEnabled": true
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 290,
+                      "wickets": 5,
+                      "overs": 49.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 279,
+                      "wickets": 10,
+                      "overs": 49.6
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147874,
+                  "seriesId": 11584,
+                  "seriesName": "Pakistan tour of Bangladesh, 2026",
+                  "matchDesc": "2nd ODI",
+                  "matchFormat": "ODI",
+                  "startDate": "1773389700000",
+                  "endDate": "1773418500000",
+                  "state": "Complete",
+                  "status": "Pakistan won by 128 runs  -  2nd inns reduced to 32 overs (DLS Target 243)",
+                  "team1": {
+                    "teamId": 3,
+                    "teamName": "Pakistan",
+                    "teamSName": "PAK",
+                    "imageId": 776308
+                  },
+                  "team2": {
+                    "teamId": 6,
+                    "teamName": "Bangladesh",
+                    "teamSName": "BAN",
+                    "imageId": 776210
+                  },
+                  "venueInfo": {
+                    "id": 128,
+                    "ground": "Shere Bangla National Stadium",
+                    "city": "Dhaka",
+                    "timezone": "+06:00",
+                    "latitude": "23.806966",
+                    "longitude": "90.363576"
+                  },
+                  "currBatTeamId": 3,
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1773705600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "PAK Won",
+                  "isFantasyEnabled": true
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 274,
+                      "wickets": 10,
+                      "overs": 47.3
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 114,
+                      "wickets": 10,
+                      "overs": 23.3
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11718,
+            "seriesName": "Austria tour of Cyprus 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 149611,
+                  "seriesId": 11718,
+                  "seriesName": "Austria tour of Cyprus 2026",
+                  "matchDesc": "4th T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773648000000",
+                  "endDate": "1773660600000",
+                  "state": "Complete",
+                  "status": "Austria won by 7 wkts",
+                  "team1": {
+                    "teamId": 1111,
+                    "teamName": "Cyprus",
+                    "teamSName": "CYP",
+                    "imageId": 247198
+                  },
+                  "team2": {
+                    "teamId": 532,
+                    "teamName": "Austria",
+                    "teamSName": "AUT",
+                    "imageId": 172583
+                  },
+                  "venueInfo": {
+                    "id": 1893,
+                    "ground": "Happy Valley Ground",
+                    "city": "Episkopi",
+                    "timezone": "+03:00",
+                    "latitude": "34.6741916",
+                    "longitude": "32.8010629"
+                  },
+                  "currBatTeamId": 532,
+                  "seriesStartDt": "1773446400000",
+                  "seriesEndDt": "1773792000000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "AUT Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 136,
+                      "wickets": 8,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 140,
+                      "wickets": 3,
+                      "overs": 16.3
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 149600,
+                  "seriesId": 11718,
+                  "seriesName": "Austria tour of Cyprus 2026",
+                  "matchDesc": "3rd T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773576900000",
+                  "endDate": "1773589500000",
+                  "state": "Complete",
+                  "status": "Match abandoned without toss",
+                  "team1": {
+                    "teamId": 1111,
+                    "teamName": "Cyprus",
+                    "teamSName": "CYP",
+                    "imageId": 247198
+                  },
+                  "team2": {
+                    "teamId": 532,
+                    "teamName": "Austria",
+                    "teamSName": "AUT",
+                    "imageId": 172583
+                  },
+                  "venueInfo": {
+                    "id": 1893,
+                    "ground": "Happy Valley Ground",
+                    "city": "Episkopi",
+                    "timezone": "+03:00",
+                    "latitude": "34.6741916",
+                    "longitude": "32.8010629"
+                  },
+                  "seriesStartDt": "1773446400000",
+                  "seriesEndDt": "1773792000000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Abandon"
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 149589,
+                  "seriesId": 11718,
+                  "seriesName": "Austria tour of Cyprus 2026",
+                  "matchDesc": "2nd T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773560700000",
+                  "endDate": "1773573300000",
+                  "state": "Complete",
+                  "status": "Match abandoned without toss",
+                  "team1": {
+                    "teamId": 1111,
+                    "teamName": "Cyprus",
+                    "teamSName": "CYP",
+                    "imageId": 247198
+                  },
+                  "team2": {
+                    "teamId": 532,
+                    "teamName": "Austria",
+                    "teamSName": "AUT",
+                    "imageId": 172583
+                  },
+                  "venueInfo": {
+                    "id": 1893,
+                    "ground": "Happy Valley Ground",
+                    "city": "Episkopi",
+                    "timezone": "+03:00",
+                    "latitude": "34.6741916",
+                    "longitude": "32.8010629"
+                  },
+                  "seriesStartDt": "1773446400000",
+                  "seriesEndDt": "1773792000000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Abandon"
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 149578,
+                  "seriesId": 11718,
+                  "seriesName": "Austria tour of Cyprus 2026",
+                  "matchDesc": "1st T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773486000000",
+                  "endDate": "1773498600000",
+                  "state": "Complete",
+                  "status": "Cyprus won by 48 runs",
+                  "team1": {
+                    "teamId": 1111,
+                    "teamName": "Cyprus",
+                    "teamSName": "CYP",
+                    "imageId": 247198
+                  },
+                  "team2": {
+                    "teamId": 532,
+                    "teamName": "Austria",
+                    "teamSName": "AUT",
+                    "imageId": 172583
+                  },
+                  "venueInfo": {
+                    "id": 1893,
+                    "ground": "Happy Valley Ground",
+                    "city": "Episkopi",
+                    "timezone": "+03:00",
+                    "latitude": "34.6741916",
+                    "longitude": "32.8010629"
+                  },
+                  "currBatTeamId": 1111,
+                  "seriesStartDt": "1773446400000",
+                  "seriesEndDt": "1773792000000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "CYP Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 174,
+                      "wickets": 9,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 126,
+                      "wickets": 10,
+                      "overs": 19.2
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11570,
+            "seriesName": "ICC Men's T20 2028 World Cup Americas Sub Regional Qualifier B, 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 147697,
+                  "seriesId": 11570,
+                  "seriesName": "ICC Men's T20 2028 World Cup Americas Sub Regional Qualifier B, 2026",
+                  "matchDesc": "12th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773603000000",
+                  "endDate": "1773615600000",
+                  "state": "Complete",
+                  "status": "Cayman Islands won by 6 wkts",
+                  "team1": {
+                    "teamId": 549,
+                    "teamName": "Argentina",
+                    "teamSName": "ARG",
+                    "imageId": 172601
+                  },
+                  "team2": {
+                    "teamId": 1020,
+                    "teamName": "Cayman Islands",
+                    "teamSName": "CAYM",
+                    "imageId": 248399
+                  },
+                  "venueInfo": {
+                    "id": 892,
+                    "ground": "Jimmy Powell Oval",
+                    "city": "George Town",
+                    "timezone": "-05:00",
+                    "latitude": "19.286932",
+                    "longitude": "-81.367439"
+                  },
+                  "currBatTeamId": 1020,
+                  "seriesStartDt": "1772928000000",
+                  "seriesEndDt": "1773792000000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "CAYM Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 114,
+                      "wickets": 8,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 116,
+                      "wickets": 4,
+                      "overs": 16.6
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147687,
+                  "seriesId": 11570,
+                  "seriesName": "ICC Men's T20 2028 World Cup Americas Sub Regional Qualifier B, 2026",
+                  "matchDesc": "11th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773585000000",
+                  "endDate": "1773597600000",
+                  "state": "Complete",
+                  "status": "Suriname won by 4 wkts",
+                  "team1": {
+                    "teamId": 544,
+                    "teamName": "Mexico",
+                    "teamSName": "MEX",
+                    "imageId": 172595
+                  },
+                  "team2": {
+                    "teamId": 2285,
+                    "teamName": "Suriname",
+                    "teamSName": "SN",
+                    "imageId": 582333
+                  },
+                  "venueInfo": {
+                    "id": 892,
+                    "ground": "Jimmy Powell Oval",
+                    "city": "George Town",
+                    "timezone": "-05:00",
+                    "latitude": "19.286932",
+                    "longitude": "-81.367439"
+                  },
+                  "currBatTeamId": 2285,
+                  "seriesStartDt": "1772928000000",
+                  "seriesEndDt": "1773792000000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "SN Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 126,
+                      "wickets": 9,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 127,
+                      "wickets": 6,
+                      "overs": 19.6
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147676,
+                  "seriesId": 11570,
+                  "seriesName": "ICC Men's T20 2028 World Cup Americas Sub Regional Qualifier B, 2026",
+                  "matchDesc": "10th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773516600000",
+                  "endDate": "1773529200000",
+                  "state": "Complete",
+                  "status": "Cayman Islands won by 9 wkts",
+                  "team1": {
+                    "teamId": 2285,
+                    "teamName": "Suriname",
+                    "teamSName": "SN",
+                    "imageId": 582333
+                  },
+                  "team2": {
+                    "teamId": 1020,
+                    "teamName": "Cayman Islands",
+                    "teamSName": "CAYM",
+                    "imageId": 248399
+                  },
+                  "venueInfo": {
+                    "id": 892,
+                    "ground": "Jimmy Powell Oval",
+                    "city": "George Town",
+                    "timezone": "-05:00",
+                    "latitude": "19.286932",
+                    "longitude": "-81.367439"
+                  },
+                  "currBatTeamId": 1020,
+                  "seriesStartDt": "1772928000000",
+                  "seriesEndDt": "1773792000000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "CAYM Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 85,
+                      "wickets": 5,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 86,
+                      "wickets": 1,
+                      "overs": 9.1
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147629,
+                  "seriesId": 11570,
+                  "seriesName": "ICC Men's T20 2028 World Cup Americas Sub Regional Qualifier B, 2026",
+                  "matchDesc": "9th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773498600000",
+                  "endDate": "1773511200000",
+                  "state": "Complete",
+                  "status": "Argentina won by 92 runs",
+                  "team1": {
+                    "teamId": 549,
+                    "teamName": "Argentina",
+                    "teamSName": "ARG",
+                    "imageId": 172601
+                  },
+                  "team2": {
+                    "teamId": 544,
+                    "teamName": "Mexico",
+                    "teamSName": "MEX",
+                    "imageId": 172595
+                  },
+                  "venueInfo": {
+                    "id": 892,
+                    "ground": "Jimmy Powell Oval",
+                    "city": "George Town",
+                    "timezone": "-05:00",
+                    "latitude": "19.286932",
+                    "longitude": "-81.367439"
+                  },
+                  "currBatTeamId": 549,
+                  "seriesStartDt": "1772928000000",
+                  "seriesEndDt": "1773792000000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "ARG Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 215,
+                      "wickets": 3,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 123,
+                      "wickets": 10,
+                      "overs": 19.3
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ad": {
+            "name": "native_matches",
+            "layout": "native_large",
+            "position": 4
+          }
+        },
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11711,
+            "seriesName": "Lesotho tour of Botswana, 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 148958,
+                  "seriesId": 11711,
+                  "seriesName": "Lesotho tour of Botswana, 2026",
+                  "matchDesc": "5th T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773559800000",
+                  "endDate": "1773572400000",
+                  "state": "Complete",
+                  "status": "Botswana won by 84 runs",
+                  "team1": {
+                    "teamId": 529,
+                    "teamName": "Botswana",
+                    "teamSName": "BW",
+                    "imageId": 776225
+                  },
+                  "team2": {
+                    "teamId": 570,
+                    "teamName": "Lesotho",
+                    "teamSName": "LSO",
+                    "imageId": 172622
+                  },
+                  "venueInfo": {
+                    "id": 1305,
+                    "ground": "Botswana Cricket Association Oval 1",
+                    "city": "Gaborone",
+                    "timezone": "+02:00",
+                    "latitude": "24.661180",
+                    "longitude": "25.911751"
+                  },
+                  "currBatTeamId": 529,
+                  "seriesStartDt": "1773014400000",
+                  "seriesEndDt": "1773705600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "BW Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 114,
+                      "wickets": 7,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 30,
+                      "wickets": 10,
+                      "overs": 10.3
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 148947,
+                  "seriesId": 11711,
+                  "seriesName": "Lesotho tour of Botswana, 2026",
+                  "matchDesc": "4th T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773387000000",
+                  "endDate": "1773399600000",
+                  "state": "Complete",
+                  "status": "Botswana won by 104 runs",
+                  "team1": {
+                    "teamId": 529,
+                    "teamName": "Botswana",
+                    "teamSName": "BW",
+                    "imageId": 776225
+                  },
+                  "team2": {
+                    "teamId": 570,
+                    "teamName": "Lesotho",
+                    "teamSName": "LSO",
+                    "imageId": 172622
+                  },
+                  "venueInfo": {
+                    "id": 1305,
+                    "ground": "Botswana Cricket Association Oval 1",
+                    "city": "Gaborone",
+                    "timezone": "+02:00",
+                    "latitude": "24.661180",
+                    "longitude": "25.911751"
+                  },
+                  "currBatTeamId": 529,
+                  "seriesStartDt": "1773014400000",
+                  "seriesEndDt": "1773705600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "BW Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 164,
+                      "wickets": 7,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 60,
+                      "wickets": 10,
+                      "overs": 14.1
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "matchType": "League",
+      "seriesMatches": [
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11671,
+            "seriesName": "Legends League Cricket 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 148613,
+                  "seriesId": 11671,
+                  "seriesName": "Legends League Cricket 2026",
+                  "matchDesc": "9th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773928800000",
+                  "endDate": "1773941400000",
+                  "state": "Complete",
+                  "status": "Royal Riders Punjab won by 4 wkts - 15 overs game due to rain",
+                  "team1": {
+                    "teamId": 3160,
+                    "teamName": "Mumbai Spartans",
+                    "teamSName": "MS",
+                    "imageId": 880422
+                  },
+                  "team2": {
+                    "teamId": 3171,
+                    "teamName": "Royal Riders Punjab",
+                    "teamSName": "RRP",
+                    "imageId": 880414
+                  },
+                  "venueInfo": {
+                    "id": 1438295,
+                    "ground": "Indira Gandhi International Cricket Stadium",
+                    "city": "Haldwani",
+                    "timezone": "+05:30",
+                    "latitude": "29.2183",
+                    "longitude": "79.5120"
+                  },
+                  "currBatTeamId": 3171,
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1774742400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Complete"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 163,
+                      "wickets": 6,
+                      "overs": 14.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 165,
+                      "wickets": 6,
+                      "overs": 13.3
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 148602,
+                  "seriesId": 11671,
+                  "seriesName": "Legends League Cricket 2026",
+                  "matchDesc": "8th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773842400000",
+                  "endDate": "1773855000000",
+                  "state": "Complete",
+                  "status": "India Tigers won by 4 wkts - 19 overs game due to technical issue in ground",
+                  "team1": {
+                    "teamId": 3182,
+                    "teamName": "India Captains",
+                    "teamSName": "INDCAP",
+                    "imageId": 880413
+                  },
+                  "team2": {
+                    "teamId": 3153,
+                    "teamName": "India Tigers",
+                    "teamSName": "INDT",
+                    "imageId": 880409
+                  },
+                  "venueInfo": {
+                    "id": 1438295,
+                    "ground": "Indira Gandhi International Cricket Stadium",
+                    "city": "Haldwani",
+                    "timezone": "+05:30",
+                    "latitude": "29.2183",
+                    "longitude": "79.5120"
+                  },
+                  "currBatTeamId": 3153,
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1774742400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "INDT Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 167,
+                      "wickets": 9,
+                      "overs": 18.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 173,
+                      "wickets": 6,
+                      "overs": 15.4
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 148591,
+                  "seriesId": 11671,
+                  "seriesName": "Legends League Cricket 2026",
+                  "matchDesc": "7th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773756000000",
+                  "endDate": "1773768600000",
+                  "state": "Complete",
+                  "status": "Southern Super Stars won by 40 runs",
+                  "team1": {
+                    "teamId": 1846,
+                    "teamName": "Southern Super Stars",
+                    "teamSName": "SNSS",
+                    "imageId": 880448
+                  },
+                  "team2": {
+                    "teamId": 3171,
+                    "teamName": "Royal Riders Punjab",
+                    "teamSName": "RRP",
+                    "imageId": 880414
+                  },
+                  "venueInfo": {
+                    "id": 1438295,
+                    "ground": "Indira Gandhi International Cricket Stadium",
+                    "city": "Haldwani",
+                    "timezone": "+05:30",
+                    "latitude": "29.2183",
+                    "longitude": "79.5120"
+                  },
+                  "currBatTeamId": 1846,
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1774742400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "SNSS Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 179,
+                      "wickets": 7,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 139,
+                      "wickets": 8,
+                      "overs": 19.6
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 148569,
+                  "seriesId": 11671,
+                  "seriesName": "Legends League Cricket 2026",
+                  "matchDesc": "6th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773669600000",
+                  "endDate": "1773682200000",
+                  "state": "Complete",
+                  "status": "Southern Super Stars won by 8 wkts",
+                  "team1": {
+                    "teamId": 3182,
+                    "teamName": "India Captains",
+                    "teamSName": "INDCAP",
+                    "imageId": 880413
+                  },
+                  "team2": {
+                    "teamId": 1846,
+                    "teamName": "Southern Super Stars",
+                    "teamSName": "SNSS",
+                    "imageId": 880448
+                  },
+                  "venueInfo": {
+                    "id": 240,
+                    "ground": "Gandhi Sports Complex Ground",
+                    "city": "Amritsar",
+                    "timezone": "+05:30",
+                    "latitude": "31.638836",
+                    "longitude": "74.872834"
+                  },
+                  "currBatTeamId": 1846,
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1774742400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "SNSS Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 87,
+                      "wickets": 10,
+                      "overs": 18.3
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 88,
+                      "wickets": 2,
+                      "overs": 9.2
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 148558,
+                  "seriesId": 11671,
+                  "seriesName": "Legends League Cricket 2026",
+                  "matchDesc": "5th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773583200000",
+                  "endDate": "1773595800000",
+                  "state": "Complete",
+                  "status": "Royal Riders Punjab won by 43 runs",
+                  "team1": {
+                    "teamId": 3171,
+                    "teamName": "Royal Riders Punjab",
+                    "teamSName": "RRP",
+                    "imageId": 880414
+                  },
+                  "team2": {
+                    "teamId": 2156,
+                    "teamName": "Konark Suryas Odisha",
+                    "teamSName": "KNSO",
+                    "imageId": 880449
+                  },
+                  "venueInfo": {
+                    "id": 761,
+                    "ground": "Sri Ramakrishna College of Arts and Science Ground",
+                    "city": "Coimbatore",
+                    "timezone": "+05:30",
+                    "latitude": "11.0227749",
+                    "longitude": "76.9831109"
+                  },
+                  "currBatTeamId": 3171,
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1774742400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "RRP Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 156,
+                      "wickets": 8,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 113,
+                      "wickets": 10,
+                      "overs": 18.3
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 148547,
+                  "seriesId": 11671,
+                  "seriesName": "Legends League Cricket 2026",
+                  "matchDesc": "4th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773496800000",
+                  "endDate": "1773509400000",
+                  "state": "Complete",
+                  "status": "Mumbai Spartans won by 17 runs",
+                  "team1": {
+                    "teamId": 3160,
+                    "teamName": "Mumbai Spartans",
+                    "teamSName": "MS",
+                    "imageId": 880422
+                  },
+                  "team2": {
+                    "teamId": 3153,
+                    "teamName": "India Tigers",
+                    "teamSName": "INDT",
+                    "imageId": 880409
+                  },
+                  "venueInfo": {
+                    "id": 1438295,
+                    "ground": "Indira Gandhi International Cricket Stadium",
+                    "city": "Haldwani",
+                    "timezone": "+05:30",
+                    "latitude": "29.2183",
+                    "longitude": "79.5120"
+                  },
+                  "currBatTeamId": 3160,
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1774742400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "MS Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 160,
+                      "wickets": 8,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 143,
+                      "wickets": 6,
+                      "overs": 19.6
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 148536,
+                  "seriesId": 11671,
+                  "seriesName": "Legends League Cricket 2026",
+                  "matchDesc": "3rd Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773410400000",
+                  "endDate": "1773423000000",
+                  "state": "Complete",
+                  "status": "Konark Suryas Odisha won by 18 runs",
+                  "team1": {
+                    "teamId": 2156,
+                    "teamName": "Konark Suryas Odisha",
+                    "teamSName": "KNSO",
+                    "imageId": 880449
+                  },
+                  "team2": {
+                    "teamId": 3182,
+                    "teamName": "India Captains",
+                    "teamSName": "INDCAP",
+                    "imageId": 880413
+                  },
+                  "venueInfo": {
+                    "id": 761,
+                    "ground": "Sri Ramakrishna College of Arts and Science Ground",
+                    "city": "Coimbatore",
+                    "timezone": "+05:30",
+                    "latitude": "11.0227749",
+                    "longitude": "76.9831109"
+                  },
+                  "currBatTeamId": 2156,
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1774742400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "KNSO Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 170,
+                      "wickets": 5,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 152,
+                      "wickets": 9,
+                      "overs": 19.6
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11660,
+            "seriesName": "Battle of Bats In USA, 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 148511,
+                  "seriesId": 11660,
+                  "seriesName": "Battle of Bats In USA, 2026",
+                  "matchDesc": "4X Format",
+                  "matchFormat": "TEST",
+                  "startDate": "1773532800000",
+                  "endDate": "1773558000000",
+                  "state": "Complete",
+                  "status": "AWS World won by 50 runs",
+                  "team1": {
+                    "teamId": 3136,
+                    "teamName": "AWS World",
+                    "teamSName": "AWSW",
+                    "imageId": 880033
+                  },
+                  "team2": {
+                    "teamId": 3131,
+                    "teamName": "VTEX India",
+                    "teamSName": "VTEXI",
+                    "imageId": 880032
+                  },
+                  "venueInfo": {
+                    "id": 1668,
+                    "ground": "Grand Prairie Stadium",
+                    "city": "Dallas",
+                    "timezone": "-05:00",
+                    "latitude": "32.67942",
+                    "longitude": "-97.028338"
+                  },
+                  "currBatTeamId": 3136,
+                  "seriesStartDt": "1773446400000",
+                  "seriesEndDt": "1773619200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "AWSW Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 85,
+                      "wickets": 8,
+                      "overs": 9.6
+                    },
+                    "inngs2": {
+                      "inningsId": 3,
+                      "runs": 144,
+                      "wickets": 3,
+                      "overs": 9.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 105,
+                      "wickets": 3,
+                      "overs": 9.6
+                    },
+                    "inngs2": {
+                      "inningsId": 4,
+                      "runs": 74,
+                      "wickets": 7,
+                      "overs": 9.6
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "matchType": "Domestic",
+      "seriesMatches": [
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11553,
+            "seriesName": "CSA Provincial One-Day Challenge Division One 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 147411,
+                  "seriesId": 11553,
+                  "seriesName": "CSA Provincial One-Day Challenge Division One 2026",
+                  "matchDesc": "24th Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773918000000",
+                  "endDate": "1773946800000",
+                  "state": "Complete",
+                  "status": "No result",
+                  "team1": {
+                    "teamId": 922,
+                    "teamName": "North West - Eastvaal Renault Dragons",
+                    "teamSName": "NWEST",
+                    "imageId": 248439
+                  },
+                  "team2": {
+                    "teamId": 917,
+                    "teamName": "Western Province",
+                    "teamSName": "WPR",
+                    "imageId": 248460
+                  },
+                  "venueInfo": {
+                    "id": 102,
+                    "ground": "Senwes Park",
+                    "city": "Potchefstroom",
+                    "timezone": "+02:00",
+                    "latitude": "-26.695565",
+                    "longitude": "27.100691"
+                  },
+                  "seriesStartDt": "1772150400000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Complete"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 270,
+                      "wickets": 6,
+                      "overs": 49.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 29,
+                      "wickets": 1,
+                      "overs": 4.4
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147400,
+                  "seriesId": 11553,
+                  "seriesName": "CSA Provincial One-Day Challenge Division One 2026",
+                  "matchDesc": "23rd Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773831600000",
+                  "endDate": "1773860400000",
+                  "state": "Complete",
+                  "status": "No result due to rain",
+                  "team1": {
+                    "teamId": 89,
+                    "teamName": "Titans",
+                    "teamSName": "TIT",
+                    "imageId": 172182
+                  },
+                  "team2": {
+                    "teamId": 155,
+                    "teamName": "Warriors",
+                    "teamSName": "WAR",
+                    "imageId": 172222
+                  },
+                  "venueInfo": {
+                    "id": 73,
+                    "ground": "St George's Park",
+                    "city": "Gqeberha",
+                    "timezone": "+02:00",
+                    "latitude": "-33.966545",
+                    "longitude": "25.610332"
+                  },
+                  "seriesStartDt": "1772150400000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Complete"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 109,
+                      "wickets": 8,
+                      "overs": 34.0
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147389,
+                  "seriesId": 11553,
+                  "seriesName": "CSA Provincial One-Day Challenge Division One 2026",
+                  "matchDesc": "22nd Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773820800000",
+                  "endDate": "1773849600000",
+                  "state": "Complete",
+                  "status": "Lions won by 47 runs (DLS Method) due to rain ",
+                  "team1": {
+                    "teamId": 157,
+                    "teamName": "Lions",
+                    "teamSName": "LIONS",
+                    "imageId": 172224
+                  },
+                  "team2": {
+                    "teamId": 1766,
+                    "teamName": "KwaZulu-Natal Inland - Tuskers",
+                    "teamSName": "KZNIN",
+                    "imageId": 349611
+                  },
+                  "venueInfo": {
+                    "id": 206,
+                    "ground": "City Oval",
+                    "city": "Pietermaritzburg",
+                    "timezone": "+02:00",
+                    "latitude": "-29.551181",
+                    "longitude": "30.407238"
+                  },
+                  "currBatTeamId": 157,
+                  "seriesStartDt": "1772150400000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "LIONS Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 265,
+                      "wickets": 5,
+                      "overs": 49.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 92,
+                      "wickets": 4,
+                      "overs": 24.1
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147367,
+                  "seriesId": 11553,
+                  "seriesName": "CSA Provincial One-Day Challenge Division One 2026",
+                  "matchDesc": "21st Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773745200000",
+                  "endDate": "1773774000000",
+                  "state": "Complete",
+                  "status": "Boland won by 9 wkts",
+                  "team1": {
+                    "teamId": 90,
+                    "teamName": "Dolphins",
+                    "teamSName": "DOL",
+                    "imageId": 172183
+                  },
+                  "team2": {
+                    "teamId": 1759,
+                    "teamName": "Boland",
+                    "teamSName": "BOL",
+                    "imageId": 349610
+                  },
+                  "venueInfo": {
+                    "id": 74,
+                    "ground": "Kingsmead",
+                    "city": "Durban",
+                    "timezone": "+02:00",
+                    "latitude": "-29.850018",
+                    "longitude": "31.027888"
+                  },
+                  "currBatTeamId": 1759,
+                  "seriesStartDt": "1772150400000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "BOL Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 109,
+                      "wickets": 10,
+                      "overs": 30.4
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 113,
+                      "wickets": 1,
+                      "overs": 24.2
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147337,
+                  "seriesId": 11553,
+                  "seriesName": "CSA Provincial One-Day Challenge Division One 2026",
+                  "matchDesc": "19th Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773561600000",
+                  "endDate": "1773590400000",
+                  "state": "Complete",
+                  "status": "KwaZulu - Natal Inland - Tuskers won by 2 wkts",
+                  "team1": {
+                    "teamId": 917,
+                    "teamName": "Western Province",
+                    "teamSName": "WPR",
+                    "imageId": 248460
+                  },
+                  "team2": {
+                    "teamId": 1766,
+                    "teamName": "KwaZulu-Natal Inland - Tuskers",
+                    "teamSName": "KZNIN",
+                    "imageId": 349611
+                  },
+                  "venueInfo": {
+                    "id": 52,
+                    "ground": "Newlands",
+                    "city": "Cape Town",
+                    "timezone": "+02:00",
+                    "latitude": "-33.979629",
+                    "longitude": "18.459466"
+                  },
+                  "currBatTeamId": 1766,
+                  "seriesStartDt": "1772150400000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "KZNIN Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 269,
+                      "wickets": 10,
+                      "overs": 47.1
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 274,
+                      "wickets": 8,
+                      "overs": 49.6
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147348,
+                  "seriesId": 11553,
+                  "seriesName": "CSA Provincial One-Day Challenge Division One 2026",
+                  "matchDesc": "20th Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773561600000",
+                  "endDate": "1773590400000",
+                  "state": "Complete",
+                  "status": "Lions won by 120 runs (DLS method)  ",
+                  "team1": {
+                    "teamId": 157,
+                    "teamName": "Lions",
+                    "teamSName": "LIONS",
+                    "imageId": 172224
+                  },
+                  "team2": {
+                    "teamId": 89,
+                    "teamName": "Titans",
+                    "teamSName": "TIT",
+                    "imageId": 172182
+                  },
+                  "venueInfo": {
+                    "id": 88,
+                    "ground": "The Wanderers Stadium",
+                    "city": "Johannesburg",
+                    "timezone": "+02:00",
+                    "latitude": "-26.131141",
+                    "longitude": "28.057397"
+                  },
+                  "currBatTeamId": 157,
+                  "seriesStartDt": "1772150400000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "LIONS Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 165,
+                      "wickets": 2,
+                      "overs": 32.3
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 114,
+                      "wickets": 10,
+                      "overs": 20.6
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147326,
+                  "seriesId": 11553,
+                  "seriesName": "CSA Provincial One-Day Challenge Division One 2026",
+                  "matchDesc": "18th Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773486000000",
+                  "endDate": "1773514800000",
+                  "state": "Complete",
+                  "status": "North West  -  Eastvaal Renault Dragons won by 134 runs",
+                  "team1": {
+                    "teamId": 922,
+                    "teamName": "North West - Eastvaal Renault Dragons",
+                    "teamSName": "NWEST",
+                    "imageId": 248439
+                  },
+                  "team2": {
+                    "teamId": 90,
+                    "teamName": "Dolphins",
+                    "teamSName": "DOL",
+                    "imageId": 172183
+                  },
+                  "venueInfo": {
+                    "id": 74,
+                    "ground": "Kingsmead",
+                    "city": "Durban",
+                    "timezone": "+02:00",
+                    "latitude": "-29.850018",
+                    "longitude": "31.027888"
+                  },
+                  "currBatTeamId": 922,
+                  "seriesStartDt": "1772150400000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "NWEST Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 272,
+                      "wickets": 8,
+                      "overs": 49.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 138,
+                      "wickets": 10,
+                      "overs": 37.1
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147315,
+                  "seriesId": 11553,
+                  "seriesName": "CSA Provincial One-Day Challenge Division One 2026",
+                  "matchDesc": "17th Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773475200000",
+                  "endDate": "1773504000000",
+                  "state": "Complete",
+                  "status": "Warriors won by 87 runs",
+                  "team1": {
+                    "teamId": 155,
+                    "teamName": "Warriors",
+                    "teamSName": "WAR",
+                    "imageId": 172222
+                  },
+                  "team2": {
+                    "teamId": 1759,
+                    "teamName": "Boland",
+                    "teamSName": "BOL",
+                    "imageId": 349610
+                  },
+                  "venueInfo": {
+                    "id": 207,
+                    "ground": "Boland Park",
+                    "city": "Paarl",
+                    "timezone": "+02:00",
+                    "latitude": "-33.730900",
+                    "longitude": "18.970760"
+                  },
+                  "currBatTeamId": 155,
+                  "seriesStartDt": "1772150400000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "WAR Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 400,
+                      "wickets": 5,
+                      "overs": 49.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 313,
+                      "wickets": 10,
+                      "overs": 44.5
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "seriesAdWrapper": {
+            "seriesId": 10823,
+            "seriesName": "Sheffield Shield 2025-26",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 133440,
+                  "seriesId": 10823,
+                  "seriesName": "Sheffield Shield 2025-26",
+                  "matchDesc": "30th Match",
+                  "matchFormat": "TEST",
+                  "startDate": "1773444600000",
+                  "endDate": "1773729000000",
+                  "state": "Complete",
+                  "status": "Tasmania won by 140 runs",
+                  "team1": {
+                    "teamId": 166,
+                    "teamName": "Tasmania",
+                    "teamSName": "TAS",
+                    "imageId": 172235
+                  },
+                  "team2": {
+                    "teamId": 164,
+                    "teamName": "Queensland",
+                    "teamSName": "QL",
+                    "imageId": 172233
+                  },
+                  "venueInfo": {
+                    "id": 39,
+                    "ground": "Bellerive Oval",
+                    "city": "Hobart",
+                    "timezone": "+11:00",
+                    "latitude": "-42.877296",
+                    "longitude": "147.374013"
+                  },
+                  "currBatTeamId": 166,
+                  "seriesStartDt": "1759536000000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "TAS Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 198,
+                      "wickets": 10,
+                      "overs": 58.1
+                    },
+                    "inngs2": {
+                      "inningsId": 3,
+                      "runs": 341,
+                      "wickets": 10,
+                      "overs": 121.5
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 178,
+                      "wickets": 10,
+                      "overs": 71.2
+                    },
+                    "inngs2": {
+                      "inningsId": 4,
+                      "runs": 221,
+                      "wickets": 10,
+                      "overs": 82.1
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 133418,
+                  "seriesId": 10823,
+                  "seriesName": "Sheffield Shield 2025-26",
+                  "matchDesc": "28th Match",
+                  "matchFormat": "TEST",
+                  "startDate": "1773444600000",
+                  "endDate": "1773729000000",
+                  "state": "Complete",
+                  "status": "Match drawn",
+                  "team1": {
+                    "teamId": 104,
+                    "teamName": "New South Wales",
+                    "teamSName": "NSW",
+                    "imageId": 172196
+                  },
+                  "team2": {
+                    "teamId": 87,
+                    "teamName": "Western Australia",
+                    "teamSName": "WA",
+                    "imageId": 172180
+                  },
+                  "venueInfo": {
+                    "id": 1727,
+                    "ground": "Cricket Central",
+                    "city": "Sydney",
+                    "timezone": "+11:00",
+                    "latitude": "-33.82595",
+                    "longitude": "151.05187"
+                  },
+                  "seriesStartDt": "1759536000000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Complete"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 232,
+                      "wickets": 10,
+                      "overs": 73.2
+                    },
+                    "inngs2": {
+                      "inningsId": 3,
+                      "runs": 373,
+                      "wickets": 8,
+                      "overs": 104.6,
+                      "isDeclared": true
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 333,
+                      "wickets": 10,
+                      "overs": 112.4
+                    },
+                    "inngs2": {
+                      "inningsId": 4,
+                      "runs": 139,
+                      "wickets": 9,
+                      "overs": 69.6
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 133429,
+                  "seriesId": 10823,
+                  "seriesName": "Sheffield Shield 2025-26",
+                  "matchDesc": "29th Match",
+                  "matchFormat": "TEST",
+                  "startDate": "1773444600000",
+                  "endDate": "1773729000000",
+                  "state": "Complete",
+                  "status": "Match drawn",
+                  "team1": {
+                    "teamId": 158,
+                    "teamName": "South Australia",
+                    "teamSName": "SAUS",
+                    "imageId": 172225
+                  },
+                  "team2": {
+                    "teamId": 52,
+                    "teamName": "Victoria",
+                    "teamSName": "VIC",
+                    "imageId": 172153
+                  },
+                  "venueInfo": {
+                    "id": 122,
+                    "ground": "Junction Oval",
+                    "city": "Melbourne",
+                    "timezone": "+11:00",
+                    "latitude": "-37.856007",
+                    "longitude": "144.980155"
+                  },
+                  "seriesStartDt": "1759536000000",
+                  "seriesEndDt": "1774915200000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Complete"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 305,
+                      "wickets": 10,
+                      "overs": 95.4
+                    },
+                    "inngs2": {
+                      "inningsId": 3,
+                      "runs": 204,
+                      "wickets": 3,
+                      "overs": 63.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 308,
+                      "wickets": 10,
+                      "overs": 113.2
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11559,
+            "seriesName": "CSA Provincial One-Day Challenge Division Two 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 147662,
+                  "seriesId": 11559,
+                  "seriesName": "CSA Provincial One-Day Challenge Division Two 2026",
+                  "matchDesc": "Qualifier",
+                  "matchFormat": "ODI",
+                  "startDate": "1773820800000",
+                  "endDate": "1773849600000",
+                  "state": "Complete",
+                  "status": "Border won by 6 wkts",
+                  "team1": {
+                    "teamId": 903,
+                    "teamName": "Mpumalanga Rhinos",
+                    "teamSName": "MPR",
+                    "imageId": 248434
+                  },
+                  "team2": {
+                    "teamId": 1775,
+                    "teamName": "Border",
+                    "teamSName": "BOR",
+                    "imageId": 349602
+                  },
+                  "venueInfo": {
+                    "id": 99,
+                    "ground": "Buffalo Park",
+                    "city": "East London",
+                    "timezone": "+02:00",
+                    "latitude": "-33.006727",
+                    "longitude": "27.919465"
+                  },
+                  "currBatTeamId": 1775,
+                  "seriesStartDt": "1771632000000",
+                  "seriesEndDt": "1774310400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "BOR Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 178,
+                      "wickets": 10,
+                      "overs": 43.2
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 179,
+                      "wickets": 4,
+                      "overs": 36.5
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147640,
+                  "seriesId": 11559,
+                  "seriesName": "CSA Provincial One-Day Challenge Division Two 2026",
+                  "matchDesc": "27th Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773561600000",
+                  "endDate": "1773590400000",
+                  "state": "Complete",
+                  "status": "South Western Districts won by 33 runs",
+                  "team1": {
+                    "teamId": 1768,
+                    "teamName": "South Western Districts",
+                    "teamSName": "SWD",
+                    "imageId": 349609
+                  },
+                  "team2": {
+                    "teamId": 912,
+                    "teamName": "Limpopo",
+                    "teamSName": "LIMPO",
+                    "imageId": 248430
+                  },
+                  "venueInfo": {
+                    "id": 468,
+                    "ground": "Recreation Ground",
+                    "city": "Oudtshoorn",
+                    "timezone": "+02:00",
+                    "latitude": "22.1970307",
+                    "longitude": "-33.5934657"
+                  },
+                  "currBatTeamId": 1768,
+                  "seriesStartDt": "1771632000000",
+                  "seriesEndDt": "1774310400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "SWD Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 299,
+                      "wickets": 6,
+                      "overs": 49.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 266,
+                      "wickets": 10,
+                      "overs": 47.2
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147651,
+                  "seriesId": 11559,
+                  "seriesName": "CSA Provincial One-Day Challenge Division Two 2026",
+                  "matchDesc": "28th Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773561600000",
+                  "endDate": "1773590400000",
+                  "state": "Complete",
+                  "status": "Border won by 47 runs",
+                  "team1": {
+                    "teamId": 1775,
+                    "teamName": "Border",
+                    "teamSName": "BOR",
+                    "imageId": 349602
+                  },
+                  "team2": {
+                    "teamId": 923,
+                    "teamName": "Northern Cape",
+                    "teamSName": "NCAPE",
+                    "imageId": 248438
+                  },
+                  "venueInfo": {
+                    "id": 148,
+                    "ground": "Diamond Oval",
+                    "city": "Kimberley",
+                    "timezone": "+02:00",
+                    "latitude": "-28.742487",
+                    "longitude": "24.742101"
+                  },
+                  "currBatTeamId": 1775,
+                  "seriesStartDt": "1771632000000",
+                  "seriesEndDt": "1774310400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "BOR Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 250,
+                      "wickets": 9,
+                      "overs": 49.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 203,
+                      "wickets": 10,
+                      "overs": 46.2
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147618,
+                  "seriesId": 11559,
+                  "seriesName": "CSA Provincial One-Day Challenge Division Two 2026",
+                  "matchDesc": "26th Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773475200000",
+                  "endDate": "1773504000000",
+                  "state": "Complete",
+                  "status": "Eastern Storm won by 7 wkts",
+                  "team1": {
+                    "teamId": 1782,
+                    "teamName": "South Africa Emerging Players",
+                    "teamSName": "SAEP",
+                    "imageId": 776290
+                  },
+                  "team2": {
+                    "teamId": 933,
+                    "teamName": "Eastern Storm",
+                    "teamSName": "ESTORM",
+                    "imageId": 248407
+                  },
+                  "venueInfo": {
+                    "id": 135,
+                    "ground": "Willowmoore Park",
+                    "city": "Benoni",
+                    "timezone": "+02:00",
+                    "latitude": "55.430751",
+                    "longitude": "-4.634697"
+                  },
+                  "currBatTeamId": 933,
+                  "seriesStartDt": "1771632000000",
+                  "seriesEndDt": "1774310400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "ESTORM Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 228,
+                      "wickets": 9,
+                      "overs": 49.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 229,
+                      "wickets": 3,
+                      "overs": 33.6
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 147607,
+                  "seriesId": 11559,
+                  "seriesName": "CSA Provincial One-Day Challenge Division Two 2026",
+                  "matchDesc": "25th Match",
+                  "matchFormat": "ODI",
+                  "startDate": "1773475200000",
+                  "endDate": "1773504000000",
+                  "state": "Complete",
+                  "status": "Mpumalanga Rhinos won by 176 runs",
+                  "team1": {
+                    "teamId": 903,
+                    "teamName": "Mpumalanga Rhinos",
+                    "teamSName": "MPR",
+                    "imageId": 248434
+                  },
+                  "team2": {
+                    "teamId": 281,
+                    "teamName": "Knights",
+                    "teamSName": "KNG",
+                    "imageId": 172331
+                  },
+                  "venueInfo": {
+                    "id": 72,
+                    "ground": "Mangaung Oval",
+                    "city": "Bloemfontein",
+                    "timezone": "+02:00",
+                    "latitude": "-29.116752",
+                    "longitude": "26.20519"
+                  },
+                  "currBatTeamId": 903,
+                  "seriesStartDt": "1771632000000",
+                  "seriesEndDt": "1774310400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "MPR Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 301,
+                      "wickets": 7,
+                      "overs": 49.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 125,
+                      "wickets": 10,
+                      "overs": 34.4
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "seriesAdWrapper": {
+            "seriesId": 10730,
+            "seriesName": "Plunket Shield 2025-26",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 132329,
+                  "seriesId": 10730,
+                  "seriesName": "Plunket Shield 2025-26",
+                  "matchDesc": "19th Match",
+                  "matchFormat": "TEST",
+                  "startDate": "1773783000000",
+                  "endDate": "1774067400000",
+                  "state": "Complete",
+                  "status": "Auckland won by 8 wkts",
+                  "team1": {
+                    "teamId": 314,
+                    "teamName": "Wellington",
+                    "teamSName": "WEL",
+                    "imageId": 172364
+                  },
+                  "team2": {
+                    "teamId": 186,
+                    "teamName": "Auckland",
+                    "teamSName": "AKL",
+                    "imageId": 172246
+                  },
+                  "venueInfo": {
+                    "id": 45,
+                    "ground": "Basin Reserve",
+                    "city": "Wellington",
+                    "timezone": "+13:00",
+                    "latitude": "-41.161720",
+                    "longitude": "175.323914"
+                  },
+                  "currBatTeamId": 186,
+                  "seriesStartDt": "1763424000000",
+                  "seriesEndDt": "1775001600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Complete"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 309,
+                      "wickets": 10,
+                      "overs": 74.4
+                    },
+                    "inngs2": {
+                      "inningsId": 3,
+                      "runs": 181,
+                      "wickets": 10,
+                      "overs": 53.5
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 414,
+                      "wickets": 10,
+                      "overs": 93.5
+                    },
+                    "inngs2": {
+                      "inningsId": 4,
+                      "runs": 77,
+                      "wickets": 2,
+                      "overs": 14.5
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "matchType": "Women",
+      "seriesMatches": [
+        {
+          "seriesAdWrapper": {
+            "seriesId": 10251,
+            "seriesName": "South Africa Women tour of New Zealand, 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 122797,
+                  "seriesId": 10251,
+                  "seriesName": "South Africa Women tour of New Zealand, 2026",
+                  "matchDesc": "2nd T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773711900000",
+                  "endDate": "1773724500000",
+                  "state": "Complete",
+                  "status": "South Africa Women won by 18 runs",
+                  "team1": {
+                    "teamId": 260,
+                    "teamName": "South Africa Women",
+                    "teamSName": "RSAW",
+                    "imageId": 776293
+                  },
+                  "team2": {
+                    "teamId": 98,
+                    "teamName": "New Zealand Women",
+                    "teamSName": "NZW",
+                    "imageId": 776338
+                  },
+                  "venueInfo": {
+                    "id": 100,
+                    "ground": "Seddon Park",
+                    "city": "Hamilton",
+                    "timezone": "+13:00",
+                    "latitude": "-37.786654",
+                    "longitude": "175.266647"
+                  },
+                  "currBatTeamId": 260,
+                  "seriesStartDt": "1773532800000",
+                  "seriesEndDt": "1775433600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "RSAW Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 177,
+                      "wickets": 5,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 159,
+                      "wickets": 10,
+                      "overs": 19.1
+                    }
+                  }
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 122786,
+                  "seriesId": 10251,
+                  "seriesName": "South Africa Women tour of New Zealand, 2026",
+                  "matchDesc": "1st T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773539100000",
+                  "endDate": "1773551700000",
+                  "state": "Complete",
+                  "status": "New Zealand Women won by 80 runs",
+                  "team1": {
+                    "teamId": 98,
+                    "teamName": "New Zealand Women",
+                    "teamSName": "NZW",
+                    "imageId": 776338
+                  },
+                  "team2": {
+                    "teamId": 260,
+                    "teamName": "South Africa Women",
+                    "teamSName": "RSAW",
+                    "imageId": 776293
+                  },
+                  "venueInfo": {
+                    "id": 393,
+                    "ground": "Bay Oval",
+                    "city": "Mount Maunganui",
+                    "timezone": "+13:00",
+                    "latitude": "-37.670300",
+                    "longitude": "176.212006"
+                  },
+                  "currBatTeamId": 98,
+                  "seriesStartDt": "1773532800000",
+                  "seriesEndDt": "1775433600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "NZW Won"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 190,
+                      "wickets": 7,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 110,
+                      "wickets": 7,
+                      "overs": 19.6
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11634,
+            "seriesName": "Australia Women tour of West Indies, 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 148331,
+                  "seriesId": 11634,
+                  "seriesName": "Australia Women tour of West Indies, 2026",
+                  "matchDesc": "1st T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773959400000",
+                  "endDate": "1773972000000",
+                  "state": "Complete",
+                  "status": "Australia Women won by 43 runs",
+                  "team1": {
+                    "teamId": 100,
+                    "teamName": "Australia Women",
+                    "teamSName": "AUSW",
+                    "imageId": 776205
+                  },
+                  "team2": {
+                    "teamId": 257,
+                    "teamName": "West Indies Women",
+                    "teamSName": "WIW",
+                    "imageId": 776194
+                  },
+                  "venueInfo": {
+                    "id": 58,
+                    "ground": "Arnos Vale Ground",
+                    "city": "Kingstown, St Vincent",
+                    "timezone": "-04:00",
+                    "latitude": "13.141873",
+                    "longitude": "-61.211811"
+                  },
+                  "currBatTeamId": 100,
+                  "seriesStartDt": "1773878400000",
+                  "seriesEndDt": "1775260800000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Complete"
+                },
+                "matchScore": {
+                  "team1Score": {
+                    "inngs1": {
+                      "inningsId": 1,
+                      "runs": 164,
+                      "wickets": 6,
+                      "overs": 19.6
+                    }
+                  },
+                  "team2Score": {
+                    "inngs1": {
+                      "inningsId": 2,
+                      "runs": 121,
+                      "wickets": 6,
+                      "overs": 19.6
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "filters": {
+    "matchType": [
+      "International",
+      "League",
+      "Domestic",
+      "Women"
+    ]
+  },
+  "appIndex": {
+    "seoTitle": "Live Cricket Score - Scorecard and Match Results",
+    "webURL": "www.cricbuzz.com/live-cricket-scores/"
+  },
+  "responseLastUpdated": "1773975901"
+}

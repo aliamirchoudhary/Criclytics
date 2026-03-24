@@ -1,0 +1,212 @@
+{
+  "typeMatches": [
+    {
+      "matchType": "International",
+      "seriesMatches": [
+        {
+          "seriesAdWrapper": {
+            "seriesId": 10234,
+            "seriesName": "South Africa tour of New Zealand, 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 122709,
+                  "seriesId": 10234,
+                  "seriesName": "South Africa tour of New Zealand, 2026",
+                  "matchDesc": "3rd T20I",
+                  "matchFormat": "T20",
+                  "startDate": "1773987300000",
+                  "endDate": "1773999900000",
+                  "state": "Preview",
+                  "status": "Match starts at Mar 20, 06:15 GMT",
+                  "team1": {
+                    "teamId": 13,
+                    "teamName": "New Zealand",
+                    "teamSName": "NZ",
+                    "imageId": 776333
+                  },
+                  "team2": {
+                    "teamId": 11,
+                    "teamName": "South Africa",
+                    "teamSName": "RSA",
+                    "imageId": 776287
+                  },
+                  "venueInfo": {
+                    "id": 41,
+                    "ground": "Eden Park",
+                    "city": "Auckland",
+                    "timezone": "+13:00",
+                    "latitude": "-36.874955",
+                    "longitude": "174.744735"
+                  },
+                  "seriesStartDt": "1773532800000",
+                  "seriesEndDt": "1774569600000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Preview",
+                  "isFantasyEnabled": true
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "matchType": "League",
+      "seriesMatches": [
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11671,
+            "seriesName": "Legends League Cricket 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 148624,
+                  "seriesId": 11671,
+                  "seriesName": "Legends League Cricket 2026",
+                  "matchDesc": "10th Match",
+                  "matchFormat": "T20",
+                  "startDate": "1774015200000",
+                  "endDate": "1774027800000",
+                  "state": "Preview",
+                  "status": "Match starts at Mar 20, 14:00 GMT",
+                  "team1": {
+                    "teamId": 2156,
+                    "teamName": "Konark Suryas Odisha",
+                    "teamSName": "KNSO",
+                    "imageId": 880449
+                  },
+                  "team2": {
+                    "teamId": 3153,
+                    "teamName": "India Tigers",
+                    "teamSName": "INDT",
+                    "imageId": 880409
+                  },
+                  "venueInfo": {
+                    "id": 1438295,
+                    "ground": "Indira Gandhi International Cricket Stadium",
+                    "city": "Haldwani",
+                    "timezone": "+05:30",
+                    "latitude": "29.2183",
+                    "longitude": "79.5120"
+                  },
+                  "seriesStartDt": "1773187200000",
+                  "seriesEndDt": "1774742400000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Preview"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "matchType": "Women",
+      "seriesMatches": [
+        {
+          "seriesAdWrapper": {
+            "seriesId": 11693,
+            "seriesName": "Nigeria Invitational Women's T20I Tournament, 2026",
+            "matches": [
+              {
+                "matchInfo": {
+                  "matchId": 148753,
+                  "seriesId": 11693,
+                  "seriesName": "Nigeria Invitational Women's T20I Tournament, 2026",
+                  "matchDesc": "1st Match",
+                  "matchFormat": "T20",
+                  "startDate": "1773997200000",
+                  "endDate": "1774009800000",
+                  "state": "Preview",
+                  "status": "Match starts at Mar 20, 09:00 GMT",
+                  "team1": {
+                    "teamId": 1489,
+                    "teamName": "Ghana Women",
+                    "teamSName": "GHW",
+                    "imageId": 273958
+                  },
+                  "team2": {
+                    "teamId": 720,
+                    "teamName": "Rwanda Women",
+                    "teamSName": "RWAW",
+                    "imageId": 248448
+                  },
+                  "venueInfo": {
+                    "id": 1482,
+                    "ground": "Tafawa Balewa Square Cricket Oval",
+                    "city": "Lagos",
+                    "timezone": "+01:00",
+                    "latitude": "6.524379",
+                    "longitude": "3.379206"
+                  },
+                  "seriesStartDt": "1773964800000",
+                  "seriesEndDt": "1774828800000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Preview"
+                }
+              },
+              {
+                "matchInfo": {
+                  "matchId": 148764,
+                  "seriesId": 11693,
+                  "seriesName": "Nigeria Invitational Women's T20I Tournament, 2026",
+                  "matchDesc": "2nd Match",
+                  "matchFormat": "T20",
+                  "startDate": "1774011600000",
+                  "endDate": "1774024200000",
+                  "state": "Preview",
+                  "status": "Match starts at Mar 20, 13:00 GMT",
+                  "team1": {
+                    "teamId": 1482,
+                    "teamName": "Nigeria Women",
+                    "teamSName": "NGAW",
+                    "imageId": 273957
+                  },
+                  "team2": {
+                    "teamId": 1403,
+                    "teamName": "Zimbabwe Women U19",
+                    "teamSName": "ZIMWU19",
+                    "imageId": 776218
+                  },
+                  "venueInfo": {
+                    "id": 1482,
+                    "ground": "Tafawa Balewa Square Cricket Oval",
+                    "city": "Lagos",
+                    "timezone": "+01:00",
+                    "latitude": "6.524379",
+                    "longitude": "3.379206"
+                  },
+                  "seriesStartDt": "1773964800000",
+                  "seriesEndDt": "1774828800000",
+                  "isTimeAnnounced": true,
+                  "stateTitle": "Preview"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ad": {
+            "name": "native_matches",
+            "layout": "native_large",
+            "position": 3
+          }
+        }
+      ]
+    }
+  ],
+  "filters": {
+    "matchType": [
+      "International",
+      "League",
+      "Domestic",
+      "Women"
+    ]
+  },
+  "appIndex": {
+    "seoTitle": "Live Cricket Score - Scorecard and Match Results",
+    "webURL": "www.cricbuzz.com/live-cricket-scores/"
+  },
+  "responseLastUpdated": "1773974102"
+}
