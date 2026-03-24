@@ -1,0 +1,51 @@
+# ── Secrets ───────────────────────────────────────────────────────────────────
+.env
+*.env
+
+# ── Local Folder ──────────────────────────────────────────────────────────────
+Vs/
+criclytics/
+
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.venv/
+pip-log.txt
+*.egg-info/
+dist/
+build/
+
+# ── Data — raw & processed (too large for GitHub, regenerate locally) ─────────
+data/raw/
+data/processed/
+data/live/
+
+# ── Static data IS committed (small reference files) ─────────────────────────
+# data/static/ is intentionally NOT ignored
+
+# ── OS & Editor ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.user
+
+# ── Logs & cache ──────────────────────────────────────────────────────────────
+*.log
+*.cache
+flask_session/
+.pytest_cache/
+
+# ── ML models (regenerate with train_model.py) ───────────────────────────────
+*.pkl
+models/
+
+# ── Node (if any tooling) ────────────────────────────────────────────────────
+node_modules/

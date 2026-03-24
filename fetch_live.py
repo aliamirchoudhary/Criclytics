@@ -38,7 +38,7 @@ def get_api_key():
         pass
     return os.environ.get("CRICAPI_KEY", "")
 
-CRICAPI_KEY  = "f6413cdc-8355-433a-823a-f3dd4a254f3f"
+CRICAPI_KEY  = os.environ.get("CRICAPI_KEY", "")
 CRICAPI_BASE = "https://api.cricapi.com/v1"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────

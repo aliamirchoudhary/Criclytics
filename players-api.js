@@ -50,21 +50,41 @@ function getBestStats(player) {
 }
 
 function getCountry(player) {
+  // player.country comes from players_index.json (covers all 4769 players)
+  // meta.country is the fallback for the 70 players in players_meta.json
   const meta = playersMeta[player.name] || {};
-  return meta.country || '';
+  return player.country || meta.country || '';
 }
 
 function getIso(player) {
   const meta = playersMeta[player.name] || {};
   if (meta.iso_code) return meta.iso_code;
-  const country = getCountry(player);
+  // player.country is the Cricsheet team name — map directly
+  const country = player.country || meta.country || '';
   return COUNTRY_ISO[country] || '';
 }
 
 function getPhotoUrl(player) {
-  const meta = playersMeta[player.name] || {};
-  const url = meta.image_url || '';
-  return url.length > 0 ? url : '';
+  // Try exact match first
+  var meta = playersMeta[player.name];
+  if (meta && meta.image_url) return meta.image_url;
+  
+  // Try case-insensitive match
+  var nameLower = (player.name || '').toLowerCase();
+  for (var k in playersMeta) {
+    if (k.toLowerCase() === nameLower && playersMeta[k].image_url) {
+      return playersMeta[k].image_url;
+    }
+  }
+  
+  // Try matching by last word (surname) - only if no ambiguity
+  // e.g. player.name="Ravindra Jadeja" might be in meta as "RA Jadeja"
+  // This is risky for common surnames, skip it
+  
+  // Use image_url from API response if meta enrichment already added it
+  if (player.image_url) return player.image_url;
+  
+  return '';
 }
 
 // ── Avatar HTML ───────────────────────────────────────────────────────────────

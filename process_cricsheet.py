@@ -292,6 +292,10 @@ def build_raw_accumulators(matches):
     match_batter_dismissed = defaultdict(bool)
     match_batter_inning_seen = defaultdict(set)  # which innings a batter appeared in
 
+    # ── Player → country mapping (from info.players team assignments) ─────────
+    # Key: player_name → country (team name)
+    player_country = {}
+
     for match in tqdm(matches, desc="  Processing"):
         fmt    = match["_format"]
         mfile  = match["_file"]
@@ -302,6 +306,13 @@ def build_raw_accumulators(matches):
         outcome = get_outcome(match)
         toss   = get_toss(match)
         innings_list = match.get("innings", [])
+
+        # ── Map players to their country from info.players ────────────────────
+        info_players = get_info(match).get("players", {})
+        for team_name, player_list in info_players.items():
+            for p in player_list:
+                if p and p not in player_country:
+                    player_country[p] = team_name
 
         # ── Match-level team/H2H stats ────────────────────────────────────────
         for team in teams:
@@ -563,6 +574,7 @@ def build_raw_accumulators(matches):
         "h2h_data": h2h_data,
         "team_fmt": team_fmt, "team_venue": team_venue,
         "venue_bat": venue_bat, "venue_bowl": venue_bowl,
+        "player_country": player_country,
     }
 
 
@@ -588,8 +600,10 @@ def bowl_avg(runs, wickets):
     return round(runs / wickets, 2)
 
 
-def build_players_index(bat, bowl):
+def build_players_index(bat, bowl, player_country=None):
     print("\n[2/4] Building players_index …")
+    if player_country is None:
+        player_country = {}
     # Collect all unique player names across batting and bowling
     all_players = set()
     for (player, fmt) in bat:
@@ -601,6 +615,7 @@ def build_players_index(bat, bowl):
     for player in all_players:
         entry = {
             "name": player,
+            "country": player_country.get(player, ""),
             "formats": [],
             "batting": {},
             "bowling": {},
@@ -1028,8 +1043,9 @@ def save_all(accumulators, matches):
     team_venue = accumulators["team_venue"]
     venue_bat  = accumulators["venue_bat"]
     venue_bowl = accumulators["venue_bowl"]
+    player_country = accumulators.get("player_country", {})
 
-    players_index   = build_players_index(bat, bowl)
+    players_index   = build_players_index(bat, bowl, player_country)
     player_yearly   = build_player_yearly(bat_year)
     player_vs_opp   = build_player_vs_opp(bat_vs)
     player_venues   = build_player_venues(bat_venue)
