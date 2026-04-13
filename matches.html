@@ -672,42 +672,9 @@
             <div class="sidebar-card-title"><i class="fa fa-list-ul"></i> Active Series</div>
             <a href="#" class="btn btn-ghost" style="font-size:0.72rem; padding:0.2rem 0.5rem;">All</a>
           </div>
-
-          <a href="#" class="sidebar-series-item">
-            <div class="series-name">India vs Australia</div>
-            <div class="series-meta"><span class="match-format-badge" style="font-size:0.62rem;">T20I</span> 5-match
-              series · 2-1 IND</div>
-            <div class="series-progress">
-              <div class="series-progress-fill" style="width:60%"></div>
-            </div>
-          </a>
-
-          <a href="#" class="sidebar-series-item">
-            <div class="series-name">England vs South Africa</div>
-            <div class="series-meta"><span class="match-format-badge" style="font-size:0.62rem;">ODI</span> 3-match
-              series · 1-1</div>
-            <div class="series-progress">
-              <div class="series-progress-fill" style="width:66%"></div>
-            </div>
-          </a>
-
-          <a href="#" class="sidebar-series-item">
-            <div class="series-name">Pakistan vs New Zealand</div>
-            <div class="series-meta"><span class="match-format-badge" style="font-size:0.62rem;">Test</span> 2-match
-              series · 0-0</div>
-            <div class="series-progress">
-              <div class="series-progress-fill" style="width:50%"></div>
-            </div>
-          </a>
-
-          <a href="#" class="sidebar-series-item">
-            <div class="series-name">Bangladesh vs Sri Lanka</div>
-            <div class="series-meta"><span class="match-format-badge" style="font-size:0.62rem;">T20I</span> 3-match
-              series · Not started</div>
-            <div class="series-progress">
-              <div class="series-progress-fill" style="width:0%"></div>
-            </div>
-          </a>
+          <div style="padding:1rem 1.1rem;color:var(--text-muted);font-size:.92rem;text-align:center;">
+            Active series will be populated once the latest fixtures feed is connected.
+          </div>
         </div>
 
         <!-- Contextual Insights -->
@@ -717,22 +684,8 @@
           </div>
 
           <div class="sidebar-insight">
-            <div class="sidebar-insight-val">61%</div>
-            <div class="sidebar-insight-text"><strong>India</strong> win probability chasing 183+ at Wankhede (T20I)
-            </div>
-          </div>
-          <div class="sidebar-insight">
-            <div class="sidebar-insight-val">68%</div>
-            <div class="sidebar-insight-text"><strong>SA</strong> historically chase 250+ successfully at The Oval</div>
-          </div>
-          <div class="sidebar-insight">
-            <div class="sidebar-insight-val">178</div>
-            <div class="sidebar-insight-text">Average 1st innings T20I total at Wankhede (last 5 yrs)</div>
-          </div>
-          <div class="sidebar-insight">
-            <div class="sidebar-insight-val">54%</div>
-            <div class="sidebar-insight-text"><strong>Defenders</strong> win rate in Karachi Tests (last 10 matches)
-            </div>
+            <div class="sidebar-insight-val">—</div>
+            <div class="sidebar-insight-text">Match insights will appear here once the model pipeline is integrated.</div>
           </div>
 
           <div style="padding:0.7rem 1.1rem; border-top:1px solid var(--border-light);">
@@ -748,28 +701,8 @@
           <div class="sidebar-card-header">
             <div class="sidebar-card-title"><i class="fa fa-fire"></i> This Week's Best</div>
           </div>
-          <div style="padding:0.5rem 0;">
-            <div class="sidebar-insight">
-              <div class="player-avatar" style="width:36px;height:36px;font-size:1.1rem;flex-shrink:0;overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-              <div class="sidebar-insight-text">
-                <strong>Virat Kohli</strong><br>
-                92 runs (57 balls) · IND vs AUS
-              </div>
-            </div>
-            <div class="sidebar-insight">
-              <div class="player-avatar" style="width:36px;height:36px;font-size:1.1rem;flex-shrink:0;overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-              <div class="sidebar-insight-text">
-                <strong>Pat Cummins</strong><br>
-                4/28 · AUS vs IND 2nd T20I
-              </div>
-            </div>
-            <div class="sidebar-insight">
-              <div class="player-avatar" style="width:36px;height:36px;font-size:1.1rem;flex-shrink:0;overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/ENGLAND.svg" alt="England" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-              <div class="sidebar-insight-text">
-                <strong>Joe Root</strong><br>
-                118 runs (124 balls) · ENG vs SA ODI
-              </div>
-            </div>
+          <div style="padding:1rem 1.1rem;color:var(--text-muted);font-size:.92rem;text-align:center;">
+            Top performers will appear here when live player statistics are available.
           </div>
         </div>
 
@@ -896,6 +829,8 @@
     });
   </script>
 
+  <script src="ml-widgets.js"></script>
+  <script src="ml-wiring-addon.js"></script>
   <script src="cricklytics.js"></script>
   <script src="matches-api.js"></script>
 </body>
