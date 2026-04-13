@@ -32,8 +32,35 @@ document.addEventListener('DOMContentLoaded', async function() {
     return;
   }
 
-  var t1 = match.t1 || match.team1 || '';
-  var t2 = match.t2 || match.team2 || '';
+  function getTeamInitials(name) {
+    if (!name) return '?';
+    var words = (name || '').split(/\s+/).filter(function(w){ return !!w; });
+    if (words.length === 0) return '?';
+    if (words.length === 1) return words[0][0].toUpperCase();
+    if (words.length === 2) return (words[0][0] + words[1][0]).toUpperCase();
+    return (words[0][0] + words[1][0] + words[2][0]).toUpperCase();
+  }
+
+  function parseNameTeams(name) {
+    if (!name) return ['', ''];
+    var parts = name.split(/\s+vs\s+|\s+v\s+|\s+versus\s+/i);
+    if (parts.length < 2) return ['', ''];
+    return [parts[0].trim(), parts[1].trim().split(/,|\(|–|-/)[0].trim()];
+  }
+
+  function getMatchTeamName(match, index) {
+    if (!match) return '';
+    var fallback = (Array.isArray(match.teams) ? match.teams[index] : '')
+      || (match.teamInfo && match.teamInfo[index] && match.teamInfo[index].name)
+      || '';
+    if (index === 0) {
+      return match.t1 || match.team1 || fallback || parseNameTeams(match.name)[0] || '';
+    }
+    return match.t2 || match.team2 || fallback || parseNameTeams(match.name)[1] || '';
+  }
+
+  var t1 = getMatchTeamName(match, 0);
+  var t2 = getMatchTeamName(match, 1);
   var iso1 = COUNTRY_ISO[t1] || '';
   var iso2 = COUNTRY_ISO[t2] || '';
 
@@ -49,8 +76,14 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   var f1 = document.getElementById('team1Flag');
   var f2 = document.getElementById('team2Flag');
-  if (f1 && iso1) f1.innerHTML = '<img src="'+FLAG_CDN+iso1+'.svg" style="width:100%;height:100%;object-fit:cover;">';
-  if (f2 && iso2) f2.innerHTML = '<img src="'+FLAG_CDN+iso2+'.svg" style="width:100%;height:100%;object-fit:cover;">';
+  if (f1) {
+    if (iso1) f1.innerHTML = '<img src="'+FLAG_CDN+iso1+'.svg" style="width:100%;height:100%;object-fit:cover;">';
+    else f1.textContent = getTeamInitials(t1);
+  }
+  if (f2) {
+    if (iso2) f2.innerHTML = '<img src="'+FLAG_CDN+iso2+'.svg" style="width:100%;height:100%;object-fit:cover;">';
+    else f2.textContent = getTeamInitials(t2);
+  }
 
   // Scores (if any)
   var s1el = document.getElementById('team1Score'); if (s1el && match.t1s) s1el.textContent = match.t1s;

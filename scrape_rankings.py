@@ -63,7 +63,7 @@ def fetch_rankings_json(category, fmt, retries=2):
 def build_hardcoded_rankings():
     return {
         "scraped_at": datetime.now().isoformat(),
-        "source": "hardcoded_march_2026",
+        "source": "hardcoded_april_2026",
         "player": {
             "batting": {
                 "Test": [
@@ -212,7 +212,7 @@ def scrape_all_rankings():
 
     # Fallback if nothing scraped
     if total == 0:
-        print("\n  ICC blocked live scraping. Using real hardcoded data (March 2026).")
+        print("\n  ICC blocked live scraping. Using hardcoded fallback data (April 2026).")
         all_rankings = build_hardcoded_rankings()
     else:
         print(f"\n  Live scraping got {total} entries.")

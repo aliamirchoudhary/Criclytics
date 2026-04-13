@@ -1,6 +1,8 @@
 /**
  * team-profile-api.js
- * ===================
+ * =================== 
+ * Team profile page with ML predictions
+ *
  * API wiring for team-profile.html
  * Reads ?name= from URL, loads full team profile from API,
  * populates hero, stats strip, format breakdown, H2H, venue stats.

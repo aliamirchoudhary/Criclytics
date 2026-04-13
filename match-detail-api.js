@@ -15,11 +15,58 @@ function guessIso(name) {
   return '';
 }
 
+function getTeamInitials(name) {
+  if (!name) return '?';
+  var words = (name || '').split(/\s+/).filter(function(w) { return !!w; });
+  if (words.length === 0) return '?';
+  if (words.length === 1) return words[0][0].toUpperCase();
+  if (words.length === 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return (words[0][0] + words[1][0] + words[2][0]).toUpperCase();
+}
+
 function flagCircle(name, size) {
   size = size || 44;
   var iso = COUNTRY_ISO[name] || guessIso(name);
-  if (!iso) return '<span style="font-size:' + Math.round(size * 0.45) + 'px;font-weight:700;color:var(--accent);">' + esc((name || '?')[0]) + '</span>';
+  if (!iso) return '<span style="font-size:' + Math.round(size * 0.45) + 'px;font-weight:700;color:var(--accent);">' + esc(getTeamInitials(name)) + '</span>';
   return '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(name) + '" style="width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">';
+}
+
+function getMatchTeamName(match, index) {
+  if (!match) return '';
+  var fallback = (Array.isArray(match.teams) ? match.teams[index] : '')
+    || (match.teamInfo && match.teamInfo[index] && match.teamInfo[index].name)
+    || '';
+  if (index === 0) {
+    return match.t1 || match.team1 || fallback || '';
+  }
+  return match.t2 || match.team2 || fallback || '';
+}
+
+function formatScoreObject(score) {
+  if (!score || score.r == null) return '';
+  var wickets = score.w != null ? '/' + score.w : '';
+  var overs = score.o != null ? ' (' + score.o + 'o)' : '';
+  return String(score.r) + wickets + overs;
+}
+
+function getMatchScoreText(match, index) {
+  if (!match || !Array.isArray(match.score) || !match.score.length) return '';
+  var team = getMatchTeamName(match, index);
+  if (team) {
+    for (var i = 0; i < match.score.length; i++) {
+      var score = match.score[i];
+      if (score && score.r != null) {
+        var inningTeam = String(score.inning || '').split(/\s+Inning/i)[0].trim();
+        if (inningTeam && inningTeam.toLowerCase() === team.toLowerCase()) {
+          return formatScoreObject(score);
+        }
+      }
+    }
+  }
+  if (match.score[index] && match.score[index].r != null) {
+    return formatScoreObject(match.score[index]);
+  }
+  return '';
 }
 
 function flInline(name, size) {
@@ -223,9 +270,10 @@ function wipePage(t1, t2) {
 
 // ── Update scoreboard with real data ─────────────────────────────────────────
 function updateScoreboard(match) {
-  var t1 = match.t1 || match.team1 || '';
-  var t2 = match.t2 || match.team2 || '';
-  var s1 = match.t1s || ''; var s2 = match.t2s || '';
+  var t1 = getMatchTeamName(match, 0);
+  var t2 = getMatchTeamName(match, 1);
+  var s1 = match.t1s || getMatchScoreText(match, 0) || '';
+  var s2 = match.t2s || getMatchScoreText(match, 1) || '';
 
   var n1 = document.getElementById('team1Name'); if (n1) n1.textContent = t1;
   var n2 = document.getElementById('team2Name'); if (n2) n2.textContent = t2;
@@ -236,8 +284,26 @@ function updateScoreboard(match) {
   if (flags[0]) flags[0].innerHTML = flagCircle(t1, 44);
   if (flags[1]) flags[1].innerHTML = flagCircle(t2, 44);
 
+  // Update status badge
   var statusEl = document.querySelector('.match-status-live');
-  if (statusEl && match.status) statusEl.textContent = match.status;
+  if (statusEl) {
+    if (match.matchStarted && !match.matchEnded) {
+      // LIVE
+      statusEl.innerHTML = '<span class="live-dot"></span> LIVE';
+      statusEl.style.background = 'rgba(61, 220, 132, 0.1)';
+      statusEl.style.borderColor = 'rgba(61, 220, 132, 0.25)';
+      statusEl.style.color = 'var(--green-live)';
+    } else if (match.matchEnded) {
+      // Completed
+      statusEl.innerHTML = 'COMPLETED';
+      statusEl.style.background = 'rgba(255, 82, 82, 0.1)';
+      statusEl.style.borderColor = 'rgba(255, 82, 82, 0.25)';
+      statusEl.style.color = 'var(--red)';
+    } else {
+      // Upcoming - show status text or use calendar icon
+      statusEl.textContent = match.status || 'Upcoming';
+    }
+  }
 
   var metaItems = document.querySelectorAll('.match-meta-item');
   var metaData = [
@@ -296,7 +362,14 @@ function updateScoreboard(match) {
   var totals=document.querySelectorAll('.innings-total');
   if(totals[0]&&s1)totals[0].textContent=s1;
   if(totals[1]&&s2)totals[1].textContent=s2;
-  if(s1){var rm=s1.match(/(\d+)/);if(rm){var tEl=document.querySelector('.target-box .value');if(tEl)tEl.textContent=parseInt(rm[1])+1;}}
+  var tEl=document.querySelector('.target-box .value');
+  if (tEl) {
+    if (match && Array.isArray(match.score) && match.score.length > 1 && match.score[0] && match.score[0].r != null) {
+      tEl.textContent = String(parseInt(match.score[0].r) + 1);
+    } else {
+      tEl.textContent = '—';
+    }
+  }
   if(match.name){var bc=document.querySelector('.breadcrumb span:last-child');if(bc)bc.textContent=match.name;document.title=match.name+' · Criclytics';}
   if(match.matchEnded)document.querySelectorAll('.scoreboard-crr').forEach(function(el){el.textContent='Final';});
 }
@@ -348,7 +421,14 @@ function updateBowlingScorecard(bowling, id) {
 
 // ── H2H ───────────────────────────────────────────────────────────────────────
 async function updateH2H(t1, t2) {
-  var data = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=T20I');
+  // Only call H2H API for men's international teams, not IPL teams or women's teams
+  var isInternational1 = COUNTRY_ISO[t1] || guessIso(t1);
+  var isInternational2 = COUNTRY_ISO[t2] || guessIso(t2);
+  var isWomen1 = (t1 || '').toLowerCase().includes('women');
+  var isWomen2 = (t2 || '').toLowerCase().includes('women');
+  if (!isInternational1 || !isInternational2 || isWomen1 || isWomen2) return;
+
+  var data = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=Test');
   if (!data) return;
   var r = Object.values(data)[0];
   if (!r) return;
@@ -436,8 +516,8 @@ async function loadMatchDetail() {
     }
   }
 
-  var t1 = (match && (match.t1 || match.team1)) || '';
-  var t2 = (match && (match.t2 || match.team2)) || '';
+  var t1 = (match && getMatchTeamName(match, 0)) || '';
+  var t2 = (match && getMatchTeamName(match, 1)) || '';
 
   // Re-wipe with team names (shows flags + names even when no scorecard)
   wipePage(t1, t2);
@@ -461,9 +541,31 @@ async function loadMatchDetail() {
       if(t.includes('Live Snapshot')||t.includes('At the Crease')||t.includes('Current Bowler')||t.includes('Recent Deliveries'))card.style.display='none';
     });
     document.querySelectorAll('.status-badge.status-live').forEach(function(el){el.textContent='Completed';el.className='status-badge status-completed';});
+    
+    // Hide upcoming-only elements for completed
+    document.querySelectorAll('.target-box, .run-rate-box, .chase-bar-wrap').forEach(function(el){el.style.display='none';});
   }
 
-  // UPCOMING: hide scorecard + live sections
+  // LIVE: show live-specific sections
+  if (match.matchStarted && !match.matchEnded) {
+    // Show all live sections (they're visible by default)
+    document.querySelectorAll('.section-card').forEach(function(card) {
+      var t=((card.querySelector('.section-card-title')||{}).textContent||'');
+      if(t.includes('Live Snapshot')||t.includes('At the Crease')||t.includes('Current Bowler')||t.includes('Recent Deliveries'))card.style.display='block';
+    });
+    
+    // Ensure live badge is properly styled with animation
+    var statusEl=document.querySelector('.match-status-live');
+    if(statusEl) {
+      statusEl.innerHTML='<span class="live-dot"></span> LIVE';
+      statusEl.style.background='rgba(61, 220, 132, 0.1)';
+      statusEl.style.borderColor='rgba(61, 220, 132, 0.25)';
+      statusEl.style.color='var(--green-live)';
+      statusEl.style.fontWeight='700';
+    }
+  }
+
+  // UPCOMING: hide scorecard + live sections, format for fixture view
   if (!match.matchStarted && !match.matchEnded) {
     var sp=document.getElementById('panel-scorecard');
     if(sp)sp.innerHTML='<div style="text-align:center;padding:3rem 2rem;color:var(--text-muted);"><i class="fa fa-clock" style="font-size:2.5rem;display:block;margin-bottom:1rem;opacity:0.3;"></i><div style="font-size:1rem;font-weight:600;">Match not started</div><div style="font-size:.85rem;margin-top:.3rem;">Scorecard available once match begins.</div></div>';
@@ -472,6 +574,20 @@ async function loadMatchDetail() {
       if(t.includes('Live Snapshot')||t.includes('At the Crease')||t.includes('Current Bowler')||t.includes('Recent Deliveries'))card.style.display='none';
     });
     document.querySelectorAll('.innings-total,.scoreboard-crr').forEach(function(el){el.textContent='';});
+    
+    // Hide score/live elements, show fixture info
+    document.querySelectorAll('.scoreboard-score, .scoreboard-overs').forEach(function(el){el.style.display='none';});
+    document.querySelectorAll('.target-box, .run-rate-box, .chase-bar-wrap').forEach(function(el){el.style.display='none';});
+    
+    // Update status badge to show "Upcoming"
+    var statusEl=document.querySelector('.match-status-live');
+    if(statusEl) {
+      statusEl.innerHTML='<i class="fa fa-calendar" style="margin-right:0.4rem;"></i> Upcoming';
+      statusEl.style.background='rgba(94,184,255,0.1)';
+      statusEl.style.borderColor='rgba(94,184,255,0.25)';
+      statusEl.style.color='var(--accent)';
+      statusEl.style.fontWeight='600';
+    }
   }
 
   // Innings labels (always set even if no scorecard data)
@@ -510,5 +626,16 @@ async function loadMatchDetail() {
   if (t1 && t2) updateH2H(t1, t2);
   if (match.venue) updateVenueContext(match.venue);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+});
 
 document.addEventListener('DOMContentLoaded', loadMatchDetail);
