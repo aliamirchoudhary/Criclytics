@@ -91,6 +91,9 @@ async function loadProfile() {
 
   if (activeDot) activeDot.style.display = 'block';
 
+  // Update global player name for ML functions
+  if (stats && stats.name) window.currentPlayerName = stats.name;
+
   // ── Quick stats strip ─────────────────────────────────────────────────────
   var bat = stats.batting || {};
   var totalRuns = Object.values(bat).reduce(function(s,f){return s+(f.runs||0);},0);
