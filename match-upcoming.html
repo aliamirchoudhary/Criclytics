@@ -123,10 +123,10 @@
                 <span id="wpTeam2" style="font-weight:600;">—</span>
               </div>
               <div style="background:var(--surface-2);border-radius:4px;height:10px;overflow:hidden;">
-                <div id="wpBar" style="height:100%;width:50%;background:var(--accent);border-radius:4px;transition:width .5s;"></div>
+                <div id="wpBar" style="height:100%;width:0%;background:var(--accent);border-radius:4px;transition:width .5s;"></div>
               </div>
               <div style="display:flex;justify-content:space-between;font-size:.78rem;color:var(--text-muted);margin-top:.3rem;">
-                <span id="wpPct1">50%</span><span id="wpPct2">50%</span>
+                <span id="wpPct1">—</span><span id="wpPct2">—</span>
               </div>
               <div style="font-size:.72rem;color:var(--text-muted);margin-top:.6rem;text-align:center;">Based on H2H history</div>
             </div>
@@ -202,6 +202,170 @@
       document.getElementById('mobileNav').classList.toggle('open');
     }
   </script>
+  <style>
+    @media (max-width: 768px) {
+      .page-wrap {
+        padding: 1rem 1rem 2rem;
+      }
+      
+      .breadcrumb {
+        font-size: .75rem;
+        padding: 1rem 1rem 0;
+      }
+      
+      .section-card {
+        padding: 1.5rem 1rem;
+      }
+      
+      .section-card .section-card-title {
+        font-size: 1.1rem;
+      }
+      
+      /* Two column layout becomes single column */
+      .page-wrap > div > div > div:last-of-type {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .page-wrap > div > div > div:last-of-type > div {
+        min-width: auto;
+      }
+      
+      /* Scoreboard adjustments */
+      .page-wrap > div > div > div:first-of-type .section-card {
+        padding: 1.5rem 1rem;
+      }
+      
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child {
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+      
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div {
+        min-width: 100px;
+        flex: 1;
+      }
+      
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div > div:first-child {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+      }
+      
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div > div:nth-child(2) {
+        font-size: 1.2rem;
+      }
+      
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div > div:nth-child(3) {
+        font-size: 1rem;
+      }
+      
+      /* VS section */
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div:nth-child(2) {
+        order: -1;
+        flex-basis: 100%;
+        text-align: center;
+        margin: 1rem 0;
+      }
+      
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div:nth-child(2) > div:first-child {
+        margin-bottom: .25rem;
+      }
+      
+      /* Meta info */
+      .page-wrap > div > div > div:first-of-type .section-card > div:last-child {
+        flex-wrap: wrap;
+        gap: .75rem;
+        justify-content: center;
+        font-size: .75rem;
+      }
+      
+      /* Fixture details grid */
+      .page-wrap > div > div > div:last-of-type > div:first-child .section-card > div {
+        grid-template-columns: 1fr;
+        gap: .5rem;
+      }
+      
+      .page-wrap > div > div > div:last-of-type > div:first-child .section-card > div > div {
+        grid-column: auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .page-wrap {
+        padding: 1rem 0.75rem 2rem;
+      }
+      
+      .breadcrumb {
+        padding: 1rem 0.75rem 0;
+        font-size: .7rem;
+      }
+      
+      .section-card {
+        padding: 1.25rem 0.75rem;
+        margin-bottom: 1rem;
+      }
+      
+      .section-card .section-card-title {
+        font-size: 1rem;
+      }
+      
+      /* Scoreboard */
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child {
+        gap: 1.5rem;
+      }
+      
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div > div:first-child {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+      }
+      
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div > div:nth-child(2) {
+        font-size: 1.1rem;
+      }
+      
+      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div > div:nth-child(3) {
+        font-size: .9rem;
+      }
+      
+      /* Meta info */
+      .page-wrap > div > div > div:first-of-type .section-card > div:last-child {
+        font-size: .7rem;
+        gap: .5rem;
+      }
+      
+      /* Fixture details */
+      .page-wrap > div > div > div:last-of-type > div:first-child .section-card > div > div > span:first-child {
+        font-size: .75rem;
+      }
+      
+      .page-wrap > div > div > div:last-of-type > div:first-child .section-card > div > div > strong {
+        font-size: .85rem;
+      }
+      
+      /* H2H and Venue content */
+      #h2hContent, #venueContent {
+        font-size: .75rem;
+      }
+      
+      /* Win probability */
+      .page-wrap > div > div > div:last-of-type > div:last-child .section-card > div > div:first-child > span {
+        font-size: .75rem;
+      }
+      
+      .page-wrap > div > div > div:last-of-type > div:last-child .section-card > div > div:last-child > span {
+        font-size: .65rem;
+      }
+      
+      .page-wrap > div > div > div:last-of-type > div:last-child .section-card > div > div:last-child {
+        font-size: .65rem;
+        margin-top: .4rem;
+      }
+    }
+  </style>
+  <script src="ml-widgets.js"></script>
+  <script src="ml-wiring-addon.js"></script>
   <script src="cricklytics.js"></script>
   <script src="match-upcoming-api.js"></script>
 </body>

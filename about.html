@@ -37,6 +37,20 @@
     .tag { background:var(--surface-2); border:1px solid var(--border); border-radius:20px; padding:.22rem .7rem; font-size:.77rem; color:var(--text-secondary); }
     .divider { border:none; border-top:1px solid var(--border); margin:2rem 0; }
     .small-note { font-size:.8rem; color:var(--text-muted); margin-top:2.5rem; padding-top:1.2rem; border-top:1px solid var(--border); }
+    @media (max-width: 768px) {
+      .info-page { padding: 2rem 1.5rem 4rem; }
+      .page-hero h1 { font-size: 1.8rem; }
+      .card-grid { grid-template-columns: 1fr; gap: 0.8rem; }
+      .ic { padding: 1.2rem; }
+    }
+    @media (max-width: 480px) {
+      .info-page { padding: 1.5rem 1rem 3rem; }
+      .page-hero { margin-bottom: 2rem; padding-bottom: 1.5rem; }
+      .page-hero h1 { font-size: 1.6rem; }
+      .warn, .note { padding: 1rem; }
+      .tag-row { gap: 0.3rem; }
+      .tag { font-size: 0.7rem; padding: 0.18rem 0.6rem; }
+    }
   </style>
 </head>
 <body>
