@@ -84,7 +84,7 @@ ml-wiring-addon.js        — Shared wiring functions for all pages
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/criclytics.git
+git clone https://github.com/aliamirchoudhary/criclytics.git
 cd criclytics
 ```
 
