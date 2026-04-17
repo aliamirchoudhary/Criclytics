@@ -18,6 +18,8 @@ import sys
 import time
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()  # Load .env file so CRICAPI_KEY is available
 
 # ── Config ────────────────────────────────────────────────────────────────────
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
@@ -38,7 +40,7 @@ def get_api_key():
         pass
     return os.environ.get("CRICAPI_KEY", "")
 
-CRICAPI_KEY  = os.environ.get("CRICAPI_KEY", "")
+CRICAPI_KEY  = get_api_key()  # Use the helper function to read from app.py first, then .env
 CRICAPI_BASE = "https://api.cricapi.com/v1"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────

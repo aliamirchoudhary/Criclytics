@@ -62,16 +62,13 @@
       flex: 1;
     }
 
+    .scoreboard-team.batting .scoreboard-name {
+      color: var(--frost);
+    }
+
     .scoreboard-flag {
       font-size: 3rem;
       line-height: 1;
-      width: 44px;
-      height: 44px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
     }
 
     .scoreboard-name {
@@ -87,6 +84,11 @@
       font-weight: 700;
       color: var(--frost);
       line-height: 1;
+    }
+
+    .scoreboard-team.not-batting .scoreboard-score {
+      color: var(--text-muted);
+      font-size: 1.6rem;
     }
 
     .scoreboard-overs {
@@ -1167,14 +1169,13 @@
           <span class="breadcrumb-sep">/</span>
           <a href="matches.html">Matches</a>
           <span class="breadcrumb-sep">/</span>
-          <span>Match Detail</span>
-        </div>
+        <span>Match Detail</span>
 
         <!-- Scoreboard -->
         <div class="scoreboard">
 
           <!-- Team 1 -->
-          <div class="scoreboard-team">
+          <div class="scoreboard-team batting">
             <span class="scoreboard-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;"></span>
             <div class="scoreboard-name" id="team1Name">Team A</div>
             <div class="scoreboard-score" id="team1Score">—</div>
@@ -1199,7 +1200,7 @@
           </div>
 
           <!-- Team 2 -->
-          <div class="scoreboard-team">
+          <div class="scoreboard-team not-batting">
             <span class="scoreboard-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;"></span>
             <div class="scoreboard-name" id="team2Name">Team B</div>
             <div class="scoreboard-score" id="team2Score">—</div>

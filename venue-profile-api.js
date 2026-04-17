@@ -41,18 +41,18 @@ function renderVenueInfoCard(name, data, meta) {
   var location = [city, country].filter(Boolean).join(', ');
   var map = {
     'Full name':       name,
-    'Location':        location || country || '—',
-    'Established':     (meta && meta.established) ? String(meta.established) : '—',
-    'Capacity':        (meta && meta.capacity) ? Number(meta.capacity).toLocaleString() + ' (seated)' : '—',
-    'Managed by':      (meta && meta.managed_by) || '—',
-    'Ends':            (meta && meta.ends && meta.ends.join) ? meta.ends.join(' · ') : '—',
-    'Notable events':  (meta && meta.notable_events && meta.notable_events.join) ? meta.notable_events.join(' · ') : '—',
-    'Floodlights':     (meta && meta.floodlights !== undefined) ? (meta.floodlights ? 'Yes · Day/Night matches supported' : 'No') : '—',
+    'Location':        location || country,
+    'Established':     (meta && meta.established) ? String(meta.established) : null,
+    'Capacity':        (meta && meta.capacity) ? Number(meta.capacity).toLocaleString() + ' (seated)' : null,
+    'Managed by':      (meta && meta.managed_by) || null,
+    'Ends':            (meta && meta.ends && meta.ends.join) ? meta.ends.join(' · ') : null,
+    'Notable events':  (meta && meta.notable_events && meta.notable_events.join) ? meta.notable_events.join(' · ') : null,
+    'Floodlights':     (meta && meta.floodlights !== undefined) ? (meta.floodlights ? 'Yes · Day/Night matches supported' : 'No') : null,
   };
   document.querySelectorAll('.info-row').forEach(function(row) {
     var lbl = ((row.querySelector('.info-row-label') || {}).textContent || '').trim();
     var valEl = row.querySelector('.info-row-value');
-    if (valEl && Object.prototype.hasOwnProperty.call(map, lbl)) valEl.textContent = map[lbl];
+    if (valEl && map[lbl] != null) valEl.textContent = map[lbl];
   });
 }
 
@@ -74,17 +74,17 @@ function renderHeroStats(data, meta) {
 
   // Quick stat chips
   var chips = {
-    'Capacity':      meta && meta.capacity ? Number(meta.capacity).toLocaleString() : '—',
-    'Est.':          meta && meta.established ? String(meta.established) : '—',
-    'Intl. Matches': (data.matches != null) ? String(data.matches) : '—',
-    'Avg T20 Score': t20.avg_1st_innings ? String(Math.round(t20.avg_1st_innings)) : '—',
-    'Avg ODI Score': odi.avg_1st_innings  ? String(Math.round(odi.avg_1st_innings))  : '—',
-    'Chase Win %':   (data.chase_win_pct != null) ? data.chase_win_pct + '%' : '—',
+    'Capacity':      meta && meta.capacity ? Number(meta.capacity).toLocaleString() : null,
+    'Est.':          meta && meta.established ? String(meta.established) : null,
+    'Intl. Matches': data.matches ? String(data.matches) : null,
+    'Avg T20 Score': t20.avg_1st_innings ? String(Math.round(t20.avg_1st_innings)) : null,
+    'Avg ODI Score': odi.avg_1st_innings  ? String(Math.round(odi.avg_1st_innings))  : null,
+    'Chase Win %':   data.chase_win_pct   ? data.chase_win_pct + '%'                 : null,
   };
   document.querySelectorAll('.venue-qs').forEach(function(chip) {
     var lbl = ((chip.querySelector('.venue-qs-label') || {}).textContent || '').trim();
     var valEl = chip.querySelector('.venue-qs-value');
-    if (valEl && Object.prototype.hasOwnProperty.call(chips, lbl)) valEl.textContent = chips[lbl];
+    if (valEl && chips[lbl] != null) valEl.textContent = chips[lbl];
   });
 }
 
@@ -161,7 +161,6 @@ function renderStatsForFmt(fmt) {
     'Highest total':              d(s.highest),
     'Lowest total':               d(s.lowest),
     'Average powerplay score':    s.avg_powerplay   ? Math.round(s.avg_powerplay) + ' / 2' : '—',
-    'Average middle-over score':  s.avg_middle      ? Math.round(s.avg_middle) + ' / 2' : '—',
     'Average death-over score':   s.avg_death       ? Math.round(s.avg_death)     + ' / 2' : '—',
     'Batting first wins':         _venueData.defend_win_pct != null ? (100 - (_venueData.chase_win_pct || 0)) + '%' : '—',
     'Chasing wins':               _venueData.chase_win_pct  != null ? _venueData.chase_win_pct + '%' : '—',
@@ -183,8 +182,7 @@ function renderStatsForFmt(fmt) {
   // Second .section-card in #panel-stats contains wicket breakdown
   var statsCards = document.querySelectorAll('#panel-stats .section-card');
   var wktCard = statsCards && statsCards[1];
-  var wktContainer = wktCard ? wktCard.querySelector('[style*="flex-direction:column"]') : null;
-  var wktBlocks = wktContainer ? wktContainer.children : [];
+  var wktBlocks = wktCard ? wktCard.querySelectorAll('div > div') : [];
   Array.prototype.forEach.call(wktBlocks, function(block) {
     var spans = block.querySelectorAll('span');
     if (!spans.length) return;
@@ -260,38 +258,20 @@ async function renderTeamBiasTab(venueName) {
   var colHdr = biasSection.querySelector('[style*="grid-template-columns"]');
   var colHtml = colHdr ? colHdr.outerHTML : '';
 
-  var teamVenueData = await apiFetch('/api/team-venue-stats');
-  if (!teamVenueData) {
+  var teamsData = await apiFetch('/api/teams');
+  if (!teamsData) {
     biasSection.innerHTML = hdrHtml + '<div style="padding:1.5rem;text-align:center;color:var(--text-muted);font-size:.83rem;">No team data available.</div>';
     return;
   }
 
-  function normVenue(v) {
-    return String(v || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
-  }
-
-  var queryVenue = normVenue(venueName);
   var biasRows = [];
-  Object.keys(teamVenueData).forEach(function(team) {
-    var byFormat = teamVenueData[team] || {};
-    var t20Venues = byFormat['T20I'] || byFormat['t20i'] || {};
-    if (!t20Venues || typeof t20Venues !== 'object') return;
-
-    var matchEntry = null;
-    Object.keys(t20Venues).forEach(function(vKey) {
-      if (matchEntry) return;
-      var nv = normVenue(vKey);
-      if (!queryVenue || !nv) return;
-      if (nv === queryVenue || nv.includes(queryVenue) || queryVenue.includes(nv)) {
-        matchEntry = t20Venues[vKey];
-      }
-    });
-
-    if (matchEntry) {
-      var m = matchEntry.matches || 0;
-      if (m >= 3) {
-        biasRows.push({ team: team, win_pct: matchEntry.win_pct || 0, matches: m });
-      }
+  Object.keys(teamsData).forEach(function(team) {
+    var ts = teamsData[team];
+    // handle both {T20I:{...}} and direct format keys
+    var t20 = ts['T20I'] || ts['t20i'] || ts['T20'] || {};
+    var m = t20.matches || 0;
+    if (m >= 3) {
+      biasRows.push({ team: team, win_pct: t20.win_pct || 0, matches: m });
     }
   });
   biasRows.sort(function(a, b) { return b.win_pct - a.win_pct; });
@@ -320,21 +300,21 @@ function renderSidebarFacts(venueName, data, meta) {
   var country = (meta && meta.country) || guessCountry(venueName);
   var iso     = COUNTRY_ISO[country] || '';
   var factMap = {
-    'Country':      country || '—',
-    'City':         (meta && meta.city) || '—',
-    'Capacity':     (meta && meta.capacity) ? Number(meta.capacity).toLocaleString() : '—',
-    'Established':  (meta && meta.established) ? String(meta.established) : '—',
-    'Intl Matches': (data.matches != null) ? String(data.matches) : '—',
-    'Pitch Type':   (meta && meta.pitch && meta.pitch.surface) || '—',
-    'Dew Factor':   (meta && meta.pitch && meta.pitch.dew_factor) || '—',
+    'Country':      country,
+    'City':         (meta && meta.city) || '',
+    'Capacity':     (meta && meta.capacity) ? Number(meta.capacity).toLocaleString() : '',
+    'Established':  (meta && meta.established) ? String(meta.established) : '',
+    'Intl Matches': data.matches ? String(data.matches) : '',
+    'Pitch Type':   (meta && meta.pitch && meta.pitch.surface) || '',
+    'Dew Factor':   (meta && meta.pitch && meta.pitch.dew_factor) || '',
   };
   document.querySelectorAll('.sidebar-stat-row').forEach(function(row) {
     var lbl = ((row.querySelector('.sidebar-stat-label') || {}).textContent || '').trim();
     var valEl = row.querySelector('.sidebar-stat-value');
     if (!valEl) return;
-    if (lbl === 'Country' && iso && country) {
+    if (lbl === 'Country' && iso) {
       valEl.innerHTML = '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(country) + '" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display=\'none\'"> ' + esc(country);
-    } else if (Object.prototype.hasOwnProperty.call(factMap, lbl)) {
+    } else if (factMap[lbl]) {
       valEl.textContent = factMap[lbl];
     }
   });

@@ -18,30 +18,8 @@ function flCircle2(country, size) {
   return '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(country) + '" style="width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;vertical-align:middle;" onerror="this.style.display=\'none\'">';
 }
 
-function isSameSelection(side, name) {
-  var other = side === 'a' ? selectedB : selectedA;
-  return !!(other && other.name && name && String(other.name).toLowerCase() === String(name).toLowerCase());
-}
-
-function showCompareValidation(message) {
-  var summaryTitle   = document.querySelector('.summary-title');
-  var summaryText    = document.querySelector('.summary-text');
-  var summaryVerdict = document.querySelector('.summary-verdict');
-  if (summaryTitle) summaryTitle.textContent = 'Selection Required';
-  if (summaryText) summaryText.textContent = message;
-  if (summaryVerdict) {
-    summaryVerdict.textContent = 'Choose two different ' + (compareMode === 'team' ? 'teams' : 'players');
-    summaryVerdict.className = 'summary-verdict';
-  }
-}
-
 // ── Override inline selectItem ────────────────────────────────────────────────
 window.selectItem = function(side, el, name, flag, meta) {
-  if (isSameSelection(side, name)) {
-    showCompareValidation('Same ' + (compareMode === 'team' ? 'team' : 'player') + ' selected on both sides. Please choose different options.');
-    return;
-  }
-
   var list = document.getElementById('list-' + side);
   if (list) list.querySelectorAll('.selector-item').forEach(function(i) { i.classList.remove('selected'); });
   el.classList.add('selected');
@@ -64,10 +42,6 @@ window.selectItem = function(side, el, name, flag, meta) {
 
 // ── Override inline showResults ───────────────────────────────────────────────
 window.showResults = function() {
-  if (!selectedA.name || !selectedB.name || String(selectedA.name).toLowerCase() === String(selectedB.name).toLowerCase()) {
-    showCompareValidation('Please select two different ' + (compareMode === 'team' ? 'teams' : 'players') + ' before comparing.');
-    return;
-  }
   var r = document.getElementById('compare-results');
   if (r) { r.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   if (compareMode === 'team') runTeamComparison();
@@ -79,11 +53,6 @@ window.setTab = function(btn) {
   btn.closest('.tabs').querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
   btn.classList.add('active');
   activeFormatFilter = btn.textContent.trim();
-
-  // Re-render active comparison immediately on format change.
-  if (!selectedA.name || !selectedB.name) return;
-  if (compareMode === 'team') runTeamComparison();
-  else runPlayerComparison();
 };
 
 // ── Override switchMode ───────────────────────────────────────────────────────
@@ -106,28 +75,18 @@ window.switchMode = function(mode, btn) {
     apiFetch('/api/teams').then(function(data) {
       if (!data) return;
       var teams = Object.keys(data).sort();
-
-      function buildTeamList(side, selectedIndex) {
-        return teams.map(function(t, i) {
-          var iso = COUNTRY_ISO[t] || '';
-          var flagHtml = iso ? '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(t) + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">' : '';
-          return '<div class="selector-item' + (i === selectedIndex ? ' selected' : '') + '" data-name="' + esc(t) + '">'
-            + '<div class="selector-item-avatar" style="overflow:hidden;">' + flagHtml + '</div>'
-            + '<div class="selector-item-info"><div class="selector-item-name">' + esc(t) + '</div><div class="selector-item-meta">International Team</div></div>'
-            + '<div class="selector-item-check"><i class="fa-solid fa-check"></i></div>'
-          + '</div>';
-        }).join('');
-      }
-
-      var aIndex = 0;
-      var bIndex = teams.length > 1 ? 1 : 0;
-      var teamA = teams[aIndex] || '';
-      var teamB = teams[bIndex] || '';
-
-      listA.innerHTML = buildTeamList('a', aIndex);
-      listB.innerHTML = buildTeamList('b', bIndex);
-
-      // Wire clicks with correct side and duplicate guard
+      var html = teams.map(function(t, i) {
+        var iso = COUNTRY_ISO[t] || '';
+        var flagHtml = iso ? '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(t) + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">' : '';
+        return '<div class="selector-item' + (i === 0 ? ' selected' : i === 1 ? ' selected' : '') + '" onclick="selectItem(\'' + (listA === document.getElementById('list-a') ? 'a' : 'b') + '\', this, \'' + esc(t) + '\', \'\', \'' + esc(t) + ' ·\')">'
+          + '<div class="selector-item-avatar" style="overflow:hidden;">' + flagHtml + '</div>'
+          + '<div class="selector-item-info"><div class="selector-item-name">' + esc(t) + '</div><div class="selector-item-meta">International Team</div></div>'
+          + '<div class="selector-item-check"><i class="fa-solid fa-check"></i></div>'
+        + '</div>';
+      }).join('');
+      listA.innerHTML = html;
+      listB.innerHTML = html;
+      // Reset onclick with correct side
       listA.querySelectorAll('.selector-item').forEach(function(item, i) {
         var tname = teams[i];
         item.onclick = function() { window.selectItem('a', item, tname, '', tname + ' ·'); };
@@ -136,14 +95,8 @@ window.switchMode = function(mode, btn) {
         var tname = teams[i];
         item.onclick = function() { window.selectItem('b', item, tname, '', tname + ' ·'); };
       });
-
-      if (teamA) selectedA = { name: teamA, country: teamA, mode: 'team' };
-      if (teamB) selectedB = { name: teamB, country: teamB, mode: 'team' };
-
-      var previewA = document.getElementById('preview-a');
-      var previewB = document.getElementById('preview-b');
-      if (previewA && teamA) previewA.innerHTML = '<div class="selected-preview-avatar" style="overflow:hidden;">' + flCircle2(teamA, 52) + '</div><span>' + esc(teamA) + '</span>';
-      if (previewB && teamB) previewB.innerHTML = '<div class="selected-preview-avatar" style="overflow:hidden;">' + flCircle2(teamB, 52) + '</div><span>' + esc(teamB) + '</span>';
+      if (teams[0]) selectedA = { name: teams[0], country: teams[0], mode: 'team' };
+      if (teams[1]) selectedB = { name: teams[1], country: teams[1], mode: 'team' };
     });
   } else {
     // Restore player list from API
@@ -217,10 +170,7 @@ function setDefaultSelected(side, name) {
 
 // ── Player comparison ─────────────────────────────────────────────────────────
 async function runPlayerComparison() {
-  if (!selectedA.name || !selectedB.name || String(selectedA.name).toLowerCase() === String(selectedB.name).toLowerCase()) {
-    showCompareValidation('Please select two different players before comparing.');
-    return;
-  }
+  if (!selectedA.name || !selectedB.name) return;
 
   // Loading state
   var grid = document.querySelector('.compare-stat-grid');
@@ -229,23 +179,10 @@ async function runPlayerComparison() {
   var data = await apiFetch('/api/compare/players?player_a=' + encodeURIComponent(selectedA.name) + '&player_b=' + encodeURIComponent(selectedB.name));
 
   if (grid) grid.style.opacity = '1';
-  if (!data) data = {};
+  if (!data) return;
 
   var a = data.player_a || {};
   var b = data.player_b || {};
-
-  // If compare endpoint returns partial payload, recover each side from direct profile API.
-  if (!Object.keys(a).length) {
-    a = await apiFetch('/api/players/' + encodeURIComponent(selectedA.name)) || {};
-  }
-  if (!Object.keys(b).length) {
-    b = await apiFetch('/api/players/' + encodeURIComponent(selectedB.name)) || {};
-  }
-
-  if (!Object.keys(a).length || !Object.keys(b).length) {
-    showCompareValidation('Unable to load one side of comparison data. Please reselect both players.');
-    return;
-  }
 
   // ── Update panel headers ──────────────────────────────────────────────────
   var names   = document.querySelectorAll('.cph-name');
@@ -349,8 +286,7 @@ async function runPlayerComparison() {
     var bd = barData[i];
     var fillA = row.querySelector('.bar-fill-a,.bar-compare-fill.bar-fill-a');
     var fillB = row.querySelector('.bar-fill-b,.bar-compare-fill.bar-fill-b');
-    var valueRow = row.querySelector('.bar-compare-track + div');
-    var spans = valueRow ? valueRow.querySelectorAll('span') : [];
+    var spans = row.querySelectorAll('[style*="color"]');
     var pA = bd.max > 0 ? Math.min(Math.round((bd.aVal/bd.max)*100), 100) : 0;
     var pB = bd.max > 0 ? Math.min(Math.round((bd.bVal/bd.max)*100), 100) : 0;
     if (fillA) fillA.style.width = pA + '%';
@@ -471,10 +407,7 @@ function updateProbBlock(block, name, country, probs, isB) {
 // ── Team comparison ───────────────────────────────────────────────────────────
 async function runTeamComparison() {
   var nameA = selectedA.name; var nameB = selectedB.name;
-  if (!nameA || !nameB || String(nameA).toLowerCase() === String(nameB).toLowerCase()) {
-    showCompareValidation('Please select two different teams before comparing.');
-    return;
-  }
+  if (!nameA || !nameB) return;
 
   var dataA = await apiFetch('/api/teams/' + encodeURIComponent(nameA));
   var dataB = await apiFetch('/api/teams/' + encodeURIComponent(nameB));
@@ -577,8 +510,7 @@ async function runTeamComparison() {
     var bd = barDataTeam[i];
     var fillA = row.querySelector('.bar-fill-a,.bar-compare-fill.bar-fill-a');
     var fillB = row.querySelector('.bar-fill-b,.bar-compare-fill.bar-fill-b');
-    var valueRow = row.querySelector('.bar-compare-track + div');
-    var spans = valueRow ? valueRow.querySelectorAll('span') : [];
+    var spans = row.querySelectorAll('[style*="color"]');
     var pA = bd.max > 0 ? Math.min(Math.round((bd.aVal/bd.max)*100),100) : 0;
     var pB = bd.max > 0 ? Math.min(Math.round((bd.bVal/bd.max)*100),100) : 0;
     if (fillA) fillA.style.width = pA + '%';

@@ -328,15 +328,6 @@ def get_venues():
     return jsonify(data)
 
 
-@app.route("/api/team-venue-stats")
-def get_team_venue_stats():
-    """All teams venue-wise stats by format."""
-    data = load_processed("team_venue_stats.json")
-    if data is None:
-        return jsonify({"error": "Data not found"}), 500
-    return jsonify(data)
-
-
 @app.route("/api/venues/<path:venue_name>")
 def get_venue(venue_name):
     """Full profile for one venue."""
@@ -542,29 +533,17 @@ def search():
     teams_data   = load_processed("team_format_stats.json") or {}
     venues_data  = load_processed("venue_stats.json") or {}
 
-    # Optional static metadata (photo/country/role) used for richer search cards.
-    meta_map = {}
-    meta_path = os.path.join(STATIC_DIR, "players_meta.json")
-    if os.path.exists(meta_path):
-        with open(meta_path, encoding="utf-8") as mf:
-            meta_map = json.load(mf)
-
     # Search players
     matched_players = []
     for name, player in players_data.items():
         if q in name.lower():
             total_runs = sum(f.get("runs", 0) for f in player.get("batting", {}).values())
             total_wkts = sum(f.get("wickets", 0) for f in player.get("bowling", {}).values())
-            m = meta_map.get(name, {})
             matched_players.append({
                 "name":    name,
                 "formats": player.get("formats", []),
                 "runs":    total_runs,
                 "wickets": total_wkts,
-                "country": m.get("country", player.get("country", "")),
-                "role": m.get("role", ""),
-                "image_url": m.get("image_url", ""),
-                "iso_code": m.get("iso_code", ""),
             })
     matched_players.sort(key=lambda x: x["runs"] + x["wickets"] * 20, reverse=True)
 
@@ -744,48 +723,36 @@ def add_cors(response):
 def get_icc_rankings():
     category = request.args.get("category", "batting")
     fmt      = request.args.get("format", "T20I")
-
-    def _extract_rankings(dataset):
-        if not isinstance(dataset, dict):
-            return []
-        if category == "teams":
-            return dataset.get("team", {}).get(fmt, []) or []
-        return dataset.get("player", {}).get(category, {}).get(fmt, []) or []
-
     try:
         from scrape_rankings import get_current_rankings, build_hardcoded_rankings
         data = get_current_rankings()
-        fallback_data = None
+        # If cached file was empty, force use hardcoded fallback
+        if data:
+            if category == "teams":
+                check = data.get("team", {}).get(fmt, [])
+            else:
+                check = data.get("player", {}).get(category, {}).get(fmt, [])
+            if not check:
+                data = build_hardcoded_rankings()
+        else:
+            data = build_hardcoded_rankings()
     except Exception as e:
         print(f"  rankings error: {e}")
         data = None
-        fallback_data = None
 
-    if not data and not fallback_data:
+    if not data:
         return jsonify({"category": category, "format": fmt, "rankings": []}), 200
 
-    result = _extract_rankings(data)
-    source = (data or {}).get("source", "hardcoded_fallback") if isinstance(data, dict) else "hardcoded_fallback"
-    scraped_at = (data or {}).get("scraped_at", "") if isinstance(data, dict) else ""
-
-    # Per-slice fallback only when the requested category/format is missing.
-    if not result:
-        if fallback_data is None:
-            try:
-                from scrape_rankings import build_hardcoded_rankings
-                fallback_data = build_hardcoded_rankings()
-            except Exception:
-                fallback_data = None
-        if fallback_data:
-            result = _extract_rankings(fallback_data)
-            source = fallback_data.get("source", "hardcoded_fallback")
-            scraped_at = fallback_data.get("scraped_at", "")
+    if category == "teams":
+        result = data.get("team", {}).get(fmt, [])
+    else:
+        result = data.get("player", {}).get(category, {}).get(fmt, [])
 
     return jsonify({
         "category": category,
         "format": fmt,
-        "scraped_at": scraped_at,
-        "source":     source,
+        "scraped_at": data.get("scraped_at", ""),
+        "source":     data.get("source", "hardcoded_fallback"),
         "rankings":   result or []
     })
 

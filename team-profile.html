@@ -1445,19 +1445,8 @@
       
       container.innerHTML = '<div class="disclaimer-banner mb-2"><span class="icon">⏳</span> Loading match predictions...</div>';
       
-      // Restrict ML insights to primary teams only and exclude self.
-      const PRIMARY_TEAMS = [
-        'India',
-        'Australia',
-        'England',
-        'Pakistan',
-        'South Africa',
-        'New Zealand',
-        'Sri Lanka',
-        'Bangladesh',
-        'West Indies'
-      ];
-      const opponents = PRIMARY_TEAMS.filter(t => t.toLowerCase() !== teamName.toLowerCase());
+      // Get all opponent teams
+      const opponents = ['Australia', 'England', 'Pakistan', 'South Africa', 'New Zealand', 'Sri Lanka', 'Bangladesh', 'West Indies'];
       
       let html = '';
       
@@ -1491,9 +1480,10 @@
     
     // Get team name on load and wire ML tab
     document.addEventListener('DOMContentLoaded', function() {
-      const urlTeam = new URLSearchParams(window.location.search).get('name');
       const teamNameEl = document.getElementById('teamName');
-      currentTeam = (urlTeam && urlTeam.trim()) || (teamNameEl ? teamNameEl.textContent.trim() : '') || 'India';
+      if (teamNameEl) {
+        currentTeam = teamNameEl.textContent.trim() || 'India';
+      }
       
       // Wire ML tab click
       const MLTab = document.querySelector('[data-tab="ml"]');
