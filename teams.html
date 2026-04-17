@@ -1264,25 +1264,9 @@
           </div>
         </div><div class="sb-card">
           <div class="sb-head"><i class="fa fa-calendar"></i> Upcoming Fixtures</div>
-          <a href="match-detail.html" class="fixture-item">
-            <div class="fixture-teams">India vs Australia</div>
-            <div class="fixture-meta"><span class="match-format-badge" style="font-size:.6rem">T20I</span> Mar 6 ·
-              Bengaluru · 7:00 PM IST</div>
-          </a>
-          <a href="match-detail.html" class="fixture-item">
-            <div class="fixture-teams">Pakistan vs New Zealand</div>
-            <div class="fixture-meta"><span class="match-format-badge" style="font-size:.6rem">Test</span> Mar 7 ·
-              Lahore · 10:00 AM PKT</div>
-          </a>
-          <a href="match-detail.html" class="fixture-item">
-            <div class="fixture-teams">England vs South Africa</div>
-            <div class="fixture-meta"><span class="match-format-badge" style="font-size:.6rem">ODI</span> Mar 7 · Lord's
-              · 11:00 AM GMT</div>
-          </a>
-          <a href="match-detail.html" class="fixture-item">
-            <div class="fixture-teams">SA vs West Indies</div>
-            <div class="fixture-meta"><span class="match-format-badge" style="font-size:.6rem">ODI</span> Mar 6 ·
-              Centurion · 1:00 PM</div>
+          <div style="padding:1rem 1.1rem;color:var(--text-muted);font-size:.92rem;text-align:center;">
+            Upcoming fixtures will appear here once schedule data is available.
+          </div>
           </a>
         </div>
 
@@ -1389,25 +1373,6 @@
         document.getElementById('view-rankings').style.display = v === 'rankings' ? '' : 'none';
         document.getElementById('view-cards').style.display = v === 'cards' ? '' : 'none';
       });
-    });
-
-    // Format rank sub-tabs
-    document.querySelectorAll('[data-fmt-rank]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        btn.closest('div').querySelectorAll('[data-fmt-rank]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-
-    // Filter chips
-    document.querySelectorAll('[data-fmt]').forEach(c => {
-      c.addEventListener('click', () => {
-        document.querySelectorAll('[data-fmt]').forEach(x => x.classList.remove('active'));
-        c.classList.add('active');
-      });
-    });
-    document.querySelectorAll('[data-region]').forEach(c => {
-      c.addEventListener('click', () => { c.classList.toggle('active'); });
     });
 
     document.querySelector('.nav-search').addEventListener('keydown', function (e) {

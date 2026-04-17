@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>India vs Australia — Match Detail · Criclytics</title>
+  <title>Match Detail · Criclytics</title>
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -62,13 +62,16 @@
       flex: 1;
     }
 
-    .scoreboard-team.batting .scoreboard-name {
-      color: var(--frost);
-    }
-
     .scoreboard-flag {
       font-size: 3rem;
       line-height: 1;
+      width: 44px;
+      height: 44px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     .scoreboard-name {
@@ -84,11 +87,6 @@
       font-weight: 700;
       color: var(--frost);
       line-height: 1;
-    }
-
-    .scoreboard-team.not-batting .scoreboard-score {
-      color: var(--text-muted);
-      font-size: 1.6rem;
     }
 
     .scoreboard-overs {
@@ -1169,44 +1167,44 @@
           <span class="breadcrumb-sep">/</span>
           <a href="matches.html">Matches</a>
           <span class="breadcrumb-sep">/</span>
-          <span>IND vs AUS · 3rd T20I</span>
+          <span>Match Detail</span>
         </div>
 
         <!-- Scoreboard -->
         <div class="scoreboard">
 
-          <!-- India -->
-          <div class="scoreboard-team batting">
-            <span class="scoreboard-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></span>
-            <div class="scoreboard-name" id="team1Name">India</div>
-            <div class="scoreboard-score" id="team1Score">187 / 4</div>
-            <div class="scoreboard-overs">18.2 overs</div>
-            <div class="scoreboard-crr">CRR: 10.20</div>
+          <!-- Team 1 -->
+          <div class="scoreboard-team">
+            <span class="scoreboard-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;"></span>
+            <div class="scoreboard-name" id="team1Name">Team A</div>
+            <div class="scoreboard-score" id="team1Score">—</div>
+            <div class="scoreboard-overs">—</div>
+            <div class="scoreboard-crr">CRR: —</div>
           </div>
 
           <!-- Centre info -->
           <div class="scoreboard-centre">
             <span class="vs-label">VS</span>
             <div class="match-status-live">
-              <span class="live-dot"></span> LIVE
+              <span class="live-dot"></span> Match Status
             </div>
             <div class="target-box">
               <div class="label">Target</div>
-              <div class="value">188</div>
+              <div class="value">—</div>
             </div>
             <div class="run-rate-box">
               <div class="label">RRR</div>
-              <div class="value">16.50</div>
+              <div class="value">—</div>
             </div>
           </div>
 
-          <!-- Australia -->
-          <div class="scoreboard-team not-batting">
-            <span class="scoreboard-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></span>
-            <div class="scoreboard-name" id="team2Name">Australia</div>
-            <div class="scoreboard-score" id="team2Score">143 / 6</div>
-            <div class="scoreboard-overs">15.0 overs</div>
-            <div class="scoreboard-crr">CRR: 9.53</div>
+          <!-- Team 2 -->
+          <div class="scoreboard-team">
+            <span class="scoreboard-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;"></span>
+            <div class="scoreboard-name" id="team2Name">Team B</div>
+            <div class="scoreboard-score" id="team2Score">—</div>
+            <div class="scoreboard-overs">—</div>
+            <div class="scoreboard-crr">CRR: —</div>
           </div>
 
         </div>
@@ -1215,23 +1213,22 @@
       <!-- Chase bar -->
       <div class="chase-bar-wrap">
         <div class="chase-bar-labels">
-          <span><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia 143/6</span>
-          <span>Need 45 off 30 balls</span>
-          <span>Target 188</span>
+          <span>Team B —</span>
+          <span>Need — off — balls</span>
+          <span>Target —</span>
         </div>
         <div class="chase-bar">
-          <div class="chase-bar-fill" style="width: 76%"></div>
+          <div class="chase-bar-fill" style="width: 0%"></div>
         </div>
       </div>
 
       <!-- Match meta -->
       <div class="match-meta-strip">
-        <span class="match-meta-item"><i class="fa fa-location-dot"></i> Wankhede Stadium, Mumbai</span>
-        <span class="match-meta-item"><i class="fa fa-calendar"></i> 5 March 2026</span>
-        <span class="match-meta-item"><i class="fa fa-trophy"></i> IND vs AUS T20I Series</span>
-        <span class="match-meta-item"><i class="fa fa-circle-dot" style="color:var(--green-live);"></i> Day /
-          Night</span>
-        <span class="match-meta-item"><i class="fa fa-user"></i> Toss: Australia (elected to field)</span>
+        <span class="match-meta-item"><i class="fa fa-location-dot"></i> —</span>
+        <span class="match-meta-item"><i class="fa fa-calendar"></i> —</span>
+        <span class="match-meta-item"><i class="fa fa-trophy"></i> —</span>
+        <span class="match-meta-item"><i class="fa fa-circle-dot" style="color:var(--green-live);"></i> —</span>
+        <span class="match-meta-item"><i class="fa fa-user"></i> —</span>
       </div>
 
       <!-- Tabs -->
@@ -1270,23 +1267,23 @@
             <div class="overview-grid">
               <div class="overview-stat">
                 <div class="overview-stat-label">Current Score</div>
-                <div class="overview-stat-value">187 / 4</div>
-                <div class="overview-stat-sub">India — 18.2 overs</div>
+                <div class="overview-stat-value">—</div>
+                <div class="overview-stat-sub">—</div>
               </div>
               <div class="overview-stat">
                 <div class="overview-stat-label">Run Rate</div>
-                <div class="overview-stat-value">10.20</div>
-                <div class="overview-stat-sub">Req. rate: 16.50</div>
+                <div class="overview-stat-value">—</div>
+                <div class="overview-stat-sub">—</div>
               </div>
               <div class="overview-stat">
                 <div class="overview-stat-label">Last 5 Overs</div>
-                <div class="overview-stat-value">52 / 2</div>
-                <div class="overview-stat-sub">Powerplay: 58/0</div>
+                <div class="overview-stat-value">—</div>
+                <div class="overview-stat-sub">—</div>
               </div>
               <div class="overview-stat">
                 <div class="overview-stat-label">Boundaries</div>
-                <div class="overview-stat-value">12 × 4 · 7 × 6</div>
-                <div class="overview-stat-sub">Dot balls: 34</div>
+                <div class="overview-stat-value">—</div>
+                <div class="overview-stat-sub">—</div>
               </div>
             </div>
           </div>
@@ -1301,19 +1298,18 @@
                 style="text-align:right">4s</span><span style="text-align:right">SR</span>
             </div>
             <div class="at-crease-row">
-              <span class="at-crease-name"><span class="batting-indicator"></span> <a href="player-profile.html">V.
-                  Kohli</a></span>
-              <span class="at-crease-num highlight">78</span>
-              <span class="at-crease-num">48</span>
-              <span class="at-crease-num">7</span>
-              <span class="at-crease-num sr-highlight">162.5</span>
+              <span class="at-crease-name"><span class="batting-indicator"></span> —</span>
+              <span class="at-crease-num highlight">—</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num sr-highlight">—</span>
             </div>
             <div class="at-crease-row">
-              <span class="at-crease-name"><a href="player-profile.html">H. Pandya</a></span>
-              <span class="at-crease-num highlight">34</span>
-              <span class="at-crease-num">18</span>
-              <span class="at-crease-num">3</span>
-              <span class="at-crease-num sr-highlight">188.8</span>
+              <span class="at-crease-name">—</span>
+              <span class="at-crease-num highlight">—</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num sr-highlight">—</span>
             </div>
           </div>
 
@@ -1328,19 +1324,18 @@
             </div>
             <div class="at-crease-row">
               <span class="at-crease-name"><span class="batting-indicator"
-                  style="background:var(--red);animation:none;"></span> <a href="player-profile.html">P.
-                  Cummins</a></span>
-              <span class="at-crease-num">3.2</span>
-              <span class="at-crease-num">0</span>
-              <span class="at-crease-num">38</span>
-              <span class="at-crease-num highlight">2</span>
+                  style="background:var(--red);animation:none;"></span> —</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num highlight">—</span>
             </div>
             <div class="at-crease-row">
-              <span class="at-crease-name"><a href="player-profile.html">M. Starc</a></span>
-              <span class="at-crease-num">4</span>
-              <span class="at-crease-num">0</span>
-              <span class="at-crease-num">42</span>
-              <span class="at-crease-num highlight">1</span>
+              <span class="at-crease-name">—</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num">—</span>
+              <span class="at-crease-num highlight">—</span>
             </div>
           </div>
 
@@ -1349,22 +1344,8 @@
             <div class="section-card-header">
               <div class="section-card-title"><i class="fa fa-timeline"></i> Recent Deliveries</div>
             </div>
-            <div class="recent-balls">
-              <span class="recent-balls-label">Over 17</span>
-              <span class="ball dot">0</span>
-              <span class="ball four">4</span>
-              <span class="ball dot">1</span>
-              <span class="ball six">6</span>
-              <span class="ball wide">Wd</span>
-              <span class="ball four">4</span>
-              <span class="ball-sep"></span>
-              <span class="recent-balls-label">Over 18</span>
-              <span class="ball four">4</span>
-              <span class="ball dot">0</span>
-              <span class="ball wicket">W</span>
-              <span class="ball dot">1</span>
-              <span class="ball six">6</span>
-              <span class="ball dot">·</span>
+            <div class="recent-balls" style="justify-content:center;min-height:5rem;align-items:center;display:flex;">
+              <span style="color:var(--text-muted);">Delivery data will display once live ball tracking is connected.</span>
             </div>
           </div>
 
@@ -1374,22 +1355,14 @@
               <div class="section-card-title"><i class="fa fa-circle-info"></i> Match Information</div>
             </div>
             <div class="info-list">
-              <div class="info-row"><span class="info-row-label">Series</span><span class="info-row-value">India vs
-                  Australia T20I Series 2026</span></div>
-              <div class="info-row"><span class="info-row-label">Match</span><span class="info-row-value">3rd T20I —
-                  Best of 5 series</span></div>
-              <div class="info-row"><span class="info-row-label">Venue</span><span class="info-row-value"><a
-                    href="venues.html" style="color:var(--accent);">Wankhede Stadium, Mumbai</a></span></div>
-              <div class="info-row"><span class="info-row-label">Date & Time</span><span class="info-row-value">5 March
-                  2026, 7:00 PM IST</span></div>
-              <div class="info-row"><span class="info-row-label">Toss</span><span class="info-row-value">Australia won ·
-                  Elected to field</span></div>
-              <div class="info-row"><span class="info-row-label">Umpires</span><span class="info-row-value">Kumar
-                  Dharmasena, Richard Kettleborough</span></div>
-              <div class="info-row"><span class="info-row-label">Match Referee</span><span class="info-row-value">Richie
-                  Richardson</span></div>
-              <div class="info-row"><span class="info-row-label">Series Score</span><span class="info-row-value">India
-                  leads 2–0</span></div>
+              <div class="info-row"><span class="info-row-label">Series</span><span class="info-row-value">—</span></div>
+              <div class="info-row"><span class="info-row-label">Match</span><span class="info-row-value">—</span></div>
+              <div class="info-row"><span class="info-row-label">Venue</span><span class="info-row-value">—</span></div>
+              <div class="info-row"><span class="info-row-label">Date & Time</span><span class="info-row-value">—</span></div>
+              <div class="info-row"><span class="info-row-label">Toss</span><span class="info-row-value">—</span></div>
+              <div class="info-row"><span class="info-row-label">Umpires</span><span class="info-row-value">—</span></div>
+              <div class="info-row"><span class="info-row-label">Match Referee</span><span class="info-row-value">—</span></div>
+              <div class="info-row"><span class="info-row-label">Series Score</span><span class="info-row-value">—</span></div>
             </div>
           </div>
 
@@ -1400,12 +1373,12 @@
     ═════════════════════ -->
         <div class="tab-panel" id="panel-scorecard">
 
-          <!-- India Innings -->
+          <!-- Team A Innings -->
           <div class="section-card">
             <div class="innings-label">
               <span class="match-format-badge">T20I</span>
-              <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India — 1st Innings</span>
-              <span class="innings-total">187 / 4 &nbsp;(18.2 ov)</span>
+              <span class="innings-label-text">Team A — 1st Innings</span>
+              <span class="innings-total">—</span>
             </div>
 
             <!-- Batting -->
@@ -1423,60 +1396,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">R. Sharma</a></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">c Warner b Starc</td>
-                  <td class="runs-scored">42</td>
-                  <td>28</td>
-                  <td>5</td>
-                  <td>2</td>
-                  <td class="sr-highlight">150.0</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">S. Gill</a></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">c Maxwell b Cummins</td>
-                  <td class="runs-scored">18</td>
-                  <td>14</td>
-                  <td>2</td>
-                  <td>0</td>
-                  <td>128.5</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">V. Kohli</a> <span
-                        class="not-out">*</span></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">not out</td>
-                  <td class="runs-scored">78</td>
-                  <td>48</td>
-                  <td>7</td>
-                  <td>3</td>
-                  <td class="sr-highlight">162.5</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">S. Iyer</a></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">c Carey b Zampa</td>
-                  <td class="runs-scored">15</td>
-                  <td>12</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>125.0</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">H. Pandya</a> <span
-                        class="not-out">*</span></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">not out</td>
-                  <td class="runs-scored">34</td>
-                  <td>18</td>
-                  <td>3</td>
-                  <td>2</td>
-                  <td class="sr-highlight">188.8</td>
-                </tr>
-                <tr class="extras-row">
-                  <td colspan="2">Extras (nb 2, w 3, b 0, lb 1)</td>
-                  <td colspan="5" style="text-align:right;font-family:var(--font-mono);color:var(--text-secondary);">6
-                  </td>
-                </tr>
-                <tr class="total-row">
-                  <td colspan="2">Total</td>
-                  <td colspan="5" style="text-align:right;">187/4 &nbsp;(18.2 overs)</td>
+                  <td colspan="7" style="text-align:center;padding:1rem;color:var(--text-muted);">Match batting details will load here.</td>
                 </tr>
               </tbody>
             </table>
@@ -1485,17 +1405,14 @@
             <div class="fow-strip">
               <div class="fow-label">Fall of Wickets</div>
               <div class="fow-items">
-                <span class="fow-item">1-52 (Gill, 5.3)</span>
-                <span class="fow-item">2-88 (Sharma, 9.1)</span>
-                <span class="fow-item">3-122 (Iyer, 13.4)</span>
-                <span class="fow-item">4-148 (Pant, 16.2)</span>
+                <span class="fow-item" style="color:var(--text-muted);">—</span>
               </div>
             </div>
 
             <!-- Bowling -->
             <div class="bowling-section">
               <div class="innings-label" style="background:var(--surface-2);">
-                <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia — Bowling</span>
+                <span class="innings-label-text">Team B — Bowling</span>
               </div>
               <table id="innings1-bowling" class="scorecard-table">
                 <thead>
@@ -1512,67 +1429,19 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">M. Starc</a></span></td>
-                    <td>4</td>
-                    <td>0</td>
-                    <td>42</td>
-                    <td class="runs-scored">1</td>
-                    <td>10.50</td>
-                    <td>2</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">P. Cummins</a></span></td>
-                    <td>3.2</td>
-                    <td>0</td>
-                    <td>38</td>
-                    <td class="runs-scored">2</td>
-                    <td class="sr-highlight">11.27</td>
-                    <td>1</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">J. Hazlewood</a></span></td>
-                    <td>4</td>
-                    <td>0</td>
-                    <td>31</td>
-                    <td class="runs-scored">0</td>
-                    <td>7.75</td>
-                    <td>0</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">A. Zampa</a></span></td>
-                    <td>4</td>
-                    <td>0</td>
-                    <td>36</td>
-                    <td class="runs-scored">1</td>
-                    <td>9.00</td>
-                    <td>0</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">G. Maxwell</a></span></td>
-                    <td>3</td>
-                    <td>0</td>
-                    <td>34</td>
-                    <td class="runs-scored">0</td>
-                    <td>11.33</td>
-                    <td>0</td>
-                    <td>1</td>
+                    <td colspan="8" style="text-align:center;padding:1rem;color:var(--text-muted);">Match bowling details will load here.</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- Australia Innings -->
+          <!-- Team B Innings -->
           <div class="section-card">
             <div class="innings-label">
               <span class="match-format-badge">T20I</span>
-              <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia — 2nd Innings <span
-                  style="color:var(--green-live);font-size:0.72rem;margin-left:0.5rem;font-weight:700;">LIVE</span></span>
-              <span class="innings-total">143 / 6 &nbsp;(15.0 ov)</span>
+              <span class="innings-label-text">Team B — 2nd Innings</span>
+              <span class="innings-total">—</span>
             </div>
 
             <table id="innings2-batting" class="scorecard-table">
@@ -1589,87 +1458,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">D. Warner</a></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">c Kohli b Bumrah</td>
-                  <td class="runs-scored">31</td>
-                  <td>22</td>
-                  <td>4</td>
-                  <td>1</td>
-                  <td>140.9</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">M. Short</a></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">b Siraj</td>
-                  <td class="runs-scored">14</td>
-                  <td>11</td>
-                  <td>2</td>
-                  <td>0</td>
-                  <td>127.2</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">S. Smith</a></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">c Pandya b Chahal</td>
-                  <td class="runs-scored">28</td>
-                  <td>23</td>
-                  <td>2</td>
-                  <td>1</td>
-                  <td>121.7</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">G. Maxwell</a></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">c Sharma b Bumrah</td>
-                  <td class="runs-scored">22</td>
-                  <td>14</td>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>157.1</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">T. Head</a></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">lbw b Hardik</td>
-                  <td class="runs-scored">8</td>
-                  <td>6</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>133.3</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><a href="player-profile.html">A. Carey</a></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">c sub b Chahal</td>
-                  <td class="runs-scored">6</td>
-                  <td>7</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>85.7</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><span class="batting-indicator"></span> <a href="player-profile.html">M.
-                        Stoinis</a> <span class="not-out">*</span></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">not out</td>
-                  <td class="runs-scored">24</td>
-                  <td>15</td>
-                  <td>2</td>
-                  <td>1</td>
-                  <td class="sr-highlight">160.0</td>
-                </tr>
-                <tr>
-                  <td><span class="batter-name"><span class="batting-indicator"></span> <a href="player-profile.html">P.
-                        Cummins</a> <span class="not-out">*</span></span></td>
-                  <td style="font-size:0.72rem;color:var(--text-muted);">not out</td>
-                  <td class="runs-scored">10</td>
-                  <td>5</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td class="sr-highlight">200.0</td>
-                </tr>
-                <tr class="extras-row">
-                  <td colspan="2">Extras (nb 0, w 2, b 0, lb 0)</td>
-                  <td colspan="5" style="text-align:right;font-family:var(--font-mono);color:var(--text-secondary);">2
-                  </td>
-                </tr>
-                <tr class="total-row">
-                  <td colspan="2">Total (in progress)</td>
-                  <td colspan="5" style="text-align:right;">143/6 &nbsp;(15.0 overs)</td>
+                  <td colspan="7" style="text-align:center;padding:1rem;color:var(--text-muted);">Match batting details will load here.</td>
                 </tr>
               </tbody>
             </table>
@@ -1677,19 +1466,14 @@
             <div class="fow-strip">
               <div class="fow-label">Fall of Wickets</div>
               <div class="fow-items">
-                <span class="fow-item">1-42 (Short, 4.2)</span>
-                <span class="fow-item">2-61 (Warner, 7.0)</span>
-                <span class="fow-item">3-92 (Smith, 10.3)</span>
-                <span class="fow-item">4-108 (Maxwell, 11.5)</span>
-                <span class="fow-item">5-117 (Head, 12.4)</span>
-                <span class="fow-item">6-128 (Carey, 13.4)</span>
+                <span class="fow-item" style="color:var(--text-muted);">—</span>
               </div>
             </div>
 
-            <!-- India Bowling -->
+            <!-- Team A Bowling -->
             <div class="bowling-section">
               <div class="innings-label" style="background:var(--surface-2);">
-                <span class="innings-label-text"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India — Bowling</span>
+                <span class="innings-label-text">Team A — Bowling</span>
               </div>
               <table id="innings2-bowling" class="scorecard-table">
                 <thead>
@@ -1706,60 +1490,12 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">J. Bumrah</a></span></td>
-                    <td>4</td>
-                    <td>0</td>
-                    <td>22</td>
-                    <td class="runs-scored">2</td>
-                    <td class="sr-highlight">5.50</td>
-                    <td>0</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">M. Siraj</a></span></td>
-                    <td>3</td>
-                    <td>0</td>
-                    <td>31</td>
-                    <td class="runs-scored">1</td>
-                    <td>10.33</td>
-                    <td>1</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">H. Pandya</a></span></td>
-                    <td>3</td>
-                    <td>0</td>
-                    <td>28</td>
-                    <td class="runs-scored">1</td>
-                    <td>9.33</td>
-                    <td>0</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">Y. Chahal</a></span></td>
-                    <td>4</td>
-                    <td>0</td>
-                    <td>34</td>
-                    <td class="runs-scored">2</td>
-                    <td>8.50</td>
-                    <td>1</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td><span class="batter-name"><a href="player-profile.html">A. Kumar</a></span></td>
-                    <td>1</td>
-                    <td>0</td>
-                    <td>14</td>
-                    <td class="runs-scored">0</td>
-                    <td class="sr-highlight">14.0</td>
-                    <td>0</td>
-                    <td>0</td>
+                    <td colspan="8" style="text-align:center;padding:1rem;color:var(--text-muted);">Match bowling details will load here.</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-
-          </div><!-- /AUS innings card -->
+          </div>
 
         </div><!-- /panel-scorecard -->
 
@@ -1780,26 +1516,26 @@
             <div class="insight-card-header">
               <i class="fa fa-chart-pie" style="color:var(--steel);"></i>
               <div class="insight-card-title">Live Win Probability</div>
-              <span style="font-size:0.68rem;color:var(--text-muted);">Based on 87 similar match states</span>
+              <span style="font-size:0.68rem;color:var(--text-muted);">Data-driven probability details appear here</span>
             </div>
             <div style="padding:1.2rem;">
               <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0.7rem;">
                 <div>
-                  <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.2rem;">India</div>
-                  <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:#FF9933;">72%</div>
+                  <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.2rem;">Team A</div>
+                  <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:#FF9933;">—</div>
                 </div>
                 <div style="font-size:0.72rem;color:var(--text-muted);font-weight:700;letter-spacing:0.08em;">VS</div>
                 <div style="text-align:right;">
-                  <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.2rem;">Australia</div>
-                  <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:#FFCD00;">28%</div>
+                  <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.2rem;">Team B</div>
+                  <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:#FFCD00;">—</div>
                 </div>
               </div>
               <div class="win-prob-bar" style="height:10px;border-radius:6px;">
-                <div class="win-prob-fill-ind" style="width:72%;"></div>
-                <div class="win-prob-fill-aus" style="width:28%;"></div>
+                <div class="win-prob-fill-ind" style="width:50%;"></div>
+                <div class="win-prob-fill-aus" style="width:50%;"></div>
               </div>
               <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.6rem;text-align:center;">
-                AUS need 45 runs off 30 balls — historically a 28% situation at this venue
+                Match probability values are populated after live data loads.
               </div>
             </div>
           </div>
@@ -1808,33 +1544,33 @@
           <div class="insight-card anim-up delay-1">
             <div class="insight-card-header">
               <i class="fa fa-arrows-left-right" style="color:var(--steel);"></i>
-              <div class="insight-card-title">Head-to-Head · T20Is</div>
+              <div class="insight-card-title">Head-to-Head · Test</div>
               <span style="font-size:0.68rem;color:var(--text-muted);">Last 5 years</span>
             </div>
             <div class="h2h-grid">
               <div class="h2h-team">
-                <span class="h2h-team-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India</span>
-                <span class="h2h-team-wins">18</span>
-                <span class="h2h-team-winpct">wins · 58.0%</span>
+                <span class="h2h-team-name">Team A</span>
+                <span class="h2h-team-wins">—</span>
+                <span class="h2h-team-winpct">—</span>
               </div>
               <div class="h2h-sep">
-                31
+                —
                 <span>total matches</span>
               </div>
               <div class="h2h-team right">
-                <span class="h2h-team-name"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia</span>
-                <span class="h2h-team-wins">13</span>
-                <span class="h2h-team-winpct">wins · 42.0%</span>
+                <span class="h2h-team-name">Team B</span>
+                <span class="h2h-team-wins">—</span>
+                <span class="h2h-team-winpct">—</span>
               </div>
             </div>
             <div class="h2h-bar-wrap">
               <div class="h2h-bar-track">
-                <div class="h2h-bar-ind" style="width:58%"></div>
-                <div class="h2h-bar-aus" style="width:42%"></div>
+                <div class="h2h-bar-ind" style="width:50%"></div>
+                <div class="h2h-bar-aus" style="width:50%"></div>
               </div>
               <div class="h2h-bar-labels">
-                <span>India 18W</span>
-                <span>Australia 13W</span>
+                <span>Team A</span>
+                <span>Team B</span>
               </div>
             </div>
           </div>
@@ -1843,23 +1579,16 @@
           <div class="insight-card anim-up delay-2">
             <div class="insight-card-header">
               <i class="fa fa-location-dot" style="color:var(--steel);"></i>
-              <div class="insight-card-title">Venue Context · Wankhede, Mumbai</div>
+              <div class="insight-card-title">Venue Context</div>
             </div>
-            <div class="venue-stat-row"><span class="venue-stat-label">Avg 1st innings T20I total</span><span
-                class="venue-stat-value">178</span></div>
-            <div class="venue-stat-row"><span class="venue-stat-label">Chasing team wins</span><span
-                class="venue-stat-value">61% (of 33 matches)</span></div>
-            <div class="venue-stat-row"><span class="venue-stat-label">Avg score in powerplay</span><span
-                class="venue-stat-value">54 / 2</span></div>
-            <div class="venue-stat-row"><span class="venue-stat-label">Last 5 matches won by</span><span
-                class="venue-stat-value">3 chasing, 2 defending</span></div>
-            <div class="venue-stat-row"><span class="venue-stat-label">Highest T20I total here</span><span
-                class="venue-stat-value">219/4 (India vs NZ)</span></div>
-            <div class="venue-stat-row"><span class="venue-stat-label">Avg dew factor effect</span><span
-                class="venue-stat-value">High (D/N matches)</span></div>
+            <div class="venue-stat-row"><span class="venue-stat-label">Avg 1st innings T20I total</span><span class="venue-stat-value">—</span></div>
+            <div class="venue-stat-row"><span class="venue-stat-label">Chasing team wins</span><span class="venue-stat-value">—</span></div>
+            <div class="venue-stat-row"><span class="venue-stat-label">Avg score in powerplay</span><span class="venue-stat-value">—</span></div>
+            <div class="venue-stat-row"><span class="venue-stat-label">Last 5 matches won by</span><span class="venue-stat-value">—</span></div>
+            <div class="venue-stat-row"><span class="venue-stat-label">Highest T20I total here</span><span class="venue-stat-value">—</span></div>
+            <div class="venue-stat-row"><span class="venue-stat-label">Avg dew factor effect</span><span class="venue-stat-value">—</span></div>
             <div class="insight-disclaimer">
-              <p><i class="fa fa-circle-info"></i> Venue statistics based on all T20I matches hosted at Wankhede Stadium
-                since 2018.</p>
+              <p><i class="fa fa-circle-info"></i> Venue statistics will update once the venue dataset is loaded.</p>
             </div>
           </div>
 
@@ -1870,53 +1599,16 @@
               <div class="insight-card-title">Statistical Probabilities</div>
             </div>
             <div class="prob-row">
-              <div class="prob-label"><strong>Kohli</strong> scoring 50+ at Wankhede (T20I)</div>
+              <div class="prob-label"><strong>Probability estimates</strong> will be shown here once the model is integrated.</div>
               <div class="prob-bar-wrap">
                 <div class="prob-bar-bg">
-                  <div class="prob-bar-fill high" style="width:68%"></div>
+                  <div class="prob-bar-fill" style="width:0%"></div>
                 </div>
               </div>
-              <div class="prob-pct" style="color:var(--green-live);">68%</div>
-            </div>
-            <div class="prob-row">
-              <div class="prob-label"><strong>Bumrah</strong> taking 2+ wickets vs AUS</div>
-              <div class="prob-bar-wrap">
-                <div class="prob-bar-bg">
-                  <div class="prob-bar-fill high" style="width:57%"></div>
-                </div>
-              </div>
-              <div class="prob-pct" style="color:var(--green-live);">57%</div>
-            </div>
-            <div class="prob-row">
-              <div class="prob-label"><strong>India</strong> defending 180+ at Wankhede</div>
-              <div class="prob-bar-wrap">
-                <div class="prob-bar-bg">
-                  <div class="prob-bar-fill med" style="width:63%"></div>
-                </div>
-              </div>
-              <div class="prob-pct" style="color:var(--accent-warm);">63%</div>
-            </div>
-            <div class="prob-row">
-              <div class="prob-label"><strong>Maxwell</strong> scoring 30+ in chase situations</div>
-              <div class="prob-bar-wrap">
-                <div class="prob-bar-bg">
-                  <div class="prob-bar-fill med" style="width:44%"></div>
-                </div>
-              </div>
-              <div class="prob-pct" style="color:var(--accent-warm);">44%</div>
-            </div>
-            <div class="prob-row">
-              <div class="prob-label"><strong>AUS</strong> chasing 188+ successfully in India</div>
-              <div class="prob-bar-wrap">
-                <div class="prob-bar-bg">
-                  <div class="prob-bar-fill low" style="width:28%"></div>
-                </div>
-              </div>
-              <div class="prob-pct" style="color:var(--red);">28%</div>
+              <div class="prob-pct" style="color:var(--text-muted);">—</div>
             </div>
             <div class="insight-disclaimer">
-              <p><i class="fa fa-triangle-exclamation"></i> All percentages derived from historical match data only. Not
-                predictions. Actual performance may differ.</p>
+              <p><i class="fa fa-triangle-exclamation"></i> Probability values are not available until the inference engine is connected. Actual performance may differ.</p>
             </div>
           </div>
 
@@ -1926,38 +1618,9 @@
               <i class="fa fa-fire" style="color:var(--accent-warm);"></i>
               <div class="insight-card-title">Key Players to Watch</div>
             </div>
-            <a href="player-profile.html" class="key-player-row">
-              <div class="key-player-avatar" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-              <div class="key-player-info">
-                <div class="key-player-name">Virat Kohli</div>
-                <div class="key-player-stat">Avg 52.4 at Wankhede · 3 fifties in last 4 T20Is vs AUS</div>
-              </div>
-              <div class="key-player-prob">68%</div>
-            </a>
-            <a href="player-profile.html" class="key-player-row">
-              <div class="key-player-avatar" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-              <div class="key-player-info">
-                <div class="key-player-name">Glenn Maxwell</div>
-                <div class="key-player-stat">44% chance of 30+ · Key finisher in chase situations</div>
-              </div>
-              <div class="key-player-prob">44%</div>
-            </a>
-            <a href="player-profile.html" class="key-player-row">
-              <div class="key-player-avatar" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-              <div class="key-player-info">
-                <div class="key-player-name">Jasprit Bumrah</div>
-                <div class="key-player-stat">Death over economy 6.2 · 57% chance of 2+ wickets</div>
-              </div>
-              <div class="key-player-prob">57%</div>
-            </a>
-            <a href="player-profile.html" class="key-player-row">
-              <div class="key-player-avatar" style="overflow:hidden;"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-              <div class="key-player-info">
-                <div class="key-player-name">Marcus Stoinis</div>
-                <div class="key-player-stat">Avg SR 172 in final 5 overs · Currently 24* off 15</div>
-              </div>
-              <div class="key-player-prob">52%</div>
-            </a>
+            <div style="padding:1.2rem;color:var(--text-muted);font-size:0.95rem;line-height:1.5;">
+              Player insights will display here once match-specific performance data is available.
+            </div>
           </div>
 
         </div><!-- /panel-insights -->
@@ -1975,20 +1638,19 @@
           <div class="win-prob-visual">
             <div class="win-prob-teams">
               <div>
-                <div class="win-prob-team"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India</div>
-                <div class="win-prob-pct ind">72%</div>
+                <div class="win-prob-team">Team A</div>
+                <div class="win-prob-pct ind">—</div>
               </div>
               <div style="text-align:right;">
-                <div class="win-prob-team"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">Australia</div>
-                <div class="win-prob-pct aus">28%</div>
+                <div class="win-prob-team">Team B</div>
+                <div class="win-prob-pct aus">—</div>
               </div>
             </div>
             <div class="win-prob-bar">
-              <div class="win-prob-fill-ind" style="width:72%;"></div>
-              <div class="win-prob-fill-aus" style="width:28%;"></div>
+              <div class="win-prob-fill-ind" style="width:0%;"></div>
+              <div class="win-prob-fill-aus" style="width:0%;"></div>
             </div>
-            <p style="font-size:0.68rem;color:var(--text-muted);margin-top:0.6rem;">Historical probability based on 87
-              similar match states at this venue.</p>
+            <p style="font-size:0.68rem;color:var(--text-muted);margin-top:0.6rem;">Win probability values will appear after the model and live context are connected.</p>
           </div>
           <div style="padding:0.5rem 1.1rem 0.8rem;">
             <div class="disclaimer-banner" style="padding:0.45rem 0.7rem;">
@@ -2003,49 +1665,43 @@
           <div class="sidebar-card-header">
             <div class="sidebar-card-title"><i class="fa fa-chart-bar"></i> Match Stats</div>
           </div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Boundaries (IND)</span><span
-              class="sidebar-stat-value">12×4 · 7×6</span></div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Dot balls (IND)</span><span
-              class="sidebar-stat-value">34</span></div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Boundaries (AUS)</span><span
-              class="sidebar-stat-value">9×4 · 4×6</span></div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Dot balls (AUS)</span><span
-              class="sidebar-stat-value">26</span></div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Top scorer</span><span
-              class="sidebar-stat-value">Kohli 78*</span></div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Best bowling</span><span
-              class="sidebar-stat-value">Bumrah 2/22</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Boundaries (batting side)</span><span class="sidebar-stat-value">—</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Dot balls (batting side)</span><span class="sidebar-stat-value">—</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Boundaries (bowling side)</span><span class="sidebar-stat-value">—</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Dot balls (bowling side)</span><span class="sidebar-stat-value">—</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Top scorer</span><span class="sidebar-stat-value">—</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Best bowling</span><span class="sidebar-stat-value">—</span></div>
         </div>
 
         <!-- Partnerships -->
         <div class="sidebar-card">
           <div class="sidebar-card-header">
-            <div class="sidebar-card-title"><i class="fa fa-handshake"></i> Partnerships (IND)</div>
+            <div class="sidebar-card-title"><i class="fa fa-handshake"></i> Partnerships</div>
           </div>
           <div class="partnerships-row">
             <span class="partnership-wkt">1st</span>
-            <span class="partnership-names">Sharma – Gill</span>
-            <span class="partnership-runs">52</span>
+            <span class="partnership-names">—</span>
+            <span class="partnership-runs">—</span>
           </div>
           <div class="partnerships-row">
             <span class="partnership-wkt">2nd</span>
-            <span class="partnership-names">Kohli – Sharma</span>
-            <span class="partnership-runs">36</span>
+            <span class="partnership-names">—</span>
+            <span class="partnership-runs">—</span>
           </div>
           <div class="partnerships-row">
             <span class="partnership-wkt">3rd</span>
-            <span class="partnership-names">Kohli – Iyer</span>
-            <span class="partnership-runs">34</span>
+            <span class="partnership-names">—</span>
+            <span class="partnership-runs">—</span>
           </div>
           <div class="partnerships-row">
             <span class="partnership-wkt">4th</span>
-            <span class="partnership-names">Kohli – Pant</span>
-            <span class="partnership-runs">26</span>
+            <span class="partnership-names">—</span>
+            <span class="partnership-runs">—</span>
           </div>
           <div class="partnerships-row">
-            <span class="partnership-wkt">5th*</span>
-            <span class="partnership-names">Kohli – Pandya</span>
-            <span class="partnership-runs" style="color:var(--green-live);">39*</span>
+            <span class="partnership-wkt">5th</span>
+            <span class="partnership-names">—</span>
+            <span class="partnership-runs" style="color:var(--green-live);">—</span>
           </div>
         </div>
 
@@ -2056,28 +1712,20 @@
           </div>
           <div style="padding:0.9rem 1.1rem;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.7rem;">
-              <span style="font-size:0.85rem;font-weight:700;color:var(--text-primary);"><img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/IN.svg" alt="India" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">India</span>
-              <span style="font-family:var(--font-mono);font-size:1.4rem;font-weight:700;color:var(--frost);">2 –
-                0</span>
-              <span style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Australia <img src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/AU.svg" alt="Australia" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;" onerror="this.style.display='none'"></span>
+              <span style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Team A</span>
+              <span style="font-family:var(--font-mono);font-size:1.4rem;font-weight:700;color:var(--frost);">—</span>
+              <span style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Team B</span>
             </div>
             <div style="height:4px;background:var(--surface-3);border-radius:3px;overflow:hidden;">
-              <div style="width:100%;height:100%;background:linear-gradient(90deg,#FF9933,#FF671F);border-radius:3px;">
-              </div>
+              <div style="width:100%;height:100%;background:linear-gradient(90deg,#FF9933,#FF671F);border-radius:3px;"></div>
             </div>
-            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.5rem;text-align:center;">India leads the
-              5-match T20I series</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.5rem;text-align:center;">Series details will update once available.</div>
           </div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Match 1</span><span class="sidebar-stat-value"
-              style="color:var(--green-live);">IND won by 27</span></div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Match 2</span><span class="sidebar-stat-value"
-              style="color:var(--green-live);">IND won by 18</span></div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Match 3</span><span class="sidebar-stat-value"
-              style="color:var(--accent-warm);">In progress</span></div>
-          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Match 4</span><span
-              class="sidebar-stat-value">6 Mar · Bengaluru</span></div>
-          <div class="sidebar-stat-row" style="border-bottom:none;"><span class="sidebar-stat-label">Match 5</span><span
-              class="sidebar-stat-value">9 Mar · Chennai</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Match 1</span><span class="sidebar-stat-value">—</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Match 2</span><span class="sidebar-stat-value">—</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Match 3</span><span class="sidebar-stat-value">—</span></div>
+          <div class="sidebar-stat-row"><span class="sidebar-stat-label">Match 4</span><span class="sidebar-stat-value">—</span></div>
+          <div class="sidebar-stat-row" style="border-bottom:none;"><span class="sidebar-stat-label">Match 5</span><span class="sidebar-stat-value">—</span></div>
         </div>
 
       </aside>
@@ -2174,8 +1822,20 @@
     });
   </script>
 
+  <script src="ml-widgets.js"></script>
+  <script src="ml-wiring-addon.js"></script>
   <script src="cricklytics.js"></script>
   <script src="match-detail-api.js"></script>
-</body>
+  <script>
+    // Wire match ML context when page loads
+    window.addEventListener('load', () => {
+      const team1 = document.getElementById('team1Name')?.textContent?.trim();
+      const team2 = document.getElementById('team2Name')?.textContent?.trim();
+      const venue = document.getElementById('matchVenue')?.textContent?.trim() || null;
+      if (team1 && team2) {
+        renderMatchContextInsight(team1, team2, venue, 'panel-insights');
+      }
+    });
+  </script>
 
 </html>

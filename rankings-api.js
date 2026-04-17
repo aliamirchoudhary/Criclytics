@@ -104,13 +104,19 @@ async function fetchRankings(category, fmt) {
   var fmtNorm = fmt === 'T20I' || fmt === 't20i' ? 'T20I'
               : fmt === 'ODI'  || fmt === 'odi'  ? 'ODI'
               : fmt === 'Test' || fmt === 'test' ? 'Test'
-              : fmt.toUpperCase() === 'T20' ? 'T20I' : fmt;
+              : fmt === 't20' || fmt === 'T20' ? 'T20I'
+              : fmt;
 
   var key = category + '_' + fmtNorm;
   if (rankCache[key]) return rankCache[key];
 
-  var data = await apiFetch('/api/icc-rankings?category=' + category + '&format=' + fmtNorm);
-  var rows = (data && Array.isArray(data.rankings)) ? data.rankings : [];
+  var data = await apiFetch('/api/icc-rankings?category=' + encodeURIComponent(category) + '&format=' + encodeURIComponent(fmtNorm));
+  if (!data) {
+    console.warn('fetchRankings: API returned null for', category, fmtNorm);
+    rankCache[key] = [];
+    return [];
+  }
+  var rows = (Array.isArray(data.rankings)) ? data.rankings : [];
   rankCache[key] = rows;
   return rows;
 }
@@ -162,6 +168,120 @@ async function updateSidebarNo1s() {
   }
 }
 
+function parseRankChange(change) {
+  var s = String(change || '').trim();
+  var m = s.match(/[-+]?\d+/);
+  return m ? parseInt(m[0], 10) : 0;
+}
+
+function findSidebarCardByTitle(text) {
+  var target = String(text || '').toLowerCase();
+  var found = null;
+  document.querySelectorAll('.sidebar-card').forEach(function(card) {
+    if (found) return;
+    var title = ((card.querySelector('.sidebar-card-title') || {}).textContent || '').toLowerCase();
+    if (title.includes(target)) found = card;
+  });
+  return found;
+}
+
+function buildMoverRow(item) {
+  var delta = item.delta || 0;
+  var cls = delta >= 0 ? 'up' : 'down';
+  var icon = delta >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+  var sign = delta > 0 ? '+' : '';
+  var hrefBase = item.kind === 'team' ? 'team-profile.html?name=' : 'player-profile.html?name=';
+  var flag = fl(item.country || item.name || '', 28);
+  return '<a href="' + hrefBase + encodeURIComponent(item.name) + '" class="mover-row">'
+    + '<span style="font-size:1.2rem;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;border-radius:50%;">' + flag + '</span>'
+    + '<div class="mover-info">'
+      + '<div class="mover-name">' + esc(item.name) + '</div>'
+      + '<div class="mover-sub">' + esc(item.sub) + '</div>'
+    + '</div>'
+    + '<span class="mover-change ' + cls + '"><i class="fa ' + icon + '"></i> ' + sign + delta + '</span>'
+  + '</a>';
+}
+
+function buildTopTeamRow(entry, fmt) {
+  var team = entry.team || entry.name || '—';
+  var rating = entry.rating || '—';
+  return '<a href="team-profile.html?name=' + encodeURIComponent(team) + '" class="sidebar-rank-row">'
+    + '<span class="srr-pos" style="color:#FFD700;">★</span>'
+    + '<span class="srr-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;">' + fl(team, 24) + '</span>'
+    + '<div class="srr-info">'
+      + '<div class="srr-name">' + esc(team) + '</div>'
+      + '<div class="srr-sub">' + esc(fmt) + ' · ' + esc(String(rating)) + ' rating</div>'
+    + '</div>'
+    + '<span class="srr-pts">' + esc(String(rating)) + '</span>'
+  + '</a>';
+}
+
+async function updateSidebarMovers() {
+  var moversCard = findSidebarCardByTitle('biggest movers');
+  if (!moversCard) return;
+
+  var sources = [
+    ['Test', 'batting'], ['Test', 'bowling'],
+    ['ODI', 'batting'],  ['ODI', 'bowling'],
+    ['T20I', 'batting'], ['T20I', 'bowling'],
+    ['T20I', 'teams']
+  ];
+
+  var movers = [];
+  for (var i = 0; i < sources.length; i++) {
+    var fmt = sources[i][0];
+    var cat = sources[i][1];
+    var rows = await fetchRankings(cat, fmt);
+    rows.forEach(function(r) {
+      var delta = parseRankChange(r.change);
+      if (!delta) return;
+      var isTeam = cat === 'teams';
+      movers.push({
+        name: isTeam ? (r.team || r.name || '') : (r.player || r.name || ''),
+        country: isTeam ? (r.team || r.name || '') : (r.country || ''),
+        delta: delta,
+        kind: isTeam ? 'team' : 'player',
+        sub: fmt + ' ' + (cat === 'teams' ? 'Teams' : (cat.charAt(0).toUpperCase() + cat.slice(1)))
+      });
+    });
+  }
+
+  movers.sort(function(a, b) { return Math.abs(b.delta) - Math.abs(a.delta); });
+  var top = movers.slice(0, 5);
+
+  var head = moversCard.querySelector('.sidebar-card-header');
+  if (!top.length) {
+    moversCard.innerHTML = (head ? head.outerHTML : '')
+      + '<div style="padding:0.8rem 1.1rem;color:var(--text-muted);font-size:0.76rem;">No ranking movement available.</div>';
+    return;
+  }
+
+  moversCard.innerHTML = (head ? head.outerHTML : '') + top.map(buildMoverRow).join('');
+}
+
+async function updateSidebarTopTeams() {
+  var topTeamsCard = findSidebarCardByTitle('top teams');
+  if (!topTeamsCard) return;
+
+  var defs = [['Test', 'Test'], ['ODI', 'ODI'], ['T20I', 'T20I']];
+  var rows = [];
+  for (var i = 0; i < defs.length; i++) {
+    var fmt = defs[i][0];
+    var label = defs[i][1];
+    var teams = await fetchRankings('teams', fmt);
+    if (teams && teams.length) rows.push(buildTopTeamRow(teams[0], label));
+  }
+
+  var head = topTeamsCard.querySelector('.sidebar-card-header');
+  if (!rows.length) {
+    topTeamsCard.innerHTML = (head ? head.outerHTML : '')
+      + '<div style="padding:0.8rem 1.1rem;color:var(--text-muted);font-size:0.76rem;">No team rankings available.</div>';
+    return;
+  }
+
+  topTeamsCard.innerHTML = (head ? head.outerHTML : '') + rows.join('');
+}
+
 // ── Tab switching ─────────────────────────────────────────────────────────────
 var loadedFormats = {};
 
@@ -170,11 +290,28 @@ function initTabs() {
   document.querySelectorAll('.format-tab[data-fmt]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var fmt = btn.dataset.fmt;  // 'test', 'odi', or 't20'
+      if (!fmt) { console.warn('format-tab missing data-fmt'); return; }
+      
+      // Update format tab active state
       document.querySelectorAll('.format-tab').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
+      
+      // Show/hide format panels
       document.querySelectorAll('.fmt-panel').forEach(function(p) { p.classList.remove('active'); });
       var panel = document.getElementById('fmt-' + fmt);
-      if (panel) panel.classList.add('active');
+      if (!panel) { console.warn('fmt-panel not found for format:', fmt); return; }
+      panel.classList.add('active');
+      
+      // Ensure batting category is active for this format
+      var battingPanel = panel.querySelector('#' + fmt + '-batting');
+      if (battingPanel) {
+        panel.querySelectorAll('.cat-panel').forEach(function(p) { p.classList.remove('active'); });
+        battingPanel.classList.add('active');
+        document.querySelectorAll('.cs-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelector('.cs-btn[data-cat="batting"]').classList.add('active');
+      }
+      
+      // Load data if not already loaded
       if (!loadedFormats[fmt]) {
         loadedFormats[fmt] = true;
         loadFormatPanels(fmt);
@@ -186,13 +323,21 @@ function initTabs() {
   document.querySelectorAll('.cs-btn[data-cat]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var cat = btn.dataset.cat;
+      if (!cat) { console.warn('cs-btn missing data-cat'); return; }
+      
+      // Update category button active state
       document.querySelectorAll('.cs-btn').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
+      
+      // Show/hide category panels in active format panel
       var activeFmt = document.querySelector('.fmt-panel.active');
-      if (!activeFmt) return;
+      if (!activeFmt) { console.warn('no .fmt-panel.active found'); return; }
+      
       activeFmt.querySelectorAll('.cat-panel').forEach(function(p) { p.classList.remove('active'); });
-      var catPanel = activeFmt.querySelector('#' + activeFmt.id.replace('fmt-','') + '-' + cat);
-      if (catPanel) catPanel.classList.add('active');
+      var fmtPrefix = activeFmt.id.replace('fmt-','');  // e.g. 'test' → 'test', 'odi' → 'odi'
+      var catPanel = activeFmt.querySelector('#' + fmtPrefix + '-' + cat);
+      if (!catPanel) { console.warn('cat-panel not found:', fmtPrefix + '-' + cat); return; }
+      catPanel.classList.add('active');
     });
   });
 }
@@ -203,6 +348,8 @@ document.addEventListener('DOMContentLoaded', function() {
   loadedFormats['test'] = true;
   loadFormatPanels('test');
   updateSidebarNo1s();
+  updateSidebarMovers();
+  updateSidebarTopTeams();
 
   // Wire nav search (missing from rankings.html inline script)
   var navSearch = document.querySelector('.nav-search');

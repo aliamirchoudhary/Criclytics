@@ -15,13 +15,58 @@ function fl(country, size) {
     + 'onerror="this.style.display=\'none\'">';
 }
 
+function getTeamInitials(name) {
+  if (!name) return '?';
+  var words = (name || '').split(/\s+/).filter(function(w) { return !!w; });
+  if (words.length === 0) return '?';
+  if (words.length === 1) return words[0][0].toUpperCase();
+  if (words.length === 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return (words[0][0] + words[1][0] + words[2][0]).toUpperCase();
+}
+
+function parseMatchNameTeams(name) {
+  if (!name) return ['', ''];
+  var parts = name.split(/\s+vs\s+|\s+v\s+|\s+versus\s+/i);
+  if (parts.length < 2) return ['', ''];
+  var left = parts[0].trim();
+  var right = parts[1].trim().split(/,|\(|–|-/)[0].trim();
+  return [left, right];
+}
+
+function getMatchTeamName(match, index) {
+  if (!match) return '';
+  var fallback = (Array.isArray(match.teams) ? match.teams[index] : '')
+    || (match.teamInfo && match.teamInfo[index] && match.teamInfo[index].name)
+    || '';
+  if (index === 0) {
+    return match.t1 || match.team1 || fallback || parseMatchNameTeams(match.name)[0] || '';
+  }
+  return match.t2 || match.team2 || fallback || parseMatchNameTeams(match.name)[1] || '';
+}
+
 function flCircle(country, size) {
   size = size || 36;
   var code = COUNTRY_ISO[country] || '';
-  if (!code) return '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size*0.4) + 'px;color:var(--accent);">' + (country||'?')[0] + '</div>';
+  if (!code) return '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size*0.4) + 'px;color:var(--accent);">' + esc(getTeamInitials(country)) + '</div>';
   return '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(country) + '" '
     + 'style="width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;flex-shrink:0;" '
     + 'onerror="this.style.display=\'none\'">';
+}
+
+function getLiveTeamName(match, index) {
+  return getMatchTeamName(match, index);
+}
+
+function getLiveMatchScore(match) {
+  if (match && Array.isArray(match.score) && match.score.length) {
+    var score = match.score[0];
+    if (score && score.r != null) {
+      var wickets = score.w != null ? '/' + score.w : '';
+      var overs = score.o != null ? ' (' + score.o + 'o)' : '';
+      return String(score.r) + wickets + overs;
+    }
+  }
+  return match.t1s || match.t2s || match.score || match.status || '';
 }
 
 // ─── Stat Bar ──────────────────────────────────────────────────────────────────
@@ -51,6 +96,10 @@ async function loadLiveTicker() {
   var liveData = await apiFetch('/api/live');
   var tickerMatches = (liveData && liveData.data) ? liveData.data : [];
 
+  // Prefer only active live matches in the ticker.
+  var activeLive = tickerMatches.filter(function(m) { return m.matchStarted && !m.matchEnded; });
+  if (activeLive.length) tickerMatches = activeLive;
+
   // Fall back to upcoming from /api/matches when no live
   if (!tickerMatches.length) {
     var allData = await apiFetch('/api/matches');
@@ -69,15 +118,14 @@ async function loadLiveTicker() {
   var labelType = isAnyLive ? 'Live' : 'Upcoming';
 
   var items = tickerMatches.map(function(m) {
-    var t1 = m.t1 || m.team1 || '';
-    var t2 = m.t2 || m.team2 || '';
-    var score = m.t1s || '';
+    var t1 = getLiveTeamName(m, 0);
+    var t2 = getLiveTeamName(m, 1);
+    var score = getLiveMatchScore(m);
     var liveMarker = (m.matchStarted && !m.matchEnded) ? '<span style="color:var(--green-live);margin-right:3px;">●</span>' : '';
     return '<span class="ticker-item">' + liveMarker + '<strong>' + esc(t1) + '</strong> ' + esc(score ? score + ' · ' : '') + 'vs <strong>' + esc(t2) + '</strong> <span class="ticker-sep">|</span></span>';
   });
 
-  inner.innerHTML = '<span class="ticker-label">' + labelType + '</span>' + items.join('')
-    + '<span class="ticker-label">' + labelType + '</span>' + items.join('');
+  inner.innerHTML = '<span class="ticker-label">' + labelType + '</span>' + items.join('');
   // Ensure ticker is visible
   var ticker = inner.closest('.live-ticker');
   if (ticker) ticker.style.display = '';
@@ -87,6 +135,7 @@ async function loadLiveTicker() {
 async function loadLiveMatches() {
   var liveData = await apiFetch('/api/live');
   var matches = (liveData && liveData.data) ? liveData.data : [];
+  matches = matches.filter(function(m) { return m.matchStarted && !m.matchEnded; });
   var isLive = matches.length > 0;
 
   // Fall back to first 2 upcoming when no live
@@ -115,24 +164,26 @@ async function loadLiveMatches() {
   }
 
   liveGrid.innerHTML = matches.slice(0, 2).map(function(m) {
-    var t1 = m.t1||m.team1||'', t2 = m.t2||m.team2||'';
-    var s1 = m.t1s||'', s2 = m.t2s||'';
-    var iso1 = COUNTRY_ISO[t1]||'', iso2 = COUNTRY_ISO[t2]||'';
+    var t1 = getLiveTeamName(m, 0);
+    var t2 = getLiveTeamName(m, 1);
+    var score = getLiveMatchScore(m);
+    var iso1 = COUNTRY_ISO[t1]||'';
+    var iso2 = COUNTRY_ISO[t2]||'';
     var live = m.matchStarted && !m.matchEnded;
     var page = live ? 'match-detail' : 'match-upcoming';
     var badge = live
-      ? '<span class="status-badge status-live"><span style="width:6px;height:6px;background:var(--green-live);border-radius:50%;display:inline-block;margin-right:4px;animation:pulse-dot 1.2s infinite;"></span>Live</span>'
+      ? '<span class="status-badge status-live">Live</span>'
       : '<span class="status-badge" style="background:rgba(94,184,255,.1);color:var(--accent);border:1px solid rgba(94,184,255,.2);">Upcoming</span>';
     return '<a href="' + page + '.html?id=' + esc(m.id||'') + '" class="card match-card anim-up">'
-      + '<div class="match-card-header">' + badge + '<span class="match-format-badge">' + esc(m.matchType||'') + '</span></div>'
+      + '<div class="match-card-header">' + badge + '<span class="match-format-badge">' + esc(m.matchType||m.type||'') + '</span></div>'
       + '<div class="match-teams">'
         + '<div class="match-team"><div class="team-flag">' + (iso1 ? '<img src="' + FLAG_CDN + iso1 + '.svg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">' : '') + '</div>'
-        + '<div class="team-name">' + esc(t1) + '</div>'
-        + '<div class="team-score">' + esc(live ? (s1||'—') : (m.date||'')) + '</div></div>'
+        + '<div class="team-name">' + esc(t1 || 'TBA') + '</div>'
+        + '<div class="team-score">' + esc(live ? (score||'—') : (m.date||'')) + '</div></div>'
         + '<div class="match-vs">vs</div>'
         + '<div class="match-team"><div class="team-flag">' + (iso2 ? '<img src="' + FLAG_CDN + iso2 + '.svg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">' : '') + '</div>'
-        + '<div class="team-name">' + esc(t2) + '</div>'
-        + '<div class="team-score">' + esc(live ? (s2||'—') : '') + '</div></div>'
+        + '<div class="team-name">' + esc(t2 || 'TBA') + '</div>'
+        + '<div class="team-score">' + esc(live ? '' : '') + '</div></div>'
       + '</div>'
       + '<div class="match-venue"><i class="fa fa-location-dot"></i> ' + esc(m.venue||'—') + '</div>'
       + '</a>';
@@ -204,16 +255,22 @@ async function loadUpcoming() {
   }
 
   container.innerHTML = upcoming.map(function(m, i) {
-    var t1 = m.t1||m.team1||'TBA'; var t2 = m.t2||m.team2||'TBA';
+    var t1 = getMatchTeamName(m, 0) || 'TBA';
+    var t2 = getMatchTeamName(m, 1) || 'TBA';
     var venue = m.venue||''; var date = m.date||m.dateTimeGMT||'';
-    var fmt = m.matchType||m.type||'';
+    var fmt = (m.matchType||m.type||'').toLowerCase();
+    var fmtBucket = fmt;
+    if (fmt.includes('ipl')) fmtBucket = 'ipl';
+    else if (fmt.includes('t20')) fmtBucket = 't20';
+    else if (fmt.includes('odi')) fmtBucket = 'odi';
+    else if (fmt.includes('test')) fmtBucket = 'test';
     var isLive = m.matchStarted && !m.matchEnded;
     var delays = ['delay-1','delay-2','delay-3','delay-4','delay-5'];
-    return '<a href="' + (m.matchEnded ? 'match-detail' : 'match-upcoming') + '.html?id=' + esc(m.id||'') + '" class="upcoming-row anim-up ' + delays[i] + '">'
+    return '<a href="' + (m.matchEnded ? 'match-detail' : 'match-upcoming') + '.html?id=' + esc(m.id||'') + '" class="upcoming-row anim-up ' + delays[i] + '" data-format="' + esc(fmtBucket) + '">'
       + '<div class="team-flag" style="width:36px;height:36px;">' + flCircle(t1, 36) + '</div>'
       + '<div style="flex:1">'
         + '<div class="upcoming-teams">' + esc(t1) + ' vs ' + esc(t2) + '</div>'
-        + '<div class="upcoming-meta"><i class="fa fa-location-dot"></i> ' + esc(venue) + ' <span class="match-format-badge">' + esc(fmt) + '</span></div>'
+        + '<div class="upcoming-meta"><i class="fa fa-location-dot"></i> ' + esc(venue) + ' <span class="match-format-badge">' + esc((m.matchType||m.type||'')) + '</span></div>'
       + '</div>'
       + '<div class="upcoming-time">' + esc(date) + '</div>'
       + (isLive ? '<span class="status-badge status-live" style="font-size:.6rem;">Live</span>' : '')
@@ -227,11 +284,17 @@ function wireUpcomingFilter() {
     chip.addEventListener('click', function() {
       chip.closest('.filter-bar').querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
       chip.classList.add('active');
-      var fmtText = chip.textContent.trim().toUpperCase();
+      var chipText = chip.textContent.trim().toLowerCase();
+      var fmtKey = chipText === 'all' ? 'all'
+        : chipText.includes('t20') ? 't20'
+        : chipText.includes('odi') ? 'odi'
+        : chipText.includes('test') ? 'test'
+        : chipText;
+
       document.querySelectorAll('[data-upcoming] .upcoming-row').forEach(function(row) {
-        if (fmtText === 'ALL') { row.style.display = ''; return; }
-        var badge = (row.querySelector('.match-format-badge') || {}).textContent || '';
-        row.style.display = badge.toUpperCase().includes(fmtText) ? '' : 'none';
+        if (fmtKey === 'all') { row.style.display = ''; return; }
+        var rowFmt = (row.dataset.format || '').toLowerCase();
+        row.style.display = (rowFmt === fmtKey) ? '' : 'none';
       });
     });
   });

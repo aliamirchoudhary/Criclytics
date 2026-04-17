@@ -13,12 +13,15 @@ Runs on: http://localhost:5000
 
 import json
 import os
+import re
 import time
 import threading
 import requests
 from datetime import datetime, timedelta
 from flask import Flask, jsonify, request, send_from_directory, abort
 from dotenv import load_dotenv
+from ml_probability_engine import ProbabilityEngine
+
 load_dotenv()
 
 # ── App setup ────────────────────────────────────────────────────────────────
@@ -34,6 +37,15 @@ os.makedirs(LIVE_DIR, exist_ok=True)
 # Replace with your actual key from cricapi.com
 CRICAPI_KEY  = os.environ.get("CRICAPI_KEY", "")
 CRICAPI_BASE = "https://api.cricapi.com/v1"
+
+# ── ML Probability Engine ─────────────────────────────────────────────────────
+# Initialize the ML probability engine for predictions
+ml_engine = None
+try:
+    ml_engine = ProbabilityEngine(data_dir=PROCESSED_DIR)
+    print("[ML Engine] Initialized successfully")
+except Exception as e:
+    print(f"[ML Engine] Failed to initialize: {e}")
 
 # ── Helper: load a processed JSON file ───────────────────────────────────────
 def load_processed(filename):
@@ -296,6 +308,12 @@ def get_team(team_name):
 
 # ── Venues ────────────────────────────────────────────────────────────────────
 
+def normalize_name(name):
+    if not name:
+        return ''
+    return re.sub(r'[^a-z0-9]+', '', name.lower())
+
+
 @app.route("/api/venues")
 def get_venues():
     """All venues with scoring stats."""
@@ -310,6 +328,15 @@ def get_venues():
     return jsonify(data)
 
 
+@app.route("/api/team-venue-stats")
+def get_team_venue_stats():
+    """All teams venue-wise stats by format."""
+    data = load_processed("team_venue_stats.json")
+    if data is None:
+        return jsonify({"error": "Data not found"}), 500
+    return jsonify(data)
+
+
 @app.route("/api/venues/<path:venue_name>")
 def get_venue(venue_name):
     """Full profile for one venue."""
@@ -319,9 +346,17 @@ def get_venue(venue_name):
 
     venue = stats.get(venue_name)
     if not venue:
-        # Try partial match
+        query_key = normalize_name(venue_name)
         for key in stats:
-            if venue_name.lower() in key.lower():
+            if normalize_name(key) == query_key:
+                venue = stats[key]
+                venue_name = key
+                break
+
+    if not venue:
+        query_key = normalize_name(venue_name)
+        for key in stats:
+            if query_key and query_key in normalize_name(key):
                 venue = stats[key]
                 venue_name = key
                 break
@@ -507,17 +542,29 @@ def search():
     teams_data   = load_processed("team_format_stats.json") or {}
     venues_data  = load_processed("venue_stats.json") or {}
 
+    # Optional static metadata (photo/country/role) used for richer search cards.
+    meta_map = {}
+    meta_path = os.path.join(STATIC_DIR, "players_meta.json")
+    if os.path.exists(meta_path):
+        with open(meta_path, encoding="utf-8") as mf:
+            meta_map = json.load(mf)
+
     # Search players
     matched_players = []
     for name, player in players_data.items():
         if q in name.lower():
             total_runs = sum(f.get("runs", 0) for f in player.get("batting", {}).values())
             total_wkts = sum(f.get("wickets", 0) for f in player.get("bowling", {}).values())
+            m = meta_map.get(name, {})
             matched_players.append({
                 "name":    name,
                 "formats": player.get("formats", []),
                 "runs":    total_runs,
                 "wickets": total_wkts,
+                "country": m.get("country", player.get("country", "")),
+                "role": m.get("role", ""),
+                "image_url": m.get("image_url", ""),
+                "iso_code": m.get("iso_code", ""),
             })
     matched_players.sort(key=lambda x: x["runs"] + x["wickets"] * 20, reverse=True)
 
@@ -635,15 +682,18 @@ def get_match_score(match_id):
 @app.route("/api/series")
 def get_series():
     """Active series list. Returns cached data if CricAPI unavailable."""
-    data = fetch_cricapi("series", cache_file="series.json", max_age_minutes=1440)
-    if data:
-        series = data.get("data") or data.get("series") or data.get("series_list") or []
-        return jsonify({"data": series})
-    cached = load_live("series.json")
-    if cached:
-        series = cached.get("data") or cached.get("series") or cached.get("series_list") or []
-        return jsonify({"data": series, "cached": True})
-    return jsonify({"data": [], "note": "No series data available"})
+    try:
+        data = fetch_cricapi("series", cache_file="series.json", max_age_minutes=1440)
+        if data:
+            series = data.get("data") or data.get("series") or data.get("series_list") or []
+            return jsonify({"data": series})
+        cached = load_live("series.json")
+        if cached:
+            series = cached.get("data") or cached.get("series") or cached.get("series_list") or []
+            return jsonify({"data": series, "cached": True})
+        return jsonify({"data": [], "note": "No series data available"})
+    except Exception as e:
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -694,36 +744,48 @@ def add_cors(response):
 def get_icc_rankings():
     category = request.args.get("category", "batting")
     fmt      = request.args.get("format", "T20I")
+
+    def _extract_rankings(dataset):
+        if not isinstance(dataset, dict):
+            return []
+        if category == "teams":
+            return dataset.get("team", {}).get(fmt, []) or []
+        return dataset.get("player", {}).get(category, {}).get(fmt, []) or []
+
     try:
         from scrape_rankings import get_current_rankings, build_hardcoded_rankings
         data = get_current_rankings()
-        # If cached file was empty, force use hardcoded fallback
-        if data:
-            if category == "teams":
-                check = data.get("team", {}).get(fmt, [])
-            else:
-                check = data.get("player", {}).get(category, {}).get(fmt, [])
-            if not check:
-                data = build_hardcoded_rankings()
-        else:
-            data = build_hardcoded_rankings()
+        fallback_data = None
     except Exception as e:
         print(f"  rankings error: {e}")
         data = None
+        fallback_data = None
 
-    if not data:
+    if not data and not fallback_data:
         return jsonify({"category": category, "format": fmt, "rankings": []}), 200
 
-    if category == "teams":
-        result = data.get("team", {}).get(fmt, [])
-    else:
-        result = data.get("player", {}).get(category, {}).get(fmt, [])
+    result = _extract_rankings(data)
+    source = (data or {}).get("source", "hardcoded_fallback") if isinstance(data, dict) else "hardcoded_fallback"
+    scraped_at = (data or {}).get("scraped_at", "") if isinstance(data, dict) else ""
+
+    # Per-slice fallback only when the requested category/format is missing.
+    if not result:
+        if fallback_data is None:
+            try:
+                from scrape_rankings import build_hardcoded_rankings
+                fallback_data = build_hardcoded_rankings()
+            except Exception:
+                fallback_data = None
+        if fallback_data:
+            result = _extract_rankings(fallback_data)
+            source = fallback_data.get("source", "hardcoded_fallback")
+            scraped_at = fallback_data.get("scraped_at", "")
 
     return jsonify({
         "category": category,
         "format": fmt,
-        "scraped_at": data.get("scraped_at", ""),
-        "source":     data.get("source", "hardcoded_fallback"),
+        "scraped_at": scraped_at,
+        "source":     source,
         "rankings":   result or []
     })
 
@@ -766,6 +828,147 @@ def get_venues_meta():
     with open(path, encoding="utf-8") as f:
         return jsonify(json.load(f))
 
+
+# ════════════════════════════════════════════════════════════════════════════
+# ML PROBABILITY PREDICTION ENDPOINTS
+# ════════════════════════════════════════════════════════════════════════════
+
+@app.route("/api/predict/player/<player_name>")
+def predict_player(player_name):
+    """
+    Get probability predictions for a player.
+    Query params:
+        metric — 50 / 100 / wicket_maiden / strike_rate>140 / avg>50
+        format — Test / ODI / T20I (default: ODI)
+    """
+    if not ml_engine:
+        return jsonify({"error": "ML engine not initialized"}), 503
+
+    metric = request.args.get("metric", "50")
+    format = request.args.get("format", "ODI")
+
+    try:
+        result = ml_engine.player_performance_likelihood(player_name, metric, format)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/predict/player/<player_name>/all")
+def predict_player_all(player_name):
+    """
+    Get all probability predictions for a player across metrics.
+    Query params:
+        format — Test / ODI / T20I (default: ODI)
+    """
+    if not ml_engine:
+        return jsonify({"error": "ML engine not initialized"}), 503
+
+    format = request.args.get("format", "ODI")
+
+    try:
+        metrics = ["50", "100", "wicket_maiden", "strike_rate>140", "avg>50"]
+        results = {}
+        for metric in metrics:
+            results[metric] = ml_engine.player_performance_likelihood(
+                player_name, metric, format
+            )
+        return jsonify({
+            "player": player_name,
+            "format": format,
+            "predictions": results,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/predict/team_match", methods=["POST"])
+def predict_team_match():
+    """
+    Predict match outcome between two teams.
+    Request body:
+        {
+            "team_a": "India",
+            "team_b": "Australia",
+            "format": "ODI",
+            "venue": "MCG" (optional)
+        }
+    """
+    if not ml_engine:
+        return jsonify({"error": "ML engine not initialized"}), 503
+
+    data = request.get_json() or {}
+    team_a = data.get("team_a", "")
+    team_b = data.get("team_b", "")
+    format = data.get("format", "ODI")
+    venue = data.get("venue")
+
+    if not team_a or not team_b:
+        return jsonify({"error": "team_a and team_b required"}), 400
+
+    try:
+        result = ml_engine.team_match_outcome(team_a, team_b, format, venue)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/predict/venue/<venue_name>")
+def predict_venue(venue_name):
+    """
+    Get venue performance bias and probabilities.
+    Query params:
+        team — team name (optional)
+        format — Test / ODI / T20I (default: ODI)
+    """
+    if not ml_engine:
+        return jsonify({"error": "ML engine not initialized"}), 503
+
+    team = request.args.get("team")
+    format = request.args.get("format", "ODI")
+
+    try:
+        result = ml_engine.venue_performance_bias(venue_name, team, format)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/predict/leaderboard")
+def predict_leaderboard():
+    """
+    Get top players by probability of achieving a metric.
+    Query params:
+        metric — 50 / 100 / wicket_maiden / strike_rate>140 / avg>50 (default: 50)
+        format — Test / ODI / T20I (default: ODI)
+        limit — number of results (default: 10)
+    """
+    if not ml_engine:
+        return jsonify({"error": "ML engine not initialized"}), 503
+
+    metric = request.args.get("metric", "50")
+    format = request.args.get("format", "ODI")
+    limit = int(request.args.get("limit", 10))
+
+    try:
+        result = ml_engine.leaderboard_predictions(format, metric, limit)
+        return jsonify({
+            "metric": metric,
+            "format": format,
+            "limit": limit,
+            "predictions": result,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/predict/status")
+def predict_status():
+    """Check ML engine status."""
+    return jsonify({
+        "engine_active": ml_engine is not None,
+        "timestamp": datetime.now().isoformat(),
+    })
 
 
 # ════════════════════════════════════════════════════════════════════════════
