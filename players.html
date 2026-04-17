@@ -247,7 +247,6 @@
       font-size: 0.68rem;
       color: var(--text-muted);
       opacity: 0.7;
-      display: none;
     }
 
     /* ── Results area ───────────────────────────────── */
@@ -1636,6 +1635,60 @@
     function toggleMobileNav() {
       document.getElementById('mobileNav').classList.toggle('open');
     }
+
+    // View toggle: grid / list
+    var gridView = document.getElementById('gridView');
+    var listView = document.getElementById('listView');
+    var gridViewBtn = document.getElementById('gridViewBtn');
+    var listViewBtn = document.getElementById('listViewBtn');
+
+    gridViewBtn.addEventListener('click', () => {
+      gridView.style.display = ''; listView.style.display = 'none';
+      gridViewBtn.classList.add('active'); listViewBtn.classList.remove('active');
+    });
+    listViewBtn.addEventListener('click', () => {
+      listView.style.display = ''; gridView.style.display = 'none';
+      listViewBtn.classList.add('active'); gridViewBtn.classList.remove('active');
+    });
+
+    // Sort filter chips
+    document.querySelectorAll('[data-sort]').forEach(c => {
+      c.addEventListener('click', () => {
+        document.querySelectorAll('[data-sort]').forEach(x => x.classList.remove('active'));
+        c.classList.add('active');
+      });
+    });
+
+    // Format filter chips
+    document.querySelectorAll('[data-fmt]').forEach(c => {
+      c.addEventListener('click', () => {
+        c.classList.toggle('active');
+      });
+    });
+
+    // Alpha bar
+    document.querySelectorAll('.alpha-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    // Facet options
+    document.querySelectorAll('.facet-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        opt.closest('.facet-options').querySelectorAll('.facet-opt').forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+      });
+    });
+
+    // Pagination
+    document.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
 
     document.querySelector('.nav-search').addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && this.value.trim())

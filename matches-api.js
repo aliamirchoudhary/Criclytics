@@ -71,59 +71,25 @@ function formatScoreObject(score) {
   return String(score.r) + wickets + overs;
 }
 
-function normalizeTeamName(name) {
-  return String(name || '').toLowerCase().replace(/women|men|'s/g, ' ').replace(/\s+/g, ' ').trim();
-}
-
-function looksLikeScore(value) {
-  return /\d+\s*\/\s*\d+|\d+\s*\(\s*\d+(?:\.\d+)?o?\s*\)/.test(String(value || ''));
-}
-
 function getMatchScore(match, index) {
   if (match && Array.isArray(match.score) && match.score.length) {
     var team = getMatchTeamName(match, index);
-    var hasInningLabels = match.score.some(function(s) {
-      return s && String(s.inning || '').trim().length > 0;
-    });
-
     if (team) {
-      var teamClean = normalizeTeamName(team);
       for (var i = 0; i < match.score.length; i++) {
         var score = match.score[i];
         if (score && score.r != null) {
-          var inningTeamRaw = String(score.inning || '').split(/\s+Inning/i)[0].trim();
-          var inningClean = normalizeTeamName(inningTeamRaw);
-          if (inningClean === teamClean || inningClean.includes(teamClean) || teamClean.includes(inningClean)) {
+          var inningTeam = String(score.inning || '').split(/\s+Inning/i)[0].trim();
+          if (inningTeam && inningTeam.toLowerCase() === team.toLowerCase()) {
             return formatScoreObject(score);
           }
         }
       }
     }
-
-    // If innings labels exist and no team match was found, do not guess by index.
-    // This prevents mirrored scores in edge-case API payloads.
-    if (hasInningLabels) {
-      return '';
-    }
-
-    // Fallback by index only when that innings index exists.
-    if (index < match.score.length && match.score[index] && match.score[index].r != null) {
+    if (match.score[index] && match.score[index].r != null) {
       return formatScoreObject(match.score[index]);
     }
   }
-
-  var s1 = match && match.t1s ? String(match.t1s) : '';
-  var s2 = match && match.t2s ? String(match.t2s) : '';
-
-  if (index === 0) {
-    return looksLikeScore(s1) ? s1 : '';
-  }
-
-  // Guard against occasional API duplication where both fallbacks mirror innings 1.
-  if (looksLikeScore(s2) && s2 !== s1) {
-    return s2;
-  }
-  return '';
+  return index === 0 ? (match.t1s || match.status || '') : (match.t2s || match.status || '');
 }
 
 // ── Build a single match row card ─────────────────────────────────────────────
@@ -269,12 +235,10 @@ async function loadLive() {
       + '<i class="fa fa-satellite-dish" style="font-size:1.5rem;display:block;margin-bottom:0.75rem;opacity:0.4;"></i>'
       + 'No live matches right now. Check back later for live coverage.</div>';
     if (liveCountPill) liveCountPill.textContent = '0';
-    _allMatches['group-live'] = [];
     return;
   }
 
-  _allMatches['group-live'] = matches.slice(0, 6);
-  injectCards('group-live', _allMatches['group-live'], 'is-live', 'No live matches available right now.');
+  injectCards('group-live', matches.slice(0, 6), 'is-live', 'No live matches available right now.');
   if (liveCountPill) liveCountPill.textContent = matches.length;
 
   const liveLabel = document.querySelector('#group-live .match-group-date');
@@ -287,8 +251,6 @@ async function loadLive() {
 async function loadFixtures() {
   const data = await apiFetch('/api/matches');
   if (!data || !data.data || !data.data.length) {
-    _allMatches['group-upcoming'] = [];
-    _allMatches['group-completed'] = [];
     // Show fallback message in upcoming and completed groups
     ['group-upcoming','group-completed'].forEach(function(id) {
       const g = document.getElementById(id);
@@ -324,10 +286,8 @@ async function loadFixtures() {
       matchStarted: false,
       matchEnded: false
     }];
-    _allMatches['group-upcoming'] = dummyMatches;
-    _allMatches['group-completed'] = [];
-    injectCards('group-upcoming', _allMatches['group-upcoming'], 'is-upcoming', 'No upcoming matches.');
-    injectCards('group-completed', _allMatches['group-completed'], 'is-completed', 'No completed matches.');
+    injectCards('group-upcoming', dummyMatches, 'is-upcoming', 'No upcoming matches.');
+    injectCards('group-completed', [], 'is-completed', 'No completed matches.');
     return;
   }
 
@@ -335,20 +295,16 @@ async function loadFixtures() {
   const completed = allMatches.filter(function(m) { return classifyMatch(m) === 'completed'; });
   const live      = allMatches.filter(function(m) { return classifyMatch(m) === 'live'; });
 
-  _allMatches['group-upcoming'] = upcoming;
-  _allMatches['group-completed'] = completed;
-  if (live.length) _allMatches['group-live'] = live.slice(0, 6);
-
   // Update count pills on status tabs
   const upcomingPill = document.querySelector('.status-tab[data-status="upcoming"] .count-pill');
   const completedPill = document.querySelector('.status-tab[data-status="completed"] .count-pill');
   if (upcomingPill)  upcomingPill.textContent  = upcoming.length;
   if (completedPill) completedPill.textContent = completed.length;
 
-  if (upcoming.length)  injectCards('group-upcoming',  _allMatches['group-upcoming'], 'is-upcoming',  'No upcoming matches scheduled.');
+  if (upcoming.length)  injectCards('group-upcoming',  upcoming, 'is-upcoming',  'No upcoming matches scheduled.');
   else                  injectCards('group-upcoming',  [], 'is-upcoming', 'No upcoming matches found.');
 
-  if (completed.length) injectCards('group-completed', _allMatches['group-completed'], 'is-completed', 'No recent results.');
+  if (completed.length) injectCards('group-completed', completed, 'is-completed', 'No recent results.');
   else                  injectCards('group-completed', [], 'is-completed', 'No recent results found.');
   // Also inject live if live group wasn't filled by loadLive
   if (live.length) {
@@ -393,89 +349,6 @@ async function loadSeries() {
   }).join('');
 }
 
-// ── Store matches for filtering/sorting ──────────────────────────────────────
-var _allMatches = { 'group-live': [], 'group-upcoming': [], 'group-completed': [] };
-
-// ── Apply all active filters ──────────────────────────────────────────────────
-function applyFilters() {
-  var activeFormat = document.querySelector('.filter-chip[data-format].active');
-  var fmt = activeFormat ? (activeFormat.dataset.format || 'all').toLowerCase() : 'all';
-  
-  // Get team and sort values from selects
-  var teamVal = '';
-  var sortVal = '';
-  document.querySelectorAll('.filter-select').forEach(function(sel) {
-    var firstOpt = sel.querySelector('option:first-child');
-    if (firstOpt && firstOpt.textContent.includes('All Teams')) {
-      teamVal = (sel.value || '').toLowerCase();
-    } else if (firstOpt && firstOpt.textContent.includes('Sort')) {
-      sortVal = sel.value.toLowerCase();
-    }
-  });
-
-  // For each group, apply filters
-  ['group-live', 'group-upcoming', 'group-completed'].forEach(function(groupId) {
-    var allMatches = _allMatches[groupId] || [];
-    var filtered = allMatches.slice();
-
-    // Apply format filter (FIXED: T20I vs IPL separation)
-    filtered = filtered.filter(function(m) {
-      if (fmt === 'all') return true;
-      var mFmt = (m.matchType || m.type || '').toLowerCase();
-      var haystack = ((m.name || '') + ' ' + (m.series || '') + ' ' + (m.series_id || '')).toLowerCase();
-      var isIpl = mFmt.includes('ipl') || haystack.includes(' indian premier league') || /\bipl\b/.test(haystack);
-      if (fmt === 'ipl') return isIpl;                     // IPL by type OR series/name
-      if (fmt === 't20') return mFmt.includes('t20');      // Keep IPL visible in T20 as requested
-      if (fmt === 'odi') return mFmt === 'odi';
-      if (fmt === 'test') return mFmt === 'test';
-      return true;
-    });
-
-    // Apply team filter
-    if (teamVal && teamVal !== '') {
-      filtered = filtered.filter(function(m) {
-        var t1 = (getMatchTeamName(m, 0) || '').toLowerCase();
-        var t2 = (getMatchTeamName(m, 1) || '').toLowerCase();
-        // Check if team name includes the filter value, or if removing "women" from team name matches
-        var t1Base = t1.replace(/women|men|'s/g, ' ').trim();
-        var t2Base = t2.replace(/women|men|'s/g, ' ').trim();
-        var valClean = teamVal.replace(/women|men|'s/g, ' ').trim();
-        return t1.includes(teamVal) || t2.includes(teamVal) || 
-               t1Base.includes(valClean) || t2Base.includes(valClean) ||
-               valClean.includes(t1Base.split(' ')[0]) || valClean.includes(t2Base.split(' ')[0]);
-      });
-    }
-
-    // Apply sort
-    if (sortVal && sortVal.includes('oldest')) {
-      filtered.sort(function(a, b) {
-        var dateA = new Date(a.date || a.dateTimeGMT || 0);
-        var dateB = new Date(b.date || b.dateTimeGMT || 0);
-        return dateA - dateB;
-      });
-    } else if (sortVal && sortVal.includes('format')) {
-      filtered.sort(function(a, b) {
-        var fmtOrder = { 'test': 1, 'odi': 2, 't20': 3, 't20i': 3, 'ipl': 4 };
-        var fmtA = (a.matchType || a.type || '').toLowerCase();
-        var fmtB = (b.matchType || b.type || '').toLowerCase();
-        var ordA = fmtOrder[fmtA] || 99;
-        var ordB = fmtOrder[fmtB] || 99;
-        return ordA - ordB;
-      });
-    } else {
-      // Default: newest first
-      filtered.sort(function(a, b) {
-        var dateA = new Date(a.date || a.dateTimeGMT || 0);
-        var dateB = new Date(b.date || b.dateTimeGMT || 0);
-        return dateB - dateA;
-      });
-    }
-
-    // Inject filtered matches
-    injectCards(groupId, filtered, groupId.includes('live') ? 'is-live' : (groupId.includes('completed') ? 'is-completed' : 'is-upcoming'), 'No matches.');
-  });
-}
-
 // ── Format filter chips ───────────────────────────────────────────────────────
 function initFormatFilter() {
   // Format chips (data-format)
@@ -483,14 +356,34 @@ function initFormatFilter() {
     chip.addEventListener('click', function() {
       document.querySelectorAll('.filter-chip[data-format]').forEach(function(c) { c.classList.remove('active'); });
       chip.classList.add('active');
-      applyFilters();
+      var fmt = (chip.dataset.format || '').toLowerCase();
+      document.querySelectorAll('.match-row-card').forEach(function(card) {
+        if (fmt === 'all') { card.style.display = ''; return; }
+        var cardFmt = (card.querySelector('.match-format-badge') || {}).textContent || '';
+        cardFmt = cardFmt.trim().toLowerCase();
+        var hit = fmt === 't20'  ? (cardFmt.includes('t20') || cardFmt.includes('ipl'))
+                : fmt === 'odi'  ? cardFmt === 'odi'
+                : fmt === 'test' ? cardFmt === 'test'
+                : fmt === 'ipl'  ? (cardFmt.includes('ipl') || cardFmt.includes('t20'))
+                : cardFmt.includes(fmt);
+        card.style.display = hit ? '' : 'none';
+      });
     });
   });
 
-  // Filter selects (Team + Sort dropdowns in filter bar)
+  // Filter selects (Sort + Region dropdowns in filter bar)
   document.querySelectorAll('.filter-select').forEach(function(sel) {
     sel.addEventListener('change', function() {
-      applyFilters();
+      var val = sel.value.toLowerCase();
+      // Series/region filter
+      if (val && val !== 'all matches' && !val.includes('series') && !val.includes('filter') && !val.includes('all')) {
+        document.querySelectorAll('.match-row-card').forEach(function(card) {
+          var series = (card.dataset.series || card.querySelector('.match-series') || {}).textContent || '';
+          card.style.display = (!val || series.toLowerCase().includes(val)) ? '' : 'none';
+        });
+      } else {
+        document.querySelectorAll('.match-row-card').forEach(function(card) { card.style.display = ''; });
+      }
     });
   });
 }

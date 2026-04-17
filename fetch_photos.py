@@ -11,6 +11,8 @@ Updates: data/static/players_meta.json
 """
 
 import json, os, sys, time, urllib.request, urllib.error, urllib.parse
+from dotenv import load_dotenv
+load_dotenv()  # Load .env file
 
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "data", "static")
@@ -98,6 +100,27 @@ WIKI_NAMES = {
     "Litton Das":     "Liton_Das",
     "Taskin Ahmed":   "Taskin_Ahmed",
     "Mustafizur Rahman": "Mustafizur_Rahman",
+    "AJ Finch":       "Aaron_Finch_(cricketer)",
+    "DA Miller":      "David_Miller_(cricketer)",
+    "P Nissanka":     "Pathum_Nissanka",
+    "BKG Mendis":     "Bhanuka_Rajapaksa",
+    "R Powell":       "Rovman_Powell",
+    "TL Seifert":     "Tim_Seifert",
+    "GD Phillips":    "Glenn_Phillips_(cricketer)",
+    "N Pooran":       "Nicholas_Pooran",
+    "RD Berrington":  "Richie_Berrington",
+    "MS Chapman":     "Mark_Chapman_(cricketer)",
+    "CH Gayle":       "Chris_Gayle_(cricketer)",
+    "MD Shanaka":     "Dasun_Shanaka",
+    "BA King":        "Brandon_King_(cricketer)",
+    "Asif Ali":       "Asif_Ali_(cricketer)",
+    "Yousuf Youhana": "Mohammad_Yousuf",
+    "C Munro":        "Colin_Munro_(cricketer)",
+    "FH Allen":       "Finn_Allen",
+    "E Lewis":        "Evin_Lewis",
+    "TH David":       "Tim_David",
+    "KJ O'Brien":     "Kevin_O%27Brien",
+    "F du Plessis":   "Faf_du_Plessis",
     "Mehidy Hasan Miraz": "Mehidy_Hasan_Miraz",
     "Mohammad Nabi":  "Mohammad_Nabi_(cricketer)",
     "Najibullah Zadran": "Najibullah_Zadran",

@@ -10,6 +10,8 @@ Output: data/live/matches.json, data/live/live.json
 
 import json, os, sys, time, urllib.request, urllib.error
 from datetime import datetime, timezone
+from dotenv import load_dotenv
+load_dotenv()  # Load .env file so CRICAPI_KEY is available
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 LIVE_DIR = os.path.join(BASE_DIR, "data", "live")

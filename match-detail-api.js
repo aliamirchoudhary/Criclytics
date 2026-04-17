@@ -24,42 +24,11 @@ function getTeamInitials(name) {
   return (words[0][0] + words[1][0] + words[2][0]).toUpperCase();
 }
 
-function parseMatchNameTeams(name) {
-  if (!name) return ['', ''];
-  var parts = String(name).split(/\s+vs\s+|\s+v\s+|\s+versus\s+/i);
-  if (parts.length < 2) return ['', ''];
-  var left = parts[0].trim();
-  var right = parts[1].trim().split(/,|\(|–|-/)[0].trim();
-  return [left, right];
-}
-
-function sanitizeTeamField(raw, index, matchName) {
-  var value = String(raw || '').trim();
-  if (!value) return '';
-
-  // Some feeds occasionally put full fixture text into t1/team1.
-  if (/\s+vs\s+|\s+v\s+|\s+versus\s+/i.test(value)) {
-    var fromValue = parseMatchNameTeams(value);
-    return fromValue[index] || '';
-  }
-
-  if (matchName && value.toLowerCase() === String(matchName).toLowerCase()) {
-    var fromName = parseMatchNameTeams(matchName);
-    return fromName[index] || '';
-  }
-
-  return value;
-}
-
 function flagCircle(name, size) {
   size = size || 44;
   var iso = COUNTRY_ISO[name] || guessIso(name);
-  var initials = esc(getTeamInitials(name));
-  if (!iso) return '<span style="font-size:' + Math.round(size * 0.45) + 'px;font-weight:700;color:var(--accent);">' + initials + '</span>';
-  return '<span style="display:flex;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;">'
-    + '<img src="' + FLAG_CDN + iso + '.svg" alt="" style="width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
-    + '<span style="display:none;width:' + size + 'px;height:' + size + 'px;align-items:center;justify-content:center;font-size:' + Math.round(size * 0.45) + 'px;font-weight:700;color:var(--accent);">' + initials + '</span>'
-    + '</span>';
+  if (!iso) return '<span style="font-size:' + Math.round(size * 0.45) + 'px;font-weight:700;color:var(--accent);">' + esc(getTeamInitials(name)) + '</span>';
+  return '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(name) + '" style="width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">';
 }
 
 function getMatchTeamName(match, index) {
@@ -67,11 +36,10 @@ function getMatchTeamName(match, index) {
   var fallback = (Array.isArray(match.teams) ? match.teams[index] : '')
     || (match.teamInfo && match.teamInfo[index] && match.teamInfo[index].name)
     || '';
-  var matchName = match.name || '';
   if (index === 0) {
-    return sanitizeTeamField(match.t1 || match.team1 || fallback || '', 0, matchName) || parseMatchNameTeams(matchName)[0] || '';
+    return match.t1 || match.team1 || fallback || '';
   }
-  return sanitizeTeamField(match.t2 || match.team2 || fallback || '', 1, matchName) || parseMatchNameTeams(matchName)[1] || '';
+  return match.t2 || match.team2 || fallback || '';
 }
 
 function formatScoreObject(score) {

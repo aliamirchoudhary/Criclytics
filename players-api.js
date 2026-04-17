@@ -49,23 +49,6 @@ function getBestStats(player) {
   return null;
 }
 
-function getRankingScore(player) {
-  const stats = getBestStats(player);
-  if (!stats) return 0;
-  if (stats.type === 'bat') {
-    const runs = Number(stats.s.runs || 0);
-    const avg  = Number(stats.s.average || 0);
-    const sr   = Number(stats.s.strike_rate || 0);
-    const inns = Number(stats.s.innings || 0);
-    return (runs / 100) + (avg * 2) + (sr / 4) + inns;
-  }
-  const wkts = Number(stats.s.wickets || 0);
-  const avg  = Number(stats.s.average || 999);
-  const eco  = Number(stats.s.economy || 99);
-  const inns = Number(stats.s.innings || 0);
-  return (wkts * 4) + Math.max(0, (60 - avg)) + Math.max(0, (12 - eco) * 3) + inns;
-}
-
 function getCountry(player) {
   // player.country comes from players_index.json (covers all 4769 players)
   // meta.country is the fallback for the 70 players in players_meta.json
@@ -206,10 +189,7 @@ function getFiltered() {
   }
 
   if (activeFormat) {
-    players = players.filter(p => {
-      const formats = (p.formats || []).map(f => String(f || '').toUpperCase());
-      return formats.includes(activeFormat.toUpperCase());
-    });
+    players = players.filter(p => (p.formats || []).includes(activeFormat));
   }
 
   if (activeLetter !== 'all') {
@@ -246,15 +226,6 @@ function getFiltered() {
   // Sort
   players.sort((a, b) => {
     if (activeSort === 'alpha') return a.name.localeCompare(b.name);
-    if (activeSort === 'country') {
-      const ca = (getCountry(a) || '').toLowerCase();
-      const cb = (getCountry(b) || '').toLowerCase();
-      if (ca !== cb) return ca.localeCompare(cb);
-      return a.name.localeCompare(b.name);
-    }
-    if (activeSort === 'ranking') {
-      return getRankingScore(b) - getRankingScore(a);
-    }
     const aStats = getBestStats(a);
     const bStats = getBestStats(b);
     if (activeSort === 'wickets') {
@@ -398,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ── Sort chips (filter bar: Trending / A-Z / ICC Ranked / By Country) ─────────
   // Map chip data-sort → internal sort key
-  var SORT_MAP = { 'trending':'runs', 'alpha':'alpha', 'ranking':'ranking', 'country':'country' };
+  var SORT_MAP = { 'trending':'runs', 'alpha':'alpha', 'ranking':'runs', 'country':'alpha' };
   document.querySelectorAll('[data-sort]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       document.querySelectorAll('[data-sort]').forEach(function(b) { b.classList.remove('active'); });

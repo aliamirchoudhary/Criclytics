@@ -125,7 +125,8 @@ async function loadLiveTicker() {
     return '<span class="ticker-item">' + liveMarker + '<strong>' + esc(t1) + '</strong> ' + esc(score ? score + ' · ' : '') + 'vs <strong>' + esc(t2) + '</strong> <span class="ticker-sep">|</span></span>';
   });
 
-  inner.innerHTML = '<span class="ticker-label">' + labelType + '</span>' + items.join('');
+  inner.innerHTML = '<span class="ticker-label">' + labelType + '</span>' + items.join('')
+    + '<span class="ticker-label">' + labelType + '</span>' + items.join('');
   // Ensure ticker is visible
   var ticker = inner.closest('.live-ticker');
   if (ticker) ticker.style.display = '';
@@ -172,7 +173,7 @@ async function loadLiveMatches() {
     var live = m.matchStarted && !m.matchEnded;
     var page = live ? 'match-detail' : 'match-upcoming';
     var badge = live
-      ? '<span class="status-badge status-live">Live</span>'
+      ? '<span class="status-badge status-live"><span style="width:6px;height:6px;background:var(--green-live);border-radius:50%;display:inline-block;margin-right:4px;animation:pulse-dot 1.2s infinite;"></span>Live</span>'
       : '<span class="status-badge" style="background:rgba(94,184,255,.1);color:var(--accent);border:1px solid rgba(94,184,255,.2);">Upcoming</span>';
     return '<a href="' + page + '.html?id=' + esc(m.id||'') + '" class="card match-card anim-up">'
       + '<div class="match-card-header">' + badge + '<span class="match-format-badge">' + esc(m.matchType||m.type||'') + '</span></div>'
@@ -258,19 +259,14 @@ async function loadUpcoming() {
     var t1 = getMatchTeamName(m, 0) || 'TBA';
     var t2 = getMatchTeamName(m, 1) || 'TBA';
     var venue = m.venue||''; var date = m.date||m.dateTimeGMT||'';
-    var fmt = (m.matchType||m.type||'').toLowerCase();
-    var fmtBucket = fmt;
-    if (fmt.includes('ipl')) fmtBucket = 'ipl';
-    else if (fmt.includes('t20')) fmtBucket = 't20';
-    else if (fmt.includes('odi')) fmtBucket = 'odi';
-    else if (fmt.includes('test')) fmtBucket = 'test';
+    var fmt = m.matchType||m.type||'';
     var isLive = m.matchStarted && !m.matchEnded;
     var delays = ['delay-1','delay-2','delay-3','delay-4','delay-5'];
-    return '<a href="' + (m.matchEnded ? 'match-detail' : 'match-upcoming') + '.html?id=' + esc(m.id||'') + '" class="upcoming-row anim-up ' + delays[i] + '" data-format="' + esc(fmtBucket) + '">'
+    return '<a href="' + (m.matchEnded ? 'match-detail' : 'match-upcoming') + '.html?id=' + esc(m.id||'') + '" class="upcoming-row anim-up ' + delays[i] + '">'
       + '<div class="team-flag" style="width:36px;height:36px;">' + flCircle(t1, 36) + '</div>'
       + '<div style="flex:1">'
         + '<div class="upcoming-teams">' + esc(t1) + ' vs ' + esc(t2) + '</div>'
-        + '<div class="upcoming-meta"><i class="fa fa-location-dot"></i> ' + esc(venue) + ' <span class="match-format-badge">' + esc((m.matchType||m.type||'')) + '</span></div>'
+        + '<div class="upcoming-meta"><i class="fa fa-location-dot"></i> ' + esc(venue) + ' <span class="match-format-badge">' + esc(fmt) + '</span></div>'
       + '</div>'
       + '<div class="upcoming-time">' + esc(date) + '</div>'
       + (isLive ? '<span class="status-badge status-live" style="font-size:.6rem;">Live</span>' : '')
@@ -284,17 +280,11 @@ function wireUpcomingFilter() {
     chip.addEventListener('click', function() {
       chip.closest('.filter-bar').querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
       chip.classList.add('active');
-      var chipText = chip.textContent.trim().toLowerCase();
-      var fmtKey = chipText === 'all' ? 'all'
-        : chipText.includes('t20') ? 't20'
-        : chipText.includes('odi') ? 'odi'
-        : chipText.includes('test') ? 'test'
-        : chipText;
-
+      var fmtText = chip.textContent.trim().toUpperCase();
       document.querySelectorAll('[data-upcoming] .upcoming-row').forEach(function(row) {
-        if (fmtKey === 'all') { row.style.display = ''; return; }
-        var rowFmt = (row.dataset.format || '').toLowerCase();
-        row.style.display = (rowFmt === fmtKey) ? '' : 'none';
+        if (fmtText === 'ALL') { row.style.display = ''; return; }
+        var badge = (row.querySelector('.match-format-badge') || {}).textContent || '';
+        row.style.display = badge.toUpperCase().includes(fmtText) ? '' : 'none';
       });
     });
   });

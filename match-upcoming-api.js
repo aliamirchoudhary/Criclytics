@@ -48,50 +48,22 @@ document.addEventListener('DOMContentLoaded', async function() {
     return [parts[0].trim(), parts[1].trim().split(/,|\(|–|-/)[0].trim()];
   }
 
-  function sanitizeTeamField(raw, index, matchName) {
-    var value = String(raw || '').trim();
-    if (!value) return '';
-
-    if (/\s+vs\s+|\s+v\s+|\s+versus\s+/i.test(value)) {
-      var parsed = parseNameTeams(value);
-      return parsed[index] || '';
-    }
-
-    if (matchName && value.toLowerCase() === String(matchName).toLowerCase()) {
-      var parsedFromName = parseNameTeams(matchName);
-      return parsedFromName[index] || '';
-    }
-
-    return value;
-  }
-
-  function renderTeamBadge(teamName, size) {
-    size = size || 72;
-    var iso = COUNTRY_ISO[teamName] || '';
-    var initials = esc(getTeamInitials(teamName));
-    if (!iso) {
-      return '<span style="font-size:2rem;font-weight:700;color:var(--accent);">' + initials + '</span>';
-    }
-    return '<span style="display:flex;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;">'
-      + '<img src="' + FLAG_CDN + iso + '.svg" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
-      + '<span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:var(--accent);">' + initials + '</span>'
-      + '</span>';
-  }
-
   function getMatchTeamName(match, index) {
     if (!match) return '';
     var fallback = (Array.isArray(match.teams) ? match.teams[index] : '')
       || (match.teamInfo && match.teamInfo[index] && match.teamInfo[index].name)
       || '';
-    var matchName = match.name || '';
     if (index === 0) {
-      return sanitizeTeamField(match.t1 || match.team1 || fallback || '', 0, matchName) || parseNameTeams(matchName)[0] || '';
+      return match.t1 || match.team1 || fallback || parseNameTeams(match.name)[0] || '';
     }
-    return sanitizeTeamField(match.t2 || match.team2 || fallback || '', 1, matchName) || parseNameTeams(matchName)[1] || '';
+    return match.t2 || match.team2 || fallback || parseNameTeams(match.name)[1] || '';
   }
 
   var t1 = getMatchTeamName(match, 0);
   var t2 = getMatchTeamName(match, 1);
+  var iso1 = COUNTRY_ISO[t1] || '';
+  var iso2 = COUNTRY_ISO[t2] || '';
+
   // Page title + breadcrumb
   var name = match.name || (t1 + ' vs ' + t2);
   document.title = name + ' · Criclytics';
@@ -105,10 +77,12 @@ document.addEventListener('DOMContentLoaded', async function() {
   var f1 = document.getElementById('team1Flag');
   var f2 = document.getElementById('team2Flag');
   if (f1) {
-    f1.innerHTML = renderTeamBadge(t1, 72);
+    if (iso1) f1.innerHTML = '<img src="'+FLAG_CDN+iso1+'.svg" style="width:100%;height:100%;object-fit:cover;">';
+    else f1.textContent = getTeamInitials(t1);
   }
   if (f2) {
-    f2.innerHTML = renderTeamBadge(t2, 72);
+    if (iso2) f2.innerHTML = '<img src="'+FLAG_CDN+iso2+'.svg" style="width:100%;height:100%;object-fit:cover;">';
+    else f2.textContent = getTeamInitials(t2);
   }
 
   // Scores (if any)
