@@ -194,54 +194,210 @@ async function loadRecords() {
 
   // Update sidebar bests
   updateSidebarBests(data);
+  updateSidebarCountryLeaders(data);
+  updateSidebarRecentlyBroken(data);
 }
 
 function updateSidebarBests(data) {
-  var testRuns = data.most_runs && data.most_runs.Test && data.most_runs.Test[0];
-  var odiRuns  = data.most_runs && data.most_runs.ODI  && data.most_runs.ODI[0];
-  var testWkts = data.most_wickets && data.most_wickets.Test && data.most_wickets.Test[0];
+  var card = findSidebarCardByTitle('all-time bests');
+  if (!card) return;
+  var head = card.querySelector('.sidebar-card-header');
 
-  var srecRows = document.querySelectorAll('.sidebar-rec-row');
-  if (srecRows[0] && testRuns) {
-    var flagEl = srecRows[0].querySelector('.srec-flag');
-    var nameEl = srecRows[0].querySelector('.srec-name');
-    var subEl  = srecRows[0].querySelector('.srec-sub');
-    var valEl  = srecRows[0].querySelector('.srec-val');
-    if (nameEl) nameEl.textContent = testRuns.player;
-    if (valEl)  valEl.textContent  = (testRuns.runs||0).toLocaleString();
-    if (subEl)  subEl.textContent  = 'Most Test runs';
-    if (flagEl && testRuns.country) {
-      var code = COUNTRY_ISO[testRuns.country] || '';
-      if (code) flagEl.innerHTML = '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(testRuns.country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">';
-    }
+  var testRuns = data.most_runs && data.most_runs.Test && data.most_runs.Test[0];
+  var testWkts = data.most_wickets && data.most_wickets.Test && data.most_wickets.Test[0];
+  var testAvg = data.best_averages && data.best_averages.Test && data.best_averages.Test[0];
+  var odiRuns = data.most_runs && data.most_runs.ODI && data.most_runs.ODI[0];
+  var odiHundreds = data.most_hundreds && data.most_hundreds.ODI && data.most_hundreds.ODI[0];
+
+  var rows = [];
+  if (testRuns) {
+    rows.push(buildSidebarRecordRow({
+      name: testRuns.player,
+      country: detectCountry(testRuns),
+      sub: 'Most Test runs ever',
+      val: (testRuns.runs || 0).toLocaleString(),
+      href: 'player-profile.html?name=' + encodeURIComponent(testRuns.player)
+    }));
   }
-  if (srecRows[1] && testWkts) {
-    var flagEl2 = srecRows[1].querySelector('.srec-flag');
-    var nameEl2 = srecRows[1].querySelector('.srec-name');
-    var subEl2  = srecRows[1].querySelector('.srec-sub');
-    var valEl2  = srecRows[1].querySelector('.srec-val');
-    if (nameEl2) nameEl2.textContent = testWkts.player;
-    if (valEl2)  valEl2.textContent  = testWkts.wickets;
-    if (subEl2)  subEl2.textContent  = 'Most Test wickets';
-    if (flagEl2 && testWkts.country) {
-      var code2 = COUNTRY_ISO[testWkts.country] || '';
-      if (code2) flagEl2.innerHTML = '<img src="' + FLAG_CDN + code2 + '.svg" alt="' + esc(testWkts.country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">';
-    }
+  if (testWkts) {
+    rows.push(buildSidebarRecordRow({
+      name: testWkts.player,
+      country: detectCountry(testWkts),
+      sub: 'Most Test wickets',
+      val: testWkts.wickets || '—',
+      href: 'player-profile.html?name=' + encodeURIComponent(testWkts.player)
+    }));
   }
-  // Third row: most ODI runs
-  if (srecRows[2] && odiRuns) {
-    var nameEl3 = srecRows[2].querySelector('.srec-name');
-    var valEl3  = srecRows[2].querySelector('.srec-val');
-    var subEl3  = srecRows[2].querySelector('.srec-sub');
-    if (nameEl3) nameEl3.textContent = odiRuns.player;
-    if (valEl3)  valEl3.textContent  = (odiRuns.runs||0).toLocaleString();
-    if (subEl3)  subEl3.textContent  = 'Most ODI runs';
-    var flagEl3 = srecRows[2].querySelector('.srec-flag');
-    if (flagEl3 && odiRuns.country) {
-      var code3 = COUNTRY_ISO[odiRuns.country] || '';
-      if (code3) flagEl3.innerHTML = '<img src="' + FLAG_CDN + code3 + '.svg" alt="' + esc(odiRuns.country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">';
-    }
+  if (testAvg) {
+    rows.push(buildSidebarRecordRow({
+      name: testAvg.player,
+      country: detectCountry(testAvg),
+      sub: 'Highest Test avg',
+      val: testAvg.average || '—',
+      href: 'player-profile.html?name=' + encodeURIComponent(testAvg.player)
+    }));
   }
+  if (odiRuns) {
+    rows.push(buildSidebarRecordRow({
+      name: odiRuns.player,
+      country: detectCountry(odiRuns),
+      sub: 'Most ODI runs',
+      val: (odiRuns.runs || 0).toLocaleString(),
+      href: 'player-profile.html?name=' + encodeURIComponent(odiRuns.player)
+    }));
+  }
+  if (odiHundreds) {
+    rows.push(buildSidebarRecordRow({
+      name: odiHundreds.player,
+      country: detectCountry(odiHundreds),
+      sub: 'Most ODI centuries',
+      val: odiHundreds.hundreds || '—',
+      href: 'player-profile.html?name=' + encodeURIComponent(odiHundreds.player)
+    }));
+  }
+
+  if (!rows.length) {
+    card.innerHTML = (head ? head.outerHTML : '')
+      + '<div style="padding:0.8rem 1.1rem;color:var(--text-muted);font-size:0.76rem;">No all-time records available.</div>';
+    return;
+  }
+
+  card.innerHTML = (head ? head.outerHTML : '') + rows.join('');
+}
+
+function findSidebarCardByTitle(text) {
+  var target = String(text || '').toLowerCase();
+  var found = null;
+  document.querySelectorAll('.sidebar-card').forEach(function(card) {
+    if (found) return;
+    var title = ((card.querySelector('.sidebar-card-title') || {}).textContent || '').toLowerCase();
+    if (title.includes(target)) found = card;
+  });
+  return found;
+}
+
+function detectCountry(entry) {
+  if (!entry) return '';
+  return entry.country || guessCountry(entry.player || entry.team || '');
+}
+
+function buildSidebarRecordRow(opts) {
+  var name = opts.name || '—';
+  var sub = opts.sub || '';
+  var val = opts.val == null ? '—' : String(opts.val);
+  var href = opts.href || '#';
+  var country = opts.country || '';
+  var code = COUNTRY_ISO[country] || '';
+  var flag = code
+    ? '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">'
+    : '<span style="width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:var(--surface-2);font-size:0.7rem;color:var(--text-muted);font-weight:700;">' + esc(name.slice(0, 1).toUpperCase()) + '</span>';
+
+  return '<a href="' + href + '" class="sidebar-rec-row">'
+    + '<span class="srec-flag">' + flag + '</span>'
+    + '<div class="srec-info">'
+      + '<div class="srec-name">' + esc(name) + '</div>'
+      + '<div class="srec-sub">' + esc(sub) + '</div>'
+    + '</div>'
+    + '<span class="srec-val" style="color:var(--accent);">' + esc(val) + '</span>'
+  + '</a>';
+}
+
+function updateSidebarCountryLeaders(data) {
+  var card = findSidebarCardByTitle('records by country');
+  if (!card) return;
+  var head = card.querySelector('.sidebar-card-header');
+
+  var counts = {};
+  Object.keys(data || {}).forEach(function(key) {
+    var byFmt = data[key];
+    if (!byFmt || typeof byFmt !== 'object') return;
+    Object.keys(byFmt).forEach(function(fmt) {
+      var rows = byFmt[fmt];
+      if (!Array.isArray(rows)) return;
+      rows.slice(0, 10).forEach(function(entry) {
+        var country = detectCountry(entry);
+        if (!country) return;
+        counts[country] = (counts[country] || 0) + 1;
+      });
+    });
+  });
+
+  var leaders = Object.keys(counts)
+    .map(function(country) { return { country: country, count: counts[country] }; })
+    .sort(function(a, b) { return b.count - a.count; })
+    .slice(0, 5);
+
+  if (!leaders.length) {
+    card.innerHTML = (head ? head.outerHTML : '')
+      + '<div style="padding:0.8rem 1.1rem;color:var(--text-muted);font-size:0.76rem;">No country record stats available.</div>';
+    return;
+  }
+
+  card.innerHTML = (head ? head.outerHTML : '') + leaders.map(function(item) {
+    return buildSidebarRecordRow({
+      name: item.country,
+      country: item.country,
+      sub: item.count + ' top-record entries',
+      val: item.count,
+      href: 'team-profile.html?name=' + encodeURIComponent(item.country)
+    });
+  }).join('');
+}
+
+function updateSidebarRecentlyBroken(data) {
+  var card = findSidebarCardByTitle('recently broken');
+  if (!card) return;
+  var head = card.querySelector('.sidebar-card-header');
+
+  var items = [];
+  var odiHundreds = data.most_hundreds && data.most_hundreds.ODI && data.most_hundreds.ODI[0];
+  var testWkts = data.most_wickets && data.most_wickets.Test && data.most_wickets.Test[0];
+  var t20Runs = data.most_runs && data.most_runs.T20I && data.most_runs.T20I[0];
+
+  if (odiHundreds) {
+    items.push({
+      name: odiHundreds.player,
+      country: detectCountry(odiHundreds),
+      sub: 'Current ODI centuries benchmark',
+      val: odiHundreds.hundreds || '—',
+      href: 'player-profile.html?name=' + encodeURIComponent(odiHundreds.player)
+    });
+  }
+  if (testWkts) {
+    items.push({
+      name: testWkts.player,
+      country: detectCountry(testWkts),
+      sub: 'Current Test wickets benchmark',
+      val: testWkts.wickets || '—',
+      href: 'player-profile.html?name=' + encodeURIComponent(testWkts.player)
+    });
+  }
+  if (t20Runs) {
+    items.push({
+      name: t20Runs.player,
+      country: detectCountry(t20Runs),
+      sub: 'Current T20I runs benchmark',
+      val: (t20Runs.runs || 0).toLocaleString(),
+      href: 'player-profile.html?name=' + encodeURIComponent(t20Runs.player)
+    });
+  }
+
+  if (!items.length) {
+    card.innerHTML = (head ? head.outerHTML : '')
+      + '<div style="padding:0.8rem 1.1rem;color:var(--text-muted);font-size:0.76rem;">No recent benchmark updates available.</div>';
+    return;
+  }
+
+  card.innerHTML = (head ? head.outerHTML : '') + items.slice(0, 3).map(function(item) {
+    return '<a href="' + item.href + '" class="sidebar-rec-row">'
+      + '<span class="srec-flag">' + flagImg(item.country, 24) + '</span>'
+      + '<div class="srec-info">'
+        + '<div class="srec-name">' + esc(item.name) + '</div>'
+        + '<div class="srec-sub">' + esc(item.sub) + '</div>'
+      + '</div>'
+      + '<span class="srec-val" style="color:var(--green-live);">' + esc(String(item.val)) + '</span>'
+    + '</a>';
+  }).join('');
 }
 
 // ── Tab switching ─────────────────────────────────────────────────────────────

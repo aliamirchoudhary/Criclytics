@@ -63,7 +63,7 @@ def fetch_rankings_json(category, fmt, retries=2):
 def build_hardcoded_rankings():
     return {
         "scraped_at": datetime.now().isoformat(),
-        "source": "hardcoded_march_2026",
+        "source": "hardcoded_apr_2026",
         "player": {
             "batting": {
                 "Test": [
@@ -212,7 +212,7 @@ def scrape_all_rankings():
 
     # Fallback if nothing scraped
     if total == 0:
-        print("\n  ICC blocked live scraping. Using real hardcoded data (March 2026).")
+        print("\n  ICC blocked live scraping. Using hardcoded fallback data (April 2026).")
         all_rankings = build_hardcoded_rankings()
     else:
         print(f"\n  Live scraping got {total} entries.")
@@ -227,12 +227,41 @@ def scrape_all_rankings():
 
 
 def get_current_rankings():
+    cached_data = None
     if os.path.exists(OUTPUT_FILE):
+        with open(OUTPUT_FILE, encoding="utf-8") as f:
+            cached_data = json.load(f)
         age_hours = (time.time() - os.path.getmtime(OUTPUT_FILE)) / 3600
-        if age_hours < 24:
-            with open(OUTPUT_FILE, encoding="utf-8") as f:
-                return json.load(f)
-    return scrape_all_rankings()
+        cache_source = str((cached_data or {}).get("source", ""))
+        # Only trust recent cache when it came from live/cached-good data.
+        # If cache itself is hardcoded fallback, force a fresh scrape attempt.
+        if age_hours < 24 and not cache_source.startswith("hardcoded"):
+            return cached_data
+
+    fresh_data = scrape_all_rankings()
+
+    # If live scrape fails and falls back to hardcoded snapshot,
+    # prefer the last known cached rankings when available.
+    if (
+        cached_data
+        and isinstance(fresh_data, dict)
+        and str(fresh_data.get("source", "")).startswith("hardcoded")
+    ):
+        player_data = (cached_data.get("player") or {})
+        team_data = (cached_data.get("team") or {})
+        has_cached_rows = any(player_data.get(cat, {}).get(fmt)
+                              for cat in ("batting", "bowling", "allrounder")
+                              for fmt in ("Test", "ODI", "T20I")) or any(
+                                  team_data.get(fmt) for fmt in ("Test", "ODI", "T20I")
+                              )
+        if has_cached_rows:
+            cached_data["source"] = "cached_last_known_good"
+            cached_data["scraped_at"] = datetime.now().isoformat()
+            with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+                json.dump(cached_data, f, ensure_ascii=False, indent=2)
+            return cached_data
+
+    return fresh_data
 
 
 if __name__ == "__main__":

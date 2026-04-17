@@ -20,6 +20,47 @@ function flInline(country, size=18) {
     onerror="this.style.display='none'">`;
 }
 
+function getTeamInitials(name) {
+  if (!name) return '?';
+  const words = String(name).split(/\s+/).filter(Boolean);
+  if (!words.length) return '?';
+  if (words.length === 1) return words[0][0].toUpperCase();
+  if (words.length === 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return (words[0][0] + words[1][0] + words[2][0]).toUpperCase();
+}
+
+function parseMatchNameTeams(name) {
+  if (!name) return ['', ''];
+  const parts = String(name).split(/\s+vs\s+|\s+v\s+|\s+versus\s+/i);
+  if (parts.length < 2) return ['', ''];
+  return [parts[0].trim(), parts[1].trim().split(/,|\(|–|-/)[0].trim()];
+}
+
+function getFixtureTeamName(match, index) {
+  if (!match) return '';
+  const fallback = (Array.isArray(match.teams) ? match.teams[index] : '')
+    || (match.teamInfo && match.teamInfo[index] && match.teamInfo[index].name)
+    || '';
+  const matchName = match.name || '';
+  const raw = index === 0 ? (match.t1 || match.team1 || fallback || '') : (match.t2 || match.team2 || fallback || '');
+  if (raw && /\s+vs\s+|\s+v\s+|\s+versus\s+/i.test(raw)) {
+    return parseMatchNameTeams(raw)[index] || '';
+  }
+  if (matchName && String(raw).toLowerCase() === matchName.toLowerCase()) {
+    return parseMatchNameTeams(matchName)[index] || '';
+  }
+  return raw || parseMatchNameTeams(matchName)[index] || '';
+}
+
+function renderFixtureBadge(teamName) {
+  const iso = COUNTRY_ISO[teamName] || '';
+  if (iso) {
+    return `<img src="${FLAG_CDN}${iso}.svg" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">` +
+      `<span style="display:none;align-items:center;justify-content:center;width:14px;height:14px;border-radius:2px;background:var(--surface-2);font-size:.6rem;font-weight:700;color:var(--accent);margin-right:3px;">${esc(getTeamInitials(teamName))}</span>`;
+  }
+  return `<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:2px;background:var(--surface-2);font-size:.6rem;font-weight:700;color:var(--accent);margin-right:3px;">${esc(getTeamInitials(teamName))}</span>`;
+}
+
 const posClass = ['pos-1','pos-2','pos-3'];
 const delays = ['','delay-1','delay-2','delay-3','delay-4','delay-5','','delay-1','delay-2','delay-3','delay-4','delay-5'];
 
@@ -77,7 +118,7 @@ function renderRankings(teams, fmt) {
   enrichWinRates(teams, fmt);
 
   // Re-apply any active region/search filter after rebuild
-  if (_activeTeamRegion || _teamSearch) filterRankingRows();
+  if (_activeTeamRegion || _teamSearch) applyTeamFilters();
 }
 
 // ── Enrich ranking rows with real win rates from Cricsheet ────────────────────
@@ -113,6 +154,21 @@ function filterRankingRows() {
     var searchOk = !_teamSearch || teamName.toLowerCase().includes(_teamSearch);
     row.style.display = (regionOk && searchOk) ? '' : 'none';
   });
+}
+
+function filterTeamCards() {
+  document.querySelectorAll('#view-cards .team-card').forEach(function(card) {
+    var teamName = ((card.querySelector('.team-card-name') || {}).textContent || '').trim();
+    var region = CONF[teamName] || '';
+    var regionOk = !_activeTeamRegion || (REGION_TEAMS[_activeTeamRegion] || []).indexOf(teamName) !== -1;
+    var searchOk = !_teamSearch || teamName.toLowerCase().includes(_teamSearch) || region.toLowerCase().includes(_teamSearch);
+    card.style.display = (regionOk && searchOk) ? '' : 'none';
+  });
+}
+
+function applyTeamFilters() {
+  filterRankingRows();
+  filterTeamCards();
 }
 
 // ── Render team cards ─────────────────────────────────────────────────────────
@@ -177,6 +233,8 @@ async function renderTeamCards() {
         </div>
       </a>`;
   }).join('');
+
+  applyTeamFilters();
 }
 
 // ── Render win rates sidebar ──────────────────────────────────────────────────
@@ -234,11 +292,10 @@ async function renderFixtures() {
   }
 
   fixtureCard.innerHTML = headHtml + upcoming.map(function(m) {
-    var t1 = m.t1 || m.team1 || '';
-    var t2 = m.t2 || m.team2 || '';
-    var iso1 = COUNTRY_ISO[t1] || ''; var iso2 = COUNTRY_ISO[t2] || '';
-    var f1 = iso1 ? '<img src="' + FLAG_CDN + iso1 + '.svg" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;">' : '';
-    var f2 = iso2 ? '<img src="' + FLAG_CDN + iso2 + '.svg" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;">' : '';
+    var t1 = getFixtureTeamName(m, 0) || 'TBA';
+    var t2 = getFixtureTeamName(m, 1) || 'TBA';
+    var f1 = renderFixtureBadge(t1);
+    var f2 = renderFixtureBadge(t2);
     return '<a href="match-detail.html?id=' + esc(m.id||'') + '" class="fixture-item">'
       + '<div class="fixture-teams">' + f1 + esc(t1) + ' vs ' + f2 + esc(t2) + '</div>'
       + '<div class="fixture-meta"><span class="match-format-badge" style="font-size:.6rem">' + esc(m.matchType||'') + '</span> '
@@ -252,11 +309,16 @@ async function renderFixtures() {
 var rankingsCache = {};
 
 async function switchRankingsFormat(fmt) {
-  if (!rankingsCache[fmt]) {
-    var data = await apiFetch('/api/icc-rankings?category=teams&format=' + fmt);
-    rankingsCache[fmt] = (data && data.rankings) ? data.rankings : [];
+  var normalizedFmt = (fmt || 'T20I').toString();
+  if (normalizedFmt.toLowerCase() === 't20') normalizedFmt = 'T20I';
+  else if (normalizedFmt.toLowerCase() === 'test') normalizedFmt = 'Test';
+  else if (normalizedFmt.toLowerCase() === 'odi') normalizedFmt = 'ODI';
+
+  if (!rankingsCache[normalizedFmt]) {
+    var data = await apiFetch('/api/icc-rankings?category=teams&format=' + encodeURIComponent(normalizedFmt));
+    rankingsCache[normalizedFmt] = (data && data.rankings) ? data.rankings : [];
   }
-  renderRankings(rankingsCache[fmt], fmt);
+  renderRankings(rankingsCache[normalizedFmt], normalizedFmt);
 }
 
 // ── State for filtering ───────────────────────────────────────────────────────
@@ -308,7 +370,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else {
         _activeTeamRegion = '';
       }
-      filterRankingRows();
+      applyTeamFilters();
     });
   });
 
@@ -317,7 +379,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (searchInput) {
     searchInput.addEventListener('input', () => {
       _teamSearch = searchInput.value.trim().toLowerCase();
-      filterRankingRows();
+      applyTeamFilters();
     });
   }
 

@@ -116,6 +116,23 @@ function renderVenueCard(venueName, stats, meta, delay) {
 
 // ── All data stored here for filtering ───────────────────────────────────────
 var _allVenueData = []; // [{country, name, stats, meta}]
+var _activeVenueSort = 'matches';
+
+function sortVenueList(list, sortMode) {
+  var arr = list.slice();
+  if (sortMode === 'capacity') {
+    arr.sort(function(a, b) {
+      return ((b.meta && b.meta.capacity) || 0) - ((a.meta && a.meta.capacity) || 0);
+    });
+  } else if (sortMode === 'alpha') {
+    arr.sort(function(a, b) { return a.name.localeCompare(b.name); });
+  } else {
+    arr.sort(function(a, b) {
+      return ((b.stats && b.stats.matches) || 0) - ((a.stats && a.stats.matches) || 0);
+    });
+  }
+  return arr;
+}
 
 function buildGroups(venueList) {
   // Group by country
@@ -138,7 +155,6 @@ function buildGroups(venueList) {
       ? '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(country) + '" style="width:20px;height:20px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:6px;" onerror="this.style.display=\'none\'">'
       : '';
     var cards = venues
-      .sort(function(a,b){ return (b.stats&&b.stats.matches||0)-(a.stats&&a.stats.matches||0); })
       .slice(0, 6)
       .map(function(v, i){ return renderVenueCard(v.name, v.stats, v.meta, delays[i%delays.length]); })
       .join('');
@@ -174,6 +190,8 @@ function applyVenueFilters(searchQ, region) {
     });
   }
 
+  filtered = sortVenueList(filtered, _activeVenueSort);
+
   if (!filtered.length) {
     container.innerHTML = '<div style="padding:3rem;text-align:center;color:var(--text-muted);">'
       + '<i class="fa fa-magnifying-glass" style="font-size:2rem;display:block;margin-bottom:1rem;opacity:0.4;"></i>'
@@ -197,6 +215,8 @@ async function loadVenues() {
     var country = meta.country || guessCountry(name);
     return { name: name, stats: venueStats[name], meta: meta, country: country };
   }).filter(function(v){ return v.country; });
+
+  _allVenueData = sortVenueList(_allVenueData, _activeVenueSort);
 
   var container = document.getElementById('venueGroups') || document.querySelector('.venue-groups');
   if (container) container.innerHTML = buildGroups(_allVenueData);
@@ -287,20 +307,13 @@ document.addEventListener('DOMContentLoaded', function() {
     sortEl.addEventListener('change', function() {
       if (!_allVenueData.length) return; // data not loaded yet
       var val = this.value.toLowerCase();
-      if (val.includes('capacity')) {
-        _allVenueData.sort(function(a, b) {
-          return ((b.meta && b.meta.capacity) || 0) - ((a.meta && a.meta.capacity) || 0);
-        });
-      } else if (val.includes('alpha')) {
-        _allVenueData.sort(function(a, b) { return a.name.localeCompare(b.name); });
-      } else {
-        // Default: matches hosted
-        _allVenueData.sort(function(a, b) {
-          return ((b.stats && b.stats.matches) || 0) - ((a.stats && a.stats.matches) || 0);
-        });
-      }
-      var q = _venueSearchEl ? _venueSearchEl.value.trim() : '';
-      applyVenueFilters(q, _activeVenueRegion);
+      if (val.includes('capacity')) _activeVenueSort = 'capacity';
+      else if (val.includes('alpha')) _activeVenueSort = 'alpha';
+      else _activeVenueSort = 'matches';
+
+      _allVenueData = sortVenueList(_allVenueData, _activeVenueSort);
+      var q = searchEl ? searchEl.value.trim() : '';
+      applyVenueFilters(q, activeRegion);
     });
   }
 });

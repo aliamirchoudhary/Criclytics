@@ -9,6 +9,29 @@
 function dash(v) { return (v==null||v===0||v==='') ? '—' : v; }
 function fmt1(v) { return (!v) ? '—' : Number(v).toFixed(1); }
 
+function parseHighestForSort(v) {
+  if (v == null || v === '') return -1;
+  var s = String(v).trim();
+  var m = s.match(/\d+/);
+  return m ? parseInt(m[0], 10) : -1;
+}
+
+function getCareerHighest(bat) {
+  var fmts = ['Test', 'ODI', 'T20I'];
+  var best = { score: '—', fmt: '' };
+  var bestNum = -1;
+  fmts.forEach(function(fmt) {
+    var hs = (((bat || {})[fmt] || {}).highest);
+    var n = parseHighestForSort(hs);
+    if (n > bestNum) {
+      bestNum = n;
+      best.score = hs;
+      best.fmt = fmt;
+    }
+  });
+  return bestNum >= 0 ? best : { score: '—', fmt: '' };
+}
+
 // ── Main loader ───────────────────────────────────────────────────────────────
 async function loadProfile() {
   const playerName = getParam('name');
@@ -40,6 +63,26 @@ async function loadProfile() {
     var ini = playerName.split(' ').map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase();
     var initialsEl2 = document.getElementById('profileInitials');
     if (initialsEl2) initialsEl2.textContent = ini;
+
+    // Ensure template placeholders are cleared for missing profiles.
+    setBioValue('Date of Birth', '—');
+    setBioValue('Birthplace', '—');
+
+    var careerPanel = document.getElementById('fmt-odi');
+    if (careerPanel) {
+      var vals = careerPanel.querySelectorAll('.stat-box-val');
+      vals.forEach(function(v) { v.textContent = '—'; });
+      var subs = careerPanel.querySelectorAll('.stat-box-sub');
+      if (subs[3]) subs[3].textContent = '—';
+      if (subs[6]) subs[6].textContent = 'Innings: —';
+    }
+
+    var milRows0 = document.querySelectorAll('.aside-card:nth-child(2) .aside-stat-row');
+    if (milRows0[4]) {
+      var hsVal0 = milRows0[4].querySelector('.aside-stat-val');
+      if (hsVal0) hsVal0.textContent = '—';
+    }
+
     return;
   }
 
@@ -91,6 +134,9 @@ async function loadProfile() {
 
   if (activeDot) activeDot.style.display = 'block';
 
+  // Update global player name for ML functions
+  if (stats && stats.name) window.currentPlayerName = stats.name;
+
   // ── Quick stats strip ─────────────────────────────────────────────────────
   var bat = stats.batting || {};
   var totalRuns = Object.values(bat).reduce(function(s,f){return s+(f.runs||0);},0);
@@ -115,8 +161,8 @@ async function loadProfile() {
   var bioCountry = country || stats.country || '';
   var bioIso = COUNTRY_ISO[bioCountry] || '';
   setBioValue('Full Name', displayName);
-  if (meta.dob) setBioValue('Date of Birth', meta.dob + (meta.age ? ' (Age ' + meta.age + ')' : ''));
-  if (meta.birthplace) setBioValue('Birthplace', meta.birthplace);
+  setBioValue('Date of Birth', meta.dob ? (meta.dob + (meta.age ? ' (Age ' + meta.age + ')' : '')) : '—');
+  setBioValue('Birthplace', meta.birthplace || '—');
   if (meta.batting_style) setBioValue('Batting Style', meta.batting_style);
   if (meta.bowling_style) setBioValue('Bowling Style', meta.bowling_style);
   if (meta.role) setBioValue('Role', meta.role);
@@ -168,7 +214,8 @@ async function loadProfile() {
         + '<td class="mono">' + dash(s.hundreds) + '</td>'
         + '<td class="mono">' + dash(s.fifties) + '</td></tr>';
     }).filter(Boolean).join('');
-    if (rows) tbody.innerHTML = rows;
+      if (rows) tbody.innerHTML = rows;
+      else tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:1rem;">No batting data available</td></tr>';
   }
 
   // ── Career stats with yearly data ─────────────────────────────────────────
@@ -211,12 +258,18 @@ async function loadProfile() {
 
   // ── Sidebar milestones ────────────────────────────────────────────────────
   var totalRunsAll = Object.values(bat).reduce(function(s,f){return s+(f.runs||0);},0);
+  var careerHighest = getCareerHighest(bat);
   var milRows = document.querySelectorAll('.aside-card:nth-child(2) .aside-stat-row');
   if (milRows.length >= 4) {
     milRows[0].querySelector('.aside-stat-val').textContent = totalHundreds;
     milRows[1].querySelector('.aside-stat-val').textContent = totalFifties;
     milRows[2].querySelector('.aside-stat-val').textContent = totalRunsAll.toLocaleString();
     milRows[3].querySelector('.aside-stat-val').textContent = ((bat['ODI']||{}).runs||0).toLocaleString();
+    if (milRows[4]) {
+      milRows[4].querySelector('.aside-stat-val').textContent = careerHighest.fmt
+        ? String(careerHighest.score) + ' (' + careerHighest.fmt + ')'
+        : '—';
+    }
   }
 
   // ── Sidebar vs opposition ─────────────────────────────────────────────────
@@ -345,6 +398,17 @@ function renderCareerTab(bat, yearly, fmt) {
     boxes[5].textContent = s ? dash(s.fifties)    : '—';
     if (boxes[6]) boxes[6].textContent = s ? dash(s.matches)   : '—';
     if (boxes[7]) boxes[7].textContent = s ? dash(s.not_outs)  : '—';
+  }
+
+  // Update sublabels that are otherwise static in template markup.
+  var statBoxes = panel.querySelectorAll('.stat-box');
+  if (statBoxes[3]) {
+    var hsSub = statBoxes[3].querySelector('.stat-box-sub');
+    if (hsSub) hsSub.textContent = s && s.highest ? (fmt + ' career best') : '—';
+  }
+  if (statBoxes[6]) {
+    var matchSub = statBoxes[6].querySelector('.stat-box-sub');
+    if (matchSub) matchSub.textContent = 'Innings: ' + (s ? dash(s.innings) : '—');
   }
 
   // Update "Year-by-Year (ODI Runs)" section title to reflect current format

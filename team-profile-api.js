@@ -1,6 +1,8 @@
 /**
  * team-profile-api.js
- * ===================
+ * =================== 
+ * Team profile page with ML predictions
+ *
  * API wiring for team-profile.html
  * Reads ?name= from URL, loads full team profile from API,
  * populates hero, stats strip, format breakdown, H2H, venue stats.
@@ -17,6 +19,51 @@ function flCircle(country, size=24) {
   return `<img src="${FLAG_CDN}${code}.svg" alt="${esc(country)}"
     style="width:${size}px;height:${size}px;object-fit:cover;border-radius:50%;vertical-align:middle;"
     onerror="this.style.display='none'">`;
+}
+
+function getTeamInitials(name) {
+  if (!name) return '?';
+  const words = String(name).trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return '?';
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
+
+function renderTeamCrest(teamName) {
+  const crest = document.getElementById('teamCrest');
+  const crestImg = document.getElementById('teamCrestImg');
+  if (!crest || !crestImg) return;
+
+  const existingFallback = document.getElementById('teamCrestFallback');
+  if (existingFallback) existingFallback.remove();
+
+  const iso = COUNTRY_ISO[teamName];
+  if (iso) {
+    crestImg.style.display = '';
+    crestImg.src = `${FLAG_CDN}${iso}.svg`;
+    crestImg.alt = teamName;
+    return;
+  }
+
+  crestImg.style.display = 'none';
+  crestImg.removeAttribute('src');
+  crestImg.alt = teamName;
+
+  const fallback = document.createElement('div');
+  fallback.id = 'teamCrestFallback';
+  fallback.style.width = '100%';
+  fallback.style.height = '100%';
+  fallback.style.display = 'flex';
+  fallback.style.alignItems = 'center';
+  fallback.style.justifyContent = 'center';
+  fallback.style.fontFamily = 'var(--font-display)';
+  fallback.style.fontSize = '2rem';
+  fallback.style.fontWeight = '700';
+  fallback.style.color = 'var(--accent)';
+  fallback.style.background = 'var(--surface-2)';
+  fallback.style.borderRadius = 'var(--radius-lg)';
+  fallback.textContent = getTeamInitials(teamName);
+  crest.appendChild(fallback);
 }
 
 function dash(v) { return (v == null || v === 0 || v === '') ? '—' : v; }
@@ -44,15 +91,8 @@ async function loadTeamProfile() {
   if (nameEl) nameEl.textContent = teamName;
   if (breadEl) breadEl.textContent = teamName;
 
-  // Update team crest flag
-  const iso = COUNTRY_ISO[teamName];
-  if (iso) {
-    const crestImg = document.getElementById('teamCrestImg');
-    if (crestImg) {
-      crestImg.src = `${FLAG_CDN}${iso}.svg`;
-      crestImg.alt = teamName;
-    }
-  }
+  // Update team crest flag (or initials fallback when no flag)
+  renderTeamCrest(teamName);
 
   // Update compare link
   const compareBtn = document.getElementById('compareBtn');
@@ -72,9 +112,13 @@ async function loadTeamProfile() {
 
   // ── Full name / board info
   const fullNameEl = document.getElementById('teamFullName');
-  if (fullNameEl && meta.board) {
-    const founded = meta.founded ? ` · Founded: ${meta.founded}` : '';
-    fullNameEl.textContent = `${meta.board}${founded}`;
+  if (fullNameEl) {
+    if (meta.board) {
+      const founded = meta.founded ? ` · Founded: ${meta.founded}` : '';
+      fullNameEl.textContent = `${meta.board}${founded}`;
+    } else {
+      fullNameEl.textContent = `${teamName} National Cricket Team`;
+    }
   }
 
   // ── Profile tags — update confederation and ranking
@@ -82,14 +126,16 @@ async function loadTeamProfile() {
   if (tagsEl) {
     const confTag = tagsEl.querySelector('.ptag:first-child');
     const conf = CONF[teamName] || meta.confederation || '';
-    if (confTag && conf) confTag.innerHTML = `<i class="fa fa-globe" style="font-size:.65rem"></i> ${conf}`;
+    if (confTag) confTag.innerHTML = `<i class="fa fa-globe" style="font-size:.65rem"></i> ${conf || 'Region Unknown'}`;
 
     // Find rank from rankings
     const rankings = rankingsData?.rankings || [];
     const rank = rankings.find(r => r.team === teamName);
+    const rankTag = tagsEl.querySelector('[style*="FFD700"]');
     if (rank) {
-      const rankTag = tagsEl.querySelector('[style*="FFD700"]');
       if (rankTag) rankTag.innerHTML = `<i class="fa fa-trophy" style="font-size:.65rem"></i> ICC #${rank.rank} T20I`;
+    } else if (rankTag) {
+      rankTag.remove();
     }
 
     // WC trophies
@@ -160,20 +206,28 @@ function renderSidebarRankings(teamName, rankingsData) {
   });
   if (!iccCard || !rankingsData) return;
 
-  var formats = ['T20I', 'ODI', 'Test'];
-  var rankMap = {};
-  formats.forEach(function(fmt) {
-    var rows = rankingsData.rankings || [];
-    // rankingsData was fetched for T20I only; fetch others would need separate calls
-    // For now update T20I rank
-    var entry = rows.find(function(r) { return r.team === teamName; });
-    if (entry) rankMap['T20I'] = { rank: entry.rank, rating: entry.rating };
-  });
+  var rows = rankingsData.rankings || [];
+  var entry = rows.find(function(r) { return r.team === teamName; });
+
+  // Prevent showing hardcoded India rankings for teams that are not in ICC ranking data.
+  if (!entry) {
+    iccCard.style.display = 'none';
+    return;
+  }
+
+  iccCard.style.display = '';
+
+  var rankMap = {
+    'T20I': { rank: entry.rank, rating: entry.rating }
+  };
 
   iccCard.querySelectorAll('.ts-row').forEach(function(row) {
     var lbl = (row.querySelector('.ts-lbl') || {}).textContent || '';
     var valEl = row.querySelector('.ts-val');
     if (!valEl) return;
+    // Reset static placeholders before injecting actual values.
+    valEl.textContent = '—';
+    valEl.style.color = 'var(--text-primary)';
     if (lbl.includes('T20I') && rankMap['T20I']) {
       var r = rankMap['T20I'].rank;
       valEl.textContent = '#' + r;
