@@ -1,0 +1,4169 @@
+{
+  "Western Australia Cricket Association Ground": {
+    "avg_t20_1st": 159.5,
+    "avg_odi_1st": 238.8,
+    "chase_win_pct": 45.5,
+    "highest_t20": 186,
+    "highest_odi": 343,
+    "avg_powerplay": 40.2,
+    "toss_win_pct": 44.1
+  },
+  "Bellerive Oval": {
+    "avg_t20_1st": 182.3,
+    "avg_odi_1st": 266.9,
+    "chase_win_pct": 37.0,
+    "highest_t20": 213,
+    "highest_odi": 363,
+    "avg_powerplay": 52.5,
+    "toss_win_pct": 59.3
+  },
+  "Adelaide Oval": {
+    "avg_t20_1st": 174.1,
+    "avg_odi_1st": 239.9,
+    "chase_win_pct": 50.0,
+    "highest_t20": 241,
+    "highest_odi": 369,
+    "avg_powerplay": 47.6,
+    "toss_win_pct": 40.9
+  },
+  "Brisbane Cricket Ground, Woolloongabba": {
+    "avg_t20_1st": 166.4,
+    "avg_odi_1st": 245.0,
+    "chase_win_pct": 48.7,
+    "highest_t20": 209,
+    "highest_odi": 324,
+    "avg_powerplay": 42.0,
+    "toss_win_pct": 37.8
+  },
+  "Melbourne Cricket Ground": {
+    "avg_t20_1st": 143.7,
+    "avg_odi_1st": 258.3,
+    "chase_win_pct": 55.3,
+    "highest_t20": 186,
+    "highest_odi": 355,
+    "avg_powerplay": 44.2,
+    "toss_win_pct": 50.0
+  },
+  "Sydney Cricket Ground": {
+    "avg_t20_1st": 166.5,
+    "avg_odi_1st": 266.7,
+    "chase_win_pct": 41.8,
+    "highest_t20": 221,
+    "highest_odi": 408,
+    "avg_powerplay": 46.1,
+    "toss_win_pct": 45.7
+  },
+  "Basin Reserve": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 283.4,
+    "chase_win_pct": 45.0,
+    "highest_t20": 0,
+    "highest_odi": 318,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Hagley Oval": {
+    "avg_t20_1st": 168.5,
+    "avg_odi_1st": 258.3,
+    "chase_win_pct": 54.2,
+    "highest_t20": 184,
+    "highest_odi": 341,
+    "avg_powerplay": 37.8,
+    "toss_win_pct": 44.0
+  },
+  "Seddon Park": {
+    "avg_t20_1st": 178.8,
+    "avg_odi_1st": 261.2,
+    "chase_win_pct": 59.1,
+    "highest_t20": 212,
+    "highest_odi": 363,
+    "avg_powerplay": 49.1,
+    "toss_win_pct": 41.7
+  },
+  "University Oval": {
+    "avg_t20_1st": 219.0,
+    "avg_odi_1st": 255.7,
+    "chase_win_pct": 38.5,
+    "highest_t20": 219,
+    "highest_odi": 360,
+    "avg_powerplay": 49.0,
+    "toss_win_pct": 41.2
+  },
+  "Sir Vivian Richards Stadium, North Sound": {
+    "avg_t20_1st": 136.0,
+    "avg_odi_1st": 235.6,
+    "chase_win_pct": 39.1,
+    "highest_t20": 158,
+    "highest_odi": 322,
+    "avg_powerplay": 32.6,
+    "toss_win_pct": 34.6
+  },
+  "Sabina Park, Kingston": {
+    "avg_t20_1st": 134.0,
+    "avg_odi_1st": 233.8,
+    "chase_win_pct": 53.3,
+    "highest_t20": 194,
+    "highest_odi": 349,
+    "avg_powerplay": 42.2,
+    "toss_win_pct": 50.0
+  },
+  "Darren Sammy National Cricket Stadium, Gros Islet": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Queen's Park Oval, Port of Spain": {
+    "avg_t20_1st": 129.7,
+    "avg_odi_1st": 233.7,
+    "chase_win_pct": 50.0,
+    "highest_t20": 159,
+    "highest_odi": 413,
+    "avg_powerplay": 37.4,
+    "toss_win_pct": 42.9
+  },
+  "Queens Sports Club": {
+    "avg_t20_1st": 168.0,
+    "avg_odi_1st": 240.7,
+    "chase_win_pct": 53.5,
+    "highest_t20": 168,
+    "highest_odi": 399,
+    "avg_powerplay": 49.8,
+    "toss_win_pct": 48.9
+  },
+  "Zahur Ahmed Chowdhury Stadium": {
+    "avg_t20_1st": 145.3,
+    "avg_odi_1st": 218.1,
+    "chase_win_pct": 52.8,
+    "highest_t20": 196,
+    "highest_odi": 297,
+    "avg_powerplay": 43.5,
+    "toss_win_pct": 42.9
+  },
+  "Shere Bangla National Stadium": {
+    "avg_t20_1st": 148.1,
+    "avg_odi_1st": 230.4,
+    "chase_win_pct": 55.0,
+    "highest_t20": 204,
+    "highest_odi": 370,
+    "avg_powerplay": 38.9,
+    "toss_win_pct": 48.1
+  },
+  "Green Park": {
+    "avg_t20_1st": 147.0,
+    "avg_odi_1st": 281.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 148,
+    "highest_odi": 337,
+    "avg_powerplay": 47.5,
+    "toss_win_pct": 45.5
+  },
+  "Eden Gardens": {
+    "avg_t20_1st": 141.3,
+    "avg_odi_1st": 280.1,
+    "chase_win_pct": 50.0,
+    "highest_t20": 201,
+    "highest_odi": 404,
+    "avg_powerplay": 35.1,
+    "toss_win_pct": 44.0
+  },
+  "Holkar Cricket Stadium": {
+    "avg_t20_1st": 201.0,
+    "avg_odi_1st": 319.3,
+    "chase_win_pct": 42.9,
+    "highest_t20": 260,
+    "highest_odi": 418,
+    "avg_powerplay": 55.5,
+    "toss_win_pct": 57.1
+  },
+  "Lord's": {
+    "avg_t20_1st": 157.6,
+    "avg_odi_1st": 252.1,
+    "chase_win_pct": 30.4,
+    "highest_t20": 199,
+    "highest_odi": 328,
+    "avg_powerplay": 42.1,
+    "toss_win_pct": 38.6
+  },
+  "Trent Bridge": {
+    "avg_t20_1st": 154.4,
+    "avg_odi_1st": 258.7,
+    "chase_win_pct": 50.0,
+    "highest_t20": 198,
+    "highest_odi": 481,
+    "avg_powerplay": 45.8,
+    "toss_win_pct": 53.3
+  },
+  "Kennington Oval": {
+    "avg_t20_1st": 150.9,
+    "avg_odi_1st": 261.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 211,
+    "highest_odi": 398,
+    "avg_powerplay": 48.5,
+    "toss_win_pct": 45.2
+  },
+  "Old Trafford": {
+    "avg_t20_1st": 151.1,
+    "avg_odi_1st": 240.4,
+    "chase_win_pct": 47.4,
+    "highest_t20": 199,
+    "highest_odi": 336,
+    "avg_powerplay": 48.8,
+    "toss_win_pct": 47.6
+  },
+  "Edgbaston": {
+    "avg_t20_1st": 169.6,
+    "avg_odi_1st": 244.2,
+    "chase_win_pct": 46.3,
+    "highest_t20": 221,
+    "highest_odi": 408,
+    "avg_powerplay": 52.5,
+    "toss_win_pct": 43.8
+  },
+  "Headingley": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 278.1,
+    "chase_win_pct": 51.9,
+    "highest_t20": 0,
+    "highest_odi": 351,
+    "avg_powerplay": 0,
+    "toss_win_pct": 35.7
+  },
+  "Saurashtra Cricket Association Stadium": {
+    "avg_t20_1st": 183.3,
+    "avg_odi_1st": 311.7,
+    "chase_win_pct": 28.6,
+    "highest_t20": 202,
+    "highest_odi": 340,
+    "avg_powerplay": 55.3,
+    "toss_win_pct": 75.0
+  },
+  "Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium": {
+    "avg_t20_1st": 104.0,
+    "avg_odi_1st": 299.2,
+    "chase_win_pct": 54.5,
+    "highest_t20": 127,
+    "highest_odi": 387,
+    "avg_powerplay": 38.5,
+    "toss_win_pct": 83.3
+  },
+  "Punjab Cricket Association IS Bindra Stadium, Mohali": {
+    "avg_t20_1st": 170.5,
+    "avg_odi_1st": 290.7,
+    "chase_win_pct": 66.7,
+    "highest_t20": 193,
+    "highest_odi": 392,
+    "avg_powerplay": 49.5,
+    "toss_win_pct": 44.4
+  },
+  "Wankhede Stadium": {
+    "avg_t20_1st": 192.5,
+    "avg_odi_1st": 278.2,
+    "chase_win_pct": 73.7,
+    "highest_t20": 240,
+    "highest_odi": 438,
+    "avg_powerplay": 56.9,
+    "toss_win_pct": 55.0
+  },
+  "MA Chidambaram Stadium, Chepauk": {
+    "avg_t20_1st": 174.0,
+    "avg_odi_1st": 242.4,
+    "chase_win_pct": 50.0,
+    "highest_t20": 182,
+    "highest_odi": 337,
+    "avg_powerplay": 46.0,
+    "toss_win_pct": 57.9
+  },
+  "Rajiv Gandhi International Stadium, Uppal": {
+    "avg_t20_1st": 207.0,
+    "avg_odi_1st": 277.8,
+    "chase_win_pct": 54.5,
+    "highest_t20": 209,
+    "highest_odi": 350,
+    "avg_powerplay": 58.0,
+    "toss_win_pct": 58.3
+  },
+  "Dubai International Cricket Stadium": {
+    "avg_t20_1st": 146.4,
+    "avg_odi_1st": 225.5,
+    "chase_win_pct": 50.6,
+    "highest_t20": 211,
+    "highest_odi": 355,
+    "avg_powerplay": 42.2,
+    "toss_win_pct": 53.6
+  },
+  "Sheikh Zayed Stadium": {
+    "avg_t20_1st": 134.4,
+    "avg_odi_1st": 245.6,
+    "chase_win_pct": 44.6,
+    "highest_t20": 189,
+    "highest_odi": 308,
+    "avg_powerplay": 40.6,
+    "toss_win_pct": 56.3
+  },
+  "Sharjah Cricket Stadium": {
+    "avg_t20_1st": 158.8,
+    "avg_odi_1st": 248.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 207,
+    "highest_odi": 364,
+    "avg_powerplay": 40.5,
+    "toss_win_pct": 44.2
+  },
+  "Harare Sports Club": {
+    "avg_t20_1st": 158.6,
+    "avg_odi_1st": 237.7,
+    "chase_win_pct": 50.3,
+    "highest_t20": 259,
+    "highest_odi": 408,
+    "avg_powerplay": 44.1,
+    "toss_win_pct": 44.7
+  },
+  "Maharashtra Cricket Association Stadium": {
+    "avg_t20_1st": 151.0,
+    "avg_odi_1st": 307.0,
+    "chase_win_pct": 36.4,
+    "highest_t20": 201,
+    "highest_odi": 356,
+    "avg_powerplay": 41.5,
+    "toss_win_pct": 54.5
+  },
+  "M Chinnaswamy Stadium": {
+    "avg_t20_1st": 151.8,
+    "avg_odi_1st": 289.5,
+    "chase_win_pct": 56.2,
+    "highest_t20": 202,
+    "highest_odi": 383,
+    "avg_powerplay": 41.8,
+    "toss_win_pct": 40.0
+  },
+  "JSCA International Stadium Complex": {
+    "avg_t20_1st": 157.0,
+    "avg_odi_1st": 261.8,
+    "chase_win_pct": 42.9,
+    "highest_t20": 196,
+    "highest_odi": 313,
+    "avg_powerplay": 51.2,
+    "toss_win_pct": 44.4
+  },
+  "Himachal Pradesh Cricket Association Stadium": {
+    "avg_t20_1st": 140.1,
+    "avg_odi_1st": 214.5,
+    "chase_win_pct": 54.5,
+    "highest_t20": 200,
+    "highest_odi": 330,
+    "avg_powerplay": 48.0,
+    "toss_win_pct": 41.7
+  },
+  "W.A.C.A. Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 258.3,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 307,
+    "avg_powerplay": 0,
+    "toss_win_pct": 16.7
+  },
+  "Senwes Park": {
+    "avg_t20_1st": 178.0,
+    "avg_odi_1st": 253.8,
+    "chase_win_pct": 62.5,
+    "highest_t20": 224,
+    "highest_odi": 283,
+    "avg_powerplay": 43.8,
+    "toss_win_pct": 25.0
+  },
+  "Mangaung Oval": {
+    "avg_t20_1st": 195.0,
+    "avg_odi_1st": 284.5,
+    "chase_win_pct": 20.0,
+    "highest_t20": 195,
+    "highest_odi": 399,
+    "avg_powerplay": 60.0,
+    "toss_win_pct": 50.0
+  },
+  "Kingsmead": {
+    "avg_t20_1st": 152.4,
+    "avg_odi_1st": 245.8,
+    "chase_win_pct": 42.9,
+    "highest_t20": 218,
+    "highest_odi": 372,
+    "avg_powerplay": 45.4,
+    "toss_win_pct": 44.9
+  },
+  "St George's Park": {
+    "avg_t20_1st": 131.7,
+    "avg_odi_1st": 239.3,
+    "chase_win_pct": 53.3,
+    "highest_t20": 179,
+    "highest_odi": 317,
+    "avg_powerplay": 41.8,
+    "toss_win_pct": 43.8
+  },
+  "Newlands": {
+    "avg_t20_1st": 156.9,
+    "avg_odi_1st": 260.8,
+    "chase_win_pct": 56.1,
+    "highest_t20": 193,
+    "highest_odi": 367,
+    "avg_powerplay": 46.0,
+    "toss_win_pct": 50.0
+  },
+  "The Wanderers Stadium": {
+    "avg_t20_1st": 196.2,
+    "avg_odi_1st": 251.0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 203,
+    "highest_odi": 341,
+    "avg_powerplay": 55.0,
+    "toss_win_pct": 55.0
+  },
+  "Kensington Oval, Bridgetown": {
+    "avg_t20_1st": 154.8,
+    "avg_odi_1st": 211.9,
+    "chase_win_pct": 48.7,
+    "highest_t20": 195,
+    "highest_odi": 328,
+    "avg_powerplay": 43.1,
+    "toss_win_pct": 59.5
+  },
+  "Windsor Park, Roseau": {
+    "avg_t20_1st": 148.5,
+    "avg_odi_1st": 261.8,
+    "chase_win_pct": 50.0,
+    "highest_t20": 165,
+    "highest_odi": 304,
+    "avg_powerplay": 38.0,
+    "toss_win_pct": 36.4
+  },
+  "Galle International Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 235.5,
+    "chase_win_pct": 37.8,
+    "highest_t20": 0,
+    "highest_odi": 322,
+    "avg_powerplay": 0,
+    "toss_win_pct": 56.1
+  },
+  "P Sara Oval": {
+    "avg_t20_1st": 72.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 69.2,
+    "highest_t20": 73,
+    "highest_odi": 0,
+    "avg_powerplay": 14.5,
+    "toss_win_pct": 46.2
+  },
+  "Shere Bangla National Stadium, Mirpur": {
+    "avg_t20_1st": 138.5,
+    "avg_odi_1st": 228.3,
+    "chase_win_pct": 45.2,
+    "highest_t20": 211,
+    "highest_odi": 326,
+    "avg_powerplay": 39.8,
+    "toss_win_pct": 45.3
+  },
+  "R.Premadasa Stadium, Khettarama": {
+    "avg_t20_1st": 163.5,
+    "avg_odi_1st": 293.8,
+    "chase_win_pct": 57.9,
+    "highest_t20": 215,
+    "highest_odi": 375,
+    "avg_powerplay": 51.7,
+    "toss_win_pct": 68.4
+  },
+  "Sinhalese Sports Club Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 224.8,
+    "chase_win_pct": 31.2,
+    "highest_t20": 0,
+    "highest_odi": 290,
+    "avg_powerplay": 0,
+    "toss_win_pct": 45.8
+  },
+  "Pallekele International Cricket Stadium": {
+    "avg_t20_1st": 167.1,
+    "avg_odi_1st": 240.7,
+    "chase_win_pct": 52.7,
+    "highest_t20": 263,
+    "highest_odi": 363,
+    "avg_powerplay": 46.3,
+    "toss_win_pct": 46.4
+  },
+  "Eden Park": {
+    "avg_t20_1st": 169.3,
+    "avg_odi_1st": 239.8,
+    "chase_win_pct": 57.1,
+    "highest_t20": 245,
+    "highest_odi": 340,
+    "avg_powerplay": 53.1,
+    "toss_win_pct": 42.6
+  },
+  "The Rose Bowl": {
+    "avg_t20_1st": 167.0,
+    "avg_odi_1st": 250.9,
+    "chase_win_pct": 51.4,
+    "highest_t20": 248,
+    "highest_odi": 373,
+    "avg_powerplay": 48.8,
+    "toss_win_pct": 41.5
+  },
+  "SuperSport Park": {
+    "avg_t20_1st": 178.1,
+    "avg_odi_1st": 253.5,
+    "chase_win_pct": 51.8,
+    "highest_t20": 241,
+    "highest_odi": 392,
+    "avg_powerplay": 49.7,
+    "toss_win_pct": 42.4
+  },
+  "St George's Park, Port Elizabeth": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 227.4,
+    "chase_win_pct": 14.3,
+    "highest_t20": 0,
+    "highest_odi": 272,
+    "avg_powerplay": 0,
+    "toss_win_pct": 42.9
+  },
+  "Vidarbha Cricket Association Stadium, Jamtha": {
+    "avg_t20_1st": 151.6,
+    "avg_odi_1st": 287.7,
+    "chase_win_pct": 45.5,
+    "highest_t20": 215,
+    "highest_odi": 354,
+    "avg_powerplay": 39.8,
+    "toss_win_pct": 39.1
+  },
+  "Arun Jaitley Stadium": {
+    "avg_t20_1st": 175.0,
+    "avg_odi_1st": 287.5,
+    "chase_win_pct": 40.0,
+    "highest_t20": 202,
+    "highest_odi": 303,
+    "avg_powerplay": 39.8,
+    "toss_win_pct": 50.0
+  },
+  "The Village, Malahide": {
+    "avg_t20_1st": 163.6,
+    "avg_odi_1st": 236.1,
+    "chase_win_pct": 66.7,
+    "highest_t20": 252,
+    "highest_odi": 377,
+    "avg_powerplay": 48.8,
+    "toss_win_pct": 40.9
+  },
+  "Daren Sammy National Cricket Stadium, Gros Islet": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 303.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 303,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Perth Stadium": {
+    "avg_t20_1st": 149.3,
+    "avg_odi_1st": 171.8,
+    "chase_win_pct": 47.1,
+    "highest_t20": 220,
+    "highest_odi": 259,
+    "avg_powerplay": 41.9,
+    "toss_win_pct": 70.6
+  },
+  "Manuka Oval": {
+    "avg_t20_1st": 155.5,
+    "avg_odi_1st": 352.7,
+    "chase_win_pct": 10.0,
+    "highest_t20": 161,
+    "highest_odi": 411,
+    "avg_powerplay": 43.8,
+    "toss_win_pct": 70.0
+  },
+  "Sir Vivian Richards Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 259.7,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 276,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Sylhet International Cricket Stadium": {
+    "avg_t20_1st": 160.9,
+    "avg_odi_1st": 278.7,
+    "chase_win_pct": 44.4,
+    "highest_t20": 210,
+    "highest_odi": 349,
+    "avg_powerplay": 50.2,
+    "toss_win_pct": 40.0
+  },
+  "Basin Reserve, Wellington": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 178.0,
+    "chase_win_pct": 57.1,
+    "highest_t20": 0,
+    "highest_odi": 180,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Kensington Oval, Barbados": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 266.5,
+    "chase_win_pct": 60.0,
+    "highest_t20": 0,
+    "highest_odi": 364,
+    "avg_powerplay": 0,
+    "toss_win_pct": 20.0
+  },
+  "Sir Vivian Richards Stadium, Antigua": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Daren Sammy National Cricket Stadium, St Lucia": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Bay Oval": {
+    "avg_t20_1st": 169.2,
+    "avg_odi_1st": 279.2,
+    "chase_win_pct": 31.6,
+    "highest_t20": 243,
+    "highest_odi": 371,
+    "avg_powerplay": 53.2,
+    "toss_win_pct": 42.9
+  },
+  "Sabina Park, Jamaica": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Rawalpindi Cricket Stadium": {
+    "avg_t20_1st": 144.8,
+    "avg_odi_1st": 240.1,
+    "chase_win_pct": 73.7,
+    "highest_t20": 195,
+    "highest_odi": 337,
+    "avg_powerplay": 44.8,
+    "toss_win_pct": 51.2
+  },
+  "National Stadium": {
+    "avg_t20_1st": 152.3,
+    "avg_odi_1st": 288.9,
+    "chase_win_pct": 44.8,
+    "highest_t20": 205,
+    "highest_odi": 374,
+    "avg_powerplay": 38.5,
+    "toss_win_pct": 38.7
+  },
+  "Brisbane Cricket Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 279.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 303,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Trent Bridge, Nottingham": {
+    "avg_t20_1st": 207.3,
+    "avg_odi_1st": 283.2,
+    "chase_win_pct": 33.3,
+    "highest_t20": 232,
+    "highest_odi": 334,
+    "avg_powerplay": 56.7,
+    "toss_win_pct": 46.2
+  },
+  "Lord's, London": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 256.6,
+    "chase_win_pct": 44.4,
+    "highest_t20": 0,
+    "highest_odi": 330,
+    "avg_powerplay": 0,
+    "toss_win_pct": 47.4
+  },
+  "Headingley, Leeds": {
+    "avg_t20_1st": 200.0,
+    "avg_odi_1st": 160.2,
+    "chase_win_pct": 62.5,
+    "highest_t20": 200,
+    "highest_odi": 270,
+    "avg_powerplay": 58.5,
+    "toss_win_pct": 40.0
+  },
+  "Kennington Oval, London": {
+    "avg_t20_1st": 157.0,
+    "avg_odi_1st": 236.5,
+    "chase_win_pct": 64.3,
+    "highest_t20": 158,
+    "highest_odi": 368,
+    "avg_powerplay": 68.5,
+    "toss_win_pct": 40.0
+  },
+  "MA Chidambaram Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 66.7
+  },
+  "Narendra Modi Stadium": {
+    "avg_t20_1st": 170.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 71.4,
+    "highest_t20": 224,
+    "highest_odi": 0,
+    "avg_powerplay": 46.2,
+    "toss_win_pct": 42.9
+  },
+  "Edgbaston, Birmingham": {
+    "avg_t20_1st": 185.0,
+    "avg_odi_1st": 365.5,
+    "chase_win_pct": 45.5,
+    "highest_t20": 202,
+    "highest_odi": 400,
+    "avg_powerplay": 47.2,
+    "toss_win_pct": 25.0
+  },
+  "The Rose Bowl, Southampton": {
+    "avg_t20_1st": 199.2,
+    "avg_odi_1st": 271.0,
+    "chase_win_pct": 22.2,
+    "highest_t20": 248,
+    "highest_odi": 414,
+    "avg_powerplay": 55.8,
+    "toss_win_pct": 22.2
+  },
+  "Sir Vivian Richards Stadium, North Sound, Antigua": {
+    "avg_t20_1st": 128.9,
+    "avg_odi_1st": 266.0,
+    "chase_win_pct": 65.0,
+    "highest_t20": 196,
+    "highest_odi": 329,
+    "avg_powerplay": 45.7,
+    "toss_win_pct": 52.4
+  },
+  "Kensington Oval, Bridgetown, Barbados": {
+    "avg_t20_1st": 153.2,
+    "avg_odi_1st": 205.4,
+    "chase_win_pct": 57.7,
+    "highest_t20": 224,
+    "highest_odi": 307,
+    "avg_powerplay": 47.6,
+    "toss_win_pct": 53.3
+  },
+  "National Cricket Stadium, St George's, Grenada": {
+    "avg_t20_1st": 175.1,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 226,
+    "highest_odi": 0,
+    "avg_powerplay": 55.0,
+    "toss_win_pct": 55.6
+  },
+  "Daren Sammy National Cricket Stadium, Gros Islet, St Lucia": {
+    "avg_t20_1st": 169.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 46.7,
+    "highest_t20": 221,
+    "highest_odi": 0,
+    "avg_powerplay": 54.0,
+    "toss_win_pct": 43.8
+  },
+  "Sabina Park, Kingston, Jamaica": {
+    "avg_t20_1st": 181.4,
+    "avg_odi_1st": 245.0,
+    "chase_win_pct": 43.8,
+    "highest_t20": 215,
+    "highest_odi": 270,
+    "avg_powerplay": 52.6,
+    "toss_win_pct": 56.2
+  },
+  "Brisbane Cricket Ground, Woolloongabba, Brisbane": {
+    "avg_t20_1st": 138.5,
+    "avg_odi_1st": 211.0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 179,
+    "highest_odi": 214,
+    "avg_powerplay": 46.5,
+    "toss_win_pct": 30.8
+  },
+  "Bellerive Oval, Hobart": {
+    "avg_t20_1st": 150.7,
+    "avg_odi_1st": 271.0,
+    "chase_win_pct": 46.2,
+    "highest_t20": 213,
+    "highest_odi": 271,
+    "avg_powerplay": 48.2,
+    "toss_win_pct": 21.4
+  },
+  "Old Trafford, Manchester": {
+    "avg_t20_1st": 218.7,
+    "avg_odi_1st": 221.8,
+    "chase_win_pct": 66.7,
+    "highest_t20": 304,
+    "highest_odi": 261,
+    "avg_powerplay": 57.2,
+    "toss_win_pct": 18.2
+  },
+  "SuperSport Park, Centurion": {
+    "avg_t20_1st": 197.4,
+    "avg_odi_1st": 256.3,
+    "chase_win_pct": 66.7,
+    "highest_t20": 259,
+    "highest_odi": 416,
+    "avg_powerplay": 64.8,
+    "toss_win_pct": 59.1
+  },
+  "The Wanderers Stadium, Johannesburg": {
+    "avg_t20_1st": 191.0,
+    "avg_odi_1st": 260.6,
+    "chase_win_pct": 38.5,
+    "highest_t20": 283,
+    "highest_odi": 370,
+    "avg_powerplay": 53.9,
+    "toss_win_pct": 15.4
+  },
+  "Newlands, Cape Town": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 255.7,
+    "chase_win_pct": 36.4,
+    "highest_t20": 0,
+    "highest_odi": 329,
+    "avg_powerplay": 0,
+    "toss_win_pct": 45.5
+  },
+  "Kingsmead, Durban": {
+    "avg_t20_1st": 193.0,
+    "avg_odi_1st": 228.4,
+    "chase_win_pct": 25.0,
+    "highest_t20": 226,
+    "highest_odi": 270,
+    "avg_powerplay": 53.8,
+    "toss_win_pct": 46.2
+  },
+  "Zahur Ahmed Chowdhury Stadium, Chattogram": {
+    "avg_t20_1st": 159.4,
+    "avg_odi_1st": 286.2,
+    "chase_win_pct": 52.9,
+    "highest_t20": 207,
+    "highest_odi": 409,
+    "avg_powerplay": 48.3,
+    "toss_win_pct": 44.4
+  },
+  "Green Park, Kanpur": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Wankhede Stadium, Mumbai": {
+    "avg_t20_1st": 188.3,
+    "avg_odi_1st": 334.8,
+    "chase_win_pct": 22.2,
+    "highest_t20": 254,
+    "highest_odi": 399,
+    "avg_powerplay": 53.4,
+    "toss_win_pct": 55.6
+  },
+  "Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh": {
+    "avg_t20_1st": 208.0,
+    "avg_odi_1st": 276.0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 211,
+    "highest_odi": 281,
+    "avg_powerplay": 53.0,
+    "toss_win_pct": 100.0
+  },
+  "M Chinnaswamy Stadium, Bengaluru": {
+    "avg_t20_1st": 160.0,
+    "avg_odi_1st": 301.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 160,
+    "highest_odi": 410,
+    "avg_powerplay": 46.0,
+    "toss_win_pct": 50.0
+  },
+  "National Stadium, Karachi": {
+    "avg_t20_1st": 189.0,
+    "avg_odi_1st": 282.8,
+    "chase_win_pct": 47.4,
+    "highest_t20": 221,
+    "highest_odi": 355,
+    "avg_powerplay": 50.6,
+    "toss_win_pct": 27.3
+  },
+  "Gaddafi Stadium, Lahore": {
+    "avg_t20_1st": 176.4,
+    "avg_odi_1st": 293.9,
+    "chase_win_pct": 37.5,
+    "highest_t20": 209,
+    "highest_odi": 362,
+    "avg_powerplay": 49.8,
+    "toss_win_pct": 71.9
+  },
+  "Bay Oval, Mount Maunganui": {
+    "avg_t20_1st": 139.5,
+    "avg_odi_1st": 229.7,
+    "chase_win_pct": 46.7,
+    "highest_t20": 220,
+    "highest_odi": 264,
+    "avg_powerplay": 45.9,
+    "toss_win_pct": 35.3
+  },
+  "Hagley Oval, Christchurch": {
+    "avg_t20_1st": 160.3,
+    "avg_odi_1st": 244.0,
+    "chase_win_pct": 57.9,
+    "highest_t20": 236,
+    "highest_odi": 269,
+    "avg_powerplay": 44.2,
+    "toss_win_pct": 45.5
+  },
+  "Multan Cricket Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 262.5,
+    "chase_win_pct": 38.9,
+    "highest_t20": 0,
+    "highest_odi": 342,
+    "avg_powerplay": 0,
+    "toss_win_pct": 63.2
+  },
+  "Vidarbha Cricket Association Stadium, Jamtha, Nagpur": {
+    "avg_t20_1st": 164.0,
+    "avg_odi_1st": 248.0,
+    "chase_win_pct": 75.0,
+    "highest_t20": 238,
+    "highest_odi": 251,
+    "avg_powerplay": 61.5,
+    "toss_win_pct": 25.0
+  },
+  "Arun Jaitley Stadium, Delhi": {
+    "avg_t20_1st": 174.6,
+    "avg_odi_1st": 301.2,
+    "chase_win_pct": 61.5,
+    "highest_t20": 221,
+    "highest_odi": 428,
+    "avg_powerplay": 49.9,
+    "toss_win_pct": 53.8
+  },
+  "Holkar Cricket Stadium, Indore": {
+    "avg_t20_1st": 227.0,
+    "avg_odi_1st": 373.7,
+    "chase_win_pct": 20.0,
+    "highest_t20": 227,
+    "highest_odi": 399,
+    "avg_powerplay": 56.0,
+    "toss_win_pct": 0.0
+  },
+  "Narendra Modi Stadium, Ahmedabad": {
+    "avg_t20_1st": 208.0,
+    "avg_odi_1st": 254.1,
+    "chase_win_pct": 41.2,
+    "highest_t20": 255,
+    "highest_odi": 356,
+    "avg_powerplay": 56.4,
+    "toss_win_pct": 55.6
+  },
+  "Queens Sports Club, Bulawayo": {
+    "avg_t20_1st": 152.4,
+    "avg_odi_1st": 231.1,
+    "chase_win_pct": 38.6,
+    "highest_t20": 236,
+    "highest_odi": 355,
+    "avg_powerplay": 45.8,
+    "toss_win_pct": 41.3
+  },
+  "Windsor Park, Roseau, Dominica": {
+    "avg_t20_1st": 149.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 193,
+    "highest_odi": 0,
+    "avg_powerplay": 48.7,
+    "toss_win_pct": 33.3
+  },
+  "Queen's Park Oval, Port of Spain, Trinidad": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 281.3,
+    "chase_win_pct": 33.3,
+    "highest_t20": 0,
+    "highest_odi": 312,
+    "avg_powerplay": 0,
+    "toss_win_pct": 20.0
+  },
+  "Sinhalese Sports Club Ground, Colombo": {
+    "avg_t20_1st": 174.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 62.5,
+    "highest_t20": 235,
+    "highest_odi": 0,
+    "avg_powerplay": 48.1,
+    "toss_win_pct": 37.5
+  },
+  "Seddon Park, Hamilton": {
+    "avg_t20_1st": 184.5,
+    "avg_odi_1st": 215.8,
+    "chase_win_pct": 36.4,
+    "highest_t20": 194,
+    "highest_odi": 333,
+    "avg_powerplay": 50.0,
+    "toss_win_pct": 16.7
+  },
+  "Rajiv Gandhi International Stadium, Uppal, Hyderabad": {
+    "avg_t20_1st": 241.5,
+    "avg_odi_1st": 325.2,
+    "chase_win_pct": 28.6,
+    "highest_t20": 297,
+    "highest_odi": 349,
+    "avg_powerplay": 64.2,
+    "toss_win_pct": 57.1
+  },
+  "Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam": {
+    "avg_t20_1st": 200.7,
+    "avg_odi_1st": 193.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 215,
+    "highest_odi": 271,
+    "avg_powerplay": 53.7,
+    "toss_win_pct": 66.7
+  },
+  "Saurashtra Cricket Association Stadium, Rajkot": {
+    "avg_t20_1st": 189.3,
+    "avg_odi_1st": 352.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 228,
+    "highest_odi": 352,
+    "avg_powerplay": 47.0,
+    "toss_win_pct": 60.0
+  },
+  "JSCA International Stadium Complex, Ranchi": {
+    "avg_t20_1st": 164.5,
+    "avg_odi_1st": 313.5,
+    "chase_win_pct": 60.0,
+    "highest_t20": 176,
+    "highest_odi": 349,
+    "avg_powerplay": 47.2,
+    "toss_win_pct": 20.0
+  },
+  "Himachal Pradesh Cricket Association Stadium, Dharamsala": {
+    "avg_t20_1st": 148.7,
+    "avg_odi_1st": 317.5,
+    "chase_win_pct": 62.5,
+    "highest_t20": 186,
+    "highest_odi": 388,
+    "avg_powerplay": 39.3,
+    "toss_win_pct": 37.5
+  },
+  "Civil Service Cricket Club, Stormont, Belfast": {
+    "avg_t20_1st": 174.8,
+    "avg_odi_1st": 226.3,
+    "chase_win_pct": 37.5,
+    "highest_t20": 189,
+    "highest_odi": 282,
+    "avg_powerplay": 42.5,
+    "toss_win_pct": 44.4
+  },
+  "St George's Park, Gqeberha": {
+    "avg_t20_1st": 152.0,
+    "avg_odi_1st": 211.0,
+    "chase_win_pct": 75.0,
+    "highest_t20": 180,
+    "highest_odi": 215,
+    "avg_powerplay": 51.2,
+    "toss_win_pct": 100.0
+  },
+  "Providence Stadium, Guyana": {
+    "avg_t20_1st": 125.4,
+    "avg_odi_1st": 122.2,
+    "chase_win_pct": 69.2,
+    "highest_t20": 173,
+    "highest_odi": 179,
+    "avg_powerplay": 38.6,
+    "toss_win_pct": 50.0
+  },
+  "MA Chidambaram Stadium, Chepauk, Chennai": {
+    "avg_t20_1st": 193.7,
+    "avg_odi_1st": 224.8,
+    "chase_win_pct": 54.5,
+    "highest_t20": 256,
+    "highest_odi": 271,
+    "avg_powerplay": 58.8,
+    "toss_win_pct": 33.3
+  },
+  "Maharashtra Cricket Association Stadium, Pune": {
+    "avg_t20_1st": 193.5,
+    "avg_odi_1st": 314.5,
+    "chase_win_pct": 28.6,
+    "highest_t20": 206,
+    "highest_odi": 357,
+    "avg_powerplay": 50.8,
+    "toss_win_pct": 42.9
+  },
+  "Eden Gardens, Kolkata": {
+    "avg_t20_1st": 176.2,
+    "avg_odi_1st": 253.8,
+    "chase_win_pct": 42.1,
+    "highest_t20": 207,
+    "highest_odi": 337,
+    "avg_powerplay": 49.8,
+    "toss_win_pct": 57.9
+  },
+  "Barsapara Cricket Stadium, Guwahati": {
+    "avg_t20_1st": 204.0,
+    "avg_odi_1st": 373.0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 237,
+    "highest_odi": 373,
+    "avg_powerplay": 57.0,
+    "toss_win_pct": 60.0
+  },
+  "Kensington Oval": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Antigua Recreation Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Riverside Ground": {
+    "avg_t20_1st": 163.0,
+    "avg_odi_1st": 253.9,
+    "chase_win_pct": 47.6,
+    "highest_t20": 195,
+    "highest_odi": 338,
+    "avg_powerplay": 53.2,
+    "toss_win_pct": 54.5
+  },
+  "R.Premadasa Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 208.8,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 271,
+    "avg_powerplay": 0,
+    "toss_win_pct": 66.7
+  },
+  "Iqbal Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 204.2,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 245,
+    "avg_powerplay": 0,
+    "toss_win_pct": 16.7
+  },
+  "Sardar Patel Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Shaheed Chandu Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 191.8,
+    "chase_win_pct": 80.0,
+    "highest_t20": 0,
+    "highest_odi": 220,
+    "avg_powerplay": 0,
+    "toss_win_pct": 40.0
+  },
+  "Khan Shaheb Osman Ali Stadium": {
+    "avg_t20_1st": 163.0,
+    "avg_odi_1st": 286.5,
+    "chase_win_pct": 71.4,
+    "highest_t20": 180,
+    "highest_odi": 309,
+    "avg_powerplay": 46.5,
+    "toss_win_pct": 62.5
+  },
+  "Asgiriya Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Vidarbha C.A. Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 350.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 350,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Antigua Recreation Ground, St John's": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 196.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 242,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Warner Park, Basseterre": {
+    "avg_t20_1st": 97.3,
+    "avg_odi_1st": 286.1,
+    "chase_win_pct": 33.3,
+    "highest_t20": 143,
+    "highest_odi": 377,
+    "avg_powerplay": 43.2,
+    "toss_win_pct": 50.0
+  },
+  "AMI Stadium": {
+    "avg_t20_1st": 186.3,
+    "avg_odi_1st": 292.0,
+    "chase_win_pct": 62.5,
+    "highest_t20": 214,
+    "highest_odi": 392,
+    "avg_powerplay": 40.1,
+    "toss_win_pct": 55.6
+  },
+  "Gaddafi Stadium": {
+    "avg_t20_1st": 166.4,
+    "avg_odi_1st": 295.1,
+    "chase_win_pct": 37.5,
+    "highest_t20": 197,
+    "highest_odi": 375,
+    "avg_powerplay": 45.5,
+    "toss_win_pct": 48.6
+  },
+  "M.Chinnaswamy Stadium": {
+    "avg_t20_1st": 162.0,
+    "avg_odi_1st": 310.0,
+    "chase_win_pct": 75.0,
+    "highest_t20": 194,
+    "highest_odi": 334,
+    "avg_powerplay": 48.0,
+    "toss_win_pct": 40.0
+  },
+  "McLean Park": {
+    "avg_t20_1st": 182.0,
+    "avg_odi_1st": 286.2,
+    "chase_win_pct": 45.5,
+    "highest_t20": 241,
+    "highest_odi": 373,
+    "avg_powerplay": 48.9,
+    "toss_win_pct": 40.0
+  },
+  "Providence Stadium": {
+    "avg_t20_1st": 140.2,
+    "avg_odi_1st": 233.3,
+    "chase_win_pct": 39.3,
+    "highest_t20": 191,
+    "highest_odi": 309,
+    "avg_powerplay": 40.3,
+    "toss_win_pct": 55.2
+  },
+  "Chittagong Divisional Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 227.3,
+    "chase_win_pct": 40.0,
+    "highest_t20": 0,
+    "highest_odi": 309,
+    "avg_powerplay": 0,
+    "toss_win_pct": 40.0
+  },
+  "Sardar Patel Stadium, Motera": {
+    "avg_t20_1st": 192.0,
+    "avg_odi_1st": 242.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 192,
+    "highest_odi": 365,
+    "avg_powerplay": 51.0,
+    "toss_win_pct": 31.2
+  },
+  "P Saravanamuttu Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 234.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 234,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Punjab Cricket Association Stadium, Mohali": {
+    "avg_t20_1st": 206.0,
+    "avg_odi_1st": 277.0,
+    "chase_win_pct": 47.4,
+    "highest_t20": 211,
+    "highest_odi": 351,
+    "avg_powerplay": 65.5,
+    "toss_win_pct": 35.0
+  },
+  "Feroz Shah Kotla": {
+    "avg_t20_1st": 148.0,
+    "avg_odi_1st": 214.8,
+    "chase_win_pct": 56.2,
+    "highest_t20": 171,
+    "highest_odi": 330,
+    "avg_powerplay": 45.2,
+    "toss_win_pct": 33.3
+  },
+  "Sophia Gardens": {
+    "avg_t20_1st": 149.8,
+    "avg_odi_1st": 233.1,
+    "chase_win_pct": 61.5,
+    "highest_t20": 182,
+    "highest_odi": 386,
+    "avg_powerplay": 38.7,
+    "toss_win_pct": 32.3
+  },
+  "OUTsurance Oval": {
+    "avg_t20_1st": 168.0,
+    "avg_odi_1st": 343.5,
+    "chase_win_pct": 25.0,
+    "highest_t20": 169,
+    "highest_odi": 351,
+    "avg_powerplay": 54.0,
+    "toss_win_pct": 50.0
+  },
+  "New Wanderers Stadium": {
+    "avg_t20_1st": 170.2,
+    "avg_odi_1st": 266.1,
+    "chase_win_pct": 57.1,
+    "highest_t20": 260,
+    "highest_odi": 439,
+    "avg_powerplay": 48.7,
+    "toss_win_pct": 46.0
+  },
+  "Arnos Vale Ground, Kingstown": {
+    "avg_t20_1st": 143.5,
+    "avg_odi_1st": 198.8,
+    "chase_win_pct": 36.4,
+    "highest_t20": 158,
+    "highest_odi": 273,
+    "avg_powerplay": 38.5,
+    "toss_win_pct": 50.0
+  },
+  "National Cricket Stadium, St George's": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 238.9,
+    "chase_win_pct": 64.3,
+    "highest_t20": 0,
+    "highest_odi": 356,
+    "avg_powerplay": 0,
+    "toss_win_pct": 57.1
+  },
+  "Zohur Ahmed Chowdhury Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 183.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 284,
+    "avg_powerplay": 0,
+    "toss_win_pct": 25.0
+  },
+  "Brabourne Stadium": {
+    "avg_t20_1st": 166.0,
+    "avg_odi_1st": 198.2,
+    "chase_win_pct": 62.5,
+    "highest_t20": 167,
+    "highest_odi": 377,
+    "avg_powerplay": 63.0,
+    "toss_win_pct": 25.0
+  },
+  "R Premadasa Stadium": {
+    "avg_t20_1st": 153.3,
+    "avg_odi_1st": 236.4,
+    "chase_win_pct": 44.1,
+    "highest_t20": 205,
+    "highest_odi": 363,
+    "avg_powerplay": 43.4,
+    "toss_win_pct": 53.4
+  },
+  "Sheikh Abu Naser Stadium": {
+    "avg_t20_1st": 174.2,
+    "avg_odi_1st": 245.5,
+    "chase_win_pct": 37.5,
+    "highest_t20": 187,
+    "highest_odi": 292,
+    "avg_powerplay": 51.4,
+    "toss_win_pct": 44.4
+  },
+  "M Chinnaswamy Stadium, Bangalore": {
+    "avg_t20_1st": 28.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0,
+    "highest_t20": 28,
+    "highest_odi": 0,
+    "avg_powerplay": 28.0,
+    "toss_win_pct": 0.0
+  },
+  "Antigua Recreation Ground, St John's, Antigua": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Marrara Cricket Ground, Darwin": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 254.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 254,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Punjab Cricket Association Stadium, Mohali, Chandigarh": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Western Australia Cricket Association Ground, Perth": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 0,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Iqbal Stadium, Faisalabad": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 229.5,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 270,
+    "avg_powerplay": 0,
+    "toss_win_pct": 20.0
+  },
+  "Bangabandhu National Stadium, Dhaka": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 120.7,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 185,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "MA Aziz Stadium, Chittagong": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 143.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 144,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "New Wanderers Stadium, Johannesburg": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 296.8,
+    "chase_win_pct": 16.7,
+    "highest_t20": 0,
+    "highest_odi": 359,
+    "avg_powerplay": 0,
+    "toss_win_pct": 33.3
+  },
+  "MA Aziz Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 235.3,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 245,
+    "avg_powerplay": 0,
+    "toss_win_pct": 75.0
+  },
+  "Bangabandhu National Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 273.0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 0,
+    "highest_odi": 348,
+    "avg_powerplay": 0,
+    "toss_win_pct": 66.7
+  },
+  "Beausejour Stadium, Gros Islet": {
+    "avg_t20_1st": 157.5,
+    "avg_odi_1st": 225.0,
+    "chase_win_pct": 55.6,
+    "highest_t20": 197,
+    "highest_odi": 363,
+    "avg_powerplay": 42.5,
+    "toss_win_pct": 33.3
+  },
+  "Grange Cricket Club Ground, Raeburn Place": {
+    "avg_t20_1st": 139.7,
+    "avg_odi_1st": 241.6,
+    "chase_win_pct": 44.4,
+    "highest_t20": 191,
+    "highest_odi": 327,
+    "avg_powerplay": 48.8,
+    "toss_win_pct": 60.0
+  },
+  "Saxton Oval": {
+    "avg_t20_1st": 183.5,
+    "avg_odi_1st": 265.1,
+    "chase_win_pct": 58.3,
+    "highest_t20": 187,
+    "highest_odi": 364,
+    "avg_powerplay": 45.5,
+    "toss_win_pct": 38.5
+  },
+  "Westpac Stadium": {
+    "avg_t20_1st": 163.9,
+    "avg_odi_1st": 236.4,
+    "chase_win_pct": 50.0,
+    "highest_t20": 219,
+    "highest_odi": 393,
+    "avg_powerplay": 44.8,
+    "toss_win_pct": 41.2
+  },
+  "Mission Road Ground, Mong Kok": {
+    "avg_t20_1st": 113.5,
+    "avg_odi_1st": 238.0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 161,
+    "highest_odi": 269,
+    "avg_powerplay": 44.2,
+    "toss_win_pct": 60.0
+  },
+  "County Ground": {
+    "avg_t20_1st": 163.0,
+    "avg_odi_1st": 251.0,
+    "chase_win_pct": 54.5,
+    "highest_t20": 201,
+    "highest_odi": 369,
+    "avg_powerplay": 54.0,
+    "toss_win_pct": 41.7
+  },
+  "Malahide": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 242.8,
+    "chase_win_pct": 33.3,
+    "highest_t20": 0,
+    "highest_odi": 344,
+    "avg_powerplay": 0,
+    "toss_win_pct": 25.0
+  },
+  "Clontarf Cricket Club Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 209.1,
+    "chase_win_pct": 60.0,
+    "highest_t20": 0,
+    "highest_odi": 328,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Barabati Stadium": {
+    "avg_t20_1st": 136.0,
+    "avg_odi_1st": 296.5,
+    "chase_win_pct": 62.5,
+    "highest_t20": 180,
+    "highest_odi": 381,
+    "avg_powerplay": 40.8,
+    "toss_win_pct": 50.0
+  },
+  "Diamond Oval": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 197.5,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 282,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Boland Park": {
+    "avg_t20_1st": 146.0,
+    "avg_odi_1st": 276.2,
+    "chase_win_pct": 50.0,
+    "highest_t20": 147,
+    "highest_odi": 353,
+    "avg_powerplay": 45.5,
+    "toss_win_pct": 66.7
+  },
+  "Buffalo Park": {
+    "avg_t20_1st": 167.3,
+    "avg_odi_1st": 238.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 177,
+    "highest_odi": 369,
+    "avg_powerplay": 49.2,
+    "toss_win_pct": 62.5
+  },
+  "ICC Global Cricket Academy": {
+    "avg_t20_1st": 132.5,
+    "avg_odi_1st": 233.0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 139,
+    "highest_odi": 270,
+    "avg_powerplay": 36.2,
+    "toss_win_pct": 20.0
+  },
+  "Rangiri Dambulla International Stadium": {
+    "avg_t20_1st": 151.4,
+    "avg_odi_1st": 221.3,
+    "chase_win_pct": 54.0,
+    "highest_t20": 180,
+    "highest_odi": 385,
+    "avg_powerplay": 47.1,
+    "toss_win_pct": 47.2
+  },
+  "Mahinda Rajapaksa International Cricket Stadium, Sooriyawewa": {
+    "avg_t20_1st": 130.7,
+    "avg_odi_1st": 250.4,
+    "chase_win_pct": 48.0,
+    "highest_t20": 182,
+    "highest_odi": 368,
+    "avg_powerplay": 39.6,
+    "toss_win_pct": 53.6
+  },
+  "Cobham Oval (New)": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 310.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 372,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "ICC Academy": {
+    "avg_t20_1st": 144.1,
+    "avg_odi_1st": 245.4,
+    "chase_win_pct": 36.4,
+    "highest_t20": 183,
+    "highest_odi": 331,
+    "avg_powerplay": 40.6,
+    "toss_win_pct": 58.8
+  },
+  "Old Hararians": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 267.5,
+    "chase_win_pct": 25.0,
+    "highest_t20": 0,
+    "highest_odi": 357,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Bulawayo Athletic Club": {
+    "avg_t20_1st": 145.3,
+    "avg_odi_1st": 258.3,
+    "chase_win_pct": 66.7,
+    "highest_t20": 201,
+    "highest_odi": 349,
+    "avg_powerplay": 42.8,
+    "toss_win_pct": 46.7
+  },
+  "The Cooper Associates County Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 314.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 322,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Kinrara Academy Oval": {
+    "avg_t20_1st": 148.3,
+    "avg_odi_1st": 231.4,
+    "chase_win_pct": 43.5,
+    "highest_t20": 206,
+    "highest_odi": 309,
+    "avg_powerplay": 44.1,
+    "toss_win_pct": 60.0
+  },
+  "Barsapara Cricket Stadium": {
+    "avg_t20_1st": 118.0,
+    "avg_odi_1st": 322.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 122,
+    "highest_odi": 326,
+    "avg_powerplay": 36.0,
+    "toss_win_pct": 100.0
+  },
+  "Greenfield International Stadium": {
+    "avg_t20_1st": 118.5,
+    "avg_odi_1st": 104.0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 173,
+    "highest_odi": 105,
+    "avg_powerplay": 43.0,
+    "toss_win_pct": 33.3
+  },
+  "National Cricket Stadium, Grenada": {
+    "avg_t20_1st": 208.0,
+    "avg_odi_1st": 310.5,
+    "chase_win_pct": 33.3,
+    "highest_t20": 208,
+    "highest_odi": 418,
+    "avg_powerplay": 78.0,
+    "toss_win_pct": 66.7
+  },
+  "Darren Sammy National Cricket Stadium, St Lucia": {
+    "avg_t20_1st": 160.0,
+    "avg_odi_1st": 113.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 161,
+    "highest_odi": 115,
+    "avg_powerplay": 52.5,
+    "toss_win_pct": 100.0
+  },
+  "Castle Avenue": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 311.3,
+    "chase_win_pct": 66.7,
+    "highest_t20": 0,
+    "highest_odi": 381,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Bready Cricket Club, Magheramason": {
+    "avg_t20_1st": 155.7,
+    "avg_odi_1st": 254.0,
+    "chase_win_pct": 75.0,
+    "highest_t20": 169,
+    "highest_odi": 258,
+    "avg_powerplay": 52.2,
+    "toss_win_pct": 100.0
+  },
+  "Civil Service Cricket Club, Stormont": {
+    "avg_t20_1st": 106.9,
+    "avg_odi_1st": 178.5,
+    "chase_win_pct": 68.4,
+    "highest_t20": 190,
+    "highest_odi": 301,
+    "avg_powerplay": 31.3,
+    "toss_win_pct": 54.5
+  },
+  "Grange Cricket Club, Raeburn Place": {
+    "avg_t20_1st": 185.0,
+    "avg_odi_1st": 322.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 204,
+    "highest_odi": 322,
+    "avg_powerplay": 47.5,
+    "toss_win_pct": 66.7
+  },
+  "Affies Park": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 164.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 165,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Wanderers Cricket Ground": {
+    "avg_t20_1st": 142.5,
+    "avg_odi_1st": 226.0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 176,
+    "highest_odi": 226,
+    "avg_powerplay": 47.8,
+    "toss_win_pct": 66.7
+  },
+  "Sportpark Het Schootsveld": {
+    "avg_t20_1st": 195.0,
+    "avg_odi_1st": 247.5,
+    "chase_win_pct": 66.7,
+    "highest_t20": 205,
+    "highest_odi": 291,
+    "avg_powerplay": 63.2,
+    "toss_win_pct": 25.0
+  },
+  "Queen's Park Oval, Trinidad": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 259.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 279,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Mannofield Park": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 202.5,
+    "chase_win_pct": 62.5,
+    "highest_t20": 0,
+    "highest_odi": 242,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Central Broward Regional Park Stadium Turf Ground": {
+    "avg_t20_1st": 159.2,
+    "avg_odi_1st": 205.6,
+    "chase_win_pct": 28.6,
+    "highest_t20": 245,
+    "highest_odi": 260,
+    "avg_powerplay": 41.0,
+    "toss_win_pct": 53.3
+  },
+  "Al Amerat Cricket Ground Oman Cricket (Ministry Turf 1)": {
+    "avg_t20_1st": 149.4,
+    "avg_odi_1st": 184.5,
+    "chase_win_pct": 59.0,
+    "highest_t20": 225,
+    "highest_odi": 324,
+    "avg_powerplay": 43.5,
+    "toss_win_pct": 50.0
+  },
+  "Tribhuvan University International Cricket Ground": {
+    "avg_t20_1st": 152.5,
+    "avg_odi_1st": 193.3,
+    "chase_win_pct": 50.0,
+    "highest_t20": 236,
+    "highest_odi": 276,
+    "avg_powerplay": 40.1,
+    "toss_win_pct": 60.0
+  },
+  "Riverside Ground, Chester-le-Street": {
+    "avg_t20_1st": 163.5,
+    "avg_odi_1st": 274.0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 188,
+    "highest_odi": 333,
+    "avg_powerplay": 55.2,
+    "toss_win_pct": 100.0
+  },
+  "County Ground, Bristol": {
+    "avg_t20_1st": 205.8,
+    "avg_odi_1st": 251.7,
+    "chase_win_pct": 40.0,
+    "highest_t20": 234,
+    "highest_odi": 309,
+    "avg_powerplay": 50.9,
+    "toss_win_pct": 42.9
+  },
+  "Sophia Gardens, Cardiff": {
+    "avg_t20_1st": 147.4,
+    "avg_odi_1st": 246.7,
+    "chase_win_pct": 75.0,
+    "highest_t20": 207,
+    "highest_odi": 312,
+    "avg_powerplay": 52.7,
+    "toss_win_pct": 50.0
+  },
+  "The Village, Malahide, Dublin": {
+    "avg_t20_1st": 169.6,
+    "avg_odi_1st": 284.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 225,
+    "highest_odi": 360,
+    "avg_powerplay": 57.0,
+    "toss_win_pct": 72.7
+  },
+  "Sportpark Maarschalkerweerd, Utrecht": {
+    "avg_t20_1st": 167.5,
+    "avg_odi_1st": 210.0,
+    "chase_win_pct": 55.6,
+    "highest_t20": 217,
+    "highest_odi": 380,
+    "avg_powerplay": 47.6,
+    "toss_win_pct": 10.0
+  },
+  "Hazelaarweg, Rotterdam": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 217.6,
+    "chase_win_pct": 25.0,
+    "highest_t20": 0,
+    "highest_odi": 314,
+    "avg_powerplay": 0,
+    "toss_win_pct": 37.5
+  },
+  "Sher-e-Bangla National Cricket Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 246.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 246,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "R Premadasa Stadium, Colombo": {
+    "avg_t20_1st": 144.2,
+    "avg_odi_1st": 242.1,
+    "chase_win_pct": 48.9,
+    "highest_t20": 182,
+    "highest_odi": 357,
+    "avg_powerplay": 44.5,
+    "toss_win_pct": 42.6
+  },
+  "Al Amerat Cricket Ground Oman Cricket (Ministry Turf 2)": {
+    "avg_t20_1st": 149.3,
+    "avg_odi_1st": 229.8,
+    "chase_win_pct": 44.1,
+    "highest_t20": 236,
+    "highest_odi": 273,
+    "avg_powerplay": 43.9,
+    "toss_win_pct": 61.8
+  },
+  "Boland Park, Paarl": {
+    "avg_t20_1st": 173.0,
+    "avg_odi_1st": 279.5,
+    "chase_win_pct": 60.0,
+    "highest_t20": 176,
+    "highest_odi": 296,
+    "avg_powerplay": 62.5,
+    "toss_win_pct": 40.0
+  },
+  "VRA Ground, Amstelveen": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 281.4,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 498,
+    "avg_powerplay": 0,
+    "toss_win_pct": 60.0
+  },
+  "Wanderers Cricket Ground, Windhoek": {
+    "avg_t20_1st": 148.0,
+    "avg_odi_1st": 211.7,
+    "chase_win_pct": 42.5,
+    "highest_t20": 245,
+    "highest_odi": 284,
+    "avg_powerplay": 41.5,
+    "toss_win_pct": 47.6
+  },
+  "ICC Academy, Dubai": {
+    "avg_t20_1st": 144.9,
+    "avg_odi_1st": 231.6,
+    "chase_win_pct": 57.1,
+    "highest_t20": 204,
+    "highest_odi": 273,
+    "avg_powerplay": 43.3,
+    "toss_win_pct": 53.6
+  },
+  "Tribhuvan University International Cricket Ground, Kirtipur": {
+    "avg_t20_1st": 170.7,
+    "avg_odi_1st": 219.7,
+    "chase_win_pct": 54.5,
+    "highest_t20": 247,
+    "highest_odi": 310,
+    "avg_powerplay": 48.1,
+    "toss_win_pct": 44.8
+  },
+  "Grange Cricket Club Ground, Raeburn Place, Edinburgh": {
+    "avg_t20_1st": 171.3,
+    "avg_odi_1st": 306.0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 254,
+    "highest_odi": 307,
+    "avg_powerplay": 48.0,
+    "toss_win_pct": 35.0
+  },
+  "Choice Moosa Stadium, Pearland": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 305.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 310,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Moosa Cricket Stadium, Pearland": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 228.3,
+    "chase_win_pct": 55.6,
+    "highest_t20": 0,
+    "highest_odi": 323,
+    "avg_powerplay": 0,
+    "toss_win_pct": 30.0
+  },
+  "Tony Ireland Stadium, Townsville": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 148.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 201,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Riverway Stadium, Townsville": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 141.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 142,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Cazaly's Stadium, Cairns": {
+    "avg_t20_1st": 172.0,
+    "avg_odi_1st": 247.5,
+    "chase_win_pct": 40.0,
+    "highest_t20": 173,
+    "highest_odi": 296,
+    "avg_powerplay": 49.0,
+    "toss_win_pct": 40.0
+  },
+  "Cambusdoon New Ground, Ayr": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 209.5,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 220,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Titwood, Glasgow": {
+    "avg_t20_1st": 162.3,
+    "avg_odi_1st": 162.3,
+    "chase_win_pct": 62.5,
+    "highest_t20": 198,
+    "highest_odi": 219,
+    "avg_powerplay": 38.8,
+    "toss_win_pct": 66.7
+  },
+  "Mannofield Park, Aberdeen": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 262.6,
+    "chase_win_pct": 60.0,
+    "highest_t20": 0,
+    "highest_odi": 301,
+    "avg_powerplay": 0,
+    "toss_win_pct": 60.0
+  },
+  "Eden Park, Auckland": {
+    "avg_t20_1st": 161.8,
+    "avg_odi_1st": 290.0,
+    "chase_win_pct": 30.0,
+    "highest_t20": 226,
+    "highest_odi": 309,
+    "avg_powerplay": 46.1,
+    "toss_win_pct": 30.8
+  },
+  "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium, Lucknow": {
+    "avg_t20_1st": 149.0,
+    "avg_odi_1st": 252.0,
+    "chase_win_pct": 42.9,
+    "highest_t20": 199,
+    "highest_odi": 311,
+    "avg_powerplay": 37.2,
+    "toss_win_pct": 0.0
+  },
+  "Amini Park, Port Moresby": {
+    "avg_t20_1st": 126.5,
+    "avg_odi_1st": 224.0,
+    "chase_win_pct": 37.5,
+    "highest_t20": 229,
+    "highest_odi": 284,
+    "avg_powerplay": 34.8,
+    "toss_win_pct": 41.2
+  },
+  "Mangaung Oval, Bloemfontein": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 313.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 392,
+    "avg_powerplay": 0,
+    "toss_win_pct": 75.0
+  },
+  "Diamond Oval, Kimberley": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 346.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 346,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Buffalo Park, East London": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 246.8,
+    "chase_win_pct": 25.0,
+    "highest_t20": 0,
+    "highest_odi": 335,
+    "avg_powerplay": 0,
+    "toss_win_pct": 75.0
+  },
+  "Senwes Park, Potchefstroom": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 260.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 264,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Willowmoore Park, Benoni": {
+    "avg_t20_1st": 140.1,
+    "avg_odi_1st": 209.7,
+    "chase_win_pct": 64.3,
+    "highest_t20": 185,
+    "highest_odi": 244,
+    "avg_powerplay": 37.0,
+    "toss_win_pct": 60.0
+  },
+  "United Cricket Club Ground, Windhoek": {
+    "avg_t20_1st": 137.1,
+    "avg_odi_1st": 229.8,
+    "chase_win_pct": 66.7,
+    "highest_t20": 217,
+    "highest_odi": 339,
+    "avg_powerplay": 37.2,
+    "toss_win_pct": 45.2
+  },
+  "Greenfield International Stadium, Thiruvananthapuram": {
+    "avg_t20_1st": 204.0,
+    "avg_odi_1st": 390.0,
+    "chase_win_pct": 25.0,
+    "highest_t20": 271,
+    "highest_odi": 390,
+    "avg_powerplay": 51.7,
+    "toss_win_pct": 75.0
+  },
+  "Shaheed Veer Narayan Singh International Stadium, Raipur": {
+    "avg_t20_1st": 191.0,
+    "avg_odi_1st": 233.0,
+    "chase_win_pct": 75.0,
+    "highest_t20": 209,
+    "highest_odi": 362,
+    "avg_powerplay": 60.2,
+    "toss_win_pct": 75.0
+  },
+  "County Ground, Chelmsford": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 279.7,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 320,
+    "avg_powerplay": 0,
+    "toss_win_pct": 33.3
+  },
+  "Mulpani Cricket Ground": {
+    "avg_t20_1st": 151.9,
+    "avg_odi_1st": 236.0,
+    "chase_win_pct": 57.1,
+    "highest_t20": 213,
+    "highest_odi": 236,
+    "avg_powerplay": 41.6,
+    "toss_win_pct": 57.1
+  },
+  "Sedgars Park, Potchefstroom": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 338.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 338,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Manuka Oval, Canberra": {
+    "avg_t20_1st": 127.0,
+    "avg_odi_1st": 86.0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 178,
+    "highest_odi": 87,
+    "avg_powerplay": 41.3,
+    "toss_win_pct": 40.0
+  },
+  "Takashinga Sports Club, Highfield, Harare": {
+    "avg_t20_1st": 140.1,
+    "avg_odi_1st": 245.4,
+    "chase_win_pct": 55.6,
+    "highest_t20": 196,
+    "highest_odi": 374,
+    "avg_powerplay": 41.2,
+    "toss_win_pct": 73.7
+  },
+  "Brian Lara Stadium, Tarouba, Trinidad": {
+    "avg_t20_1st": 146.6,
+    "avg_odi_1st": 274.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 267,
+    "highest_odi": 351,
+    "avg_powerplay": 45.0,
+    "toss_win_pct": 57.1
+  },
+  "Saxton Oval, Nelson": {
+    "avg_t20_1st": 144.3,
+    "avg_odi_1st": 291.0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 218,
+    "highest_odi": 296,
+    "avg_powerplay": 48.0,
+    "toss_win_pct": 50.0
+  },
+  "McLean Park, Napier": {
+    "avg_t20_1st": 147.0,
+    "avg_odi_1st": 235.8,
+    "chase_win_pct": 60.0,
+    "highest_t20": 160,
+    "highest_odi": 344,
+    "avg_powerplay": 45.5,
+    "toss_win_pct": 50.0
+  },
+  "University Oval, Dunedin": {
+    "avg_t20_1st": 160.0,
+    "avg_odi_1st": 239.0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 224,
+    "highest_odi": 239,
+    "avg_powerplay": 57.4,
+    "toss_win_pct": 60.0
+  },
+  "Forthill, Dundee": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 245.4,
+    "chase_win_pct": 54.5,
+    "highest_t20": 0,
+    "highest_odi": 374,
+    "avg_powerplay": 0,
+    "toss_win_pct": 41.7
+  },
+  "Zayed Cricket Stadium, Abu Dhabi": {
+    "avg_t20_1st": 148.1,
+    "avg_odi_1st": 299.3,
+    "chase_win_pct": 59.1,
+    "highest_t20": 195,
+    "highest_odi": 343,
+    "avg_powerplay": 41.9,
+    "toss_win_pct": 72.7
+  },
+  "Warner Park, Basseterre, St Kitts": {
+    "avg_t20_1st": 178.2,
+    "avg_odi_1st": 280.7,
+    "chase_win_pct": 100.0,
+    "highest_t20": 215,
+    "highest_odi": 325,
+    "avg_powerplay": 57.4,
+    "toss_win_pct": 87.5
+  },
+  "Barabati Stadium, Cuttack": {
+    "avg_t20_1st": 161.5,
+    "avg_odi_1st": 275.0,
+    "chase_win_pct": 75.0,
+    "highest_t20": 175,
+    "highest_odi": 308,
+    "avg_powerplay": 39.0,
+    "toss_win_pct": 25.0
+  },
+  "Sportpark Westvliet, The Hague": {
+    "avg_t20_1st": 154.2,
+    "avg_odi_1st": 245.0,
+    "chase_win_pct": 25.0,
+    "highest_t20": 168,
+    "highest_odi": 304,
+    "avg_powerplay": 44.1,
+    "toss_win_pct": 25.0
+  },
+  "Maple Leaf North-West Ground, King City": {
+    "avg_t20_1st": 126.7,
+    "avg_odi_1st": 217.3,
+    "chase_win_pct": 50.0,
+    "highest_t20": 205,
+    "highest_odi": 276,
+    "avg_powerplay": 46.2,
+    "toss_win_pct": 46.2
+  },
+  "Grand Prairie Stadium, Dallas": {
+    "avg_t20_1st": 153.3,
+    "avg_odi_1st": 184.4,
+    "chase_win_pct": 66.7,
+    "highest_t20": 197,
+    "highest_odi": 317,
+    "avg_powerplay": 33.8,
+    "toss_win_pct": 41.7
+  },
+  "Castle Avenue, Dublin": {
+    "avg_t20_1st": 164.4,
+    "avg_odi_1st": 346.7,
+    "chase_win_pct": 57.1,
+    "highest_t20": 195,
+    "highest_odi": 385,
+    "avg_powerplay": 46.4,
+    "toss_win_pct": 37.5
+  },
+  "Great Barrier Reef Arena, Mackay": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 354.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 431,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Central Broward Regional Park Stadium Turf Ground, Lauderhill": {
+    "avg_t20_1st": 166.6,
+    "avg_odi_1st": 272.5,
+    "chase_win_pct": 33.3,
+    "highest_t20": 191,
+    "highest_odi": 361,
+    "avg_powerplay": 47.6,
+    "toss_win_pct": 43.8
+  },
+  "Kotambi Stadium, Vadodara": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 300.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 306,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Niranjan Shah Stadium, Rajkot": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 284.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 286,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Sky Stadium, Wellington": {
+    "avg_t20_1st": 169.0,
+    "avg_odi_1st": 222.0,
+    "chase_win_pct": 75.0,
+    "highest_t20": 216,
+    "highest_odi": 226,
+    "avg_powerplay": 59.3,
+    "toss_win_pct": 75.0
+  },
+  "Namibia Cricket Ground, Windhoek": {
+    "avg_t20_1st": 115.8,
+    "avg_odi_1st": 209.5,
+    "chase_win_pct": 85.7,
+    "highest_t20": 146,
+    "highest_odi": 274,
+    "avg_powerplay": 44.2,
+    "toss_win_pct": 50.0
+  },
+  "St Lawrence Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 250.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 254,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Docklands Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 278.6,
+    "chase_win_pct": 20.0,
+    "highest_t20": 0,
+    "highest_odi": 328,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Nehru Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 258.6,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 321,
+    "avg_powerplay": 0,
+    "toss_win_pct": 25.0
+  },
+  "Sardar Patel (Gujarat) Stadium, Motera": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 300.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 319,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Madhavrao Scindia Cricket Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 313.5,
+    "chase_win_pct": 25.0,
+    "highest_t20": 0,
+    "highest_odi": 414,
+    "avg_powerplay": 0,
+    "toss_win_pct": 25.0
+  },
+  "Reliance Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 227.0,
+    "chase_win_pct": 75.0,
+    "highest_t20": 0,
+    "highest_odi": 292,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "John Davies Oval": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 164.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 166,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Jade Stadium": {
+    "avg_t20_1st": 193.0,
+    "avg_odi_1st": 214.3,
+    "chase_win_pct": 50.0,
+    "highest_t20": 193,
+    "highest_odi": 276,
+    "avg_powerplay": 54.5,
+    "toss_win_pct": 100.0
+  },
+  "Arbab Niaz Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 274.7,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 328,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Narayanganj Osmani Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 187.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 250,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Queenstown Events Centre": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 147.2,
+    "chase_win_pct": 66.7,
+    "highest_t20": 0,
+    "highest_odi": 283,
+    "avg_powerplay": 0,
+    "toss_win_pct": 40.0
+  },
+  "Nahar Singh Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 226.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 230,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Nehru Stadium, Fatorda": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 262.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 294,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Keenan Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 223.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 227,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Maharani Usharaje Trust Cricket Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 290.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 292,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Gymkhana Club Ground": {
+    "avg_t20_1st": 140.3,
+    "avg_odi_1st": 197.2,
+    "chase_win_pct": 73.3,
+    "highest_t20": 191,
+    "highest_odi": 303,
+    "avg_powerplay": 49.3,
+    "toss_win_pct": 46.7
+  },
+  "Sawai Mansingh Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 241.8,
+    "chase_win_pct": 70.0,
+    "highest_t20": 0,
+    "highest_odi": 362,
+    "avg_powerplay": 0,
+    "toss_win_pct": 30.0
+  },
+  "Goodyear Park": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 201.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 202,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Sedgars Park": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 326.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 418,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Willowmoore Park": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 242.7,
+    "chase_win_pct": 60.0,
+    "highest_t20": 0,
+    "highest_odi": 399,
+    "avg_powerplay": 0,
+    "toss_win_pct": 40.0
+  },
+  "Ruaraka Sports Club Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 194.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 198,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Jaffery Sports Club Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 250.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 250,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Indian Petrochemicals Corporation Limited Sports Complex Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 341.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 341,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Andhra Cricket Association-Visakhapatnam District Cricket Association Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 259.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 263,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Titwood": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 203.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 212,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Sector 16 Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 291.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 291,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Vidarbha Cricket Association Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 317.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 317,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Captain Roop Singh Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 328.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 401,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Maple Leaf North-West Ground": {
+    "avg_t20_1st": 134.5,
+    "avg_odi_1st": 131.0,
+    "chase_win_pct": 80.0,
+    "highest_t20": 141,
+    "highest_odi": 201,
+    "avg_powerplay": 45.2,
+    "toss_win_pct": 66.7
+  },
+  "Cambusdoon New Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 141.0,
+    "chase_win_pct": 0,
+    "highest_t20": 0,
+    "highest_odi": 141,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Niaz Stadium, Hyderabad": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 238.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 239,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Sheikhupura Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 181.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 187,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Marrara Cricket Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 189.7,
+    "chase_win_pct": 33.3,
+    "highest_t20": 0,
+    "highest_odi": 254,
+    "avg_powerplay": 0,
+    "toss_win_pct": 33.3
+  },
+  "Dubai Sports City Cricket Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 187.5,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 208,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "VRA Ground": {
+    "avg_t20_1st": 172.2,
+    "avg_odi_1st": 195.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 221,
+    "highest_odi": 236,
+    "avg_powerplay": 53.5,
+    "toss_win_pct": 50.0
+  },
+  "Toronto Cricket, Skating and Curling Club": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 175.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 175,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Chevrolet Park": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 290.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 315,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "De Beers Diamond Oval": {
+    "avg_t20_1st": 194.0,
+    "avg_odi_1st": 289.0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 194,
+    "highest_odi": 304,
+    "avg_powerplay": 51.0,
+    "toss_win_pct": 33.3
+  },
+  "Mombasa Sports Club Ground": {
+    "avg_t20_1st": 115.0,
+    "avg_odi_1st": 218.5,
+    "chase_win_pct": 60.0,
+    "highest_t20": 132,
+    "highest_odi": 237,
+    "avg_powerplay": 33.8,
+    "toss_win_pct": 60.0
+  },
+  "Jade Stadium, Christchurch": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 108.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 109,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Davies Park, Queenstown": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 122.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 123,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Westpac Stadium, Wellington": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 168.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 169,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Westpac Park, Hamilton": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 122.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 125,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Queen's Park (New), St George's, Grenada": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 249.5,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 254,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Arnos Vale Ground, Kingstown, St Vincent": {
+    "avg_t20_1st": 140.8,
+    "avg_odi_1st": 191.0,
+    "chase_win_pct": 14.3,
+    "highest_t20": 189,
+    "highest_odi": 191,
+    "avg_powerplay": 36.9,
+    "toss_win_pct": 28.6
+  },
+  "Bundaberg Rum Stadium, Cairns": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 126.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 148,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Carisbrook": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 259.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 264,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Queen's Park Oval": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 57.0,
+    "chase_win_pct": 0,
+    "highest_t20": 0,
+    "highest_odi": 57,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Daren Sammy National Cricket Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 280.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 282,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Arnos Vale Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 134.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 145,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "National Cricket Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 118.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 119,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Sinhalese Sports Club": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 282.5,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 308,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Goodyear Park, Bloemfontein": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 215.8,
+    "chase_win_pct": 60.0,
+    "highest_t20": 0,
+    "highest_odi": 314,
+    "avg_powerplay": 0,
+    "toss_win_pct": 40.0
+  },
+  "North West Cricket Stadium, Potchefstroom": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 220.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 301,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "Boland Bank Park, Paarl": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 164.3,
+    "chase_win_pct": 33.3,
+    "highest_t20": 0,
+    "highest_odi": 253,
+    "avg_powerplay": 0,
+    "toss_win_pct": 66.7
+  },
+  "De Beers Diamond Oval, Kimberley": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 226.5,
+    "chase_win_pct": 50.0,
+    "highest_t20": 0,
+    "highest_odi": 255,
+    "avg_powerplay": 0,
+    "toss_win_pct": 50.0
+  },
+  "City Oval, Pietermaritzburg": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 311.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 311,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Gymkhana Club Ground, Nairobi": {
+    "avg_t20_1st": 131.1,
+    "avg_odi_1st": 210.0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 286,
+    "highest_odi": 210,
+    "avg_powerplay": 38.9,
+    "toss_win_pct": 50.0
+  },
+  "Sharjah Cricket Association Stadium": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 232.7,
+    "chase_win_pct": 57.1,
+    "highest_t20": 0,
+    "highest_odi": 286,
+    "avg_powerplay": 0,
+    "toss_win_pct": 42.9
+  },
+  "St Lawrence Ground, Canterbury": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 272.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 272,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "The Royal & Sun Alliance County Ground, Bristol": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 92.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 95,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Captain Roop Singh Stadium, Gwalior": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 283.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 283,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Nahar Singh Stadium, Faridabad": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 97.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 101,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Nehru Stadium, Poona": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 258.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 259,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Lal Bahadur Shastri Stadium, Hyderabad, Deccan": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 353.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 353,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "VRA Cricket Ground": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 183.5,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 192,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Bert Sutcliffe Oval": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 265.0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 0,
+    "highest_odi": 266,
+    "avg_powerplay": 0,
+    "toss_win_pct": 100.0
+  },
+  "Clontarf Cricket Club Ground, Dublin": {
+    "avg_t20_1st": 0,
+    "avg_odi_1st": 219.0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 0,
+    "highest_odi": 219,
+    "avg_powerplay": 0,
+    "toss_win_pct": 0.0
+  },
+  "Simonds Stadium, South Geelong": {
+    "avg_t20_1st": 173.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 176,
+    "highest_odi": 0,
+    "avg_powerplay": 52.5,
+    "toss_win_pct": 100.0
+  },
+  "Hazelaarweg": {
+    "avg_t20_1st": 160.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 25.0,
+    "highest_t20": 199,
+    "highest_odi": 0,
+    "avg_powerplay": 44.1,
+    "toss_win_pct": 20.0
+  },
+  "Carrara Oval": {
+    "avg_t20_1st": 140.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 167,
+    "highest_odi": 0,
+    "avg_powerplay": 54.7,
+    "toss_win_pct": 33.3
+  },
+  "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium": {
+    "avg_t20_1st": 195.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 195,
+    "highest_odi": 0,
+    "avg_powerplay": 44.0,
+    "toss_win_pct": 0.0
+  },
+  "Warner Park, St Kitts": {
+    "avg_t20_1st": 134.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 182,
+    "highest_odi": 0,
+    "avg_powerplay": 38.4,
+    "toss_win_pct": 25.0
+  },
+  "Tolerance Oval": {
+    "avg_t20_1st": 126.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 55.6,
+    "highest_t20": 183,
+    "highest_odi": 0,
+    "avg_powerplay": 40.4,
+    "toss_win_pct": 44.4
+  },
+  "Bready": {
+    "avg_t20_1st": 171.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 172,
+    "highest_odi": 0,
+    "avg_powerplay": 52.5,
+    "toss_win_pct": 100.0
+  },
+  "Amini Park": {
+    "avg_t20_1st": 133.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 216,
+    "highest_odi": 0,
+    "avg_powerplay": 39.7,
+    "toss_win_pct": 16.7
+  },
+  "Sportpark Maarschalkerweerd": {
+    "avg_t20_1st": 130.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 135,
+    "highest_odi": 0,
+    "avg_powerplay": 37.5,
+    "toss_win_pct": 100.0
+  },
+  "Kyambogo Cricket Oval": {
+    "avg_t20_1st": 115.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 167,
+    "highest_odi": 0,
+    "avg_powerplay": 36.3,
+    "toss_win_pct": 33.3
+  },
+  "Lugogo Cricket Oval": {
+    "avg_t20_1st": 135.3,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 145,
+    "highest_odi": 0,
+    "avg_powerplay": 35.0,
+    "toss_win_pct": 66.7
+  },
+  "King George V Sports Ground": {
+    "avg_t20_1st": 125.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 37.5,
+    "highest_t20": 160,
+    "highest_odi": 0,
+    "avg_powerplay": 35.9,
+    "toss_win_pct": 66.7
+  },
+  "College Field": {
+    "avg_t20_1st": 120.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 149,
+    "highest_odi": 0,
+    "avg_powerplay": 41.6,
+    "toss_win_pct": 40.0
+  },
+  "Indian Association Ground": {
+    "avg_t20_1st": 150.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 57.1,
+    "highest_t20": 197,
+    "highest_odi": 0,
+    "avg_powerplay": 47.5,
+    "toss_win_pct": 50.0
+  },
+  "Sportpark Westvliet": {
+    "avg_t20_1st": 140.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 153,
+    "highest_odi": 0,
+    "avg_powerplay": 39.3,
+    "toss_win_pct": 0.0
+  },
+  "White Hill Field, Sandys Parish": {
+    "avg_t20_1st": 132.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 58.3,
+    "highest_t20": 196,
+    "highest_odi": 0,
+    "avg_powerplay": 38.6,
+    "toss_win_pct": 33.3
+  },
+  "Bermuda National Stadium": {
+    "avg_t20_1st": 141.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 142,
+    "highest_odi": 0,
+    "avg_powerplay": 42.0,
+    "toss_win_pct": 100.0
+  },
+  "United Cricket Club Ground": {
+    "avg_t20_1st": 173.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 25.0,
+    "highest_t20": 240,
+    "highest_odi": 0,
+    "avg_powerplay": 43.1,
+    "toss_win_pct": 25.0
+  },
+  "ICC Academy Ground No 2": {
+    "avg_t20_1st": 155.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 197,
+    "highest_odi": 0,
+    "avg_powerplay": 41.8,
+    "toss_win_pct": 60.0
+  },
+  "La Manga Club Bottom Ground": {
+    "avg_t20_1st": 101.1,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 88.9,
+    "highest_t20": 151,
+    "highest_odi": 0,
+    "avg_powerplay": 34.6,
+    "toss_win_pct": 50.0
+  },
+  "Desert Springs Cricket Ground": {
+    "avg_t20_1st": 159.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 180,
+    "highest_odi": 0,
+    "avg_powerplay": 40.5,
+    "toss_win_pct": 50.0
+  },
+  "Terdthai Cricket Ground": {
+    "avg_t20_1st": 132.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 239,
+    "highest_odi": 0,
+    "avg_powerplay": 42.0,
+    "toss_win_pct": 25.0
+  },
+  "Pierre Werner Cricket Ground": {
+    "avg_t20_1st": 163.3,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 16.7,
+    "highest_t20": 184,
+    "highest_odi": 0,
+    "avg_powerplay": 34.4,
+    "toss_win_pct": 66.7
+  },
+  "Sky Stadium": {
+    "avg_t20_1st": 142.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 143,
+    "highest_odi": 0,
+    "avg_powerplay": 49.0,
+    "toss_win_pct": 0.0
+  },
+  "Moara Vlasiei Cricket Ground": {
+    "avg_t20_1st": 112.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 148,
+    "highest_odi": 0,
+    "avg_powerplay": 40.5,
+    "toss_win_pct": 66.7
+  },
+  "Coolidge Cricket Ground, Antigua": {
+    "avg_t20_1st": 156.2,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 245,
+    "highest_odi": 0,
+    "avg_powerplay": 40.4,
+    "toss_win_pct": 54.5
+  },
+  "Wanderers": {
+    "avg_t20_1st": 134.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 135,
+    "highest_odi": 0,
+    "avg_powerplay": 46.0,
+    "toss_win_pct": 0.0
+  },
+  "Scott Page Field, Vinor": {
+    "avg_t20_1st": 154.3,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 61.1,
+    "highest_t20": 224,
+    "highest_odi": 0,
+    "avg_powerplay": 43.6,
+    "toss_win_pct": 52.6
+  },
+  "National Sports Academy, Sofia": {
+    "avg_t20_1st": 154.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 86.7,
+    "highest_t20": 246,
+    "highest_odi": 0,
+    "avg_powerplay": 55.0,
+    "toss_win_pct": 50.0
+  },
+  "Marsa Sports Club": {
+    "avg_t20_1st": 160.1,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 59.6,
+    "highest_t20": 258,
+    "highest_odi": 0,
+    "avg_powerplay": 48.3,
+    "toss_win_pct": 47.4
+  },
+  "Bayer Uerdingen Cricket Ground": {
+    "avg_t20_1st": 141.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 42.9,
+    "highest_t20": 233,
+    "highest_odi": 0,
+    "avg_powerplay": 43.3,
+    "toss_win_pct": 57.1
+  },
+  "Bready Cricket Club, Magheramason, Bready": {
+    "avg_t20_1st": 183.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 256,
+    "highest_odi": 0,
+    "avg_powerplay": 47.2,
+    "toss_win_pct": 25.0
+  },
+  "Svanholm Park, Brondby": {
+    "avg_t20_1st": 138.3,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 63.6,
+    "highest_t20": 198,
+    "highest_odi": 0,
+    "avg_powerplay": 37.5,
+    "toss_win_pct": 63.6
+  },
+  "Gucherre Cricket Ground": {
+    "avg_t20_1st": 187.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 218,
+    "highest_odi": 0,
+    "avg_powerplay": 43.3,
+    "toss_win_pct": 33.3
+  },
+  "Gahanga International Cricket Stadium. Rwanda": {
+    "avg_t20_1st": 119.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 68.8,
+    "highest_t20": 242,
+    "highest_odi": 0,
+    "avg_powerplay": 39.4,
+    "toss_win_pct": 53.8
+  },
+  "Kerava National Cricket Ground": {
+    "avg_t20_1st": 138.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 56.7,
+    "highest_t20": 214,
+    "highest_odi": 0,
+    "avg_powerplay": 40.9,
+    "toss_win_pct": 53.3
+  },
+  "Entebbe Cricket Oval": {
+    "avg_t20_1st": 133.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 31.6,
+    "highest_t20": 180,
+    "highest_odi": 0,
+    "avg_powerplay": 37.7,
+    "toss_win_pct": 73.7
+  },
+  "Desert Springs Cricket Ground, Almeria": {
+    "avg_t20_1st": 121.1,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 55.6,
+    "highest_t20": 165,
+    "highest_odi": 0,
+    "avg_powerplay": 33.6,
+    "toss_win_pct": 29.6
+  },
+  "Moara Vlasiei Cricket Ground, Ilfov County": {
+    "avg_t20_1st": 164.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 211,
+    "highest_odi": 0,
+    "avg_powerplay": 52.4,
+    "toss_win_pct": 41.2
+  },
+  "Sawai Mansingh Stadium, Jaipur": {
+    "avg_t20_1st": 164.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 166,
+    "highest_odi": 0,
+    "avg_powerplay": 48.5,
+    "toss_win_pct": 100.0
+  },
+  "Happy Valley Ground": {
+    "avg_t20_1st": 146.2,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 64.3,
+    "highest_t20": 198,
+    "highest_odi": 0,
+    "avg_powerplay": 42.6,
+    "toss_win_pct": 57.1
+  },
+  "Integrated Polytechnic Regional Centre": {
+    "avg_t20_1st": 125.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 48.4,
+    "highest_t20": 237,
+    "highest_odi": 0,
+    "avg_powerplay": 38.4,
+    "toss_win_pct": 61.8
+  },
+  "University of Lagos Cricket Oval": {
+    "avg_t20_1st": 125.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 37.5,
+    "highest_t20": 185,
+    "highest_odi": 0,
+    "avg_powerplay": 29.9,
+    "toss_win_pct": 62.5
+  },
+  "West End Park International Cricket Stadium, Doha": {
+    "avg_t20_1st": 147.3,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 54.3,
+    "highest_t20": 215,
+    "highest_odi": 0,
+    "avg_powerplay": 44.4,
+    "toss_win_pct": 50.0
+  },
+  "GMHBA Stadium, South Geelong, Victoria": {
+    "avg_t20_1st": 142.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 163,
+    "highest_odi": 0,
+    "avg_powerplay": 37.8,
+    "toss_win_pct": 33.3
+  },
+  "College Field, St Peter Port": {
+    "avg_t20_1st": 178.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 178,
+    "highest_odi": 0,
+    "avg_powerplay": 47.0,
+    "toss_win_pct": 0.0
+  },
+  "Meersen, Gent": {
+    "avg_t20_1st": 124.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 154,
+    "highest_odi": 0,
+    "avg_powerplay": 41.8,
+    "toss_win_pct": 40.0
+  },
+  "Royal Brussels Cricket Club Ground, Waterloo": {
+    "avg_t20_1st": 154.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 256,
+    "highest_odi": 0,
+    "avg_powerplay": 44.6,
+    "toss_win_pct": 20.0
+  },
+  "Tikkurila Cricket Ground": {
+    "avg_t20_1st": 134.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 183,
+    "highest_odi": 0,
+    "avg_powerplay": 37.1,
+    "toss_win_pct": 33.3
+  },
+  "Indian Association Ground, Singapore": {
+    "avg_t20_1st": 161.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 206,
+    "highest_odi": 0,
+    "avg_powerplay": 45.9,
+    "toss_win_pct": 60.0
+  },
+  "UKM-YSD Cricket Oval, Bangi": {
+    "avg_t20_1st": 125.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 223,
+    "highest_odi": 0,
+    "avg_powerplay": 41.1,
+    "toss_win_pct": 45.5
+  },
+  "John Davies Oval, Queenstown": {
+    "avg_t20_1st": 182.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 183,
+    "highest_odi": 0,
+    "avg_powerplay": 53.0,
+    "toss_win_pct": 100.0
+  },
+  "Lisicji Jarak Cricket Ground": {
+    "avg_t20_1st": 187.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 60.0,
+    "highest_t20": 226,
+    "highest_odi": 0,
+    "avg_powerplay": 47.4,
+    "toss_win_pct": 40.0
+  },
+  "Independence Park, Port Vila": {
+    "avg_t20_1st": 143.1,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 70.0,
+    "highest_t20": 167,
+    "highest_odi": 0,
+    "avg_powerplay": 45.7,
+    "toss_win_pct": 30.0
+  },
+  "Sano International Cricket Ground": {
+    "avg_t20_1st": 143.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 45.0,
+    "highest_t20": 253,
+    "highest_odi": 0,
+    "avg_powerplay": 37.1,
+    "toss_win_pct": 42.9
+  },
+  "Gahanga International Cricket Stadium, Rwanda": {
+    "avg_t20_1st": 143.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 45.2,
+    "highest_t20": 229,
+    "highest_odi": 0,
+    "avg_powerplay": 43.8,
+    "toss_win_pct": 33.3
+  },
+  "St Albans Club, Buenos Aires": {
+    "avg_t20_1st": 119.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 46.7,
+    "highest_t20": 224,
+    "highest_odi": 0,
+    "avg_powerplay": 34.6,
+    "toss_win_pct": 35.3
+  },
+  "Belgrano Athletic Club Ground, Buenos Aires": {
+    "avg_t20_1st": 151.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 226,
+    "highest_odi": 0,
+    "avg_powerplay": 38.9,
+    "toss_win_pct": 40.0
+  },
+  "Hurlingham Club Ground, Buenos Aires": {
+    "avg_t20_1st": 122.3,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 161,
+    "highest_odi": 0,
+    "avg_powerplay": 34.7,
+    "toss_win_pct": 53.3
+  },
+  "Mission Road Ground, Mong Kok, Hong Kong": {
+    "avg_t20_1st": 158.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 44.8,
+    "highest_t20": 258,
+    "highest_odi": 0,
+    "avg_powerplay": 46.6,
+    "toss_win_pct": 45.2
+  },
+  "Santarem Cricket Ground": {
+    "avg_t20_1st": 158.1,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 208,
+    "highest_odi": 0,
+    "avg_powerplay": 46.4,
+    "toss_win_pct": 40.0
+  },
+  "Europa Sports Complex": {
+    "avg_t20_1st": 140.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 58.8,
+    "highest_t20": 176,
+    "highest_odi": 0,
+    "avg_powerplay": 40.2,
+    "toss_win_pct": 52.9
+  },
+  "Solvangs Park, Glostrup": {
+    "avg_t20_1st": 99.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 106,
+    "highest_odi": 0,
+    "avg_powerplay": 32.5,
+    "toss_win_pct": 0.0
+  },
+  "Sportpark Het Schootsveld, Deventer": {
+    "avg_t20_1st": 133.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 80.0,
+    "highest_t20": 172,
+    "highest_odi": 0,
+    "avg_powerplay": 39.7,
+    "toss_win_pct": 80.0
+  },
+  "Goldenacre, Edinburgh": {
+    "avg_t20_1st": 153.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 37.5,
+    "highest_t20": 234,
+    "highest_odi": 0,
+    "avg_powerplay": 46.1,
+    "toss_win_pct": 25.0
+  },
+  "Bayuemas Oval, Kuala Lumpur": {
+    "avg_t20_1st": 122.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.8,
+    "highest_t20": 219,
+    "highest_odi": 0,
+    "avg_powerplay": 38.6,
+    "toss_win_pct": 53.7
+  },
+  "Malahide, Dublin": {
+    "avg_t20_1st": 162.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 185,
+    "highest_odi": 0,
+    "avg_powerplay": 38.2,
+    "toss_win_pct": 50.0
+  },
+  "GB Oval, Szodliget": {
+    "avg_t20_1st": 167.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 41.7,
+    "highest_t20": 245,
+    "highest_odi": 0,
+    "avg_powerplay": 49.4,
+    "toss_win_pct": 46.2
+  },
+  "Zhejiang University of Technology Cricket Field": {
+    "avg_t20_1st": 156.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 314,
+    "highest_odi": 0,
+    "avg_powerplay": 43.8,
+    "toss_win_pct": 66.7
+  },
+  "National Stadium, Hamilton": {
+    "avg_t20_1st": 164.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 20.0,
+    "highest_t20": 230,
+    "highest_odi": 0,
+    "avg_powerplay": 37.3,
+    "toss_win_pct": 100.0
+  },
+  "Tafawa Balewa Square Cricket Oval, Lagos": {
+    "avg_t20_1st": 117.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 38.1,
+    "highest_t20": 271,
+    "highest_odi": 0,
+    "avg_powerplay": 30.5,
+    "toss_win_pct": 59.1
+  },
+  "St Georges Quilmes": {
+    "avg_t20_1st": 82.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 125,
+    "highest_odi": 0,
+    "avg_powerplay": 29.0,
+    "toss_win_pct": 33.3
+  },
+  "Udayana Cricket Ground": {
+    "avg_t20_1st": 127.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 65.3,
+    "highest_t20": 246,
+    "highest_odi": 0,
+    "avg_powerplay": 39.7,
+    "toss_win_pct": 47.4
+  },
+  "Nassau County International Cricket Stadium, New York": {
+    "avg_t20_1st": 107.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 62.5,
+    "highest_t20": 137,
+    "highest_odi": 0,
+    "avg_powerplay": 29.2,
+    "toss_win_pct": 62.5
+  },
+  "Terdthai Cricket Ground, Bangkok": {
+    "avg_t20_1st": 132.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 55.8,
+    "highest_t20": 221,
+    "highest_odi": 0,
+    "avg_powerplay": 41.3,
+    "toss_win_pct": 54.5
+  },
+  "University of Doha for Science and Technology": {
+    "avg_t20_1st": 157.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 46.2,
+    "highest_t20": 200,
+    "highest_odi": 0,
+    "avg_powerplay": 46.3,
+    "toss_win_pct": 38.5
+  },
+  "Achimota Senior Secondary School A Field, Accra": {
+    "avg_t20_1st": 128.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 57.1,
+    "highest_t20": 237,
+    "highest_odi": 0,
+    "avg_powerplay": 36.1,
+    "toss_win_pct": 78.6
+  },
+  "Achimota Senior Secondary School B Field, Accra": {
+    "avg_t20_1st": 145.1,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 41.7,
+    "highest_t20": 236,
+    "highest_odi": 0,
+    "avg_powerplay": 40.0,
+    "toss_win_pct": 58.3
+  },
+  "Prairie View Cricket Complex": {
+    "avg_t20_1st": 155.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 57.1,
+    "highest_t20": 230,
+    "highest_odi": 0,
+    "avg_powerplay": 47.1,
+    "toss_win_pct": 42.9
+  },
+  "La Manga Club Top Ground": {
+    "avg_t20_1st": 153.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 71.4,
+    "highest_t20": 290,
+    "highest_odi": 0,
+    "avg_powerplay": 45.4,
+    "toss_win_pct": 71.4
+  },
+  "Los Reyes Polo Club": {
+    "avg_t20_1st": 105.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 120,
+    "highest_odi": 0,
+    "avg_powerplay": 23.2,
+    "toss_win_pct": 75.0
+  },
+  "Dreux Sport Cricket Club": {
+    "avg_t20_1st": 143.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 170,
+    "highest_odi": 0,
+    "avg_powerplay": 39.2,
+    "toss_win_pct": 42.9
+  },
+  "Roma Cricket Ground": {
+    "avg_t20_1st": 140.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 175,
+    "highest_odi": 0,
+    "avg_powerplay": 40.8,
+    "toss_win_pct": 25.0
+  },
+  "Simar Cricket Ground, Rome": {
+    "avg_t20_1st": 149.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 244,
+    "highest_odi": 0,
+    "avg_powerplay": 43.3,
+    "toss_win_pct": 25.0
+  },
+  "Shrimant Madhavrao Scindia Cricket Stadium, Gwalior": {
+    "avg_t20_1st": 127.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 132,
+    "highest_odi": 0,
+    "avg_powerplay": 55.0,
+    "toss_win_pct": 100.0
+  },
+  "King George V Sports Ground, Castel": {
+    "avg_t20_1st": 153.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 57.1,
+    "highest_t20": 225,
+    "highest_odi": 0,
+    "avg_powerplay": 44.2,
+    "toss_win_pct": 68.8
+  },
+  "Guernsey Rovers Athletic Club Ground, Port Soif": {
+    "avg_t20_1st": 128.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 61.5,
+    "highest_t20": 199,
+    "highest_odi": 0,
+    "avg_powerplay": 40.8,
+    "toss_win_pct": 30.8
+  },
+  "Sikh Union Club Ground, Nairobi": {
+    "avg_t20_1st": 153.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 54.5,
+    "highest_t20": 182,
+    "highest_odi": 0,
+    "avg_powerplay": 46.9,
+    "toss_win_pct": 54.5
+  },
+  "Mladost Cricket Ground, Zagreb": {
+    "avg_t20_1st": 148.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 55.6,
+    "highest_t20": 230,
+    "highest_odi": 0,
+    "avg_powerplay": 36.4,
+    "toss_win_pct": 44.4
+  },
+  "Faleata Oval No 2, Apia": {
+    "avg_t20_1st": 147.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 186,
+    "highest_odi": 0,
+    "avg_powerplay": 43.2,
+    "toss_win_pct": 41.7
+  },
+  "Selangor Turf Club, Kuala Lumpur": {
+    "avg_t20_1st": 135.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 71.4,
+    "highest_t20": 169,
+    "highest_odi": 0,
+    "avg_powerplay": 44.0,
+    "toss_win_pct": 71.4
+  },
+  "YSD-UKM Cricket Oval, Bangi": {
+    "avg_t20_1st": 109.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 226,
+    "highest_odi": 0,
+    "avg_powerplay": 34.4,
+    "toss_win_pct": 70.0
+  },
+  "Gymkhana Club Ground, Dar-es-Salaam": {
+    "avg_t20_1st": 81.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 57.1,
+    "highest_t20": 148,
+    "highest_odi": 0,
+    "avg_powerplay": 29.3,
+    "toss_win_pct": 14.3
+  },
+  "University of Dar-es-Salaam Ground": {
+    "avg_t20_1st": 66.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 71.4,
+    "highest_t20": 133,
+    "highest_odi": 0,
+    "avg_powerplay": 26.7,
+    "toss_win_pct": 57.1
+  },
+  "Yeonhui Cricket Ground, Incheon": {
+    "avg_t20_1st": 124.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 21.4,
+    "highest_t20": 178,
+    "highest_odi": 0,
+    "avg_powerplay": 32.8,
+    "toss_win_pct": 57.1
+  },
+  "Sao Fernando Polo and Cricket Club": {
+    "avg_t20_1st": 116.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 132,
+    "highest_odi": 0,
+    "avg_powerplay": 37.8,
+    "toss_win_pct": 50.0
+  },
+  "Gelephu International Cricket Ground": {
+    "avg_t20_1st": 138.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 38.9,
+    "highest_t20": 223,
+    "highest_odi": 0,
+    "avg_powerplay": 37.7,
+    "toss_win_pct": 38.9
+  },
+  "Ruaraka Sports Club Ground, Nairobi": {
+    "avg_t20_1st": 195.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 344,
+    "highest_odi": 0,
+    "avg_powerplay": 43.4,
+    "toss_win_pct": 50.0
+  },
+  "TCA Oval, Blantyre": {
+    "avg_t20_1st": 138.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 78.6,
+    "highest_t20": 219,
+    "highest_odi": 0,
+    "avg_powerplay": 50.6,
+    "toss_win_pct": 71.4
+  },
+  "Jinja Cricket Ground": {
+    "avg_t20_1st": 93.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 97,
+    "highest_odi": 0,
+    "avg_powerplay": 43.8,
+    "toss_win_pct": 0.0
+  },
+  "Nigeria Cricket Federation Oval 1, Abuja": {
+    "avg_t20_1st": 128.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 41.7,
+    "highest_t20": 179,
+    "highest_odi": 0,
+    "avg_powerplay": 36.5,
+    "toss_win_pct": 45.8
+  },
+  "Nigeria Cricket Federation Oval 2, Abuja": {
+    "avg_t20_1st": 109.8,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 181,
+    "highest_odi": 0,
+    "avg_powerplay": 34.5,
+    "toss_win_pct": 60.0
+  },
+  "St George's College Ground, Buenos Aires": {
+    "avg_t20_1st": 102.3,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 22.2,
+    "highest_t20": 149,
+    "highest_odi": 0,
+    "avg_powerplay": 27.0,
+    "toss_win_pct": 44.4
+  },
+  "Singapore National Cricket Ground": {
+    "avg_t20_1st": 148.2,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 62.5,
+    "highest_t20": 213,
+    "highest_odi": 0,
+    "avg_powerplay": 44.9,
+    "toss_win_pct": 52.9
+  },
+  "Marrara Stadium, Darwin": {
+    "avg_t20_1st": 198.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 218,
+    "highest_odi": 0,
+    "avg_powerplay": 56.8,
+    "toss_win_pct": 0.0
+  },
+  "Maharaja Yadavindra Singh International Cricket Stadium, New Chandigarh": {
+    "avg_t20_1st": 213.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 213,
+    "highest_odi": 0,
+    "avg_powerplay": 52.0,
+    "toss_win_pct": 0.0
+  },
+  "Clayton Panama, Panama City": {
+    "avg_t20_1st": 117.4,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 57.1,
+    "highest_t20": 174,
+    "highest_odi": 0,
+    "avg_powerplay": 36.6,
+    "toss_win_pct": 28.6
+  },
+  "Jimmy Powell Oval, Cayman Islands": {
+    "avg_t20_1st": 129.3,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 56.0,
+    "highest_t20": 217,
+    "highest_odi": 0,
+    "avg_powerplay": 42.1,
+    "toss_win_pct": 40.0
+  },
+  "Velden Cricket Ground, Latschach": {
+    "avg_t20_1st": 171.2,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 44.4,
+    "highest_t20": 216,
+    "highest_odi": 0,
+    "avg_powerplay": 48.3,
+    "toss_win_pct": 55.6
+  },
+  "Stars Arena Hofstade, Zemst": {
+    "avg_t20_1st": 139.6,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 71.4,
+    "highest_t20": 177,
+    "highest_odi": 0,
+    "avg_powerplay": 50.1,
+    "toss_win_pct": 14.3
+  },
+  "Ballpark Ground, Graz": {
+    "avg_t20_1st": 167.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 244,
+    "highest_odi": 0,
+    "avg_powerplay": 46.8,
+    "toss_win_pct": 50.0
+  },
+  "Grainville, St Saviour": {
+    "avg_t20_1st": 117.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 130,
+    "highest_odi": 0,
+    "avg_powerplay": 46.2,
+    "toss_win_pct": 100.0
+  },
+  "Ishoj Cricket Club, Vejledalen": {
+    "avg_t20_1st": 155.2,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 20.0,
+    "highest_t20": 198,
+    "highest_odi": 0,
+    "avg_powerplay": 37.4,
+    "toss_win_pct": 40.0
+  },
+  "Koge Cricket Club": {
+    "avg_t20_1st": 173.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 181,
+    "highest_odi": 0,
+    "avg_powerplay": 48.2,
+    "toss_win_pct": 50.0
+  },
+  "Maple Leaf North-East Ground, King City": {
+    "avg_t20_1st": 197.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 236,
+    "highest_odi": 0,
+    "avg_powerplay": 52.1,
+    "toss_win_pct": 100.0
+  },
+  "Sportpark Westvliet, Voorburg": {
+    "avg_t20_1st": 149.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 172,
+    "highest_odi": 0,
+    "avg_powerplay": 42.1,
+    "toss_win_pct": 75.0
+  },
+  "Vassil Levski National Sports Academy, Sofia": {
+    "avg_t20_1st": 204.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 85.7,
+    "highest_t20": 244,
+    "highest_odi": 0,
+    "avg_powerplay": 69.1,
+    "toss_win_pct": 71.4
+  },
+  "Estonian National Cricket and Rugby Field": {
+    "avg_t20_1st": 156.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 235,
+    "highest_odi": 0,
+    "avg_powerplay": 47.8,
+    "toss_win_pct": 80.0
+  },
+  "Botkyrka Cricket Center, Stockholm": {
+    "avg_t20_1st": 145.3,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 179,
+    "highest_odi": 0,
+    "avg_powerplay": 39.2,
+    "toss_win_pct": 33.3
+  },
+  "Stubberudmyra Cricket Ground, Oslo": {
+    "avg_t20_1st": 170.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 33.3,
+    "highest_t20": 204,
+    "highest_odi": 0,
+    "avg_powerplay": 47.3,
+    "toss_win_pct": 33.3
+  },
+  "Malkerns Country Club oval": {
+    "avg_t20_1st": 151.2,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 222,
+    "highest_odi": 0,
+    "avg_powerplay": 51.0,
+    "toss_win_pct": 60.0
+  },
+  "Bir Sreshtho Flight Lieutenant Matiur Rahman Stadium, Chattogram": {
+    "avg_t20_1st": 155.5,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 181,
+    "highest_odi": 0,
+    "avg_powerplay": 45.8,
+    "toss_win_pct": 33.3
+  },
+  "Happy Valley Ground 2": {
+    "avg_t20_1st": 146.9,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 55.6,
+    "highest_t20": 211,
+    "highest_odi": 0,
+    "avg_powerplay": 41.5,
+    "toss_win_pct": 33.3
+  },
+  "Sao Fernando Polo and Cricket Club, Campo Sede": {
+    "avg_t20_1st": 40.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0,
+    "highest_t20": 40,
+    "highest_odi": 0,
+    "avg_powerplay": 29.0,
+    "toss_win_pct": 0.0
+  },
+  "7he Sevens Stadium, Dubai": {
+    "avg_t20_1st": 154.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 66.7,
+    "highest_t20": 190,
+    "highest_odi": 0,
+    "avg_powerplay": 46.8,
+    "toss_win_pct": 66.7
+  },
+  "Botswana Cricket Association Oval 1, Gaborone": {
+    "avg_t20_1st": 104.2,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 40.0,
+    "highest_t20": 164,
+    "highest_odi": 0,
+    "avg_powerplay": 28.2,
+    "toss_win_pct": 80.0
+  },
+  "Reforma Athletic Club, Naucalpan": {
+    "avg_t20_1st": 123.7,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 204,
+    "highest_odi": 0,
+    "avg_powerplay": 38.9,
+    "toss_win_pct": 16.7
+  },
+  "Moses Mabhida Stadium": {
+    "avg_t20_1st": 168.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 168,
+    "highest_odi": 0,
+    "avg_powerplay": 58.0,
+    "toss_win_pct": 100.0
+  },
+  "Stadium Australia": {
+    "avg_t20_1st": 162.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 50.0,
+    "highest_t20": 195,
+    "highest_odi": 0,
+    "avg_powerplay": 43.9,
+    "toss_win_pct": 50.0
+  },
+  "Subrata Roy Sahara Stadium": {
+    "avg_t20_1st": 157.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 158,
+    "highest_odi": 0,
+    "avg_powerplay": 51.5,
+    "toss_win_pct": 100.0
+  },
+  "Sylhet Stadium": {
+    "avg_t20_1st": 147.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 100.0,
+    "highest_t20": 193,
+    "highest_odi": 0,
+    "avg_powerplay": 49.8,
+    "toss_win_pct": 66.7
+  },
+  "Tony Ireland Stadium": {
+    "avg_t20_1st": 106.0,
+    "avg_odi_1st": 0,
+    "chase_win_pct": 0.0,
+    "highest_t20": 116,
+    "highest_odi": 0,
+    "avg_powerplay": 42.0,
+    "toss_win_pct": 50.0
+  }
+}
