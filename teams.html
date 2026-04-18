@@ -1375,25 +1375,6 @@
       });
     });
 
-    // Format rank sub-tabs
-    document.querySelectorAll('[data-fmt-rank]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        btn.closest('div').querySelectorAll('[data-fmt-rank]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-
-    // Filter chips
-    document.querySelectorAll('[data-fmt]').forEach(c => {
-      c.addEventListener('click', () => {
-        document.querySelectorAll('[data-fmt]').forEach(x => x.classList.remove('active'));
-        c.classList.add('active');
-      });
-    });
-    document.querySelectorAll('[data-region]').forEach(c => {
-      c.addEventListener('click', () => { c.classList.toggle('active'); });
-    });
-
     document.querySelector('.nav-search').addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && this.value.trim())
         window.location.href = 'search.html?q=' + encodeURIComponent(this.value.trim());

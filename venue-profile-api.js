@@ -10,6 +10,7 @@ var _activeFmt = 't20';
 
 function d(v) { return (v == null || v === '' || v === 0) ? '—' : v; }
 function f1(v) { return (!v && v !== 0) ? '—' : Number(v).toFixed(1); }
+function normName(v) { return String(v || '').toLowerCase().replace(/[^a-z0-9]+/g, ''); }
 
 function flImg(country, size) {
   var code = COUNTRY_ISO[country] || '';
@@ -41,18 +42,18 @@ function renderVenueInfoCard(name, data, meta) {
   var location = [city, country].filter(Boolean).join(', ');
   var map = {
     'Full name':       name,
-    'Location':        location || country,
-    'Established':     (meta && meta.established) ? String(meta.established) : null,
-    'Capacity':        (meta && meta.capacity) ? Number(meta.capacity).toLocaleString() + ' (seated)' : null,
-    'Managed by':      (meta && meta.managed_by) || null,
-    'Ends':            (meta && meta.ends && meta.ends.join) ? meta.ends.join(' · ') : null,
-    'Notable events':  (meta && meta.notable_events && meta.notable_events.join) ? meta.notable_events.join(' · ') : null,
-    'Floodlights':     (meta && meta.floodlights !== undefined) ? (meta.floodlights ? 'Yes · Day/Night matches supported' : 'No') : null,
+    'Location':        location || '—',
+    'Established':     (meta && meta.established) ? String(meta.established) : '—',
+    'Capacity':        (meta && meta.capacity) ? Number(meta.capacity).toLocaleString() + ' (seated)' : '—',
+    'Managed by':      (meta && meta.managed_by) || '—',
+    'Ends':            (meta && meta.ends && meta.ends.join) ? meta.ends.join(' · ') : '—',
+    'Notable events':  (meta && meta.notable_events && meta.notable_events.join) ? meta.notable_events.join(' · ') : '—',
+    'Floodlights':     (meta && meta.floodlights !== undefined) ? (meta.floodlights ? 'Yes · Day/Night matches supported' : 'No') : '—',
   };
   document.querySelectorAll('.info-row').forEach(function(row) {
     var lbl = ((row.querySelector('.info-row-label') || {}).textContent || '').trim();
     var valEl = row.querySelector('.info-row-value');
-    if (valEl && map[lbl] != null) valEl.textContent = map[lbl];
+    if (valEl && map[lbl] !== undefined) valEl.textContent = map[lbl];
   });
 }
 
@@ -74,17 +75,17 @@ function renderHeroStats(data, meta) {
 
   // Quick stat chips
   var chips = {
-    'Capacity':      meta && meta.capacity ? Number(meta.capacity).toLocaleString() : null,
-    'Est.':          meta && meta.established ? String(meta.established) : null,
-    'Intl. Matches': data.matches ? String(data.matches) : null,
-    'Avg T20 Score': t20.avg_1st_innings ? String(Math.round(t20.avg_1st_innings)) : null,
-    'Avg ODI Score': odi.avg_1st_innings  ? String(Math.round(odi.avg_1st_innings))  : null,
-    'Chase Win %':   data.chase_win_pct   ? data.chase_win_pct + '%'                 : null,
+    'Capacity':      meta && meta.capacity ? Number(meta.capacity).toLocaleString() : '—',
+    'Est.':          meta && meta.established ? String(meta.established) : '—',
+    'Intl. Matches': data.matches ? String(data.matches) : '—',
+    'Avg T20 Score': t20.avg_1st_innings ? String(Math.round(t20.avg_1st_innings)) : '—',
+    'Avg ODI Score': odi.avg_1st_innings  ? String(Math.round(odi.avg_1st_innings))  : '—',
+    'Chase Win %':   data.chase_win_pct   ? data.chase_win_pct + '%'                 : '—',
   };
   document.querySelectorAll('.venue-qs').forEach(function(chip) {
     var lbl = ((chip.querySelector('.venue-qs-label') || {}).textContent || '').trim();
     var valEl = chip.querySelector('.venue-qs-value');
-    if (valEl && chips[lbl] != null) valEl.textContent = chips[lbl];
+    if (valEl && chips[lbl] !== undefined) valEl.textContent = chips[lbl];
   });
 }
 
@@ -93,17 +94,17 @@ function renderOverviewStats(data) {
   var t20 = data.t20i || {};
   var odi = data.odi  || {};
   var map = {
-    'Avg 1st Innings (T20)': t20.avg_1st_innings ? Math.round(t20.avg_1st_innings) : null,
-    'Avg 2nd Innings (T20)': t20.avg_2nd_innings ? Math.round(t20.avg_2nd_innings) : null,
-    'Highest T20 Total':     t20.highest || null,
-    'Avg 1st Innings (ODI)': odi.avg_1st_innings ? Math.round(odi.avg_1st_innings) : null,
-    'Avg Powerplay Score':   t20.avg_powerplay ? Math.round(t20.avg_powerplay) + '/2' : null,
-    'Avg Death Score':       t20.avg_death     ? Math.round(t20.avg_death)     + '/2' : null,
+    'Avg 1st Innings (T20)': t20.avg_1st_innings ? Math.round(t20.avg_1st_innings) : '—',
+    'Avg 2nd Innings (T20)': t20.avg_2nd_innings ? Math.round(t20.avg_2nd_innings) : '—',
+    'Highest T20 Total':     t20.highest || '—',
+    'Avg 1st Innings (ODI)': odi.avg_1st_innings ? Math.round(odi.avg_1st_innings) : '—',
+    'Avg Powerplay Score':   t20.avg_powerplay ? Math.round(t20.avg_powerplay) + '/2' : '—',
+    'Avg Death Score':       t20.avg_death     ? Math.round(t20.avg_death)     + '/2' : '—',
   };
   document.querySelectorAll('.overview-stat').forEach(function(card) {
     var lbl = ((card.querySelector('.overview-stat-label') || {}).textContent || '').trim();
     var valEl = card.querySelector('.overview-stat-value');
-    if (valEl && map[lbl] != null) valEl.textContent = map[lbl];
+    if (valEl && map[lbl] !== undefined) valEl.textContent = map[lbl];
   });
 }
 
@@ -114,17 +115,17 @@ function renderPitchProfile(data, meta) {
 
   // Text rows
   var pitchMap = {
-    'Surface type': pitch.surface || null,
-    'Pace factor':  pitch.pace_factor || null,
-    'Spin factor':  pitch.spin_factor || null,
-    'Dew factor':   pitch.dew_factor || null,
-    'Bounce':       pitch.bounce || null,
-    'Best toss decision': pitch.toss_decision || null,
+    'Surface type': pitch.surface || '—',
+    'Pace factor':  pitch.pace_factor || '—',
+    'Spin factor':  pitch.spin_factor || '—',
+    'Dew factor':   pitch.dew_factor || '—',
+    'Bounce':       pitch.bounce || '—',
+    'Best toss decision': pitch.toss_decision || '—',
   };
   document.querySelectorAll('.pitch-detail-row').forEach(function(row) {
     var lbl = ((row.querySelector('.pitch-detail-label') || {}).textContent || '').trim();
     var valEl = row.querySelector('.pitch-detail-value');
-    if (valEl && pitchMap[lbl] != null) valEl.textContent = pitchMap[lbl];
+    if (valEl && pitchMap[lbl] !== undefined) valEl.textContent = pitchMap[lbl];
   });
 
   // Bat/bowl bias bar — computed from chase win %
@@ -149,6 +150,7 @@ function renderStatsForFmt(fmt) {
   var fmtKey = fmt === 'odi' ? 'odi' : fmt === 'test' ? 'test' : 't20i';
   var s = _venueData[fmtKey] || {};
   var fmtLabel = fmt === 'odi' ? 'ODI' : fmt === 'test' ? 'Test' : 'T20I';
+  var isT20 = fmtKey === 't20i';
 
   // Update section title
   var statsCard0 = document.querySelector('#panel-stats .section-card');
@@ -160,11 +162,12 @@ function renderStatsForFmt(fmt) {
     'Average 2nd innings total':  s.avg_2nd_innings ? Math.round(s.avg_2nd_innings) : '—',
     'Highest total':              d(s.highest),
     'Lowest total':               d(s.lowest),
-    'Average powerplay score':    s.avg_powerplay   ? Math.round(s.avg_powerplay) + ' / 2' : '—',
-    'Average death-over score':   s.avg_death       ? Math.round(s.avg_death)     + ' / 2' : '—',
-    'Batting first wins':         _venueData.defend_win_pct != null ? (100 - (_venueData.chase_win_pct || 0)) + '%' : '—',
-    'Chasing wins':               _venueData.chase_win_pct  != null ? _venueData.chase_win_pct + '%' : '—',
-    'Toss winner win %':          _venueData.toss_winner_win_pct != null ? _venueData.toss_winner_win_pct + '%' : '—',
+    'Average powerplay score':    isT20 && s.avg_powerplay ? Math.round(s.avg_powerplay) + ' / 2' : '—',
+    'Average middle-over score':  isT20 && s.avg_middle ? Math.round(s.avg_middle) + ' / 2 (ov 7–15)' : '—',
+    'Average death-over score':   isT20 && s.avg_death ? Math.round(s.avg_death) + ' / 2 (ov 16–20)' : '—',
+    'Batting first wins':         isT20 && s.defend_win_pct != null ? s.defend_win_pct + '%' : '—',
+    'Chasing wins':               isT20 && s.chase_win_pct != null ? s.chase_win_pct + '%' : '—',
+    'Toss winner win %':          isT20 && s.toss_winner_win_pct != null ? s.toss_winner_win_pct + '%' : '—',
   };
 
   // Use first .section-card inside #panel-stats (not :first-child which would match the switcher div)
@@ -177,7 +180,7 @@ function renderStatsForFmt(fmt) {
   });
 
   // Update wicket breakdown bars
-  var wickets = s.wicket_types || _venueData.wicket_types || {};
+  var wickets = s.wicket_types || {};
   var wktMap  = { 'Caught': 'caught', 'Bowled': 'bowled', 'LBW': 'lbw', 'Run Out': 'run out', 'Stumped': 'stumped' };
   // Second .section-card in #panel-stats contains wicket breakdown
   var statsCards = document.querySelectorAll('#panel-stats .section-card');
@@ -190,9 +193,14 @@ function renderStatsForFmt(fmt) {
     var valSpan   = spans[1];
     var bar       = block.querySelector('[style*="width"]');
     var key = wktMap[labelText.trim()];
-    if (key && wickets[key] != null && valSpan && bar) {
-      valSpan.textContent = wickets[key] + '%';
-      bar.style.width     = wickets[key] + '%';
+    if (key && valSpan && bar) {
+      if (wickets[key] != null) {
+        valSpan.textContent = wickets[key] + '%';
+        bar.style.width     = wickets[key] + '%';
+      } else {
+        valSpan.textContent = '—';
+        bar.style.width     = '0%';
+      }
     }
   });
 }
@@ -209,9 +217,7 @@ async function renderRecentMatchesAtVenue(venueName) {
     return nameParts.some(function(part){ return v.includes(part); });
   }).slice(0, 4);
 
-  // If no venue-specific matches, show most recent completed matches anyway
-  var toShow = atVenue.length ? atVenue : matches.filter(function(m){ return m.matchEnded; }).slice(0, 4);
-  if (!toShow.length) toShow = matches.slice(0, 4); // fallback: any matches
+  var toShow = atVenue;
 
   var recentCard = null;
   document.querySelectorAll('#panel-stats .section-card').forEach(function(card) {
@@ -229,7 +235,9 @@ async function renderRecentMatchesAtVenue(venueName) {
   }
 
   recentCard.innerHTML = hdrHtml + toShow.map(function(m) {
-    var t1 = m.t1 || m.team1 || ''; var t2 = m.t2 || m.team2 || '';
+    var teamInfo = Array.isArray(m.teamInfo) ? m.teamInfo : [];
+    var t1 = m.t1 || m.team1 || (Array.isArray(m.teams) ? m.teams[0] : '') || (teamInfo[0] && (teamInfo[0].name || teamInfo[0].shortname)) || '—';
+    var t2 = m.t2 || m.team2 || (Array.isArray(m.teams) ? m.teams[1] : '') || (teamInfo[1] && (teamInfo[1].name || teamInfo[1].shortname)) || '—';
     var iso1 = COUNTRY_ISO[t1] || ''; var iso2 = COUNTRY_ISO[t2] || '';
     var f1 = iso1 ? flImg(t1, 16) : ''; var f2 = iso2 ? flImg(t2, 16) : '';
     var fmt = m.matchType || ''; var dt = m.date || '';
@@ -258,23 +266,35 @@ async function renderTeamBiasTab(venueName) {
   var colHdr = biasSection.querySelector('[style*="grid-template-columns"]');
   var colHtml = colHdr ? colHdr.outerHTML : '';
 
-  var teamsData = await apiFetch('/api/teams');
+  var teamsData = await apiFetch('/api/team-venue-stats');
   if (!teamsData) {
     biasSection.innerHTML = hdrHtml + '<div style="padding:1.5rem;text-align:center;color:var(--text-muted);font-size:.83rem;">No team data available.</div>';
     return;
   }
 
   var biasRows = [];
+  var target = normName(venueName);
   Object.keys(teamsData).forEach(function(team) {
-    var ts = teamsData[team];
-    // handle both {T20I:{...}} and direct format keys
-    var t20 = ts['T20I'] || ts['t20i'] || ts['T20'] || {};
-    var m = t20.matches || 0;
-    if (m >= 3) {
-      biasRows.push({ team: team, win_pct: t20.win_pct || 0, matches: m });
+    var ts = teamsData[team] || {};
+    var t20Venues = ts['T20I'] || ts['t20i'] || ts['T20'] || {};
+    var row = t20Venues[venueName] || null;
+    if (!row) {
+      Object.keys(t20Venues).some(function(vn) {
+        if (normName(vn) === target || normName(vn).includes(target) || target.includes(normName(vn))) {
+          row = t20Venues[vn];
+          return true;
+        }
+        return false;
+      });
+    }
+    var m = row && row.matches ? row.matches : 0;
+    if (row && m >= 2) {
+      biasRows.push({ team: team, win_pct: row.win_pct || 0, matches: m });
     }
   });
-  biasRows.sort(function(a, b) { return b.win_pct - a.win_pct; });
+  biasRows.sort(function(a, b) {
+    return (b.matches - a.matches) || (b.win_pct - a.win_pct);
+  });
 
   if (!biasRows.length) {
     biasSection.innerHTML = hdrHtml + '<div style="padding:1.5rem;text-align:center;color:var(--text-muted);font-size:.83rem;">No venue bias data available.</div>';
@@ -300,13 +320,13 @@ function renderSidebarFacts(venueName, data, meta) {
   var country = (meta && meta.country) || guessCountry(venueName);
   var iso     = COUNTRY_ISO[country] || '';
   var factMap = {
-    'Country':      country,
-    'City':         (meta && meta.city) || '',
-    'Capacity':     (meta && meta.capacity) ? Number(meta.capacity).toLocaleString() : '',
-    'Established':  (meta && meta.established) ? String(meta.established) : '',
-    'Intl Matches': data.matches ? String(data.matches) : '',
-    'Pitch Type':   (meta && meta.pitch && meta.pitch.surface) || '',
-    'Dew Factor':   (meta && meta.pitch && meta.pitch.dew_factor) || '',
+    'Country':      country || '—',
+    'City':         (meta && meta.city) || '—',
+    'Capacity':     (meta && meta.capacity) ? Number(meta.capacity).toLocaleString() : '—',
+    'Established':  (meta && meta.established) ? String(meta.established) : '—',
+    'Intl Matches': data.matches ? String(data.matches) : '—',
+    'Pitch Type':   (meta && meta.pitch && meta.pitch.surface) || '—',
+    'Dew Factor':   (meta && meta.pitch && meta.pitch.dew_factor) || '—',
   };
   document.querySelectorAll('.sidebar-stat-row').forEach(function(row) {
     var lbl = ((row.querySelector('.sidebar-stat-label') || {}).textContent || '').trim();
@@ -314,7 +334,7 @@ function renderSidebarFacts(venueName, data, meta) {
     if (!valEl) return;
     if (lbl === 'Country' && iso) {
       valEl.innerHTML = '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(country) + '" style="width:16px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display=\'none\'"> ' + esc(country);
-    } else if (factMap[lbl]) {
+    } else if (factMap[lbl] !== undefined) {
       valEl.textContent = factMap[lbl];
     }
   });
@@ -516,6 +536,11 @@ function renderProbabilityInsights(venueName, data) {
   document.querySelectorAll('#panel-insights .section-card-title').forEach(function(el) {
     if (el.textContent.includes('Wankhede') || el.textContent.includes('Probabilities at ')) {
       el.innerHTML = el.innerHTML.replace(/Wankhede|at [A-Z][^<]*/g, 'at ' + esc(venueName));
+    }
+  });
+  document.querySelectorAll('#panel-insights .prob-label').forEach(function(el) {
+    if (el.textContent.includes('Wankhede')) {
+      el.innerHTML = el.innerHTML.replace(/Wankhede/g, esc(venueName));
     }
   });
 }

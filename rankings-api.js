@@ -98,6 +98,16 @@ function injectRankings(panelId, rows, isTeams) {
 
 // ── Fetch rankings from API (with cache) ──────────────────────────────────────
 var rankCache = {};
+var activeCategory = 'batting';
+
+function showCategoryForActiveFormat(cat) {
+  var activeFmt = document.querySelector('.fmt-panel.active');
+  if (!activeFmt) return;
+  activeFmt.querySelectorAll('.cat-panel').forEach(function(p) { p.classList.remove('active'); });
+  var fmtId = activeFmt.id.replace('fmt-', '');
+  var catPanel = activeFmt.querySelector('#' + fmtId + '-' + cat);
+  if (catPanel) catPanel.classList.add('active');
+}
 
 async function fetchRankings(category, fmt) {
   // Normalise fmt: 'test'→'Test', 'odi'→'ODI', 't20'→'T20I', 'T20I'→'T20I'
@@ -119,12 +129,13 @@ async function fetchRankings(category, fmt) {
 async function loadFormatPanels(fmt) {
   // fmt is e.g. 'test', 'odi', 't20' from data-fmt attribute
   var cats = ['batting', 'bowling', 'allrounder', 'teams'];
-  for (var i = 0; i < cats.length; i++) {
-    var cat    = cats[i];
+  var tasks = cats.map(function(cat) {
     var panelId = fmt + '-' + cat;          // e.g. 'test-batting'
-    var rows   = await fetchRankings(cat, fmt); // fmt normalised inside fetchRankings
-    injectRankings(panelId, rows, cat === 'teams');
-  }
+    return fetchRankings(cat, fmt).then(function(rows) {
+      injectRankings(panelId, rows, cat === 'teams');
+    });
+  });
+  await Promise.all(tasks);
 }
 
 // ── Sidebar: Current No.1s ────────────────────────────────────────────────────
@@ -162,6 +173,151 @@ async function updateSidebarNo1s() {
   }
 }
 
+async function updateSidebarTopTeams() {
+  var teamRows = document.querySelectorAll('.sidebar-card');
+  var teamCard = null;
+  teamRows.forEach(function(card) {
+    var title = (card.querySelector('.sidebar-card-title') || {}).textContent || '';
+    if (title.toLowerCase().includes('top teams')) teamCard = card;
+  });
+  if (!teamCard) return;
+
+  var fmts = ['Test', 'ODI', 'T20I'];
+  var rows = [];
+  for (var i = 0; i < fmts.length; i++) {
+    var fmt = fmts[i];
+    var data = await fetchRankings('teams', fmt);
+    if (data && data.length) rows.push({ fmt: fmt, row: data[0] });
+  }
+
+  if (!rows.length) return;
+
+  var header = teamCard.querySelector('.sidebar-card-header');
+  teamCard.innerHTML = header ? header.outerHTML : '<div class="sidebar-card-header"><div class="sidebar-card-title"><i class="fa fa-shield-halved" style="color:#FFD700;"></i> Top Teams</div></div>';
+
+  rows.forEach(function(entry) {
+    var r = entry.row;
+    var team = r.team || r.name || '—';
+    var country = team;
+    var code = COUNTRY_ISO[country] || '';
+    var flag = code
+      ? '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(country) + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+      : '';
+    var item = document.createElement('a');
+    item.className = 'sidebar-rank-row';
+    item.href = 'team-profile.html?name=' + encodeURIComponent(team);
+    item.innerHTML = ''
+      + '<span class="srr-pos" style="color:#FFD700;">★</span>'
+      + '<span class="srr-flag" style="overflow:hidden;display:flex;align-items:center;justify-content:center;">' + flag + '</span>'
+      + '<div class="srr-info">'
+        + '<div class="srr-name">' + esc(team) + '</div>'
+        + '<div class="srr-sub">' + esc(entry.fmt) + ' · ' + esc(String(r.rating || '—')) + ' rating</div>'
+      + '</div>'
+      + '<span class="srr-pts">' + esc(String(r.rating || '—')) + '</span>';
+    teamCard.appendChild(item);
+  });
+}
+
+function parseMovement(changeValue) {
+  var raw = String(changeValue == null ? '' : changeValue).trim();
+  var match = raw.match(/-?\d+/);
+  if (!match) return { value: 0, text: '—' };
+  var n = parseInt(match[0], 10);
+  if (!Number.isFinite(n) || n === 0) return { value: 0, text: '—' };
+  return { value: n, text: (n > 0 ? '+' : '') + n };
+}
+
+async function updateSidebarMovers() {
+  var moverRows = document.querySelectorAll('.mover-row');
+  if (!moverRows.length) return;
+
+  var combos = [
+    ['Test', 'batting'], ['Test', 'bowling'], ['Test', 'teams'],
+    ['ODI', 'batting'],  ['ODI', 'bowling'],  ['ODI', 'teams'],
+    ['T20I', 'batting'], ['T20I', 'bowling'], ['T20I', 'teams']
+  ];
+
+  var pool = [];
+  for (var i = 0; i < combos.length; i++) {
+    var fmt = combos[i][0];
+    var cat = combos[i][1];
+    var rows = await fetchRankings(cat, fmt);
+    (rows || []).forEach(function(r) {
+      var move = parseMovement(r.change);
+      if (!move.value) return;
+      var isTeam = cat === 'teams' || !!r.team;
+      var name = isTeam ? (r.team || r.name || '') : (r.player || r.name || '');
+      if (!name) return;
+      pool.push({
+        name: name,
+        country: r.country || (isTeam ? name : ''),
+        fmt: fmt,
+        cat: cat,
+        isTeam: isTeam,
+        move: move,
+      });
+    });
+  }
+
+  pool.sort(function(a, b) {
+    var ad = Math.abs(a.move.value);
+    var bd = Math.abs(b.move.value);
+    if (bd !== ad) return bd - ad;
+    if ((a.move.value > 0) !== (b.move.value > 0)) return a.move.value > 0 ? -1 : 1;
+    return a.name.localeCompare(b.name);
+  });
+
+  var seen = {};
+  var movers = [];
+  for (var j = 0; j < pool.length; j++) {
+    var key = pool[j].name + '|' + pool[j].fmt + '|' + pool[j].cat;
+    if (seen[key]) continue;
+    seen[key] = true;
+    movers.push(pool[j]);
+    if (movers.length >= moverRows.length) break;
+  }
+
+  for (var k = 0; k < moverRows.length; k++) {
+    var row = moverRows[k];
+    var mover = movers[k];
+    var nameEl = row.querySelector('.mover-name');
+    var subEl = row.querySelector('.mover-sub');
+    var changeEl = row.querySelector('.mover-change');
+    var iconWrap = row.querySelector('span[style*="width:28px"]');
+
+    if (!mover) {
+      if (nameEl) nameEl.textContent = '—';
+      if (subEl) subEl.textContent = '—';
+      if (changeEl) {
+        changeEl.className = 'mover-change';
+        changeEl.innerHTML = '—';
+      }
+      row.href = '#';
+      continue;
+    }
+
+    if (nameEl) nameEl.textContent = mover.name;
+    if (subEl) subEl.textContent = mover.fmt + ' ' + (mover.cat === 'teams' ? 'Teams' : mover.cat.charAt(0).toUpperCase() + mover.cat.slice(1));
+
+    if (changeEl) {
+      var up = mover.move.value > 0;
+      changeEl.className = 'mover-change ' + (up ? 'up' : 'down');
+      changeEl.innerHTML = '<i class="fa ' + (up ? 'fa-arrow-up' : 'fa-arrow-down') + '"></i> ' + esc(mover.move.text);
+    }
+
+    var code = COUNTRY_ISO[mover.country] || '';
+    if (iconWrap) {
+      iconWrap.innerHTML = code
+        ? '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(mover.country) + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+        : '<span style="font-size:0.75rem;font-weight:700;color:var(--accent);">' + esc(mover.name.slice(0,2).toUpperCase()) + '</span>';
+    }
+
+    row.href = mover.isTeam
+      ? 'team-profile.html?name=' + encodeURIComponent(mover.name)
+      : 'player-profile.html?name=' + encodeURIComponent(mover.name);
+  }
+}
+
 // ── Tab switching ─────────────────────────────────────────────────────────────
 var loadedFormats = {};
 
@@ -175,6 +331,7 @@ function initTabs() {
       document.querySelectorAll('.fmt-panel').forEach(function(p) { p.classList.remove('active'); });
       var panel = document.getElementById('fmt-' + fmt);
       if (panel) panel.classList.add('active');
+      showCategoryForActiveFormat(activeCategory);
       if (!loadedFormats[fmt]) {
         loadedFormats[fmt] = true;
         loadFormatPanels(fmt);
@@ -186,13 +343,10 @@ function initTabs() {
   document.querySelectorAll('.cs-btn[data-cat]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var cat = btn.dataset.cat;
+      activeCategory = cat;
       document.querySelectorAll('.cs-btn').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
-      var activeFmt = document.querySelector('.fmt-panel.active');
-      if (!activeFmt) return;
-      activeFmt.querySelectorAll('.cat-panel').forEach(function(p) { p.classList.remove('active'); });
-      var catPanel = activeFmt.querySelector('#' + activeFmt.id.replace('fmt-','') + '-' + cat);
-      if (catPanel) catPanel.classList.add('active');
+      showCategoryForActiveFormat(cat);
     });
   });
 }
@@ -201,8 +355,16 @@ function initTabs() {
 document.addEventListener('DOMContentLoaded', function() {
   initTabs();
   loadedFormats['test'] = true;
-  loadFormatPanels('test');
+  loadedFormats['odi'] = true;
+  loadedFormats['t20'] = true;
+  Promise.all([
+    loadFormatPanels('test'),
+    loadFormatPanels('odi'),
+    loadFormatPanels('t20'),
+  ]);
   updateSidebarNo1s();
+  updateSidebarMovers();
+  updateSidebarTopTeams();
 
   // Wire nav search (missing from rankings.html inline script)
   var navSearch = document.querySelector('.nav-search');

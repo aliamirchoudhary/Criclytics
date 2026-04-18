@@ -24,11 +24,62 @@ function getTeamInitials(name) {
   return (words[0][0] + words[1][0] + words[2][0]).toUpperCase();
 }
 
+function parseMatchNameTeams(name) {
+  if (!name) return ['', ''];
+  var parts = String(name).split(/\s+vs\s+|\s+v\s+|\s+versus\s+/i);
+  if (parts.length < 2) return ['', ''];
+  var left = (parts[0] || '').trim();
+  var right = (parts[1] || '').trim().split(/,|\(|–|-/)[0].trim();
+  return [left, right];
+}
+
+function normalizeTeamNameCandidate(value, index) {
+  var raw = String(value || '').trim();
+  if (!raw) return '';
+  var parsed = parseMatchNameTeams(raw);
+  if (parsed[0] && parsed[1]) return index === 0 ? parsed[0] : parsed[1];
+  return raw;
+}
+
+function resolveScoreboardIso(name) {
+  var raw = String(name || '').trim();
+  if (!raw) return '';
+
+  if (COUNTRY_ISO[raw]) return COUNTRY_ISO[raw];
+
+  var normalized = raw.replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  if (COUNTRY_ISO[normalized]) return COUNTRY_ISO[normalized];
+
+  // Handle common representative-team suffixes without enabling fuzzy guessing.
+  var stripped = normalized
+    .replace(/\s+(A|B|XI|W|Women|U-?19|U-?23)$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (COUNTRY_ISO[stripped]) return COUNTRY_ISO[stripped];
+
+  // Safe prefix match for names like "New Zealand A".
+  var countries = Object.keys(COUNTRY_ISO).sort(function(a, b) { return b.length - a.length; });
+  for (var i = 0; i < countries.length; i++) {
+    var c = countries[i];
+    if (normalized === c || normalized.indexOf(c + ' ') === 0) return COUNTRY_ISO[c];
+  }
+
+  return '';
+}
+
 function flagCircle(name, size) {
   size = size || 44;
-  var iso = COUNTRY_ISO[name] || guessIso(name);
-  if (!iso) return '<span style="font-size:' + Math.round(size * 0.45) + 'px;font-weight:700;color:var(--accent);">' + esc(getTeamInitials(name)) + '</span>';
-  return '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(name) + '" style="width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">';
+  // Use safe normalization for representative-team suffixes; avoid broad fuzzy matching.
+  var iso = resolveScoreboardIso(name);
+  var initials = esc(getTeamInitials(name));
+  if (!iso) {
+    return '<span style="display:flex;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:var(--surface-2);border:1px solid rgba(94,184,255,0.28);font-size:' + Math.round(size * 0.45) + 'px;font-weight:700;color:var(--accent);">' + initials + '</span>';
+  }
+  return '<span style="position:relative;display:flex;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;">'
+    + '<img src="' + FLAG_CDN + iso + '.svg" alt="" style="position:absolute;inset:0;width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;" '
+    + 'onerror="this.style.display=\'none\'; if(this.nextElementSibling){this.nextElementSibling.style.display=\'flex\';}">'
+    + '<span style="display:none;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:var(--surface-2);border:1px solid rgba(94,184,255,0.28);font-size:' + Math.round(size * 0.45) + 'px;font-weight:700;color:var(--accent);">' + initials + '</span>'
+    + '</span>';
 }
 
 function getMatchTeamName(match, index) {
@@ -36,10 +87,11 @@ function getMatchTeamName(match, index) {
   var fallback = (Array.isArray(match.teams) ? match.teams[index] : '')
     || (match.teamInfo && match.teamInfo[index] && match.teamInfo[index].name)
     || '';
+  var parsedMatchName = parseMatchNameTeams(match.name || '');
   if (index === 0) {
-    return match.t1 || match.team1 || fallback || '';
+    return normalizeTeamNameCandidate(match.t1 || match.team1 || fallback || parsedMatchName[0] || '', 0);
   }
-  return match.t2 || match.team2 || fallback || '';
+  return normalizeTeamNameCandidate(match.t2 || match.team2 || fallback || parsedMatchName[1] || '', 1);
 }
 
 function formatScoreObject(score) {
@@ -78,13 +130,34 @@ function flInline(name, size) {
 
 function d(v) { return (v == null || v === '' || v === 0) ? '—' : v; }
 
+function detectBattingTeamIndex(match, t1, t2, s1, s2) {
+  var scores = (match && Array.isArray(match.score)) ? match.score : [];
+  if (scores.length) {
+    var first = scores[0] || {};
+    var inningTeam = String(first.inning || '').split(/\s+Inning/i)[0].trim().toLowerCase();
+    if (inningTeam) {
+      if (inningTeam === String(t1 || '').trim().toLowerCase()) return 0;
+      if (inningTeam === String(t2 || '').trim().toLowerCase()) return 1;
+    }
+  }
+
+  var hasOvers1 = /\([^)]*o\)/i.test(String(s1 || ''));
+  var hasOvers2 = /\([^)]*o\)/i.test(String(s2 || ''));
+  if (hasOvers1 && !hasOvers2) return 0;
+  if (hasOvers2 && !hasOvers1) return 1;
+
+  if (s1 && !s2) return 0;
+  if (s2 && !s1) return 1;
+  return -1;
+}
+
 // ── Clear ALL hardcoded content, replace with — ───────────────────────────────
 function wipePage(t1, t2) {
   t1 = t1 || ''; t2 = t2 || '';
   var dash = '—';
 
-  // Breadcrumb last span
-  var bc = document.querySelector('.breadcrumb span:last-child');
+  // Breadcrumb current label
+  var bc = document.querySelector('.breadcrumb .breadcrumb-current') || document.querySelector('.breadcrumb span:last-child');
   if (bc) bc.textContent = t1 && t2 ? t1 + ' vs ' + t2 : 'Match Detail';
 
   // Team names
@@ -109,6 +182,13 @@ function wipePage(t1, t2) {
   var flags = document.querySelectorAll('.scoreboard-flag');
   if (flags[0]) flags[0].innerHTML = t1 ? flagCircle(t1, 44) : '';
   if (flags[1]) flags[1].innerHTML = t2 ? flagCircle(t2, 44) : '';
+
+  // Reset scoreboard sides to a neutral visual state.
+  var scoreboardTeams = document.querySelectorAll('.scoreboard-team');
+  scoreboardTeams.forEach(function(el) {
+    el.classList.remove('batting', 'not-batting');
+    el.classList.add('not-batting');
+  });
 
   // Status badge
   var statusEl = document.querySelector('.match-status-live');
@@ -284,6 +364,22 @@ function updateScoreboard(match) {
   if (flags[0]) flags[0].innerHTML = flagCircle(t1, 44);
   if (flags[1]) flags[1].innerHTML = flagCircle(t2, 44);
 
+  // Keep left/right styling symmetric by assigning batting side from live data.
+  var battingIndex = detectBattingTeamIndex(match, t1, t2, s1, s2);
+  var scoreboardTeams = document.querySelectorAll('.scoreboard-team');
+  scoreboardTeams.forEach(function(el) {
+    el.classList.remove('batting', 'not-batting');
+  });
+  if (scoreboardTeams[0] && scoreboardTeams[1]) {
+    if (battingIndex === 0 || battingIndex === 1) {
+      scoreboardTeams[battingIndex].classList.add('batting');
+      scoreboardTeams[battingIndex === 0 ? 1 : 0].classList.add('not-batting');
+    } else {
+      scoreboardTeams[0].classList.add('not-batting');
+      scoreboardTeams[1].classList.add('not-batting');
+    }
+  }
+
   // Update status badge
   var statusEl = document.querySelector('.match-status-live');
   if (statusEl) {
@@ -370,7 +466,7 @@ function updateScoreboard(match) {
       tEl.textContent = '—';
     }
   }
-  if(match.name){var bc=document.querySelector('.breadcrumb span:last-child');if(bc)bc.textContent=match.name;document.title=match.name+' · Criclytics';}
+  if(match.name){var bc=document.querySelector('.breadcrumb .breadcrumb-current') || document.querySelector('.breadcrumb span:last-child');if(bc)bc.textContent=match.name;document.title=match.name+' · Criclytics';}
   if(match.matchEnded)document.querySelectorAll('.scoreboard-crr').forEach(function(el){el.textContent='Final';});
 }
 

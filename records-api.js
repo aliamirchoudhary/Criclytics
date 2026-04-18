@@ -192,56 +192,136 @@ async function loadRecords() {
     });
   });
 
-  // Update sidebar bests
-  updateSidebarBests(data);
+  // Update sidebar cards from explicit backend sidebar payload
+  updateSidebarAllTimeBests(data);
+  updateSidebarRecordsByCountry(data);
+  updateSidebarRecentlyBroken(data);
 }
 
-function updateSidebarBests(data) {
-  var testRuns = data.most_runs && data.most_runs.Test && data.most_runs.Test[0];
-  var odiRuns  = data.most_runs && data.most_runs.ODI  && data.most_runs.ODI[0];
-  var testWkts = data.most_wickets && data.most_wickets.Test && data.most_wickets.Test[0];
+function findSidebarCardByTitle(fragment) {
+  var byId = {
+    'all-time bests': 'records-all-time-bests',
+    'records by country': 'records-by-country',
+    'recently broken': 'records-recently-broken'
+  };
+  if (byId[fragment]) {
+    var exact = document.getElementById(byId[fragment]);
+    if (exact) return exact;
+  }
 
-  var srecRows = document.querySelectorAll('.sidebar-rec-row');
-  if (srecRows[0] && testRuns) {
-    var flagEl = srecRows[0].querySelector('.srec-flag');
-    var nameEl = srecRows[0].querySelector('.srec-name');
-    var subEl  = srecRows[0].querySelector('.srec-sub');
-    var valEl  = srecRows[0].querySelector('.srec-val');
-    if (nameEl) nameEl.textContent = testRuns.player;
-    if (valEl)  valEl.textContent  = (testRuns.runs||0).toLocaleString();
-    if (subEl)  subEl.textContent  = 'Most Test runs';
-    if (flagEl && testRuns.country) {
-      var code = COUNTRY_ISO[testRuns.country] || '';
-      if (code) flagEl.innerHTML = '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(testRuns.country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">';
-    }
+  var cards = document.querySelectorAll('.sidebar-card');
+  for (var i = 0; i < cards.length; i++) {
+    var titleEl = cards[i].querySelector('.sidebar-card-title');
+    var title = (titleEl ? titleEl.textContent : '').toLowerCase();
+    if (title.indexOf(fragment.toLowerCase()) !== -1) return cards[i];
   }
-  if (srecRows[1] && testWkts) {
-    var flagEl2 = srecRows[1].querySelector('.srec-flag');
-    var nameEl2 = srecRows[1].querySelector('.srec-name');
-    var subEl2  = srecRows[1].querySelector('.srec-sub');
-    var valEl2  = srecRows[1].querySelector('.srec-val');
-    if (nameEl2) nameEl2.textContent = testWkts.player;
-    if (valEl2)  valEl2.textContent  = testWkts.wickets;
-    if (subEl2)  subEl2.textContent  = 'Most Test wickets';
-    if (flagEl2 && testWkts.country) {
-      var code2 = COUNTRY_ISO[testWkts.country] || '';
-      if (code2) flagEl2.innerHTML = '<img src="' + FLAG_CDN + code2 + '.svg" alt="' + esc(testWkts.country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">';
-    }
+  return null;
+}
+
+function sidebarRowHtml(opts) {
+  var name = opts.name || '—';
+  var sub = opts.sub || '—';
+  var value = opts.value == null ? '—' : String(opts.value);
+  var href = opts.href || '#';
+  var country = opts.country || '';
+  var valueColor = opts.valueColor || 'var(--accent)';
+  var code = COUNTRY_ISO[country] || '';
+  var fallbackInitial = (name[0] || '?').toUpperCase();
+  var flag = code
+    ? '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">'
+    : '<span style="width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:var(--surface-2);font-size:0.7rem;font-weight:700;color:var(--accent);">' + esc(fallbackInitial) + '</span>';
+
+  return '<a href="' + href + '" class="sidebar-rec-row">'
+    + '<span class="srec-flag">' + flag + '</span>'
+    + '<div class="srec-info"><div class="srec-name">' + esc(name) + '</div><div class="srec-sub">' + esc(sub) + '</div></div>'
+    + '<span class="srec-val" style="color:' + valueColor + ';">' + esc(value) + '</span>'
+  + '</a>';
+}
+
+function updateSidebarAllTimeBests(data) {
+  var card = findSidebarCardByTitle('all-time bests');
+  if (!card) return;
+
+  var header = card.querySelector('.sidebar-card-header');
+  if (!header) return;
+
+  var section = data.sidebar && Array.isArray(data.sidebar.all_time_bests) ? data.sidebar.all_time_bests : [];
+  var rows = section.map(function(item) {
+    var value = item && item.value;
+    if (typeof value === 'number' && value >= 1000) value = value.toLocaleString();
+    var name = (item && (item.name || item.player || item.country)) || '—';
+    var isTeam = item && item.type === 'team';
+    return sidebarRowHtml({
+      name: name,
+      sub: (item && (item.label || item.sub)) || '—',
+      value: value,
+      href: isTeam
+        ? 'team-profile.html?name=' + encodeURIComponent(name)
+        : 'player-profile.html?name=' + encodeURIComponent(name),
+      country: (item && item.country) || ''
+    });
+  });
+
+  if (!rows.length) {
+    rows.push(sidebarRowHtml({ name: '—', sub: 'No records available', value: '—', href: '#', country: '' }));
   }
-  // Third row: most ODI runs
-  if (srecRows[2] && odiRuns) {
-    var nameEl3 = srecRows[2].querySelector('.srec-name');
-    var valEl3  = srecRows[2].querySelector('.srec-val');
-    var subEl3  = srecRows[2].querySelector('.srec-sub');
-    if (nameEl3) nameEl3.textContent = odiRuns.player;
-    if (valEl3)  valEl3.textContent  = (odiRuns.runs||0).toLocaleString();
-    if (subEl3)  subEl3.textContent  = 'Most ODI runs';
-    var flagEl3 = srecRows[2].querySelector('.srec-flag');
-    if (flagEl3 && odiRuns.country) {
-      var code3 = COUNTRY_ISO[odiRuns.country] || '';
-      if (code3) flagEl3.innerHTML = '<img src="' + FLAG_CDN + code3 + '.svg" alt="' + esc(odiRuns.country) + '" style="width:24px;height:24px;object-fit:cover;border-radius:50%;vertical-align:middle;">';
-    }
+  card.innerHTML = header.outerHTML + rows.join('');
+}
+
+function updateSidebarRecordsByCountry(data) {
+  var card = findSidebarCardByTitle('records by country');
+  if (!card) return;
+
+  var header = card.querySelector('.sidebar-card-header');
+  if (!header) return;
+
+  var section = data.sidebar && Array.isArray(data.sidebar.records_by_country) ? data.sidebar.records_by_country : [];
+  var rows = section.map(function(item) {
+    var country = (item && (item.country || item.name)) || '—';
+    return sidebarRowHtml({
+      name: country,
+      sub: (item && (item.label || item.sub)) || '—',
+      value: item && item.count,
+      href: 'team-profile.html?name=' + encodeURIComponent(country),
+      country: country
+    });
+  });
+
+  if (!rows.length) {
+    rows.push(sidebarRowHtml({ name: '—', sub: 'No country data available', value: '—', href: '#', country: '' }));
   }
+  card.innerHTML = header.outerHTML + rows.join('');
+}
+
+function updateSidebarRecentlyBroken(data) {
+  var card = findSidebarCardByTitle('recently broken');
+  if (!card) return;
+
+  var header = card.querySelector('.sidebar-card-header');
+  if (!header) return;
+
+  var section = data.sidebar && Array.isArray(data.sidebar.recently_broken) ? data.sidebar.recently_broken : [];
+  var rows = section.map(function(item) {
+    var name = (item && (item.name || item.player || item.country)) || '—';
+    var isTeam = item && item.type === 'team';
+    var value = item && item.value;
+    if (typeof value === 'number' && value >= 1000) value = value.toLocaleString();
+    return sidebarRowHtml({
+      name: name,
+      sub: (item && (item.label || item.sub)) || '—',
+      value: value,
+      href: isTeam
+        ? 'team-profile.html?name=' + encodeURIComponent(name)
+        : 'player-profile.html?name=' + encodeURIComponent(name),
+      country: (item && item.country) || '',
+      valueColor: 'var(--green-live)'
+    });
+  });
+
+  if (!rows.length) {
+    rows.push(sidebarRowHtml({ name: '—', sub: 'No recent updates available', value: '—', href: '#', country: '', valueColor: 'var(--green-live)' }));
+  }
+  card.innerHTML = header.outerHTML + rows.join('');
 }
 
 // ── Tab switching ─────────────────────────────────────────────────────────────

@@ -9,6 +9,37 @@
 function dash(v) { return (v==null||v===0||v==='') ? '—' : v; }
 function fmt1(v) { return (!v) ? '—' : Number(v).toFixed(1); }
 
+function isUsableBirthplace(value, country) {
+  var text = String(value || '').trim();
+  if (!text) return false;
+  var lower = text.toLowerCase();
+  if (lower === 'unknown' || lower === 'n/a' || lower === 'na' || lower === 'tbd' || lower === '-') return false;
+  if (country && lower === String(country).trim().toLowerCase()) return false;
+
+  if (country) {
+    var countryKeys = Object.keys(COUNTRY_ISO);
+    var mentioned = countryKeys.find(function(c) {
+      return lower.includes(c.toLowerCase());
+    });
+    if (mentioned && mentioned.toLowerCase() !== String(country).trim().toLowerCase()) return false;
+  }
+
+  return true;
+}
+
+function isUsableDob(value) {
+  var text = String(value || '').trim();
+  if (!text) return false;
+  var lower = text.toLowerCase();
+  if (lower === 'unknown' || lower === 'n/a' || lower === 'na' || lower === 'tbd' || lower === '-') return false;
+  return true;
+}
+
+function parseHighestNumeric(v) {
+  var n = parseInt(String(v || '').replace(/[^0-9]/g, ''), 10);
+  return Number.isFinite(n) ? n : -1;
+}
+
 // ── Main loader ───────────────────────────────────────────────────────────────
 async function loadProfile() {
   const playerName = getParam('name');
@@ -77,9 +108,10 @@ async function loadProfile() {
   // Full name line
   var fullNameEl = document.getElementById('profileFullName');
   if (fullNameEl) {
+    var safeBirthplace = isUsableBirthplace(meta.birthplace, country) ? meta.birthplace : '';
     var parts = [displayName];
     if (meta.dob) parts.push('Born: ' + meta.dob);
-    if (meta.birthplace) parts.push(meta.birthplace);
+    if (safeBirthplace) parts.push(safeBirthplace);
     fullNameEl.textContent = parts.join(' · ');
   }
 
@@ -117,9 +149,10 @@ async function loadProfile() {
   // Country comes from meta OR from stats.country (Cricsheet field)
   var bioCountry = country || stats.country || '';
   var bioIso = COUNTRY_ISO[bioCountry] || '';
+  var safeDob = isUsableDob(meta.dob) ? meta.dob : '';
   setBioValue('Full Name', displayName);
-  if (meta.dob) setBioValue('Date of Birth', meta.dob + (meta.age ? ' (Age ' + meta.age + ')' : ''));
-  if (meta.birthplace) setBioValue('Birthplace', meta.birthplace);
+  setBioValue('Date of Birth', safeDob ? (safeDob + (meta.age ? ' (Age ' + meta.age + ')' : '')) : '—');
+  setBioValue('Birthplace', isUsableBirthplace(meta.birthplace, bioCountry) ? meta.birthplace : '—');
   if (meta.batting_style) setBioValue('Batting Style', meta.batting_style);
   if (meta.bowling_style) setBioValue('Bowling Style', meta.bowling_style);
   if (meta.role) setBioValue('Role', meta.role);
@@ -220,6 +253,18 @@ async function loadProfile() {
     milRows[1].querySelector('.aside-stat-val').textContent = totalFifties;
     milRows[2].querySelector('.aside-stat-val').textContent = totalRunsAll.toLocaleString();
     milRows[3].querySelector('.aside-stat-val').textContent = ((bat['ODI']||{}).runs||0).toLocaleString();
+    if (milRows[4]) {
+      var candidates = ['Test', 'ODI', 'T20I']
+        .map(function(fmt) {
+          var highest = (bat[fmt] || {}).highest;
+          return { fmt: fmt, raw: highest, num: parseHighestNumeric(highest) };
+        })
+        .filter(function(x) { return x.num >= 0; })
+        .sort(function(a, b) { return b.num - a.num; });
+      var best = candidates[0];
+      var highestText = best ? (String(best.raw) + ' (' + best.fmt + ')') : '—';
+      milRows[4].querySelector('.aside-stat-val').textContent = highestText;
+    }
   }
 
   // ── Sidebar vs opposition ─────────────────────────────────────────────────

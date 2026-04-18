@@ -1507,3 +1507,157 @@ ul { list-style: none; }
   .btn           { padding: 0.55rem 1.1rem; font-size: 0.82rem; }
   .stat-value    { font-size: 1.2rem; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   RESPONSIVE HARDENING — Cross-Page Safety Layer
+   Keeps visual style intact while preventing mobile overflow.
+   ════════════════════════════════════════════════════════════ */
+
+@media (max-width: 980px) {
+  .matches-layout,
+  .players-layout,
+  .teams-layout,
+  .search-layout,
+  .match-content,
+  .profile-content,
+  .team-content,
+  .venue-content {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  .match-sidebar,
+  .sidebar,
+  .sidebar-section,
+  .team-sidebar,
+  .venue-sidebar,
+  .search-sidebar,
+  .facets-panel {
+    min-width: 0 !important;
+    width: auto !important;
+    max-width: 100% !important;
+    position: static !important;
+    top: auto !important;
+  }
+
+  .compare-header-grid,
+  .compare-stat-grid,
+  .prob-compare-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .scoreboard {
+    grid-template-columns: 1fr !important;
+    gap: 0.8rem !important;
+  }
+}
+
+@media (max-width: 760px) {
+  /* Horizontal scrolling for wide controls/tables without clipping design */
+  .table-wrap,
+  .rank-table-wrap,
+  .src-table-wrap,
+  .scorecard-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .data-table,
+  .scorecard-table,
+  .src-table {
+    min-width: 560px;
+  }
+
+  .tabs,
+  .profile-tabs,
+  .profile-tabs-row,
+  .match-tabs-bar,
+  .status-tabs,
+  .format-switcher,
+  .filter-bar,
+  .filters-row,
+  .selector-panel .tabs {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tabs::-webkit-scrollbar,
+  .profile-tabs::-webkit-scrollbar,
+  .profile-tabs-row::-webkit-scrollbar,
+  .match-tabs-bar::-webkit-scrollbar,
+  .status-tabs::-webkit-scrollbar,
+  .format-switcher::-webkit-scrollbar,
+  .filter-bar::-webkit-scrollbar,
+  .filters-row::-webkit-scrollbar,
+  .selector-panel .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabs > *,
+  .profile-tabs > *,
+  .match-tabs-bar > *,
+  .status-tabs > *,
+  .format-switcher > *,
+  .filter-bar > *,
+  .filters-row > * {
+    flex-shrink: 0;
+  }
+
+  .matches-hero-inner,
+  .players-hero-inner,
+  .teams-hero-inner,
+  .search-hero-inner,
+  .match-hero-inner,
+  .profile-hero-inner,
+  .team-hero-inner,
+  .venue-hero-inner {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Neutralize hard min-width inline styles that force horizontal scroll */
+  [style*="min-width:"] {
+    min-width: 0 !important;
+  }
+
+  [style*="max-width:1100px"],
+  [style*="max-width:1280px"] {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .section,
+  .matches-hero,
+  .players-hero,
+  .teams-hero,
+  .search-hero,
+  .match-hero,
+  .profile-hero,
+  .team-hero,
+  .venue-hero {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .overview-grid,
+  .prob-2col,
+  .stats-grid,
+  .stats-grid-big,
+  .card-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .btn,
+  .btn-sm {
+    min-height: 40px;
+  }
+
+  .nav-logo-text {
+    font-size: 1.1rem;
+  }
+}

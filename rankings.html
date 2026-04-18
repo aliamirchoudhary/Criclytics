@@ -364,6 +364,29 @@
       overflow: hidden;
     }
 
+    .sidebar-card-compact .sidebar-rank-row {
+      padding: 0.55rem 1.1rem;
+      gap: 0.55rem;
+    }
+
+    .sidebar-card-compact .srr-flag {
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+    }
+
+    .sidebar-card-compact .srr-name {
+      font-size: 0.78rem;
+    }
+
+    .sidebar-card-compact .srr-sub {
+      font-size: 0.64rem;
+    }
+
+    .sidebar-card-compact .srr-pts {
+      font-size: 0.72rem;
+    }
+
     .sidebar-card-header {
       padding: 0.85rem 1.1rem 0.7rem;
       border-bottom: 1px solid var(--border-light);
@@ -411,7 +434,21 @@
     }
 
     .srr-flag {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
       font-size: 1.1rem;
+    }
+
+    .srr-flag img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .srr-info {
@@ -2270,7 +2307,7 @@
       <aside class="sidebar">
 
         <!-- No.1 ranked players -->
-        <div class="sidebar-card">
+        <div class="sidebar-card sidebar-card-compact">
           <div class="sidebar-card-header">
             <div class="sidebar-card-title"><i class="fa fa-medal" style="color:#FFD700;"></i> Current No. 1s</div>
           </div>
@@ -2322,7 +2359,7 @@
         </div>
 
         <!-- Biggest movers -->
-        <div class="sidebar-card">
+        <div class="sidebar-card sidebar-card-compact">
           <div class="sidebar-card-header">
             <div class="sidebar-card-title"><i class="fa fa-arrow-trend-up" style="color:var(--green-live);"></i>
               Biggest Movers</div>

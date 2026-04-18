@@ -1451,8 +1451,12 @@
       let html = '';
       
       for (const opponent of opponents) {
+        if (!opponent || opponent.toLowerCase() === teamName.toLowerCase()) continue;
         const data = await loadTeamMatchPrediction(teamName, opponent, format);
         if (data && !data.error && data.team_a) {
+          const aName = (data.team_a.name || teamName || '').toLowerCase();
+          const bName = (data.team_b?.name || opponent || '').toLowerCase();
+          if (!aName || !bName || aName === bName) continue;
           const probA = Math.round((data.team_a.win_probability || 0.5) * 100);
           const probB = Math.round((data.team_b.win_probability || 0.5) * 100);
           const prediction = data.prediction || 'Match';

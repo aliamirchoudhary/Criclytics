@@ -48,21 +48,68 @@ document.addEventListener('DOMContentLoaded', async function() {
     return [parts[0].trim(), parts[1].trim().split(/,|\(|–|-/)[0].trim()];
   }
 
+  function normalizeTeamNameCandidate(value, index) {
+    var raw = String(value || '').trim();
+    if (!raw) return '';
+    var parsed = parseNameTeams(raw);
+    if (parsed[0] && parsed[1]) return index === 0 ? parsed[0] : parsed[1];
+    return raw;
+  }
+
+  function resolveScoreboardIso(name) {
+    var raw = String(name || '').trim();
+    if (!raw) return '';
+
+    if (COUNTRY_ISO[raw]) return COUNTRY_ISO[raw];
+
+    var normalized = raw.replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+    if (COUNTRY_ISO[normalized]) return COUNTRY_ISO[normalized];
+
+    var stripped = normalized
+      .replace(/\s+(A|B|XI|W|Women|U-?19|U-?23)$/i, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (COUNTRY_ISO[stripped]) return COUNTRY_ISO[stripped];
+
+    var countries = Object.keys(COUNTRY_ISO).sort(function(a, b) { return b.length - a.length; });
+    for (var i = 0; i < countries.length; i++) {
+      var c = countries[i];
+      if (normalized === c || normalized.indexOf(c + ' ') === 0) return COUNTRY_ISO[c];
+    }
+    return '';
+  }
+
+  function renderTeamFlag(el, teamName) {
+    if (!el) return;
+    var size = el.clientWidth || 72;
+    var initials = esc(getTeamInitials(teamName));
+    var iso = resolveScoreboardIso(teamName);
+
+    if (!iso) {
+      el.innerHTML = '<span style="display:flex;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:var(--surface-2);border:1px solid rgba(94,184,255,0.28);font-size:' + Math.round(size * 0.38) + 'px;font-weight:700;color:var(--accent);">' + initials + '</span>';
+      return;
+    }
+
+    el.innerHTML = '<span style="position:relative;display:flex;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;">'
+      + '<img src="' + FLAG_CDN + iso + '.svg" alt="" style="position:absolute;inset:0;width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;" '
+      + 'onerror="this.style.display=\'none\'; if(this.nextElementSibling){this.nextElementSibling.style.display=\'flex\';}">'
+      + '<span style="display:none;align-items:center;justify-content:center;width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:var(--surface-2);border:1px solid rgba(94,184,255,0.28);font-size:' + Math.round(size * 0.38) + 'px;font-weight:700;color:var(--accent);">' + initials + '</span>'
+      + '</span>';
+  }
+
   function getMatchTeamName(match, index) {
     if (!match) return '';
     var fallback = (Array.isArray(match.teams) ? match.teams[index] : '')
       || (match.teamInfo && match.teamInfo[index] && match.teamInfo[index].name)
       || '';
     if (index === 0) {
-      return match.t1 || match.team1 || fallback || parseNameTeams(match.name)[0] || '';
+      return normalizeTeamNameCandidate(match.t1 || match.team1 || fallback || parseNameTeams(match.name)[0] || '', 0);
     }
-    return match.t2 || match.team2 || fallback || parseNameTeams(match.name)[1] || '';
+    return normalizeTeamNameCandidate(match.t2 || match.team2 || fallback || parseNameTeams(match.name)[1] || '', 1);
   }
 
   var t1 = getMatchTeamName(match, 0);
   var t2 = getMatchTeamName(match, 1);
-  var iso1 = COUNTRY_ISO[t1] || '';
-  var iso2 = COUNTRY_ISO[t2] || '';
 
   // Page title + breadcrumb
   var name = match.name || (t1 + ' vs ' + t2);
@@ -74,20 +121,32 @@ document.addEventListener('DOMContentLoaded', async function() {
   var n1 = document.getElementById('team1Name'); if (n1) n1.textContent = t1;
   var n2 = document.getElementById('team2Name'); if (n2) n2.textContent = t2;
 
+  // Keep visual parity between left/right labels.
+  if (n1) {
+    n1.style.color = 'var(--text-primary)';
+    n1.style.fontWeight = '700';
+  }
+  if (n2) {
+    n2.style.color = 'var(--text-primary)';
+    n2.style.fontWeight = '700';
+  }
+
   var f1 = document.getElementById('team1Flag');
   var f2 = document.getElementById('team2Flag');
-  if (f1) {
-    if (iso1) f1.innerHTML = '<img src="'+FLAG_CDN+iso1+'.svg" style="width:100%;height:100%;object-fit:cover;">';
-    else f1.textContent = getTeamInitials(t1);
-  }
-  if (f2) {
-    if (iso2) f2.innerHTML = '<img src="'+FLAG_CDN+iso2+'.svg" style="width:100%;height:100%;object-fit:cover;">';
-    else f2.textContent = getTeamInitials(t2);
-  }
+  renderTeamFlag(f1, t1);
+  renderTeamFlag(f2, t2);
 
   // Scores (if any)
   var s1el = document.getElementById('team1Score'); if (s1el && match.t1s) s1el.textContent = match.t1s;
   var s2el = document.getElementById('team2Score'); if (s2el && match.t2s) s2el.textContent = match.t2s;
+  if (s1el) {
+    s1el.style.color = 'var(--text-muted)';
+    s1el.style.fontWeight = '600';
+  }
+  if (s2el) {
+    s2el.style.color = 'var(--text-muted)';
+    s2el.style.fontWeight = '600';
+  }
 
   // Status badge
   var statEl = document.getElementById('matchStatus');

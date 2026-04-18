@@ -232,7 +232,17 @@ def get_current_rankings():
         if age_hours < 24:
             with open(OUTPUT_FILE, encoding="utf-8") as f:
                 return json.load(f)
-    return scrape_all_rankings()
+    data = scrape_all_rankings()
+    if data and data.get("source") != "hardcoded_april_2026":
+        return data
+
+    if os.path.exists(OUTPUT_FILE):
+        with open(OUTPUT_FILE, encoding="utf-8") as f:
+            cached = json.load(f)
+        if cached:
+            return cached
+
+    return data
 
 
 if __name__ == "__main__":
