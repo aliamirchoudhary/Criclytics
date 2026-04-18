@@ -23,6 +23,29 @@ function flCircle(country, size=24) {
 
 function dash(v) { return (v == null || v === 0 || v === '') ? '—' : v; }
 function fmt1(v) { return (!v) ? '—' : Number(v).toFixed(1); }
+function teamInitials(name) {
+  return String(name || '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(function(p) { return p[0] ? p[0].toUpperCase() : ''; })
+    .join('') || '—';
+}
+
+function setTeamCrest(teamName) {
+  var crest = document.getElementById('teamCrest');
+  if (!crest) return;
+  var iso = COUNTRY_ISO[teamName];
+  if (iso) {
+    crest.innerHTML = '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(teamName)
+      + '" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-lg);" '
+      + 'onerror="this.remove();this.parentElement.textContent=\'' + esc(teamInitials(teamName)) + '\';this.parentElement.style.color=\'var(--accent)\';this.parentElement.style.fontWeight=\'700\';">';
+  } else {
+    crest.textContent = teamInitials(teamName);
+    crest.style.color = 'var(--accent)';
+    crest.style.fontWeight = '700';
+  }
+}
 
 const CONF = {
   'India':'Asia','Pakistan':'Asia','Sri Lanka':'Asia','Bangladesh':'Asia','Afghanistan':'Asia',
@@ -46,26 +69,19 @@ async function loadTeamProfile() {
   if (nameEl) nameEl.textContent = teamName;
   if (breadEl) breadEl.textContent = teamName;
 
-  // Update team crest flag
-  const iso = COUNTRY_ISO[teamName];
-  if (iso) {
-    const crestImg = document.getElementById('teamCrestImg');
-    if (crestImg) {
-      crestImg.src = `${FLAG_CDN}${iso}.svg`;
-      crestImg.alt = teamName;
-    }
-  }
+  // Update team crest flag/initials
+  setTeamCrest(teamName);
 
   // Update compare link
   const compareBtn = document.getElementById('compareBtn');
   if (compareBtn) compareBtn.href = `compare.html?team_a=${encodeURIComponent(teamName)}`;
 
   // Load stats data
-  const [teamData, metaData, rankingsData] = await Promise.all([
+  const [teamData, metaData] = await Promise.all([
     apiFetch(`/api/teams/${encodeURIComponent(teamName)}`),
     apiFetch('/api/meta/teams'),
-    apiFetch('/api/icc-rankings?category=teams&format=T20I'),
   ]);
+  const teamRankings = await fetchTeamRankings(teamName);
 
   const meta   = metaData?.[teamName] || {};
   const stats  = teamData?.format_stats || {};
@@ -74,9 +90,9 @@ async function loadTeamProfile() {
 
   // ── Full name / board info
   const fullNameEl = document.getElementById('teamFullName');
-  if (fullNameEl && meta.board) {
+  if (fullNameEl) {
     const founded = meta.founded ? ` · Founded: ${meta.founded}` : '';
-    fullNameEl.textContent = `${meta.board}${founded}`;
+    fullNameEl.textContent = meta.board ? `${meta.board}${founded}` : '—';
   }
 
   // ── Profile tags — update confederation and ranking
@@ -84,14 +100,15 @@ async function loadTeamProfile() {
   if (tagsEl) {
     const confTag = tagsEl.querySelector('.ptag:first-child');
     const conf = CONF[teamName] || meta.confederation || '';
-    if (confTag && conf) confTag.innerHTML = `<i class="fa fa-globe" style="font-size:.65rem"></i> ${conf}`;
+    if (confTag) confTag.innerHTML = `<i class="fa fa-globe" style="font-size:.65rem"></i> ${conf || '—'}`;
 
     // Find rank from rankings
-    const rankings = rankingsData?.rankings || [];
-    const rank = rankings.find(r => r.team === teamName);
+    const rank = teamRankings['T20I'];
+    const rankTag = tagsEl.querySelector('[style*="FFD700"]');
     if (rank) {
-      const rankTag = tagsEl.querySelector('[style*="FFD700"]');
       if (rankTag) rankTag.innerHTML = `<i class="fa fa-trophy" style="font-size:.65rem"></i> ICC #${rank.rank} T20I`;
+    } else if (rankTag) {
+      rankTag.innerHTML = `<i class="fa fa-trophy" style="font-size:.65rem"></i> ICC —`;
     }
 
     // WC trophies
@@ -107,9 +124,7 @@ async function loadTeamProfile() {
   const testWinPct = stats['Test']?.win_pct  || '—';
 
   // Find ICC T20I rating
-  const rankingsAll = await apiFetch('/api/icc-rankings?category=teams&format=T20I');
-  const teamRank = rankingsAll?.rankings?.find(r => r.team === teamName);
-  const iccRating = teamRank?.rating || '—';
+  const iccRating = teamRankings['T20I']?.rating || '—';
   const iccTrophies = meta.icc_trophies ?? '—';
 
   const tssVals = document.querySelectorAll('.tss-val');
@@ -135,7 +150,7 @@ async function loadTeamProfile() {
   renderVenueStats(venueStats);
 
   // ── Sidebar ICC Rankings
-  renderSidebarRankings(teamName, rankingsData);
+  renderSidebarRankings(teamName, teamRankings);
 
   // ── Sidebar rivals
   renderRivals(h2h);
@@ -152,7 +167,23 @@ async function loadTeamProfile() {
   renderTeamRecordsCard(stats);
 }
 
-function renderSidebarRankings(teamName, rankingsData) {
+async function fetchTeamRankings(teamName) {
+  var formats = ['T20I', 'ODI', 'Test'];
+  var rankingByFormat = {};
+  const responses = await Promise.all(formats.map(function(fmt) {
+    return apiFetch('/api/icc-rankings?category=teams&format=' + encodeURIComponent(fmt));
+  }));
+
+  formats.forEach(function(fmt, idx) {
+    var rows = responses[idx]?.rankings || [];
+    var entry = rows.find(function(r) { return r.team === teamName; });
+    if (entry) rankingByFormat[fmt] = { rank: entry.rank, rating: entry.rating };
+  });
+
+  return rankingByFormat;
+}
+
+function renderSidebarRankings(teamName, rankingByFormat) {
   // Update the ts-card "ICC Rankings" rows in the sidebar
   var rankCards = document.querySelectorAll('.ts-card');
   var iccCard = null;
@@ -160,29 +191,50 @@ function renderSidebarRankings(teamName, rankingsData) {
     var head = (card.querySelector('.ts-head') || {}).textContent || '';
     if (head.toLowerCase().includes('ranking')) iccCard = card;
   });
-  if (!iccCard || !rankingsData) return;
+  if (!iccCard) return;
 
-  var formats = ['T20I', 'ODI', 'Test'];
-  var rankMap = {};
-  formats.forEach(function(fmt) {
-    var rows = rankingsData.rankings || [];
-    // rankingsData was fetched for T20I only; fetch others would need separate calls
-    // For now update T20I rank
-    var entry = rows.find(function(r) { return r.team === teamName; });
-    if (entry) rankMap['T20I'] = { rank: entry.rank, rating: entry.rating };
+  iccCard.querySelectorAll('.ts-row').forEach(function(row) {
+    var valEl = row.querySelector('.ts-val');
+    if (!valEl) return;
+    valEl.textContent = '—';
+    valEl.style.color = 'var(--text-primary)';
   });
+
+  if (!rankingByFormat) return;
+
+  function rankColor(rank) {
+    if (rank === 1) return '#FFD700';
+    if (rank === 2) return '#C0C0C0';
+    if (rank === 3) return '#CD7F32';
+    return 'var(--text-primary)';
+  }
 
   iccCard.querySelectorAll('.ts-row').forEach(function(row) {
     var lbl = (row.querySelector('.ts-lbl') || {}).textContent || '';
     var valEl = row.querySelector('.ts-val');
     if (!valEl) return;
-    if (lbl.includes('T20I') && rankMap['T20I']) {
-      var r = rankMap['T20I'].rank;
-      valEl.textContent = '#' + r;
-      valEl.style.color = r <= 3 ? (r === 1 ? '#FFD700' : r === 2 ? '#C0C0C0' : '#CD7F32') : 'var(--text-primary)';
+    if (lbl === 'T20I' && rankingByFormat['T20I']) {
+      var t20r = rankingByFormat['T20I'].rank;
+      valEl.textContent = '#' + t20r;
+      valEl.style.color = rankColor(t20r);
     }
-    if (lbl.includes('Rating') && lbl.includes('T20I') && rankMap['T20I']) {
-      valEl.textContent = rankMap['T20I'].rating || '—';
+    if (lbl === 'ODI' && rankingByFormat['ODI']) {
+      var odir = rankingByFormat['ODI'].rank;
+      valEl.textContent = '#' + odir;
+      valEl.style.color = rankColor(odir);
+    }
+    if (lbl === 'Test' && rankingByFormat['Test']) {
+      var testr = rankingByFormat['Test'].rank;
+      valEl.textContent = '#' + testr;
+      valEl.style.color = rankColor(testr);
+    }
+    if (lbl.includes('Rating') && lbl.includes('T20I')) {
+      valEl.textContent = rankingByFormat['T20I']?.rating || '—';
+      valEl.style.color = 'var(--text-primary)';
+    }
+    if (lbl.includes('Rating') && lbl.includes('ODI')) {
+      valEl.textContent = rankingByFormat['ODI']?.rating || '—';
+      valEl.style.color = 'var(--text-primary)';
     }
   });
 }
@@ -265,12 +317,33 @@ function renderFormatBreakdown(stats) {
       <td class="mono">${fmt1(s.avg_wickets)}</td>
     </tr>`;
   }).filter(Boolean).join('');
-  if (rows) tbody.innerHTML = rows;
+  if (rows) {
+    tbody.innerHTML = rows;
+    return;
+  }
+
+  tbody.innerHTML = ['T20I', 'ODI', 'Test'].map(function(fmt) {
+    return `<tr>
+      <td class="bold">${fmt}</td>
+      <td class="mono">—</td>
+      <td class="mono">—</td>
+      <td class="mono">—</td>
+      <td class="mono">—</td>
+      <td class="mono">—</td>
+      <td class="mono" style="color:var(--accent)">—</td>
+      <td class="mono">—</td>
+      <td class="mono">—</td>
+    </tr>`;
+  }).join('');
 }
 
 function renderH2H(h2h) {
   const tbody = document.querySelector('#panel-h2h .data-table tbody');
-  if (!tbody || !Object.keys(h2h).length) return;
+  if (!tbody) return;
+  if (!Object.keys(h2h).length) {
+    tbody.innerHTML = '<tr><td class="bold">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td></tr>';
+    return;
+  }
 
   // Flatten: h2h is {opponent: {T20I: {...}, ODI: {...}}}
   // Show T20I by default
@@ -300,7 +373,10 @@ function renderVenueStats(venueStats) {
     .filter(([,s]) => s.matches >= 2)
     .sort((a,b) => (b[1].matches||0) - (a[1].matches||0))
     .slice(0, 8);
-  if (!sorted.length) return;
+  if (!sorted.length) {
+    tbody.innerHTML = '<tr><td class="bold">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td></tr>';
+    return;
+  }
   tbody.innerHTML = sorted.map(([venue, s]) => `
     <tr>
       <td class="bold">${esc(venue)}</td>
@@ -316,7 +392,23 @@ function renderVenueStats(venueStats) {
 function renderRivals(h2h) {
   // team-profile.html sidebar: Top Rivals card uses .rival-row elements
   const rivalRows = document.querySelectorAll('.rival-row');
-  if (!rivalRows.length || !Object.keys(h2h).length) return;
+  if (!rivalRows.length) return;
+  if (!Object.keys(h2h).length) {
+    rivalRows.forEach(function(row) {
+      var nameEl = row.querySelector('.rival-name');
+      var recEl  = row.querySelector('.rival-rec');
+      var winEl  = row.querySelector('.rival-win');
+      var flagEl = row.querySelector('.rival-flag');
+      if (flagEl) flagEl.textContent = '—';
+      if (nameEl) nameEl.textContent = '—';
+      if (recEl) recEl.textContent = '—';
+      if (winEl) winEl.textContent = '—';
+      row.removeAttribute('href');
+      row.style.pointerEvents = 'none';
+      row.style.cursor = 'default';
+    });
+    return;
+  }
 
   const rivals = Object.entries(h2h)
     .map(function(entry) {
@@ -404,7 +496,24 @@ async function renderRecentResults(teamName) {
 
 async function renderSquadAndKeyPlayers(teamName) {
   var data = await apiFetch('/api/players?limit=500&sort=runs&country=' + encodeURIComponent(teamName));
-  if (!data || !data.players || !data.players.length) return;
+  if (!data || !data.players || !data.players.length) {
+    var emptyHtml = '<div style="color:var(--text-muted);padding:.5rem;font-size:.82rem;">—</div>';
+    var emptyGrids = document.querySelectorAll('#panel-squad .squad-grid');
+    if (emptyGrids[0]) emptyGrids[0].innerHTML = emptyHtml;
+    if (emptyGrids[1]) emptyGrids[1].innerHTML = emptyHtml;
+    if (emptyGrids[2]) emptyGrids[2].innerHTML = emptyHtml;
+
+    var keyCardEmpty = null;
+    document.querySelectorAll('.ts-card').forEach(function(card) {
+      if ((card.querySelector('.ts-head')||{}).textContent.toLowerCase().includes('key')) keyCardEmpty = card;
+    });
+    if (keyCardEmpty) {
+      var headEmpty = keyCardEmpty.querySelector('.ts-head');
+      keyCardEmpty.innerHTML = (headEmpty ? headEmpty.outerHTML : '<div class="ts-head">Key Players</div>')
+        + '<div style="padding:.8rem 1.1rem;color:var(--text-muted);font-size:.82rem;">—</div>';
+    }
+    return;
+  }
   var players = data.players;
 
   // Classify by role

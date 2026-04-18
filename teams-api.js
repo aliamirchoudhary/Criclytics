@@ -23,6 +23,26 @@ function flInline(country, size=18) {
 const posClass = ['pos-1','pos-2','pos-3'];
 const delays = ['','delay-1','delay-2','delay-3','delay-4','delay-5','','delay-1','delay-2','delay-3','delay-4','delay-5'];
 
+function parseMatchNameTeams(name) {
+  if (!name) return ['', ''];
+  var parts = String(name).split(/\s+vs\s+|\s+v\s+|\s+versus\s+/i);
+  if (parts.length < 2) return ['', ''];
+  return [
+    (parts[0] || '').trim(),
+    (parts[1] || '').trim().split(/,|\(|–|-/)[0].trim()
+  ];
+}
+
+function getMatchTeamName(match, index) {
+  if (!match) return '';
+  var fallback = (Array.isArray(match.teams) ? match.teams[index] : '')
+    || (match.teamInfo && match.teamInfo[index] && match.teamInfo[index].name)
+    || '';
+  var parsed = parseMatchNameTeams(match.name || '');
+  if (index === 0) return match.t1 || match.team1 || fallback || parsed[0] || '';
+  return match.t2 || match.team2 || fallback || parsed[1] || '';
+}
+
 // ── Render rankings table ─────────────────────────────────────────────────────
 function renderRankings(teams, fmt) {
   const wrap = document.querySelector('.rank-table-wrap');
@@ -128,8 +148,11 @@ async function renderTeamCards() {
   const grid = document.getElementById('view-cards')?.querySelector('.teams-grid');
   if (!grid) return;
 
-  const teams = Object.keys(statsData);
-  if (!teams.length) return;
+  const teams = Object.keys(statsData).filter(teamPassesFilters);
+  if (!teams.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:1.2rem;color:var(--text-muted);font-size:.82rem;text-align:center;">No teams match the selected filters.</div>';
+    return;
+  }
 
   grid.innerHTML = teams.map((team, i) => {
     const s = statsData[team] || {};
@@ -234,8 +257,8 @@ async function renderFixtures() {
   }
 
   fixtureCard.innerHTML = headHtml + upcoming.map(function(m) {
-    var t1 = m.t1 || m.team1 || '';
-    var t2 = m.t2 || m.team2 || '';
+    var t1 = getMatchTeamName(m, 0) || 'TBA';
+    var t2 = getMatchTeamName(m, 1) || 'TBA';
     var iso1 = COUNTRY_ISO[t1] || ''; var iso2 = COUNTRY_ISO[t2] || '';
     var f1 = iso1 ? '<img src="' + FLAG_CDN + iso1 + '.svg" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;">' : '';
     var f2 = iso2 ? '<img src="' + FLAG_CDN + iso2 + '.svg" style="width:14px;height:14px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:3px;">' : '';
@@ -280,6 +303,12 @@ var REGION_TEAMS = {
   'americas': ['West Indies','USA','Canada'],
 };
 
+function teamPassesFilters(teamName) {
+  var regionOk = !_activeTeamRegion || (REGION_TEAMS[_activeTeamRegion] || []).indexOf(teamName) !== -1;
+  var searchOk = !_teamSearch || teamName.toLowerCase().includes(_teamSearch);
+  return regionOk && searchOk;
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
   // Load T20I rankings by default
@@ -308,7 +337,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else {
         _activeTeamRegion = '';
       }
-      filterRankingRows();
+      var cardsVisible = document.getElementById('view-cards') && document.getElementById('view-cards').style.display !== 'none';
+      if (cardsVisible) renderTeamCards();
+      else filterRankingRows();
     });
   });
 
@@ -317,7 +348,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (searchInput) {
     searchInput.addEventListener('input', () => {
       _teamSearch = searchInput.value.trim().toLowerCase();
-      filterRankingRows();
+      var cardsVisible = document.getElementById('view-cards') && document.getElementById('view-cards').style.display !== 'none';
+      if (cardsVisible) renderTeamCards();
+      else filterRankingRows();
     });
   }
 
@@ -326,7 +359,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     btn.addEventListener('click', () => {
       btn.closest('div').querySelectorAll('[data-fmt-rank]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const fmt = btn.dataset.fmtRank.toUpperCase();
+      const raw = (btn.dataset.fmtRank || '').toLowerCase();
+      const fmt = raw === 't20i' ? 'T20I' : raw === 'odi' ? 'ODI' : 'Test';
       switchRankingsFormat(fmt);
     });
   });

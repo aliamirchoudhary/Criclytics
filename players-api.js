@@ -19,6 +19,14 @@ let activeRole   = '';      // 'Batsman' | 'Bowler' | 'All-Rounder' | 'Wicketkee
 let activeCountry= '';      // country name
 let activeBatStyle = '';    // 'Right-hand bat' | 'Left-hand bat' | ''
 
+function normalizeFormatKey(fmt) {
+  const value = String(fmt || '').trim().toLowerCase();
+  if (value === 't20' || value === 't20i' || value === 't20s') return 'T20I';
+  if (value === 'odi' || value === 'odis') return 'ODI';
+  if (value === 'test' || value === 'tests') return 'Test';
+  return String(fmt || '').trim();
+}
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function fl(country, size = 16) {
   const code = COUNTRY_ISO[country] || country;
@@ -189,7 +197,11 @@ function getFiltered() {
   }
 
   if (activeFormat) {
-    players = players.filter(p => (p.formats || []).includes(activeFormat));
+    players = players.filter(p => {
+      return (p.formats || []).some(function(f) {
+        return normalizeFormatKey(f) === activeFormat;
+      });
+    });
   }
 
   if (activeLetter !== 'all') {
@@ -226,6 +238,12 @@ function getFiltered() {
   // Sort
   players.sort((a, b) => {
     if (activeSort === 'alpha') return a.name.localeCompare(b.name);
+    if (activeSort === 'country') {
+      const ac = (getCountry(a) || '').toLowerCase();
+      const bc = (getCountry(b) || '').toLowerCase();
+      if (ac !== bc) return ac.localeCompare(bc);
+      return a.name.localeCompare(b.name);
+    }
     const aStats = getBestStats(a);
     const bStats = getBestStats(b);
     if (activeSort === 'wickets') {
@@ -348,9 +366,63 @@ async function loadPlayers() {
 
 function updateFacetCounts() {
   const total = allPlayers.length;
-  // Update total count in facets
-  const allRolesOpt = document.querySelector('.facet-opt.active .facet-count');
-  if (allRolesOpt) allRolesOpt.textContent = total.toLocaleString();
+  const roleCounts = { 'All Roles': total, 'Batsman': 0, 'Bowler': 0, 'All-Rounder': 0, 'Wicketkeeper': 0 };
+  const formatCounts = { 'T20 International': 0, 'ODI': 0, 'Test': 0 };
+  const batStyleCounts = { 'Right-hand bat': 0, 'Left-hand bat': 0 };
+  const statusCounts = { 'Active players': 0, 'Retired': 0 };
+  const countryCounts = {};
+
+  allPlayers.forEach(function(p) {
+    const meta = playersMeta[p.name] || {};
+    const role = (p.role || meta.role || '').toLowerCase();
+    const hasBat = !!p.batting;
+    const hasBowl = !!p.bowling;
+
+    if (role.includes('keeper') || role.includes('wicket')) roleCounts['Wicketkeeper'] += 1;
+    else if (role.includes('all') || (hasBat && hasBowl)) roleCounts['All-Rounder'] += 1;
+    else if (role.includes('bowl') || (!role && hasBowl && !hasBat)) roleCounts['Bowler'] += 1;
+    else roleCounts['Batsman'] += 1;
+
+    (p.formats || []).forEach(function(fmt) {
+      if (fmt === 'T20I') formatCounts['T20 International'] += 1;
+      if (fmt === 'ODI')  formatCounts['ODI'] += 1;
+      if (fmt === 'Test') formatCounts['Test'] += 1;
+    });
+
+    const bStyle = (meta.batting_style || '').toLowerCase();
+    if (bStyle.includes('right')) batStyleCounts['Right-hand bat'] += 1;
+    else if (bStyle.includes('left')) batStyleCounts['Left-hand bat'] += 1;
+
+    const retired = meta.retired === true || String(meta.active || '').toLowerCase() === 'false';
+    if (retired) statusCounts['Retired'] += 1;
+    else statusCounts['Active players'] += 1;
+
+    const c = getCountry(p);
+    if (c) countryCounts[c] = (countryCounts[c] || 0) + 1;
+  });
+
+  document.querySelectorAll('.facets-section').forEach(function(section) {
+    const title = ((section.querySelector('.facets-section-title') || {}).textContent || '').trim().toLowerCase();
+    section.querySelectorAll('.facet-opt').forEach(function(opt) {
+      const first = opt.querySelector('span:first-child');
+      const label = (first ? first.textContent : opt.textContent).replace(/\s+/g, ' ').trim();
+      const countEl = opt.querySelector('.facet-count');
+      if (!countEl) return;
+
+      let nextCount = null;
+      if (title.includes('role')) nextCount = roleCounts[label];
+      else if (title.includes('format')) nextCount = formatCounts[label];
+      else if (title.includes('country')) {
+        const flagImg = opt.querySelector('img');
+        const countryName = flagImg ? flagImg.alt.trim() : label;
+        nextCount = countryCounts[countryName] || 0;
+      }
+      else if (title.includes('batting')) nextCount = batStyleCounts[label];
+      else if (title.includes('active')) nextCount = statusCounts[label];
+
+      if (nextCount != null) countEl.textContent = Number(nextCount).toLocaleString();
+    });
+  });
 }
 
 // ── Event wiring ──────────────────────────────────────────────────────────────
@@ -369,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ── Sort chips (filter bar: Trending / A-Z / ICC Ranked / By Country) ─────────
   // Map chip data-sort → internal sort key
-  var SORT_MAP = { 'trending':'runs', 'alpha':'alpha', 'ranking':'runs', 'country':'alpha' };
+  var SORT_MAP = { 'trending':'runs', 'alpha':'alpha', 'ranking':'avg', 'country':'country' };
   document.querySelectorAll('[data-sort]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       document.querySelectorAll('[data-sort]').forEach(function(b) { b.classList.remove('active'); });
@@ -398,7 +470,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // ── Format chips ──────────────────────────────────────────────────────────────
   document.querySelectorAll('[data-fmt]').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      var fmt = btn.dataset.fmt.toUpperCase().replace(/^T20$/, 'T20I');
+      var fmt = normalizeFormatKey(btn.dataset.fmt);
       if (activeFormat === fmt) {
         activeFormat = '';
         btn.classList.remove('active');
@@ -457,13 +529,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var flagImg = opt.querySelector('img');
         var cleanCountry = flagImg ? flagImg.alt.trim() : label.replace(/[^ -]/g,'').trim();
 
+        cleanCountry = flagImg ? flagImg.alt.trim() : label;
+
         if (title.includes('role')) {
           activeRole = (label.toLowerCase().includes('all role') || label.toLowerCase().includes('all roles')) ? '' : label.trim();
         } else if (title.includes('format')) {
-          if      (label.toLowerCase().includes('t20')) activeFormat = 'T20I';
-          else if (label.toLowerCase().includes('odi'))  activeFormat = 'ODI';
-          else if (label.toLowerCase().includes('test')) activeFormat = 'Test';
-          else                                           activeFormat = '';
+          activeFormat = normalizeFormatKey(label);
+          if (!['T20I', 'ODI', 'Test'].includes(activeFormat)) activeFormat = '';
         } else if (title.includes('country')) {
           activeCountry = cleanCountry;
         } else if (title.includes('batting') || title.includes('bat style')) {

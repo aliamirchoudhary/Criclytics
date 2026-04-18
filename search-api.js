@@ -18,11 +18,30 @@ function guessIso(name) {
   return '';
 }
 
-function flCircle(country, size) {
+function initialsFromName(name) {
+  var parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return 'NA';
+  var first = parts[0][0] || '';
+  var second = (parts[1] && parts[1][0]) || '';
+  return (first + second).toUpperCase() || 'NA';
+}
+
+function flCircle(country, size, fallbackLabel) {
   size = size || 40;
   const code = COUNTRY_ISO[country] || guessIso(country) || '';
-  if (!code) return '<span style="font-size:' + Math.round(size*0.45) + 'px;font-weight:700;color:var(--accent);">' + (country||'?')[0] + '</span>';
+  if (!code) {
+    return '<span style="width:' + size + 'px;height:' + size + 'px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:var(--surface-2);font-size:' + Math.round(size*0.34) + 'px;font-weight:700;color:var(--accent);">' + esc(initialsFromName(fallbackLabel || country)) + '</span>';
+  }
   return '<img src="' + FLAG_CDN + code + '.svg" alt="' + esc(country) + '" style="width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">';
+}
+
+function buildPlayerAvatar(r, size) {
+  size = size || 44;
+  var imageUrl = r.photo || r.image || r.img || r.avatar || '';
+  if (imageUrl) {
+    return '<img src="' + esc(imageUrl) + '" alt="' + esc(r.name || 'Player') + '" style="width:' + size + 'px;height:' + size + 'px;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\';this.insertAdjacentHTML(\'afterend\',\'<span style=\\\"position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--surface-2);font-size:' + Math.round(size*0.34) + 'px;font-weight:700;color:var(--accent);\\\">' + esc(initialsFromName(r.name)) + '</span>\');">';
+  }
+  return flCircle(r.country || '', size, r.name || '');
 }
 
 // ── Build result cards by type ────────────────────────────────────────────────
@@ -30,7 +49,7 @@ function buildPlayerCard(r) {
   var country = r.country || '';
   var formats = (r.formats || []).join(',');
   return '<a href="player-profile.html?name=' + encodeURIComponent(r.name) + '" class="result-row" data-country="' + esc(country.toLowerCase()) + '" data-formats="' + esc(formats) + '">'
-    + '<div class="result-avatar" style="overflow:hidden;">' + flCircle(country, 44) + '</div>'
+    + '<div class="result-avatar" style="overflow:hidden;position:relative;">' + buildPlayerAvatar(r, 44) + '</div>'
     + '<div class="result-info">'
       + '<div class="result-name">' + esc(r.name) + '</div>'
       + '<div class="result-meta">' + esc(country) + (r.role ? ' <span class="result-tag">' + esc(r.role) + '</span>' : '') + '</div>'
@@ -46,7 +65,7 @@ function buildPlayerCard(r) {
 
 function buildTeamCard(r) {
   return '<a href="team-profile.html?name=' + encodeURIComponent(r.name) + '" class="result-row">'
-    + '<div class="result-avatar rect" style="overflow:hidden;">' + flCircle(r.name, 44) + '</div>'
+    + '<div class="result-avatar rect" style="overflow:hidden;">' + flCircle(r.name, 44, r.name) + '</div>'
     + '<div class="result-info">'
       + '<div class="result-name">' + esc(r.name) + '</div>'
       + '<div class="result-meta">International Cricket Team'
@@ -162,9 +181,14 @@ function renderResults(results, query) {
   }
 
   container.innerHTML = html;
+  // Preserve insertion order so "Relevance" can restore the original listing.
+  Array.from(container.querySelectorAll('.result-group .result-row, .result-group .result-match')).forEach(function(row, idx) {
+    row.dataset.order = String(idx);
+  });
   currentResults = results;
   // Reapply active filter if not 'all'
   if (activeFilter && activeFilter !== 'all') applyFilter(activeFilter);
+  applySidebarFilters();
 }
 
 // ── Filter ────────────────────────────────────────────────────────────────────
@@ -179,6 +203,123 @@ function applyFilter(type) {
     // id is like 'group-players', 'group-teams', 'group-venues', 'group-matches'
     const groupType = id.replace('group-', '').replace(/s$/, ''); // 'player','team','venue','match'
     group.style.display = (groupType === type || id.includes(type)) ? '' : 'none';
+  });
+}
+
+function getActiveSidebarLabels(blockTitle) {
+  var labels = [];
+  document.querySelectorAll('.search-sidebar .sidebar-block').forEach(function(block) {
+    var header = (block.querySelector('.sidebar-block-header') || {}).textContent || '';
+    if (!header.toLowerCase().includes(blockTitle)) return;
+    block.querySelectorAll('.sidebar-option.active').forEach(function(opt) {
+      var txt = ((opt.querySelector('.sidebar-option-left') || {}).textContent || '').replace(/\s+/g, ' ').trim();
+      if (txt) labels.push(txt);
+    });
+  });
+  return labels;
+}
+
+function applySidebarFilters() {
+  var container = document.getElementById('results-container') || document.querySelector('.search-results-main');
+  if (!container) return;
+
+  var formatFilters = getActiveSidebarLabels('format').filter(function(t) { return !t.toLowerCase().includes('all format'); });
+  var countryFilters = getActiveSidebarLabels('country').filter(function(t) { return !t.toLowerCase().includes('all countr'); });
+  var sortLabel = (getActiveSidebarLabels('sort by')[0] || 'relevance').toLowerCase();
+
+  function textHasAny(text, needles) {
+    if (!needles.length) return true;
+    var hay = String(text || '').toLowerCase();
+    return needles.some(function(n) { return hay.includes(String(n || '').toLowerCase()); });
+  }
+
+  function countryFromTeamName(name) {
+    return (COUNTRY_ISO[name] ? name : '').toLowerCase();
+  }
+
+  function normalizeLabel(v) {
+    return String(v || '').replace(/[^a-zA-Z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+
+  function readCountryFromMeta(row) {
+    var meta = ((row.querySelector('.result-meta') || {}).textContent || '');
+    return normalizeLabel(meta.split('·')[0]);
+  }
+
+  function readFormatsFromRow(row) {
+    var fromData = normalizeLabel((row.dataset.formats || '').replace(/,/g, ' '));
+    var fromMeta = normalizeLabel((row.querySelector('.result-meta,.match-mini-sub') || {}).textContent || '');
+    return (fromData + ' ' + fromMeta).trim();
+  }
+
+  function readNameForSort(row) {
+    return (((row.querySelector('.result-name,.match-mini-title') || {}).textContent || '').trim());
+  }
+
+  function readNumericScore(row) {
+    var txt = (row.textContent || '');
+    var nums = txt.match(/\d+(?:\.\d+)?/g) || [];
+    if (!nums.length) return 0;
+    return Math.max.apply(null, nums.map(function(n) { return parseFloat(n) || 0; }));
+  }
+
+  var formatNeedles = formatFilters.map(normalizeLabel);
+  var countryNeedles = countryFilters.map(normalizeLabel);
+
+  container.querySelectorAll('.result-group').forEach(function(group) {
+    var gid = group.id || '';
+    var rows = gid === 'group-matches'
+      ? Array.from(group.querySelectorAll('.result-row,.result-match'))
+      : Array.from(group.querySelectorAll('.result-row'));
+
+    rows.forEach(function(row) {
+      var passFormat = true;
+      var passCountry = true;
+
+      if (gid === 'group-players') {
+        var playerFormats = readFormatsFromRow(row);
+        var playerCountry = normalizeLabel((row.dataset.country || '')) || readCountryFromMeta(row);
+        passFormat = !formatNeedles.length || textHasAny(playerFormats, formatNeedles);
+        passCountry = !countryNeedles.length || textHasAny(playerCountry, countryNeedles);
+      } else if (gid === 'group-teams') {
+        var meta = readFormatsFromRow(row);
+        var name = ((row.querySelector('.result-name') || {}).textContent || '').trim();
+        passFormat = !formatNeedles.length || textHasAny(meta, formatNeedles);
+        passCountry = !countryNeedles.length || textHasAny(countryFromTeamName(name), countryNeedles);
+      } else if (gid === 'group-venues') {
+        var venueMeta = normalizeLabel((row.querySelector('.result-meta') || {}).textContent || '');
+        passCountry = !countryNeedles.length || textHasAny(venueMeta, countryNeedles);
+      } else if (gid === 'group-matches') {
+        var matchMeta = readFormatsFromRow(row);
+        passFormat = !formatNeedles.length || textHasAny(matchMeta, formatNeedles);
+      }
+
+      row.style.display = (passFormat && passCountry) ? '' : 'none';
+    });
+
+    var visibleRows = rows.filter(function(r) { return r.style.display !== 'none'; }).length;
+    if (visibleRows === 0) {
+      group.style.display = 'none';
+    } else if (activeFilter === 'all') {
+      group.style.display = '';
+    }
+
+    if (visibleRows > 1) {
+      var rowSelector = gid === 'group-matches' ? '.result-row,.result-match' : '.result-row';
+      var sortableRows = Array.from(group.querySelectorAll(rowSelector));
+      if (sortLabel.includes('alphabet')) {
+        sortableRows.sort(function(a, b) { return readNameForSort(a).localeCompare(readNameForSort(b)); });
+      } else if (sortLabel.includes('most match') || sortLabel.includes('highest rated')) {
+        sortableRows.sort(function(a, b) { return readNumericScore(b) - readNumericScore(a); });
+      } else {
+        sortableRows.sort(function(a, b) {
+          var ao = parseInt(a.dataset.order || '0', 10);
+          var bo = parseInt(b.dataset.order || '0', 10);
+          return ao - bo;
+        });
+      }
+      sortableRows.forEach(function(row) { group.appendChild(row); });
+    }
   });
 }
 
@@ -228,8 +369,27 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.cat-tab').forEach(function(t) { t.classList.remove('active'); });
     btn.classList.add('active');
     activeFilter = cat;
+    applySidebarFilters();
     applyFilter(cat);
   };
+
+  function resetSidebarFiltersInitial() {
+    document.querySelectorAll('.search-sidebar .sidebar-block').forEach(function(block) {
+      var header = ((block.querySelector('.sidebar-block-header') || {}).textContent || '').toLowerCase();
+      var opts = Array.from(block.querySelectorAll('.sidebar-option'));
+      if (!opts.length) return;
+
+      if (header.includes('sort')) {
+        opts.forEach(function(o) { o.classList.remove('active'); });
+        var relevance = opts.find(function(o) {
+          return ((o.querySelector('.sidebar-option-left') || {}).textContent || '').toLowerCase().includes('relevance');
+        });
+        (relevance || opts[0]).classList.add('active');
+      } else {
+        opts.forEach(function(o) { o.classList.remove('active'); });
+      }
+    });
+  }
 
   // Override toggleFilter from search.html — sidebar format/country checkboxes
   window.toggleFilter = function(opt) {
@@ -237,49 +397,21 @@ document.addEventListener('DOMContentLoaded', function() {
     var header = (block && block.querySelector('.sidebar-block-header')) || {};
     var headerText = (header.textContent || '').toLowerCase().trim();
 
-    // Toggle active state on clicked option
-    opt.classList.toggle('active');
-
-    // Get all active options in this block
-    var activeOpts = block ? Array.from(block.querySelectorAll('.sidebar-option.active')) : [];
-    var activeLabels = activeOpts.map(function(o) {
-      return (o.querySelector('.sidebar-option-left') || {}).textContent || '';
-    }).map(function(t) { return t.replace(/[\u0000-\u001F\u007F-\u009F]/g, '').trim(); });
+    // Sort By is single-select; Format/Country remain multi-select.
+    if (headerText.includes('sort')) {
+      (block ? block.querySelectorAll('.sidebar-option') : []).forEach(function(o) { o.classList.remove('active'); });
+      opt.classList.add('active');
+    } else {
+      opt.classList.toggle('active');
+    }
 
     if (!currentResults) return;
-
-    var container = document.getElementById('results-container') || document.querySelector('.search-results-main');
-    if (!container) return;
-
-    if (headerText.includes('format')) {
-      // Filter player/team cards by format
-      var allFormats = activeLabels.some(function(l) { return l.toLowerCase().includes('all'); });
-      container.querySelectorAll('.result-group').forEach(function(group) {
-        var groupId = group.id || '';
-        if (groupId !== 'group-players') return;
-        group.querySelectorAll('.result-row').forEach(function(row) {
-          if (allFormats) { row.style.display = ''; return; }
-          var rowFmts = (row.dataset.formats || '').split(',');
-          var match = activeLabels.some(function(fmt) {
-            return rowFmts.some(function(rf) { return rf.toUpperCase().includes(fmt.toUpperCase()); });
-          });
-          row.style.display = match ? '' : 'none';
-        });
-      });
-
-    } else if (headerText.includes('country')) {
-      // Filter player cards by country
-      container.querySelectorAll('.result-group#group-players .result-row').forEach(function(row) {
-        if (!activeLabels.length) { row.style.display = ''; return; }
-        var rowCountry = (row.dataset.country || '').toLowerCase();
-        var match = activeLabels.some(function(l) {
-          var clean = l.replace(/[^\x00-\x7F]/g,'').trim().toLowerCase();
-          return !clean || rowCountry.includes(clean);
-        });
-        row.style.display = match ? '' : 'none';
-      });
-    }
+    applySidebarFilters();
+    if (activeFilter && activeFilter !== 'all') applyFilter(activeFilter);
   };
+
+  // Initial state: no active sidebar filters except Sort by default.
+  resetSidebarFiltersInitial();
 
   // Wire suggestion chips
   document.querySelectorAll('.suggestion-chip').forEach(function(chip) {
