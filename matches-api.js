@@ -89,7 +89,7 @@ function getMatchScore(match, index) {
       return formatScoreObject(match.score[index]);
     }
   }
-  return index === 0 ? (match.t1s || match.status || '') : (match.t2s || match.status || '');
+  return '';
 }
 
 // ── Build a single match row card ─────────────────────────────────────────────
@@ -131,7 +131,7 @@ function buildMatchCard(match, statusClass, delay) {
   const s2html = score2 ? '<span class="match-row-score">' + esc(score2) + '</span>' : '';
 
   var dp='match-detail';
-  return '<a href="'+dp+'.html?id=' + esc(id) + '" class="match-row-card ' + statusClass + ' anim-up ' + delay + '">'
+  return '<a href="'+dp+'.html?id=' + esc(id) + '" class="match-row-card ' + statusClass + ' anim-up ' + delay + '" data-team1="' + esc(t1) + '" data-team2="' + esc(t2) + '" data-date="' + esc(date) + '" data-series="' + esc(series) + '">'
     + '<div class="match-row-badges">' + badge + '<span class="match-format-badge">' + esc(fmt) + '</span></div>'
     + '<div class="match-row-teams">'
       + '<div class="match-row-team">'
@@ -349,6 +349,121 @@ async function loadSeries() {
   }).join('');
 }
 
+// ── Helper: Check if match is IPL ────────────────────────────────────────────
+function isIplMatch(match) {
+  if (!match) return false;
+  var series = (match.series || '').toLowerCase();
+  var type = (match.matchType || '').toLowerCase();
+  return series.includes('indian premier league') || series.includes('ipl') || type.includes('ipl');
+}
+
+// ── Apply all filters and sorting ────────────────────────────────────────────
+function applyMatchFiltersAndSort() {
+  var formatVal = '';
+  var teamVal = '';
+  var sortVal = '';
+
+  // Get active format
+  var activeFormat = document.querySelector('.filter-chip.active');
+  if (activeFormat) formatVal = (activeFormat.dataset.format || '').toLowerCase();
+
+  // Get team filter value
+  var teamSelect = document.getElementById('matches-team-filter');
+  if (teamSelect) teamVal = teamSelect.value.toLowerCase().trim();
+
+  // Get sort value
+  var sortSelect = document.getElementById('matches-sort-filter');
+  if (sortSelect) sortVal = sortSelect.value.toLowerCase();
+
+  // Process each group separately to maintain group structure
+  ['group-live', 'group-upcoming', 'group-completed'].forEach(function(groupId) {
+    var group = document.getElementById(groupId);
+    if (!group) return;
+
+    // Get all cards in this group
+    var groupCards = [];
+    group.querySelectorAll('.match-row-card').forEach(function(card) {
+      groupCards.push(card);
+    });
+
+    // Apply format filter
+    groupCards.forEach(function(card) {
+      var matchFmt = (card.querySelector('.match-format-badge') || {}).textContent || '';
+      matchFmt = matchFmt.trim().toLowerCase();
+      
+      var series = (card.dataset.series || '').toLowerCase();
+      var isIpl = (matchFmt.includes('ipl') || series.includes('indian premier league') || series.includes(' ipl '));
+
+      var formatMatch = formatVal === 'all' || !formatVal;
+      if (!formatMatch && formatVal) {
+        if (formatVal === 'ipl') {
+          formatMatch = isIpl;
+        } else if (formatVal === 't20') {
+          formatMatch = matchFmt.includes('t20') && !isIpl;
+        } else if (formatVal === 'odi') {
+          formatMatch = matchFmt === 'odi';
+        } else if (formatVal === 'test') {
+          formatMatch = matchFmt === 'test';
+        }
+      }
+
+      card.dataset.formatMatch = formatMatch ? '1' : '0';
+    });
+
+    // Apply team filter
+    groupCards.forEach(function(card) {
+      var teamMatch = !teamVal;
+      if (teamVal) {
+        var t1 = (card.dataset.team1 || '').toLowerCase();
+        var t2 = (card.dataset.team2 || '').toLowerCase();
+        teamMatch = t1.includes(teamVal) || t2.includes(teamVal);
+      }
+      card.dataset.teamMatch = teamMatch ? '1' : '0';
+    });
+
+    // Filter to only those matching format and team
+    var filteredCards = groupCards.filter(function(card) {
+      return card.dataset.formatMatch === '1' && card.dataset.teamMatch === '1';
+    });
+
+    // Apply sorting
+    if (sortVal === 'oldest') {
+      filteredCards.sort(function(a, b) {
+        var dateA = new Date(a.dataset.date || 0);
+        var dateB = new Date(b.dataset.date || 0);
+        return dateA - dateB;
+      });
+    } else if (sortVal === 'format') {
+      var formatOrder = {test: 0, odi: 1, t20: 2, ipl: 3};
+      filteredCards.sort(function(a, b) {
+        var fmtA = (a.querySelector('.match-format-badge') || {}).textContent.trim().toLowerCase();
+        var fmtB = (b.querySelector('.match-format-badge') || {}).textContent.trim().toLowerCase();
+        var orderA = formatOrder[fmtA] || 99;
+        var orderB = formatOrder[fmtB] || 99;
+        return orderA - orderB;
+      });
+    } else {
+      // Default: newest first (reverse chronological)
+      filteredCards.sort(function(a, b) {
+        var dateA = new Date(a.dataset.date || 0);
+        var dateB = new Date(b.dataset.date || 0);
+        return dateB - dateA;
+      });
+    }
+
+    // Hide all cards in group first
+    groupCards.forEach(function(card) {
+      card.style.display = 'none';
+    });
+
+    // Reorder and show filtered cards by moving them to end (maintains sort)
+    filteredCards.forEach(function(card) {
+      card.style.display = '';
+      group.appendChild(card);
+    });
+  });
+}
+
 // ── Format filter chips ───────────────────────────────────────────────────────
 function initFormatFilter() {
   // Format chips (data-format)
@@ -356,36 +471,25 @@ function initFormatFilter() {
     chip.addEventListener('click', function() {
       document.querySelectorAll('.filter-chip[data-format]').forEach(function(c) { c.classList.remove('active'); });
       chip.classList.add('active');
-      var fmt = (chip.dataset.format || '').toLowerCase();
-      document.querySelectorAll('.match-row-card').forEach(function(card) {
-        if (fmt === 'all') { card.style.display = ''; return; }
-        var cardFmt = (card.querySelector('.match-format-badge') || {}).textContent || '';
-        cardFmt = cardFmt.trim().toLowerCase();
-        var hit = fmt === 't20'  ? (cardFmt.includes('t20') || cardFmt.includes('ipl'))
-                : fmt === 'odi'  ? cardFmt === 'odi'
-                : fmt === 'test' ? cardFmt === 'test'
-                : fmt === 'ipl'  ? (cardFmt.includes('ipl') || cardFmt.includes('t20'))
-                : cardFmt.includes(fmt);
-        card.style.display = hit ? '' : 'none';
-      });
+      applyMatchFiltersAndSort();
     });
   });
 
-  // Filter selects (Sort + Region dropdowns in filter bar)
-  document.querySelectorAll('.filter-select').forEach(function(sel) {
-    sel.addEventListener('change', function() {
-      var val = sel.value.toLowerCase();
-      // Series/region filter
-      if (val && val !== 'all matches' && !val.includes('series') && !val.includes('filter') && !val.includes('all')) {
-        document.querySelectorAll('.match-row-card').forEach(function(card) {
-          var series = (card.dataset.series || card.querySelector('.match-series') || {}).textContent || '';
-          card.style.display = (!val || series.toLowerCase().includes(val)) ? '' : 'none';
-        });
-      } else {
-        document.querySelectorAll('.match-row-card').forEach(function(card) { card.style.display = ''; });
-      }
+  // Filter selects (team filter and sort dropdown)
+  var teamSelect = document.getElementById('matches-team-filter');
+  var sortSelect = document.getElementById('matches-sort-filter');
+
+  if (teamSelect) {
+    teamSelect.addEventListener('change', function() {
+      applyMatchFiltersAndSort();
     });
-  });
+  }
+
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      applyMatchFiltersAndSort();
+    });
+  }
 }
 
 // Status tabs are handled by the inline script in matches.html

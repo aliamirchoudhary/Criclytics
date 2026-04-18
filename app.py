@@ -361,6 +361,15 @@ def get_venue(venue_name):
     return jsonify(venue)
 
 
+@app.route("/api/team-venue-stats")
+def get_team_venue_stats():
+    """All teams' venue-wise records by format."""
+    data = load_processed("team_venue_stats.json")
+    if data is None:
+        return jsonify({"error": "Data not found"}), 500
+    return jsonify(data)
+
+
 # ── Rankings ──────────────────────────────────────────────────────────────────
 
 @app.route("/api/rankings")
@@ -441,6 +450,80 @@ def get_records():
         if cat in data:
             for fmt in ("Test", "ODI", "T20I"):
                 enrich_list(data[cat].get(fmt))
+
+    # Provide explicit sidebar payload so frontend does not synthesize
+    # section cards from unrelated fallback/static rows.
+    sidebar = {
+        "all_time_bests": [],
+        "records_by_country": [],
+        "recently_broken": [],
+    }
+
+    def _num(entry, key):
+        val = (entry or {}).get(key)
+        try:
+            return float(val)
+        except (TypeError, ValueError):
+            return -1.0
+
+    provided_sidebar = data.get("sidebar") if isinstance(data.get("sidebar"), dict) else {}
+
+    # 1) All-Time Bests: use provided payload if present, otherwise derive a canonical list.
+    all_time = provided_sidebar.get("all_time_bests")
+    if isinstance(all_time, list) and all_time:
+        sidebar["all_time_bests"] = all_time
+    else:
+        picks = [
+            ("Most Test runs ever", "most_runs", "Test", "runs"),
+            ("Most Test wickets", "most_wickets", "Test", "wickets"),
+            ("Highest Test average", "best_averages", "Test", "average"),
+            ("Most ODI runs", "most_runs", "ODI", "runs"),
+            ("Most ODI centuries", "most_hundreds", "ODI", "hundreds"),
+            ("Most T20I runs", "most_runs", "T20I", "runs"),
+        ]
+        for label, cat, fmt, metric in picks:
+            rows = ((data.get(cat) or {}).get(fmt) or [])
+            if not rows:
+                continue
+            top = sorted(rows, key=lambda e: _num(e, metric), reverse=True)[0]
+            sidebar["all_time_bests"].append({
+                "name": top.get("player") or top.get("name") or "",
+                "country": top.get("country", ""),
+                "label": label,
+                "value": top.get(metric),
+                "type": "player",
+            })
+
+    # 2) Records by Country: prefer provided payload, else count enriched top-list entries.
+    by_country = provided_sidebar.get("records_by_country")
+    if isinstance(by_country, list) and by_country:
+        sidebar["records_by_country"] = by_country
+    else:
+        counts = {}
+        for cat in ("most_runs", "most_wickets", "best_averages", "most_hundreds"):
+            by_fmt = data.get(cat) or {}
+            for fmt in ("Test", "ODI", "T20I"):
+                for entry in (by_fmt.get(fmt) or []):
+                    c = entry.get("country") or ""
+                    if c:
+                        counts[c] = counts.get(c, 0) + 1
+        top_countries = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)[:5]
+        sidebar["records_by_country"] = [
+            {
+                "country": country,
+                "count": count,
+                "label": f"{count} record entries in top lists",
+                "type": "team",
+            }
+            for country, count in top_countries
+        ]
+
+    # 3) Recently Broken: only use explicit data when present (no synthetic fallback).
+    recent = provided_sidebar.get("recently_broken")
+    if isinstance(recent, list):
+        sidebar["recently_broken"] = recent
+
+    data["sidebar"] = sidebar
 
     return jsonify(data)
 
@@ -608,6 +691,58 @@ def get_live():
     if not matches:
         cached = load_live("live.json")
         matches = (cached or {}).get("data") or (cached or {}).get("matches") or []
+
+    # Enrich live/in-progress matches with per-match scorecards when available.
+    # CricAPI currentMatches can omit innings score for some fixtures.
+    for m in matches:
+        if not isinstance(m, dict):
+            continue
+        if not m.get("matchStarted"):
+            continue
+        if m.get("matchEnded"):
+            continue
+        if (m.get("score") or []):
+            continue
+
+        mid = str(m.get("id") or m.get("unique_id") or "").strip()
+        if not mid:
+            continue
+
+        # Prefer already-cached per-match scorecard before making a live API call.
+        cached_sc = load_live(f"score_{mid}.json")
+        cached_sc_data = (cached_sc or {}).get("data") if isinstance(cached_sc, dict) else None
+        if isinstance(cached_sc_data, dict):
+            cached_score = cached_sc_data.get("score") or []
+            if cached_score:
+                m["score"] = cached_score
+                if cached_sc_data.get("t1s") and not m.get("t1s"):
+                    m["t1s"] = cached_sc_data.get("t1s")
+                if cached_sc_data.get("t2s") and not m.get("t2s"):
+                    m["t2s"] = cached_sc_data.get("t2s")
+                continue
+
+        sc = fetch_cricapi(
+            "match_scorecard",
+            params={"id": mid},
+            cache_file=None,
+            max_age_minutes=45,
+        )
+        # Stop further scorecard calls if provider quota is exceeded.
+        if isinstance(sc, dict) and sc.get("status") == "failure":
+            reason = str(sc.get("reason") or "").lower()
+            if "hits" in reason and "exceed" in reason:
+                break
+            continue
+
+        sc_data = (sc or {}).get("data") if isinstance(sc, dict) else None
+        if isinstance(sc_data, dict):
+            sc_score = sc_data.get("score") or []
+            if sc_score:
+                m["score"] = sc_score
+            if sc_data.get("t1s") and not m.get("t1s"):
+                m["t1s"] = sc_data.get("t1s")
+            if sc_data.get("t2s") and not m.get("t2s"):
+                m["t2s"] = sc_data.get("t2s")
     return jsonify({"data": matches})
 
 
@@ -626,7 +761,7 @@ def get_matches():
 def get_match(match_id):
     """Individual match detail. Falls back to cached matches."""
     cache_file = f"match_{match_id}.json"
-    data = fetch_cricapi("match", params={"unique_id": match_id},
+    data = fetch_cricapi("match_info", params={"id": match_id},
                          cache_file=cache_file, max_age_minutes=60)
     if data:
         return jsonify(data)
@@ -644,7 +779,7 @@ def get_match(match_id):
 def get_match_score(match_id):
     """Live scorecard. Falls back to cached matches."""
     cache_file = f"score_{match_id}.json"
-    data = fetch_cricapi("matchScore", params={"unique_id": match_id},
+    data = fetch_cricapi("match_scorecard", params={"id": match_id},
                          cache_file=cache_file, max_age_minutes=60)
     if data:
         return jsonify(data)
