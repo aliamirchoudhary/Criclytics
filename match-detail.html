@@ -1064,6 +1064,25 @@
     @media (max-width: 700px) {
       .scoreboard {
         gap: 0.8rem;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+      }
+
+      .scoreboard-team {
+        min-width: 0;
+        flex: 1 1 42%;
+      }
+
+      .scoreboard-centre {
+        min-width: 74px;
+      }
+
+      .scoreboard-name {
+        font-size: 1.05rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
       }
 
       .scoreboard-score {

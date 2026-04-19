@@ -1385,6 +1385,7 @@ ul { list-style: none; }
   /* Navbar: hide nav links, show burger */
   .nav-links     { display: none; }
   .nav-menu-btn  { display: flex; }
+  .nav-menu-btn  { margin-left: auto; }
 
   /* Profile hero stacks sooner */
   .profile-hero-inner { flex-direction: column; align-items: flex-start; }
@@ -1451,6 +1452,7 @@ ul { list-style: none; }
   /* Navbar: hide search on very small */
   .nav-search-wrap { display: none; }
   .navbar { padding: 0 1rem; }
+  .nav-menu-btn { margin-left: auto; }
 
   /* Grids collapse to 1 col */
   .grid-3    { grid-template-columns: 1fr; }

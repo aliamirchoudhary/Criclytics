@@ -99,6 +99,13 @@
       flex-wrap: wrap;
     }
 
+    .filter-sticky-inner .search-input-wrap {
+      margin-left: auto;
+      width: min(100%, 420px) !important;
+      flex: 1 1 320px;
+      min-width: 220px;
+    }
+
     /* ── Main layout ─────────────────────────────────── */
     .teams-layout {
       max-width: 1280px;
@@ -508,6 +515,10 @@
     }
 
     @media (max-width: 768px) {
+      .teams-rank-head {
+        display: none !important;
+      }
+
       .teams-layout {
         padding: 1.5rem;
       }
@@ -550,6 +561,18 @@
 
       .filter-sticky {
         padding: 0.6rem 1rem;
+      }
+
+      .filter-sticky-inner > div[style*="width:1px"] {
+        display: none;
+      }
+
+      .filter-sticky-inner .search-input-wrap {
+        order: 99;
+        flex: 1 1 100%;
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0;
       }
     }
 
@@ -638,7 +661,7 @@
 
         <div style="flex:1"></div>
 
-        <div class="search-input-wrap" style="max-width:220px;">
+        <div class="search-input-wrap" style="max-width:420px; width:100%;">
           <span class="search-input-icon"><i class="fa fa-search"></i></span>
           <input type="text" class="search-input" placeholder="Search teams…" />
         </div>
@@ -670,7 +693,7 @@
 
             <div class="rank-table-wrap">
               <!-- Table header -->
-              <div
+              <div class="teams-rank-head"
                 style="display:grid;grid-template-columns:52px 56px 1fr auto auto auto auto;gap:.75rem;padding:.65rem 1.2rem;background:var(--surface-2);border-bottom:1px solid var(--border);">
                 <span
                   style="font-size:.65rem;color:var(--text-muted);font-weight:700;text-align:center;letter-spacing:.08em;text-transform:uppercase;">Rank</span>

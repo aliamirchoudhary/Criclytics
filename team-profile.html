@@ -44,7 +44,7 @@
     .team-hero-top {
       display: flex;
       gap: 2rem;
-      align-items: flex-end;
+      align-items: center;
       flex-wrap: wrap;
       padding-bottom: 1.6rem;
     }
@@ -66,6 +66,9 @@
     .team-hero-info {
       flex: 1;
       min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .team-hero-name {
@@ -73,6 +76,7 @@
       font-size: clamp(2rem, 5vw, 3.2rem);
       color: var(--frost);
       line-height: 1.05;
+      margin: 0;
     }
 
     .team-hero-fullname {
@@ -297,6 +301,11 @@
       gap: 1.5rem;
       padding: 1rem 0;
       flex-wrap: wrap;
+    }
+
+    .wl-extra-stats {
+      flex: 1;
+      min-width: 160px;
     }
 
     .wl-donut {
@@ -563,6 +572,7 @@
 
       .team-hero-top {
         gap: 1rem;
+        align-items: center;
       }
 
       .team-crest {
@@ -601,6 +611,14 @@
 
       .wl-visual {
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .wl-extra-stats {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
       }
     }
   </style>
@@ -763,7 +781,7 @@
                       style="color:var(--text-muted);font-family:var(--font-mono)">—</strong> (—)</span>
                 </div>
               </div>
-              <div style="flex:1;min-width:160px;">
+              <div class="wl-extra-stats">
                 <div class="ts-row" style="padding:0.38rem 0; border-color:var(--border-light);"><span
                     class="ts-lbl">Home wins</span><span class="ts-val" style="color:var(--green-live)">—</span></div>
                 <div class="ts-row" style="padding:0.38rem 0; border-color:var(--border-light);"><span

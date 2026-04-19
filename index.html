@@ -371,6 +371,10 @@
       border: 1px solid rgba(251, 191, 36, 0.15);
     }
 
+    .live-matches-grid {
+      justify-items: stretch;
+    }
+
     /* ── Rankings mini ──────────────────────────────── */
     .rankings-mini .data-table td:first-child {
       width: 36px;
@@ -404,6 +408,15 @@
     @media (max-width: 600px) {
       .quick-nav {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .live-matches-grid {
+        justify-items: center;
+      }
+
+      .live-matches-grid .match-card {
+        width: min(100%, 340px);
+        margin: 0 auto;
       }
 
       .featured-match-body {
@@ -593,20 +606,16 @@
      LIVE MATCHES + QUICK INSIGHTS
 ════════════════════════════════════════ -->
     <section class="section">
-      <div style="display:grid; grid-template-columns: 1.6fr 1fr; gap: 1.5rem; align-items: start;">
-
-        <!-- LEFT: Live + Featured -->
+      <div class="section-header" style="margin-bottom:1rem">
         <div>
-          <div class="section-header" style="margin-bottom:1rem">
-            <div>
-              <div class="section-label">Right Now</div>
-              <h2 class="section-title"><span class="icon">🔴</span> Live Matches</h2>
-            </div>
-            <a href="matches.html" class="btn btn-ghost">All matches <i class="fa fa-arrow-right"></i></a>
-          </div>
+          <div class="section-label">Right Now</div>
+          <h2 class="section-title"><span class="icon">🔴</span> Live Matches</h2>
+        </div>
+        <a href="matches.html" class="btn btn-ghost">All matches <i class="fa fa-arrow-right"></i></a>
+      </div>
 
-          <div class="grid-2" data-live-matches></div>
-          </section>
+      <div class="grid-2 live-matches-grid" data-live-matches></div>
+    </section>
 
     <div class="section-rule"></div>
 
