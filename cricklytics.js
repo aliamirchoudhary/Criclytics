@@ -306,11 +306,35 @@ function esc(str) {
 function initNavSearch() {
   const input = document.querySelector('.nav-search');
   if (!input) return;
+
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && input.value.trim()) {
       window.location.href = `search.html?q=${encodeURIComponent(input.value.trim())}`;
     }
   });
+
+  input.addEventListener('focus', () => {
+    if (!input.value.trim()) return;
+    input.select();
+  });
+}
+
+function ensureMobileSearchLink() {
+  const nav = document.querySelector('.nav-mobile');
+  if (!nav) return;
+  if (nav.querySelector('a[href="search.html"]')) return;
+
+  const link = document.createElement('a');
+  link.href = 'search.html';
+  link.className = 'nav-link';
+  link.innerHTML = '<i class="fa fa-search" style="margin-right:6px;"></i>Search';
+
+  const compareLink = nav.querySelector('a[href="compare.html"]');
+  if (compareLink && compareLink.parentNode === nav) {
+    nav.insertBefore(link, compareLink);
+  } else {
+    nav.appendChild(link);
+  }
 }
 
 
@@ -372,6 +396,7 @@ function toggleMobileNav() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavSearch();
+  ensureMobileSearchLink();
   fixWebcraftLinks();
   upgradeLogo();
   // Flag upgrade is called per-page after dynamic content loads

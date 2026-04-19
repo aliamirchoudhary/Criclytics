@@ -842,19 +842,91 @@
 
     @media (max-width: 640px) {
       .compare-header-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 108px 1fr !important;
       }
 
       .compare-stat-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 108px 1fr !important;
       }
 
       .compare-header-label {
-        display: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-right: 1px solid var(--border);
+        border-left: 1px solid var(--border);
+        padding: 0.65rem 0.4rem;
+      }
+
+      .compare-header-label-text {
+        font-size: 0.62rem;
       }
 
       .compare-row-label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0.7rem 0.3rem;
+        border-right: 1px solid var(--border);
+        border-left: 1px solid var(--border);
+        font-size: 0.7rem;
+        background: var(--surface-2);
+        font-weight: 600;
+      }
+
+      .compare-profile-header.side-a {
+        grid-column: 1;
+      }
+
+      .compare-profile-header.side-b {
+        grid-column: 3;
+      }
+
+      .compare-header-label {
+        grid-column: 2;
+      }
+
+      .compare-profile-header {
+        padding: 0.7rem 0.45rem;
+        justify-content: center;
+        text-align: center;
+        min-height: 56px;
+      }
+
+      .compare-profile-header .cph-avatar,
+      .compare-profile-header .cph-meta {
         display: none;
+      }
+
+      .compare-profile-header .cph-name {
+        font-size: 0.84rem;
+        white-space: normal;
+        text-align: center;
+      }
+
+      .compare-stat-grid > .compare-row-label {
+        grid-column: 2;
+      }
+
+      .compare-stat-grid > .compare-row-label + .compare-cell {
+        grid-column: 1;
+        background: rgba(7, 33, 70, 0.42);
+        box-shadow: inset 0 0 0 1px var(--border-light);
+      }
+
+      .compare-stat-grid > .compare-row-label + .compare-cell + .compare-cell {
+        grid-column: 3;
+        background: rgba(7, 33, 70, 0.42);
+        box-shadow: inset 0 0 0 1px var(--border-light);
+      }
+
+      .compare-cell {
+        padding: 0.72rem 0.5rem;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.82rem;
+        min-height: 52px;
       }
 
       .prob-compare-grid {
@@ -883,7 +955,7 @@
   <!-- ══ NAVBAR ════════════════════════════════════════════════ -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
-      <img src="logo-icon.png" alt="Criclytics" style="height:38px;width:auto;object-fit:contain;flex-shrink:0;" onerror="this.style.display='none'">
+      <img src="logo-icon.png" alt="Criclytics" style="height:38px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
       <span class="nav-logo-text">Cric<span>lytics</span></span>
     </a>
 
@@ -1622,7 +1694,7 @@
     <div class="footer-main">
       <div class="footer-brand">
         <a href="index.html" class="nav-logo">
-          <img src="logo-icon.png" alt="Criclytics" style="height:38px;width:auto;object-fit:contain;flex-shrink:0;" onerror="this.style.display='none'">
+          <img src="logo-icon.png" alt="Criclytics" style="height:38px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
           <span class="nav-logo-text">Cric<span>lytics</span></span>
         </a>
         <p class="footer-brand-desc">Context-aware cricket analytics and probability insights powered by historical

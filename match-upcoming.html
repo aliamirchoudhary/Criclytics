@@ -64,20 +64,20 @@
 
       <!-- Scoreboard -->
       <div class="section-card" style="margin-bottom:1.5rem;padding:2rem;">
-        <div style="display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap;">
-          <div style="text-align:center;min-width:120px;">
+        <div class="fixture-scoreboard-row" style="display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap;">
+          <div class="fixture-team-block" style="text-align:center;min-width:120px;">
             <div id="team1Flag" style="width:72px;height:72px;border-radius:50%;overflow:hidden;margin:0 auto 0.75rem;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:2rem;"></div>
-            <div id="team1Name" style="font-size:1.4rem;font-weight:700;">—</div>
+            <div id="team1Name" class="fixture-team-name" style="font-size:1.4rem;font-weight:700;">—</div>
             <div id="team1Score" style="font-size:1.1rem;color:var(--text-muted);margin-top:.3rem;"></div>
           </div>
-          <div style="text-align:center;">
+          <div class="fixture-vs-block" style="text-align:center;">
             <div style="font-size:1rem;color:var(--text-muted);font-weight:600;margin-bottom:.5rem;">VS</div>
             <div id="matchStatus" class="status-badge" style="font-size:.75rem;background:rgba(94,184,255,.1);color:var(--accent);border:1px solid rgba(94,184,255,.2);">Upcoming</div>
             <div id="matchDate" style="font-size:.85rem;color:var(--accent-warm);margin-top:.5rem;font-weight:600;"></div>
           </div>
-          <div style="text-align:center;min-width:120px;">
+          <div class="fixture-team-block" style="text-align:center;min-width:120px;">
             <div id="team2Flag" style="width:72px;height:72px;border-radius:50%;overflow:hidden;margin:0 auto 0.75rem;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:2rem;"></div>
-            <div id="team2Name" style="font-size:1.4rem;font-weight:700;">—</div>
+            <div id="team2Name" class="fixture-team-name" style="font-size:1.4rem;font-weight:700;">—</div>
             <div id="team2Score" style="font-size:1.1rem;color:var(--text-muted);margin-top:.3rem;"></div>
           </div>
         </div>
@@ -236,40 +236,39 @@
         padding: 1.5rem 1rem;
       }
       
-      .page-wrap > div > div > div:first-of-type .section-card > div:first-child {
-        gap: 2rem;
-        flex-wrap: wrap;
+      .fixture-scoreboard-row {
+        gap: 0.65rem !important;
+        flex-wrap: nowrap !important;
+        align-items: flex-start !important;
       }
       
-      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div {
-        min-width: 100px;
-        flex: 1;
+      .fixture-team-block {
+        min-width: 0 !important;
+        flex: 1 1 42% !important;
       }
       
-      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div > div:first-child {
+      .fixture-team-block > div:first-child {
         width: 60px;
         height: 60px;
         font-size: 1.8rem;
       }
       
-      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div > div:nth-child(2) {
-        font-size: 1.2rem;
+      .fixture-team-name {
+        font-size: 0.98rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       
-      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div > div:nth-child(3) {
-        font-size: 1rem;
+      .fixture-vs-block {
+        min-width: 64px;
+        flex: 0 0 auto;
+        margin: 0 !important;
       }
       
-      /* VS section */
-      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div:nth-child(2) {
-        order: -1;
-        flex-basis: 100%;
-        text-align: center;
-        margin: 1rem 0;
-      }
-      
-      .page-wrap > div > div > div:first-of-type .section-card > div:first-child > div:nth-child(2) > div:first-child {
-        margin-bottom: .25rem;
+      .fixture-team-block #team1Score,
+      .fixture-team-block #team2Score {
+        font-size: 0.92rem !important;
       }
       
       /* Meta info */

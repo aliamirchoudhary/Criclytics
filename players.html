@@ -57,7 +57,7 @@
       background: var(--surface-2);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
-      padding: 0.75rem 1.2rem 0.75rem 3rem;
+      padding: 0.75rem 7rem 0.75rem 3rem;
       color: var(--text-primary);
       font-family: var(--font-body);
       font-size: 0.95rem;
@@ -606,6 +606,18 @@
     }
 
     @media (max-width: 768px) {
+      .hero-search-count {
+        display: none;
+      }
+
+      .hero-search {
+        padding-right: 1.2rem;
+      }
+
+      .players-list-head {
+        display: none !important;
+      }
+
       .players-layout {
         padding: 1.5rem;
       }
@@ -1383,7 +1395,7 @@
 
         <!-- ── LIST VIEW (hidden by default) ────────────── -->
         <div class="players-list" id="listView" style="display:none;">
-          <div
+          <div class="players-list-head"
             style="background:var(--surface-2); border-radius:var(--radius-md); padding:0.6rem 1.2rem; display:grid; grid-template-columns:36px auto 1fr auto auto auto auto; gap:1rem; align-items:center;">
             <span style="font-size:0.68rem;color:var(--text-muted);font-weight:700;">#</span>
             <span style="width:38px;"></span>

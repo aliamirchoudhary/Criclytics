@@ -151,6 +151,24 @@
       align-items: start;
     }
 
+    .mobile-filters-toggle {
+      display: none;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: calc(100% - 2rem);
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.62rem 1rem;
+      margin-top: 0.85rem;
+      border-radius: var(--radius-md);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
     /* ── Sidebar Filters ─────────────────────────────── */
     .search-sidebar {
       display: flex;
@@ -490,12 +508,22 @@
         grid-template-columns: 1fr;
         padding: 1.5rem 1.25rem;
       }
+
+      .mobile-filters-toggle {
+        display: inline-flex;
+      }
+
       .search-sidebar {
         position: static;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 0.75rem;
       }
+
+      .search-sidebar.collapsed-mobile {
+        display: none;
+      }
+
       .sidebar-block { flex: 1; min-width: 160px; }
     }
 
@@ -505,6 +533,10 @@
       .result-stats { display: none; }
       .result-row, .result-match { padding: 0.75rem; }
       .search-layout { padding: 1.25rem 1rem; }
+
+      .mobile-filters-toggle {
+        width: calc(100% - 2rem);
+      }
     }
   </style>
 </head>
@@ -513,7 +545,7 @@
 <!-- ══ NAVBAR ════════════════════════════════════════════════ -->
 <nav class="navbar">
   <a href="index.html" class="nav-logo">
-    <img src="logo-icon.png" alt="Criclytics" style="height:38px;width:auto;object-fit:contain;flex-shrink:0;" onerror="this.style.display='none'">
+    <img src="logo-icon.png" alt="Criclytics" style="height:38px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
     <span class="nav-logo-text">Cric<span>lytics</span></span>
   </a>
 
@@ -576,7 +608,7 @@
       </div>
 
       <div class="search-meta">
-        <span>Showing results for <strong>"Kohli"</strong></span>
+        <span>Showing results for <strong id="search-term-label">"Kohli"</strong></span>
         <span class="search-meta-divider">·</span>
         <span id="result-count"><strong>14</strong> results found</span>
         <span class="search-meta-divider">·</span>
@@ -610,6 +642,11 @@
       </button>
     </div>
   </div>
+
+  <button class="mobile-filters-toggle" id="mobileFiltersToggle" onclick="toggleSearchFilters()">
+    <i class="fa-solid fa-sliders"></i>
+    Show Filters
+  </button>
 
   <!-- ── LAYOUT ────────────────────────────────────────────── -->
   <div class="search-layout">
@@ -1120,7 +1157,7 @@
     <div class="footer-main">
       <div class="footer-brand">
         <a href="index.html" class="nav-logo">
-          <img src="logo-icon.png" alt="Criclytics" style="height:38px;width:auto;object-fit:contain;flex-shrink:0;" onerror="this.style.display='none'">
+          <img src="logo-icon.png" alt="Criclytics" style="height:38px;width:auto;object-fit:contain;border-radius:8px;background:white;padding:3px;flex-shrink:0;" onerror="this.style.display='none'">
           <span class="nav-logo-text">Cric<span>lytics</span></span>
         </a>
         <p class="footer-brand-desc">Context-aware cricket analytics and probability insights powered by historical
@@ -1209,17 +1246,30 @@
     var trimmed = val.trim();
     var container = document.getElementById('results-container');
     var noResults = document.getElementById('no-results');
+    var label = document.getElementById('search-term-label');
 
     if (trimmed.length === 0) {
       container.classList.add('hidden');
       noResults.classList.remove('hidden');
       document.getElementById('result-count').innerHTML = '<strong>0</strong> results found';
+      if (label) label.textContent = '""';
     } else {
       container.classList.remove('hidden');
       noResults.classList.add('hidden');
       document.getElementById('result-count').innerHTML = '<strong>14</strong> results found';
-      document.querySelector('.search-meta strong').textContent = `"${trimmed}"`;
+      if (label) label.textContent = `"${trimmed}"`;
     }
+  }
+
+  function toggleSearchFilters() {
+    var sidebar = document.querySelector('.search-sidebar');
+    var btn = document.getElementById('mobileFiltersToggle');
+    if (!sidebar || !btn) return;
+
+    sidebar.classList.toggle('collapsed-mobile');
+    btn.innerHTML = sidebar.classList.contains('collapsed-mobile')
+      ? '<i class="fa-solid fa-sliders"></i> Show Filters'
+      : '<i class="fa-solid fa-xmark"></i> Hide Filters';
   }
 
   function clearSearch() {
@@ -1234,6 +1284,26 @@
     input.value = term;
     handleSearch(term);
   }
+
+  (function initSearchPageState() {
+    var input = document.getElementById('main-search-input');
+    var params = new URLSearchParams(window.location.search);
+    var q = (params.get('q') || '').trim();
+
+    if (q) {
+      input.value = q;
+      handleSearch(q);
+    } else {
+      handleSearch(input.value || '');
+    }
+
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      var sidebar = document.querySelector('.search-sidebar');
+      if (sidebar) sidebar.classList.add('collapsed-mobile');
+      var btn = document.getElementById('mobileFiltersToggle');
+      if (btn) btn.innerHTML = '<i class="fa-solid fa-sliders"></i> Show Filters';
+    }
+  })();
 </script>
   <script src="cricklytics.js"></script>
   <script src="search-api.js"></script>
