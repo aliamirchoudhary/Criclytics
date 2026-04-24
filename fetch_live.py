@@ -112,7 +112,7 @@ def fetch_live_matches():
     print("Fetching live matches …")
     data = cricapi_get("currentMatches")
     if data:
-        matches = data.get("matches", [])
+        matches = data.get("data") or data.get("matches") or []
         print(f"  Found {len(matches)} live match(es)")
         save("live.json", matches)
         return matches
@@ -158,7 +158,7 @@ def fetch_match_detail(unique_id):
     Cost: 1 req per match — call once per match, result is permanent
     """
     print(f"Fetching match detail: {unique_id} …")
-    data = cricapi_get("match_info", params={"unique_id": unique_id})
+    data = cricapi_get("match_info", params={"id": unique_id})
     if data:
         save(f"match_{unique_id}.json", data)
         return data
@@ -172,7 +172,7 @@ def fetch_match_scorecard(unique_id):
     Cost: 1 req — call hourly for live matches
     """
     print(f"Fetching scorecard: {unique_id} …")
-    data = cricapi_get("match_scorecard", params={"unique_id": unique_id})
+    data = cricapi_get("match_scorecard", params={"id": unique_id})
     if data:
         save(f"score_{unique_id}.json", data)
         return data
