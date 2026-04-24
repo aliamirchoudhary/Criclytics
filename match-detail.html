@@ -13,6 +13,12 @@
        MATCH DETAIL — PAGE SPECIFIC STYLES
     ══════════════════════════════════════════ */
 
+  /* Hide live-only elements for completed matches (via JS) */
+  #win-prob-card.hide-for-completed { display: none !important; visibility: hidden !important; }
+  .chase-bar-wrap.hide-for-completed { display: none !important; }
+  .target-box.hide-for-completed { display: none !important; }
+  .run-rate-box.hide-for-completed { display: none !important; }
+
     /* ── Match Hero ─────────────────────────── */
     .match-hero {
       background: var(--surface-1);
@@ -1372,6 +1378,7 @@
               <div class="info-row"><span class="info-row-label">Venue</span><span class="info-row-value">—</span></div>
               <div class="info-row"><span class="info-row-label">Date & Time</span><span class="info-row-value">—</span></div>
               <div class="info-row"><span class="info-row-label">Toss</span><span class="info-row-value">—</span></div>
+              <div class="info-row"><span class="info-row-label">Squads</span><span class="info-row-value">—</span></div>
               <div class="info-row"><span class="info-row-label">Umpires</span><span class="info-row-value">—</span></div>
               <div class="info-row"><span class="info-row-label">Match Referee</span><span class="info-row-value">—</span></div>
               <div class="info-row"><span class="info-row-label">Series Score</span><span class="info-row-value">—</span></div>
@@ -1388,7 +1395,7 @@
           <!-- Team A Innings -->
           <div class="section-card">
             <div class="innings-label">
-              <span class="match-format-badge">T20I</span>
+              <span class="match-format-badge" data-format="team-a-inning-1">T20I</span>
               <span class="innings-label-text">Team A — 1st Innings</span>
               <span class="innings-total">—</span>
             </div>
@@ -1451,7 +1458,7 @@
           <!-- Team B Innings -->
           <div class="section-card">
             <div class="innings-label">
-              <span class="match-format-badge">T20I</span>
+              <span class="match-format-badge" data-format="team-b-inning-2">T20I</span>
               <span class="innings-label-text">Team B — 2nd Innings</span>
               <span class="innings-total">—</span>
             </div>
@@ -1524,7 +1531,7 @@
           </div>
 
           <!-- Win probability -->
-          <div class="insight-card anim-up">
+          <div class="insight-card anim-up" id="win-prob-card">
             <div class="insight-card-header">
               <i class="fa fa-chart-pie" style="color:var(--steel);"></i>
               <div class="insight-card-title">Live Win Probability</div>
@@ -1834,10 +1841,10 @@
     });
   </script>
 
-  <script src="ml-widgets.js"></script>
-  <script src="ml-wiring-addon.js"></script>
-  <script src="cricklytics.js"></script>
-  <script src="match-detail-api.js"></script>
+  <script src="ml-widgets.js?v=20260424-3"></script>
+    <script src="ml-wiring-addon.js?v=20260424-3"></script>
+    <script src="cricklytics.js?v=20260424-3"></script>
+    <script src="match-detail-api.js?v=20260424-3"></script>
   <script>
     // Wire match ML context when page loads
     window.addEventListener('load', () => {
