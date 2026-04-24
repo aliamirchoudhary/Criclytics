@@ -94,6 +94,7 @@ function buildMatchCard(r) {
   const t1 = r.t1 || r.team1 || '';
   const t2 = r.t2 || r.team2 || '';
   const iso1 = guessIso(t1); const iso2 = guessIso(t2);
+  const scoreText = r.scoreText || r.finalScore || '';
   return '<a href="match-detail.html?id=' + esc(r.id||'') + '" class="result-row">'
     + '<div class="result-avatar" style="overflow:hidden;display:flex;align-items:center;justify-content:center;gap:2px;background:var(--surface-2);">'
       + (iso1 ? '<img src="' + FLAG_CDN + iso1 + '.svg" style="width:20px;height:20px;object-fit:cover;border-radius:50%;">' : '')
@@ -102,11 +103,56 @@ function buildMatchCard(r) {
     + '<div class="result-info">'
       + '<div class="result-name">' + esc(t1) + ' vs ' + esc(t2) + '</div>'
       + '<div class="result-meta">' + esc(r.matchType||'') + (r.date ? ' · ' + esc(r.date) : '')
+        + (scoreText ? ' · <span class="result-tag">' + esc(scoreText) + '</span>' : '')
         + (r.status ? ' <span class="result-tag">' + esc(r.status) + '</span>' : '') + '</div>'
     + '</div>'
     + '<span class="result-arrow"><i class="fa-solid fa-chevron-right"></i></span>'
   + '</a>';
 }
+
+  const MATCH_PAGE_SIZE = 10;
+  let currentResults = {};
+  let activeFilter = 'all';
+  let currentQuery = '';
+  let currentMatchPage = 1;
+
+  function getMatchPageInfo(matches) {
+    matches = Array.isArray(matches) ? matches : [];
+    var totalPages = Math.max(1, Math.ceil(matches.length / MATCH_PAGE_SIZE));
+    if (currentMatchPage > totalPages) currentMatchPage = totalPages;
+    if (currentMatchPage < 1) currentMatchPage = 1;
+    var start = (currentMatchPage - 1) * MATCH_PAGE_SIZE;
+    var rows = matches.slice(start, start + MATCH_PAGE_SIZE);
+    return { totalPages: totalPages, rows: rows, start: start + 1, end: start + rows.length };
+  }
+
+  function buildMatchPager(totalPages, currentPage) {
+    if (totalPages <= 1) return '';
+    var buttons = [];
+    var start = Math.max(1, currentPage - 2);
+    var end = Math.min(totalPages, start + 4);
+    start = Math.max(1, end - 4);
+
+    buttons.push('<button type="button" class="pager-btn" style="padding:0.45rem 0.7rem;border:1px solid var(--border);background:var(--surface-2);color:var(--text-muted);border-radius:999px;cursor:pointer;" data-match-page="' + (currentPage - 1) + '" ' + (currentPage === 1 ? 'disabled' : '') + '><i class="fa fa-chevron-left"></i></button>');
+    for (var page = start; page <= end; page++) {
+      buttons.push('<button type="button" class="pager-btn ' + (page === currentPage ? 'active' : '') + '" style="padding:0.45rem 0.75rem;border:1px solid ' + (page === currentPage ? 'rgba(94,184,255,0.45)' : 'var(--border)') + ';background:' + (page === currentPage ? 'rgba(94,184,255,0.14)' : 'var(--surface-2)') + ';color:' + (page === currentPage ? 'var(--accent)' : 'var(--text-muted)') + ';border-radius:999px;cursor:pointer;font-weight:700;" data-match-page="' + page + '">' + page + '</button>');
+    }
+    buttons.push('<button type="button" class="pager-btn" style="padding:0.45rem 0.7rem;border:1px solid var(--border);background:var(--surface-2);color:var(--text-muted);border-radius:999px;cursor:pointer;" data-match-page="' + (currentPage + 1) + '" ' + (currentPage === totalPages ? 'disabled' : '') + '><i class="fa fa-chevron-right"></i></button>');
+    return '<div class="result-pager" style="display:flex;gap:0.45rem;justify-content:center;flex-wrap:wrap;margin-top:0.9rem;">' + buttons.join('') + '</div>';
+  }
+
+  function renderMatchGroup(matches) {
+    matches = Array.isArray(matches) ? matches : [];
+    if (!matches.length) return '';
+    var page = getMatchPageInfo(matches);
+    var rowsHtml = page.rows.map(buildMatchCard).join('');
+    return '<div class="result-group anim-up delay-3" id="group-matches">'
+      + '<div class="result-group-header"><div class="result-group-title"><div class="result-group-icon icon-match"><i class="fa fa-calendar"></i></div> Matches</div>'
+      + '<span class="result-group-count">' + matches.length + ' result' + (matches.length !== 1 ? 's' : '') + ' · ' + page.start + '-' + page.end + ' of ' + matches.length + '</span></div>'
+      + rowsHtml
+      + buildMatchPager(page.totalPages, currentMatchPage)
+    + '</div>';
+  }
 
 // ── Render all results ────────────────────────────────────────────────────────
 function renderResults(results, query) {
@@ -119,8 +165,12 @@ function renderResults(results, query) {
   const pCount = (results.players||[]).length;
   const tCount = (results.teams||[]).length;
   const vCount = (results.venues||[]).length;
-  const mCount = (results.matches||[]).length;
+  const matches = Array.isArray(results.matches) ? results.matches : [];
+  const mCount = matches.length;
   const total  = pCount + tCount + vCount + mCount;
+
+  currentQuery = query;
+  if (results !== currentResults) currentMatchPage = 1;
 
   // Update cat-tab counts
   document.querySelectorAll('.cat-tab').forEach(function(tab) {
@@ -172,13 +222,7 @@ function renderResults(results, query) {
       + results.venues.slice(0,5).map(buildVenueCard).join('')
     + '</div>';
   }
-  if (mCount) {
-    html += '<div class="result-group anim-up delay-3" id="group-matches">'
-      + '<div class="result-group-header"><div class="result-group-title"><div class="result-group-icon icon-match"><i class="fa fa-calendar"></i></div> Matches</div>'
-      + '<span class="result-group-count">' + mCount + ' result' + (mCount !== 1 ? 's' : '') + '</span></div>'
-      + results.matches.slice(0,5).map(buildMatchCard).join('')
-    + '</div>';
-  }
+  html += renderMatchGroup(matches);
 
   container.innerHTML = html;
   // Preserve insertion order so "Relevance" can restore the original listing.
@@ -192,8 +236,6 @@ function renderResults(results, query) {
 }
 
 // ── Filter ────────────────────────────────────────────────────────────────────
-let currentResults = {};
-let activeFilter = 'all';
 
 function applyFilter(type) {
   activeFilter = type;
@@ -372,6 +414,17 @@ document.addEventListener('DOMContentLoaded', function() {
     applySidebarFilters();
     applyFilter(cat);
   };
+
+  document.addEventListener('click', function(e) {
+    var button = e.target.closest && e.target.closest('[data-match-page]');
+    if (!button) return;
+    var page = parseInt(button.getAttribute('data-match-page'), 10);
+    if (!page || page < 1) return;
+    var totalPages = Math.max(1, Math.ceil(((currentResults.matches || []).length || 0) / MATCH_PAGE_SIZE));
+    if (page > totalPages) return;
+    currentMatchPage = page;
+    if (currentQuery) renderResults(currentResults, currentQuery);
+  });
 
   function resetSidebarFiltersInitial() {
     document.querySelectorAll('.search-sidebar .sidebar-block').forEach(function(block) {
