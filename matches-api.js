@@ -46,6 +46,17 @@ function classifyMatch(match) {
   return 'upcoming';
 }
 
+function getMatchFormatKey(match) {
+  var fmt = String((match && (match.matchType || match.type || match.format)) || '').trim().toLowerCase();
+  var series = String((match && (match.series || match.series_id)) || '').toLowerCase();
+  var name = String((match && match.name) || '').toLowerCase();
+  if (fmt.includes('ipl') || series.includes('indian premier league') || series.includes(' ipl ') || name.includes('indian premier league') || name.includes(' ipl ')) return 'ipl';
+  if (fmt.includes('odi')) return 'odi';
+  if (fmt.includes('test')) return 'test';
+  if (fmt.includes('t20')) return 't20';
+  return fmt;
+}
+
 function parseMatchNameTeams(match) {
   if (!match || !match.name) return ['', ''];
   var parts = match.name.split(/\s+vs\s+|\s+v\s+|\s+versus\s+/i);
@@ -71,25 +82,46 @@ function formatScoreObject(score) {
   return String(score.r) + wickets + overs;
 }
 
+function scoreBelongsToTeam(inningLabel, team, otherTeam) {
+  var lbl = String(inningLabel || '').toLowerCase();
+  var t = String(team || '').toLowerCase().trim();
+  var ot = String(otherTeam || '').toLowerCase().trim();
+  if (!lbl || !t) return false;
+  if (lbl === t) return true;
+  var hasTeam = lbl.indexOf(t) >= 0;
+  var hasOther = ot && lbl.indexOf(ot) >= 0;
+  return hasTeam && !hasOther;
+}
+
 function getMatchScore(match, index) {
   if (match && Array.isArray(match.score) && match.score.length) {
     var team = getMatchTeamName(match, index);
+    var otherTeam = getMatchTeamName(match, index === 0 ? 1 : 0);
+    var isLiveInProgress = match.matchStarted === true && match.matchEnded !== true;
     if (team) {
       for (var i = 0; i < match.score.length; i++) {
         var score = match.score[i];
         if (score && score.r != null) {
           var inningTeam = String(score.inning || '').split(/\s+Inning/i)[0].trim();
-          if (inningTeam && inningTeam.toLowerCase() === team.toLowerCase()) {
+          if (scoreBelongsToTeam(inningTeam, team, otherTeam)) {
             return formatScoreObject(score);
           }
         }
       }
     }
+    // For in-progress live cards, avoid positional fallback that can mirror the same score for both teams.
+    if (isLiveInProgress) return '';
     if (match.score[index] && match.score[index].r != null) {
       return formatScoreObject(match.score[index]);
     }
   }
   return '';
+}
+
+function getMatchDateValue(match) {
+  var raw = (match && (match.dateTimeGMT || match.date)) || '';
+  var t = Date.parse(raw);
+  return isNaN(t) ? 0 : t;
 }
 
 // ── Build a single match row card ─────────────────────────────────────────────
@@ -100,7 +132,8 @@ function buildMatchCard(match, statusClass, delay) {
   const t2     = getMatchTeamName(match, 1) || 'TBA';
   const score1 = getMatchScore(match, 0);
   const score2 = getMatchScore(match, 1);
-  const fmt    = match.matchType || match.type || '';
+  const fmtKey = getMatchFormatKey(match);
+  const fmt    = match.matchType || match.type || match.format || '';
   const venue  = match.venue || '';
   const date   = match.date || match.dateTimeGMT || '';
   const status = match.status || '';
@@ -131,7 +164,7 @@ function buildMatchCard(match, statusClass, delay) {
   const s2html = score2 ? '<span class="match-row-score">' + esc(score2) + '</span>' : '';
 
   var dp='match-detail';
-  return '<a href="'+dp+'.html?id=' + esc(id) + '" class="match-row-card ' + statusClass + ' anim-up ' + delay + '" data-team1="' + esc(t1) + '" data-team2="' + esc(t2) + '" data-date="' + esc(date) + '" data-series="' + esc(series) + '">'
+  return '<a href="'+dp+'.html?id=' + esc(id) + '" class="match-row-card ' + statusClass + ' anim-up ' + delay + '" data-team1="' + esc(t1) + '" data-team2="' + esc(t2) + '" data-date="' + esc(date) + '" data-series="' + esc(series) + '" data-format="' + esc(fmtKey) + '" data-status-class="' + esc(statusClass) + '" data-is-ipl="' + (fmtKey === 'ipl' ? '1' : '0') + '">'
     + '<div class="match-row-badges">' + badge + '<span class="match-format-badge">' + esc(fmt) + '</span></div>'
     + '<div class="match-row-teams">'
       + '<div class="match-row-team">'
@@ -157,7 +190,17 @@ function buildMatchCard(match, statusClass, delay) {
 
 // ── Inject cards into a group, preserving the label header ───────────────────
 var _ms={},_ps={},_PSZ=10;
-function injectCards(g,all,sc,msg){_ms[g]={matches:all,statusClass:sc,emptyMsg:msg};_ps[g]=1;_rg(g);}
+function injectCards(g,all,sc,msg,source){
+  var prev=_ms[g]||{};
+  _ms[g]={
+    matches:Array.isArray(all)?all:[],
+    source:Array.isArray(source)?source:(prev.source||all||[]),
+    statusClass:sc,
+    emptyMsg:msg
+  };
+  _ps[g]=1;
+  _rg(g);
+}
 function _rg(g){
   var grp=document.getElementById(g);if(!grp)return;
   var s=_ms[g]||{},all=s.matches||[],sc=s.statusClass||'',msg=s.emptyMsg||'No matches.';
@@ -245,6 +288,8 @@ async function loadLive() {
   if (liveLabel) {
     liveLabel.innerHTML = '<span style="width:7px;height:7px;background:var(--green-live);border-radius:50%;display:inline-block;margin-right:6px;animation:pulse-dot 1.2s infinite;"></span>Live Now (' + matches.length + ')';
   }
+
+  applyMatchFiltersAndSort();
 }
 
 // ── Load upcoming + completed ─────────────────────────────────────────────────
@@ -295,6 +340,9 @@ async function loadFixtures() {
   const completed = allMatches.filter(function(m) { return classifyMatch(m) === 'completed'; });
   const live      = allMatches.filter(function(m) { return classifyMatch(m) === 'live'; });
 
+  upcoming.sort(function(a, b) { return getMatchDateValue(a) - getMatchDateValue(b); });
+  completed.sort(function(a, b) { return getMatchDateValue(b) - getMatchDateValue(a); });
+
   // Update count pills on status tabs
   const upcomingPill = document.querySelector('.status-tab[data-status="upcoming"] .count-pill');
   const completedPill = document.querySelector('.status-tab[data-status="completed"] .count-pill');
@@ -314,6 +362,8 @@ async function loadFixtures() {
       injectCards('group-live', live.slice(0, 6), 'is-live', 'No live matches.');
     }
   }
+
+  applyMatchFiltersAndSort();
 }
 
 // ── Load series sidebar ───────────────────────────────────────────────────────
@@ -375,92 +425,57 @@ function applyMatchFiltersAndSort() {
   var sortSelect = document.getElementById('matches-sort-filter');
   if (sortSelect) sortVal = sortSelect.value.toLowerCase();
 
-  // Process each group separately to maintain group structure
+  // Process each group against full source arrays (not only currently rendered DOM cards)
   ['group-live', 'group-upcoming', 'group-completed'].forEach(function(groupId) {
-    var group = document.getElementById(groupId);
-    if (!group) return;
+    var state = _ms[groupId] || null;
+    if (!state || !Array.isArray(state.source)) return;
 
-    // Get all cards in this group
-    var groupCards = [];
-    group.querySelectorAll('.match-row-card').forEach(function(card) {
-      groupCards.push(card);
-    });
-
-    // Apply format filter
-    groupCards.forEach(function(card) {
-      var matchFmt = (card.querySelector('.match-format-badge') || {}).textContent || '';
-      matchFmt = matchFmt.trim().toLowerCase();
-      
-      var series = (card.dataset.series || '').toLowerCase();
-      var isIpl = (matchFmt.includes('ipl') || series.includes('indian premier league') || series.includes(' ipl '));
+    var filteredMatches = state.source.filter(function(match) {
+      var fmt = getMatchFormatKey(match);
+      var isIpl = fmt === 'ipl';
 
       var formatMatch = formatVal === 'all' || !formatVal;
       if (!formatMatch && formatVal) {
         if (formatVal === 'ipl') {
           formatMatch = isIpl;
         } else if (formatVal === 't20') {
-          formatMatch = matchFmt.includes('t20') && !isIpl;
+          formatMatch = fmt === 't20';
         } else if (formatVal === 'odi') {
-          formatMatch = matchFmt === 'odi';
+          formatMatch = fmt === 'odi';
         } else if (formatVal === 'test') {
-          formatMatch = matchFmt === 'test';
+          formatMatch = fmt === 'test';
         }
       }
+      if (!formatMatch) return false;
 
-      card.dataset.formatMatch = formatMatch ? '1' : '0';
+      if (!teamVal) return true;
+      var t1 = String(getMatchTeamName(match, 0) || '').toLowerCase();
+      var t2 = String(getMatchTeamName(match, 1) || '').toLowerCase();
+      return t1.includes(teamVal) || t2.includes(teamVal);
     });
 
-    // Apply team filter
-    groupCards.forEach(function(card) {
-      var teamMatch = !teamVal;
-      if (teamVal) {
-        var t1 = (card.dataset.team1 || '').toLowerCase();
-        var t2 = (card.dataset.team2 || '').toLowerCase();
-        teamMatch = t1.includes(teamVal) || t2.includes(teamVal);
-      }
-      card.dataset.teamMatch = teamMatch ? '1' : '0';
-    });
-
-    // Filter to only those matching format and team
-    var filteredCards = groupCards.filter(function(card) {
-      return card.dataset.formatMatch === '1' && card.dataset.teamMatch === '1';
-    });
-
-    // Apply sorting
     if (sortVal === 'oldest') {
-      filteredCards.sort(function(a, b) {
-        var dateA = new Date(a.dataset.date || 0);
-        var dateB = new Date(b.dataset.date || 0);
-        return dateA - dateB;
+      filteredMatches.sort(function(a, b) {
+        return getMatchDateValue(a) - getMatchDateValue(b);
       });
     } else if (sortVal === 'format') {
       var formatOrder = {test: 0, odi: 1, t20: 2, ipl: 3};
-      filteredCards.sort(function(a, b) {
-        var fmtA = (a.querySelector('.match-format-badge') || {}).textContent.trim().toLowerCase();
-        var fmtB = (b.querySelector('.match-format-badge') || {}).textContent.trim().toLowerCase();
+      filteredMatches.sort(function(a, b) {
+        var fmtA = getMatchFormatKey(a);
+        var fmtB = getMatchFormatKey(b);
         var orderA = formatOrder[fmtA] || 99;
         var orderB = formatOrder[fmtB] || 99;
-        return orderA - orderB;
+        if (orderA !== orderB) return orderA - orderB;
+        return getMatchDateValue(b) - getMatchDateValue(a);
       });
     } else {
-      // Default: newest first (reverse chronological)
-      filteredCards.sort(function(a, b) {
-        var dateA = new Date(a.dataset.date || 0);
-        var dateB = new Date(b.dataset.date || 0);
-        return dateB - dateA;
+      // Default: newest first
+      filteredMatches.sort(function(a, b) {
+        return getMatchDateValue(b) - getMatchDateValue(a);
       });
     }
 
-    // Hide all cards in group first
-    groupCards.forEach(function(card) {
-      card.style.display = 'none';
-    });
-
-    // Reorder and show filtered cards by moving them to end (maintains sort)
-    filteredCards.forEach(function(card) {
-      card.style.display = '';
-      group.appendChild(card);
-    });
+    injectCards(groupId, filteredMatches, state.statusClass, state.emptyMsg, state.source);
   });
 }
 
