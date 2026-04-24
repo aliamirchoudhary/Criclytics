@@ -29,6 +29,7 @@ Output files in data/processed/:
     venue_bowlers.json      — top wicket-takers at each venue
     venue_insights.json     — pre-computed highlight figures for Home/Matches sidebar
     records.json            — all-time records across formats
+    completed_matches.json  — all completed international matches (for /api/matches)
 
 Requirements:
     pip install pandas tqdm
@@ -133,6 +134,18 @@ def get_toss(match):
     return get_info(match).get("toss", {})
 
 
+def format_toss_text(toss):
+    if not isinstance(toss, dict):
+        return ""
+    winner = str(toss.get("winner") or "").strip()
+    decision = str(toss.get("decision") or "").strip().lower()
+    if winner and decision:
+        if decision == "field":
+            decision = "bowl"
+        return f"{winner} won the toss and chose to {decision}"
+    return winner or str(toss.get("decision") or "").strip()
+
+
 def iter_deliveries(match):
     """
     Yields (inning_idx, over_num, delivery_dict, batting_team, bowling_team)
@@ -184,6 +197,125 @@ def dismissal_text(delivery, bowler):
         return f"st {fielder} b {bowler}"
     else:
         return kind
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# COMPLETED MATCHES EXTRACTION
+# ════════════════════════════════════════════════════════════════════════════
+
+def build_completed_matches(matches):
+    """
+    Extract all completed matches from Cricsheet data.
+    Returns a list of match summaries formatted for frontend consumption.
+    """
+    print("\n[2.5/4] Extracting completed matches …")
+    
+    completed = []
+    for match in tqdm(matches, desc="  Extracting", leave=False):
+        info = get_info(match)
+        outcome = get_outcome(match)
+        
+        # Skip if no outcome (incomplete or no result)
+        if not outcome:
+            continue
+        
+        # Only include if there's a winner or it's a tie
+        winner = outcome.get("winner")
+        if not winner and "by" not in outcome:
+            continue
+        
+        teams = get_teams(match)
+        if len(teams) < 2:
+            continue
+        
+        match_date = get_date(match)
+        if not match_date:
+            continue
+        
+        # Build match record
+        match_id = match.get("_file", "").replace(".json", "")
+        fmt = info.get("match_type", "Unknown")
+        venue = info.get("city", "Unknown Venue")
+        series = info.get("event", {}).get("name", "")
+        
+        # Build status text
+        by = outcome.get("by", {})
+        if isinstance(by, dict):
+            if "runs" in by:
+                status_text = f"{winner} won by {by['runs']} runs"
+            elif "wickets" in by:
+                status_text = f"{winner} won by {by['wickets']} wickets"
+            else:
+                status_text = f"{winner} won"
+        else:
+            status_text = f"{winner} won"
+        
+        # Get scores from innings
+        innings = match.get("innings", [])
+        scores = []
+        for inning in innings:
+            inning_team = inning.get("team", "")
+            runs = 0
+            wickets = 0
+            overs = 0
+            
+            # Calculate totals from deliveries
+            for over in inning.get("overs", []):
+                for delivery in over.get("deliveries", []):
+                    runs += delivery.get("runs", {}).get("total", 0)
+                    if delivery.get("wickets"):
+                        wickets += 1
+                overs = over.get("over", 0)
+            
+            scores.append({
+                "team": inning_team,
+                "r": runs,
+                "w": wickets,
+                "o": overs
+            })
+        
+        completed.append({
+            "id": match_id,
+            "unique_id": match_id,
+            "name": f"{teams[0]} vs {teams[1]}",
+            "t1": teams[0],
+            "t2": teams[1],
+            "team1": teams[0],
+            "team2": teams[1],
+            "teams": teams,
+            "type": fmt,
+            "matchType": fmt,
+            "format": fmt,
+            "status": status_text,
+            "outcome": outcome,
+            "date": str(match_date),
+            "dateTimeGMT": str(match_date),
+            "venue": venue,
+            "city": info.get("city", ""),
+            "series": series,
+            "series_id": series,
+            "season": info.get("season"),
+            "match_type_number": info.get("match_type_number"),
+            "team_type": info.get("team_type"),
+            "balls_per_over": info.get("balls_per_over"),
+            "toss": format_toss_text(info.get("toss", {})),
+            "toss_details": info.get("toss", {}),
+            "officials": info.get("officials", {}),
+            "match_referee": (info.get("officials", {}) or {}).get("match_referees", [""])[0] if isinstance(info.get("officials", {}), dict) else "",
+            "umpires": (info.get("officials", {}) or {}).get("umpires", []) if isinstance(info.get("officials", {}), dict) else [],
+            "tv_umpires": (info.get("officials", {}) or {}).get("tv_umpires", []) if isinstance(info.get("officials", {}), dict) else [],
+            "reserve_umpires": (info.get("officials", {}) or {}).get("reserve_umpires", []) if isinstance(info.get("officials", {}), dict) else [],
+            "players": info.get("players", {}),
+            "squads": info.get("players", {}),
+            "score": scores,
+            "matchStarted": True,
+            "matchEnded": True,
+            "winners": [winner] if winner else [],
+            "player_of_match": info.get("player_of_match", [])
+        })
+    
+    print(f"  Extracted {len(completed)} completed matches")
+    return completed
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -1101,7 +1233,16 @@ def main():
     start = datetime.now()
     matches       = load_all_matches()
     accumulators  = build_raw_accumulators(matches)
+    completed_matches = build_completed_matches(matches)
     save_all(accumulators, matches)
+    
+    # Save completed matches for frontend
+    path = os.path.join(OUT_DIR, "completed_matches.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"data": completed_matches}, f, ensure_ascii=False, indent=2, default=str)
+    size_kb = os.path.getsize(path) / 1024
+    print(f"\n[4/4] Saving output files …")
+    print(f"  ✓  {'completed_matches.json':<35} {size_kb:>8.1f} KB")
 
     elapsed = (datetime.now() - start).seconds
     print(f"\n✅  Done in {elapsed}s — all files written to data/processed/")
