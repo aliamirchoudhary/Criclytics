@@ -50,7 +50,7 @@ async function renderVeneMLPredictions(venueName, format = 'ODI', containerId = 
     
     container.innerHTML = html;
   } catch (e) {
-    console.error('Error rendering venue predictions:', e);
+    console.warn('Venue predictions unavailable:', e && e.message ? e.message : e);
     container.innerHTML = '<div class="disclaimer-banner"><span class="icon">ℹ</span> Unable to load venue insights at this moment.</div>';
   }
 }
@@ -96,7 +96,7 @@ async function renderMatchContextInsight(teamA, teamB, venue = null, containerId
     
     container.innerHTML = html;
   } catch (e) {
-    console.error('Error rendering match context:', e);
+    console.warn('Match context unavailable:', e && e.message ? e.message : e);
   }
 }
 
@@ -134,7 +134,7 @@ async function renderPredictionLeaderboardCards(metric = '50', format = 'ODI', l
       container.innerHTML = '<div class="disclaimer-banner"><span class="icon">ℹ</span> No prediction data available for this metric.</div>';
     }
   } catch (e) {
-    console.error('Error rendering leaderboard:', e);
+    console.warn('Leaderboard unavailable:', e && e.message ? e.message : e);
     container.innerHTML = '<div class="disclaimer-banner"><span class="icon">ℹ</span> Unable to load predictions.</div>';
   }
 }
