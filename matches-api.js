@@ -110,7 +110,15 @@ function getMatchScore(match, index) {
       }
     }
     // For in-progress live cards, avoid positional fallback that can mirror the same score for both teams.
-    if (isLiveInProgress) return '';
+    if (isLiveInProgress) {
+      if (match.score[index] && match.score[index].r != null) {
+        return formatScoreObject(match.score[index]);
+      }
+      if (index === 0 && match.score[0] && match.score[0].r != null) {
+        return formatScoreObject(match.score[0]);
+      }
+      return '';
+    }
     if (match.score[index] && match.score[index].r != null) {
       return formatScoreObject(match.score[index]);
     }
@@ -243,33 +251,6 @@ async function loadLive() {
   const liveCountPill = liveTab && liveTab.querySelector('.count-pill');
 
   matches = matches.filter(function(m) { return classifyMatch(m) === 'live'; });
-
-  if (!matches.length) {
-    const upcomingData = await apiFetch('/api/matches');
-    const allMatches = (upcomingData && upcomingData.data) ? upcomingData.data : [];
-    matches = allMatches.filter(function(m) { return classifyMatch(m) === 'upcoming'; }).slice(0, 6);
-  }
-
-  if (!matches.length) {
-    // Fallback dummy match
-    matches = [{
-      id: 'dummy1',
-      name: 'India vs Australia, 1st Test, Border-Gavaskar Trophy 2026',
-      matchType: 'test',
-      status: 'Match starts at Apr 15, 09:30 GMT',
-      venue: 'MA Chidambaram Stadium, Chennai',
-      date: '2026-04-15',
-      dateTimeGMT: '2026-04-15T09:30:00',
-      teams: ['India', 'Australia'],
-      teamInfo: [
-        {name: 'India', shortname: 'IND', img: 'https://g.cricapi.com/iapi/6-637877074931980375.webp?w=48'},
-        {name: 'Australia', shortname: 'AUS', img: 'https://g.cricapi.com/iapi/4-637877074931980375.webp?w=48'}
-      ],
-      series_id: 'dummy',
-      matchStarted: false,
-      matchEnded: false
-    }];
-  }
 
   if (!matches.length) {
     const label = liveGroup.querySelector('.match-group-label');

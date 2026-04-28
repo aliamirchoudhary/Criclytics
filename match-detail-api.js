@@ -472,8 +472,8 @@ function wipePage(t1, t2) {
     if (title.includes('Series Status')) {
       var summary = card.querySelector('div[style*="padding:0.9rem"]');
       if (summary) {
-        summary.innerHTML = '<div style="font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:0.35rem;">' + esc(match.series || 'Series') + '</div>'
-          + '<div style="font-size:0.8rem;color:var(--text-muted);line-height:1.4;">' + esc(match.matchEnded ? formatCompletedStatus(match) : (match.status || 'Series context unavailable')) + '</div>';
+        summary.innerHTML = '<div style="font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:0.35rem;">Series</div>'
+          + '<div style="font-size:0.8rem;color:var(--text-muted);line-height:1.4;">—</div>';
       }
     }
   });

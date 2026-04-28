@@ -110,22 +110,15 @@ async function loadLiveTicker() {
   var activeLive = tickerMatches.filter(function(m) { return m.matchStarted && !m.matchEnded; });
   if (activeLive.length) tickerMatches = activeLive;
 
-  // Fall back to upcoming from /api/matches when no live
   if (!tickerMatches.length) {
-    var allData = await apiFetch('/api/matches');
-    var allMatches = (allData && allData.data) ? allData.data : [];
-    tickerMatches = allMatches.filter(function(m) { return !m.matchEnded; }).slice(0, 5);
-  }
-
-  if (!tickerMatches.length) {
-    // No data at all — hide ticker
+    inner.innerHTML = '<span class="ticker-label">Live</span><span class="ticker-item"><strong>No live matches right now.</strong> Check the schedule for upcoming fixtures. <span class="ticker-sep">|</span></span>';
     var ticker = inner.closest('.live-ticker');
-    if (ticker) ticker.style.display = 'none';
+    if (ticker) ticker.style.display = '';
     return;
   }
 
   var isAnyLive = tickerMatches.some(function(m) { return m.matchStarted && !m.matchEnded; });
-  var labelType = isAnyLive ? 'Live' : 'Upcoming';
+  var labelType = isAnyLive ? 'Live' : 'Live';
 
   var items = tickerMatches.map(function(m) {
     var t1 = getLiveTeamName(m, 0);
@@ -148,18 +141,10 @@ async function loadLiveMatches() {
   matches = matches.filter(function(m) { return m.matchStarted && !m.matchEnded; });
   var isLive = matches.length > 0;
 
-  // Fall back to first 2 upcoming when no live
-  if (!matches.length) {
-    var allData = await apiFetch('/api/matches');
-    var allMatches = (allData && allData.data) ? allData.data : [];
-    matches = allMatches.filter(function(m) { return !m.matchEnded; }).slice(0, 2);
-  }
-
   // Update section title
   document.querySelectorAll('.section-title').forEach(function(el) {
     if (el.textContent.includes('Live Matches') || el.textContent.includes('Up Next')) {
       if (isLive) el.innerHTML = '<span class="icon">🔴</span> Live Matches';
-      else if (matches.length) el.innerHTML = '<span class="icon">⏰</span> Up Next';
       else el.innerHTML = '<span class="icon">🔴</span> Live Matches';
     }
   });
@@ -169,7 +154,7 @@ async function loadLiveMatches() {
   if (!liveGrid) return;
 
   if (!matches.length) {
-    liveGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted);font-size:.88rem;"><i class="fa fa-calendar" style="font-size:1.5rem;display:block;margin-bottom:.5rem;opacity:.4;"></i>No live or upcoming matches.</div>';
+    liveGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted);font-size:.88rem;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--radius-lg);"><i class="fa fa-satellite-dish" style="font-size:1.5rem;display:block;margin-bottom:.5rem;opacity:.4;"></i>No live matches right now. Check the schedule for upcoming fixtures.</div>';
     return;
   }
 

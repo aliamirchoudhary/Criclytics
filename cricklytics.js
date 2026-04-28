@@ -236,11 +236,23 @@ async function apiFetch(path) {
   try {
     const res = await fetch(`${API}${path}`);
     if (!res.ok) {
+      // Optional lookups can legitimately miss (e.g., unknown venue/player/team).
+      // Keep DevTools clean for expected misses while preserving real server warnings.
+      if (res.status === 404 || res.status === 422) return null;
       console.warn(`API ${path} returned ${res.status}`);
       return null;
     }
-    return await res.json();
+    const data = await res.json();
+    if (data && data.found === false) return null;
+    if (data && typeof data.error === 'string') {
+      var msg = data.error.toLowerCase();
+      if (msg.includes('not found') || msg.includes('no ') || msg.includes('unavailable')) {
+        return null;
+      }
+    }
+    return data;
   } catch (e) {
+    // Network/down errors should still be visible.
     console.error(`API fetch failed: ${path}`, e);
     return null;
   }

@@ -9,10 +9,13 @@
 async function loadPlayerProbabilities(playerName, format = 'ODI') {
   try {
     const resp = await fetch(`/api/predict/player/${encodeURIComponent(playerName)}/all?format=${encodeURIComponent(format)}`);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    if (!resp.ok) {
+      if (resp.status === 404 || resp.status === 422) return null;
+      throw new Error(`HTTP ${resp.status}`);
+    }
     return await resp.json();
   } catch (e) {
-    console.error('Error loading player probabilities:', e);
+    console.warn('Player probabilities unavailable:', e && e.message ? e.message : e);
     return null;
   }
 }
@@ -30,10 +33,13 @@ async function loadTeamMatchPrediction(teamA, teamB, format = 'ODI', venue = nul
         venue: venue
       })
     });
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    if (!resp.ok) {
+      if (resp.status === 404 || resp.status === 422) return null;
+      throw new Error(`HTTP ${resp.status}`);
+    }
     return await resp.json();
   } catch (e) {
-    console.error('Error loading team prediction:', e);
+    console.warn('Team prediction unavailable:', e && e.message ? e.message : e);
     return null;
   }
 }
@@ -44,10 +50,13 @@ async function loadVenuePerformanceBias(venueName, team = null, format = 'ODI') 
     const params = new URLSearchParams({ format });
     if (team) params.append('team', team);
     const resp = await fetch(`/api/predict/venue/${encodeURIComponent(venueName)}?${params}`);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    if (!resp.ok) {
+      if (resp.status === 404 || resp.status === 422) return null;
+      throw new Error(`HTTP ${resp.status}`);
+    }
     return await resp.json();
   } catch (e) {
-    console.error('Error loading venue bias:', e);
+    console.warn('Venue bias unavailable:', e && e.message ? e.message : e);
     return null;
   }
 }
@@ -56,10 +65,13 @@ async function loadVenuePerformanceBias(venueName, team = null, format = 'ODI') 
 async function loadPredictionLeaderboard(metric = '50', format = 'ODI', limit = 10) {
   try {
     const resp = await fetch(`/api/predict/leaderboard?metric=${encodeURIComponent(metric)}&format=${encodeURIComponent(format)}&limit=${limit}`);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    if (!resp.ok) {
+      if (resp.status === 404 || resp.status === 422) return null;
+      throw new Error(`HTTP ${resp.status}`);
+    }
     return await resp.json();
   } catch (e) {
-    console.error('Error loading leaderboard:', e);
+    console.warn('Prediction leaderboard unavailable:', e && e.message ? e.message : e);
     return null;
   }
 }

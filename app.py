@@ -40,6 +40,18 @@ os.makedirs(LIVE_DIR, exist_ok=True)
 CRICAPI_BLOCK_UNTIL = 0
 CRICAPI_BLOCK_REASON = ""
 
+# Shared cache windows (minutes). All users within the window get cached data.
+# This keeps upstream hits low while still refreshing often enough for UX.
+LIVE_CACHE_TTL_MINUTES = 2
+MATCH_INFO_CACHE_TTL_MINUTES = 10
+SCORECARD_CACHE_TTL_MINUTES = 5
+MATCH_LIST_CACHE_TTL_MINUTES = 15
+SERIES_CACHE_TTL_MINUTES = 60
+
+# Prevent expiry stampede: only one thread refreshes each cache file at a time.
+_CACHE_LOCKS_GUARD = threading.Lock()
+_CACHE_LOCKS = {}
+
 # ── CricAPI config ────────────────────────────────────────────────────────────
 # Replace with your actual key from cricapi.com
 CRICAPI_KEY  = os.environ.get("CRICAPI_KEY", "")
@@ -579,6 +591,15 @@ def cache_age_minutes(filename):
     age = time.time() - os.path.getmtime(path)
     return age / 60
 
+
+def _get_cache_lock(cache_file):
+    if not cache_file:
+        return None
+    with _CACHE_LOCKS_GUARD:
+        if cache_file not in _CACHE_LOCKS:
+            _CACHE_LOCKS[cache_file] = threading.Lock()
+        return _CACHE_LOCKS[cache_file]
+
 # ── CricAPI fetch with caching ────────────────────────────────────────────────
 def fetch_cricapi(endpoint, params=None, cache_file=None, max_age_minutes=60):
     """
@@ -587,10 +608,70 @@ def fetch_cricapi(endpoint, params=None, cache_file=None, max_age_minutes=60):
     """
     global CRICAPI_BLOCK_UNTIL, CRICAPI_BLOCK_REASON
 
-    if cache_file and cache_age_minutes(cache_file) < max_age_minutes:
+    def get_fresh_cache():
+        if not cache_file:
+            return None
+        if cache_age_minutes(cache_file) < max_age_minutes:
+            cached = load_live(cache_file)
+            if cached and not is_cricapi_failure_payload(cached):
+                return cached
+        return None
+
+    fresh = get_fresh_cache()
+    if fresh is not None:
+        return fresh
+
+    cache_lock = _get_cache_lock(cache_file)
+    if cache_lock is not None:
+        # Wait for any in-flight refresh for this cache key, then re-check cache.
+        if cache_lock.acquire(timeout=15):
+            try:
+                fresh = get_fresh_cache()
+                if fresh is not None:
+                    return fresh
+
+                if time.time() < CRICAPI_BLOCK_UNTIL:
+                    cached = load_live(cache_file)
+                    if cached and not is_cricapi_failure_payload(cached):
+                        return cached
+                    return {"status": "failure", "reason": CRICAPI_BLOCK_REASON or "Temporarily blocked"}
+
+                if CRICAPI_KEY == "YOUR_CRICAPI_KEY_HERE":
+                    return None
+
+                try:
+                    p = {"apikey": CRICAPI_KEY}
+                    if params:
+                        p.update(params)
+                    resp = requests.get(f"{CRICAPI_BASE}/{endpoint}", params=p, timeout=10)
+                    resp.raise_for_status()
+                    data = resp.json()
+
+                    if is_cricapi_failure_payload(data):
+                        reason = str(data.get("reason") or "")
+                        reason_l = reason.lower()
+                        if "block" in reason_l or ("hits" in reason_l and "exceed" in reason_l):
+                            CRICAPI_BLOCK_UNTIL = time.time() + (15 * 60)
+                            CRICAPI_BLOCK_REASON = reason or "Blocked for 15 minutes"
+
+                        cached = load_live(cache_file)
+                        if cached and not is_cricapi_failure_payload(cached):
+                            return cached
+                        return data
+
+                    save_live(cache_file, data)
+                    return data
+                except Exception as e:
+                    print(f"  CricAPI error ({endpoint}): {e}")
+                    return load_live(cache_file)
+            finally:
+                cache_lock.release()
+
+        # Could not acquire lock quickly; another request is refreshing now.
         cached = load_live(cache_file)
         if cached and not is_cricapi_failure_payload(cached):
             return cached
+        return {"status": "failure", "reason": "Refresh in progress"}
 
     if time.time() < CRICAPI_BLOCK_UNTIL:
         # During provider block windows, do not hit the API repeatedly.
@@ -814,7 +895,8 @@ def get_player(player_name):
                 break
 
     if not player:
-        return jsonify({"error": f"Player '{player_name}' not found"}), 404
+        # Soft-miss response to avoid noisy frontend 404s for optional lookups.
+        return jsonify({"error": f"Player '{player_name}' not found", "found": False}), 200
 
     # Attach extra data
     yearly  = load_processed("player_yearly.json") or {}
@@ -856,7 +938,8 @@ def get_team(team_name):
                 break
 
     if not team_data:
-        return jsonify({"error": f"Team '{team_name}' not found"}), 404
+        # Soft-miss response to avoid noisy frontend 404s for optional lookups.
+        return jsonify({"error": f"Team '{team_name}' not found", "found": False}), 200
 
     # Build H2H records for this team
     team_h2h = {}
@@ -932,7 +1015,8 @@ def get_venue(venue_name):
                 break
 
     if not venue:
-        return jsonify({"error": f"Venue '{venue_name}' not found"}), 404
+        # Soft-miss response to avoid noisy frontend 404s for optional context lookups.
+        return jsonify({"error": f"Venue '{venue_name}' not found", "found": False}), 200
 
     venue["top_batters"] = batters.get(venue_name, [])
     venue["top_bowlers"] = bowlers.get(venue_name, [])
@@ -1136,7 +1220,8 @@ def get_h2h():
                 results[kf] = record
 
     if not results:
-        return jsonify({"error": f"No H2H data found for {team_a} vs {team_b}"}), 404
+        # Soft-miss response for optional sidebar context.
+        return jsonify({"error": f"No H2H data found for {team_a} vs {team_b}", "found": False}), 200
 
     return jsonify(results)
 
@@ -1170,9 +1255,9 @@ def compare_players():
     player_b = find_player(pb)
 
     if not player_a:
-        return jsonify({"error": f"Player '{pa}' not found"}), 404
+        return jsonify({"error": f"Player '{pa}' not found", "found": False}), 200
     if not player_b:
-        return jsonify({"error": f"Player '{pb}' not found"}), 404
+        return jsonify({"error": f"Player '{pb}' not found", "found": False}), 200
 
     return jsonify({"player_a": player_a, "player_b": player_b})
 
@@ -1353,7 +1438,7 @@ def get_insights():
         for key in data:
             if venue.lower() in key.lower():
                 return jsonify({key: data[key]})
-        return jsonify({}), 404
+        return jsonify({})
 
     # Return top 5 venues by matches
     venue_stats = load_processed("venue_stats.json") or {}
@@ -1371,7 +1456,7 @@ def get_insights():
 @app.route("/api/live")
 def get_live():
     """Live match scores. Falls back to sample cache if API returns empty."""
-    data = fetch_cricapi("currentMatches", cache_file="live.json", max_age_minutes=60)
+    data = fetch_cricapi("currentMatches", cache_file="live.json", max_age_minutes=LIVE_CACHE_TTL_MINUTES)
     matches = (data or {}).get("data") or (data or {}).get("matches") or []
     if not matches:
         cached = load_live("live.json")
@@ -1431,7 +1516,7 @@ def get_live():
             "match_scorecard",
             params={"id": mid},
             cache_file=f"score_{mid}.json",
-            max_age_minutes=1440,
+            max_age_minutes=SCORECARD_CACHE_TTL_MINUTES,
         )
         scorecard_calls += 1
         if scorecard_calls == 1:
@@ -1467,7 +1552,7 @@ def get_matches():
     - Completed matches from Cricsheet (processed data)
     """
     # Get live/upcoming matches from CricAPI
-    data = fetch_cricapi("matches", cache_file="matches.json", max_age_minutes=1440)
+    data = fetch_cricapi("matches", cache_file="matches.json", max_age_minutes=MATCH_LIST_CACHE_TTL_MINUTES)
     live_upcoming = (data or {}).get("data") or (data or {}).get("matches") or []
     if not live_upcoming:
         cached = load_live("matches.json")
@@ -1495,7 +1580,7 @@ def get_match(match_id):
 
     cache_file = f"match_{match_id}.json"
     data = fetch_cricapi("match_info", params={"id": match_id},
-                         cache_file=cache_file, max_age_minutes=60)
+                         cache_file=cache_file, max_age_minutes=MATCH_INFO_CACHE_TTL_MINUTES)
     if data:
         return jsonify(data)
     
@@ -1522,7 +1607,7 @@ def get_match_score(match_id):
 
     cache_file = f"score_{match_id}.json"
     data = fetch_cricapi("match_scorecard", params={"id": match_id},
-                         cache_file=cache_file, max_age_minutes=60)
+                         cache_file=cache_file, max_age_minutes=SCORECARD_CACHE_TTL_MINUTES)
     if data:
         return jsonify(data)
     
@@ -1541,7 +1626,7 @@ def get_match_score(match_id):
 def get_series():
     """Active series list. Returns cached data if CricAPI unavailable."""
     try:
-        data = fetch_cricapi("series", cache_file="series.json", max_age_minutes=1440)
+        data = fetch_cricapi("series", cache_file="series.json", max_age_minutes=SERIES_CACHE_TTL_MINUTES)
         if data:
             series = data.get("data") or data.get("series") or data.get("series_list") or []
             return jsonify({"data": series})
@@ -1655,7 +1740,7 @@ def get_player_meta(player_name):
         for key, val in data.items():
             if player_name.lower() in key.lower() or player_name.lower() in val.get("full_name","").lower():
                 return jsonify(val)
-        return jsonify({"error": f"No meta for '{player_name}'"}), 404
+        return jsonify({"error": f"No meta for '{player_name}'", "found": False}), 200
     return jsonify(meta)
 
 @app.route("/api/meta/teams")
