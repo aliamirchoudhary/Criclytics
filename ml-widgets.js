@@ -8,7 +8,7 @@
 // ── Load predictions for a player ────────────────────────────────────────────
 async function loadPlayerProbabilities(playerName, format = 'ODI') {
   try {
-    const resp = await fetch(`/api/predict/player/${encodeURIComponent(playerName)}/all?format=${encodeURIComponent(format)}`);
+    const resp = await fetch(`${API}/api/predict/player/${encodeURIComponent(playerName)}/all?format=${encodeURIComponent(format)}`);
     if (!resp.ok) {
       if (resp.status === 404 || resp.status === 422) return null;
       throw new Error(`HTTP ${resp.status}`);
@@ -23,7 +23,7 @@ async function loadPlayerProbabilities(playerName, format = 'ODI') {
 // ── Load team match prediction ───────────────────────────────────────────────
 async function loadTeamMatchPrediction(teamA, teamB, format = 'ODI', venue = null) {
   try {
-    const resp = await fetch('/api/predict/team_match', {
+    const resp = await fetch(`${API}/api/predict/team_match`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -49,7 +49,7 @@ async function loadVenuePerformanceBias(venueName, team = null, format = 'ODI') 
   try {
     const params = new URLSearchParams({ format });
     if (team) params.append('team', team);
-    const resp = await fetch(`/api/predict/venue/${encodeURIComponent(venueName)}?${params}`);
+    const resp = await fetch(`${API}/api/predict/venue/${encodeURIComponent(venueName)}?${params}`);
     if (!resp.ok) {
       if (resp.status === 404 || resp.status === 422) return null;
       throw new Error(`HTTP ${resp.status}`);
@@ -64,7 +64,7 @@ async function loadVenuePerformanceBias(venueName, team = null, format = 'ODI') 
 // ── Load prediction leaderboard ──────────────────────────────────────────────
 async function loadPredictionLeaderboard(metric = '50', format = 'ODI', limit = 10) {
   try {
-    const resp = await fetch(`/api/predict/leaderboard?metric=${encodeURIComponent(metric)}&format=${encodeURIComponent(format)}&limit=${limit}`);
+    const resp = await fetch(`${API}/api/predict/leaderboard?metric=${encodeURIComponent(metric)}&format=${encodeURIComponent(format)}&limit=${limit}`);
     if (!resp.ok) {
       if (resp.status === 404 || resp.status === 422) return null;
       throw new Error(`HTTP ${resp.status}`);
