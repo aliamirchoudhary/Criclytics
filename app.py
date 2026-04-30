@@ -22,12 +22,15 @@ from datetime import datetime, timedelta
 from functools import lru_cache
 from flask import Flask, jsonify, request, send_from_directory, abort, make_response
 from dotenv import load_dotenv
+from flask_cors import CORS
+import redis
 from ml_probability_engine import ProbabilityEngine
 
 load_dotenv()
 
 # ── App setup ────────────────────────────────────────────────────────────────
 app = Flask(__name__, static_folder=".", static_url_path="")
+CORS(app)  # Enable CORS for cross-domain frontend access
 
 BASE_DIR      = os.path.dirname(os.path.abspath(__file__))
 PROCESSED_DIR = os.path.join(BASE_DIR, "data", "processed")
@@ -57,6 +60,17 @@ _CACHE_LOCKS = {}
 CRICAPI_KEY  = os.environ.get("CRICAPI_KEY", "")
 CRICAPI_BASE = "https://api.cricapi.com/v1"
 
+# ── Redis (Upstash) setup ─────────────────────────────────────────────────────
+REDIS_URL = os.environ.get("REDIS_URL", "")
+r_client = None
+if REDIS_URL:
+    try:
+        # upstash uses rediss:// for TLS
+        r_client = redis.from_url(REDIS_URL, decode_responses=True)
+        print("[Redis] Connected successfully")
+    except Exception as e:
+        print(f"[Redis] Connection failed: {e}")
+
 # ── ML Probability Engine ─────────────────────────────────────────────────────
 # Initialize the ML probability engine for predictions
 ml_engine = None
@@ -76,6 +90,14 @@ def load_processed(filename):
 
 # ── Helper: load a live cache file ───────────────────────────────────────────
 def load_live(filename):
+    if r_client:
+        try:
+            data = r_client.get(filename)
+            if data:
+                return json.loads(data)
+        except Exception as e:
+            print(f"[Redis] Load error ({filename}): {e}")
+            
     path = os.path.join(LIVE_DIR, filename)
     if not os.path.exists(path):
         return None
@@ -574,7 +596,14 @@ def augment_completed_match(match):
 
     return enriched
 
-def save_live(filename, data):
+def save_live(filename, data, ttl_minutes=60):
+    if r_client:
+        try:
+            r_client.set(filename, json.dumps(data, ensure_ascii=False), ex=int(ttl_minutes * 60))
+            return
+        except Exception as e:
+            print(f"[Redis] Save error ({filename}): {e}")
+
     path = os.path.join(LIVE_DIR, filename)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False)
@@ -585,6 +614,16 @@ def is_cricapi_failure_payload(data):
 
 def cache_age_minutes(filename):
     """Returns how many minutes ago a live cache file was written."""
+    if r_client:
+        try:
+            ttl = r_client.ttl(filename)
+            if ttl < 0: return 9999
+            # Approximate age based on common TTLs (60 mins default)
+            # This is only used for relative comparison in fetch_cricapi
+            return 0 # If it exists in Redis, we treat it as fresh in the check below
+        except Exception:
+            pass
+
     path = os.path.join(LIVE_DIR, filename)
     if not os.path.exists(path):
         return 9999
@@ -659,7 +698,7 @@ def fetch_cricapi(endpoint, params=None, cache_file=None, max_age_minutes=60):
                             return cached
                         return data
 
-                    save_live(cache_file, data)
+                    save_live(cache_file, data, ttl_minutes=max_age_minutes)
                     return data
                 except Exception as e:
                     print(f"  CricAPI error ({endpoint}): {e}")
@@ -708,7 +747,7 @@ def fetch_cricapi(endpoint, params=None, cache_file=None, max_age_minutes=60):
             return data
 
         if cache_file:
-            save_live(cache_file, data)
+            save_live(cache_file, data, ttl_minutes=max_age_minutes)
         return data
     except Exception as e:
         print(f"  CricAPI error ({endpoint}): {e}")
@@ -1917,4 +1956,5 @@ if __name__ == "__main__":
     print("  Open in browser: http://localhost:5000")
     print("  API status:      http://localhost:5000/api/status")
     print("=" * 55)
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

@@ -11,7 +11,11 @@
 'use strict';
 
 // ── API base URL ─────────────────────────────────────────────────────────────
-const API = '';   // empty = same origin (Flask serves on localhost:5000)
+// Replace with your actual Hugging Face Space URL after deployment
+// Example: "https://aliamirchoudhary-criclytics-backend.hf.space"
+const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? '' 
+    : 'https://aliamirchoudhary-criclytics-backend.hf.space'; 
 
 // ── jsDelivr CDN flag base URL ────────────────────────────────────────────────
 const FLAG_CDN = 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/';
