@@ -16,6 +16,9 @@ jobs:
           fetch-depth: 0
           lfs: true
 
+      - name: Fetch LFS objects
+        run: git lfs pull
+
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
