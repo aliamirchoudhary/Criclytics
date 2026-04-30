@@ -19,4 +19,8 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push --force https://aliamirchoudhary:$HF_TOKEN@huggingface.co/spaces/aliamirchoudhary/criclytics-backend main
+        run: |
+          git config --global user.email "aliamirchoudhary@example.com"
+          git config --global user.name "aliamirchoudhary"
+          git lfs install
+          git push --force https://aliamirchoudhary:$HF_TOKEN@huggingface.co/spaces/aliamirchoudhary/criclytics-backend main
