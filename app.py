@@ -71,6 +71,17 @@ if REDIS_URL:
     except Exception as e:
         print(f"[Redis] Connection failed: {e}")
 
+# ── Redis (Upstash) setup ─────────────────────────────────────────────────────
+REDIS_URL = os.environ.get("REDIS_URL", "")
+r_client = None
+if REDIS_URL:
+    try:
+        # upstash uses rediss:// for TLS
+        r_client = redis.from_url(REDIS_URL, decode_responses=True)
+        print("[Redis] Connected successfully")
+    except Exception as e:
+        print(f"[Redis] Connection failed: {e}")
+
 # ── ML Probability Engine ─────────────────────────────────────────────────────
 # Initialize the ML probability engine for predictions
 ml_engine = None
@@ -1956,5 +1967,6 @@ if __name__ == "__main__":
     print("  Open in browser: http://localhost:5000")
     print("  API status:      http://localhost:5000/api/status")
     print("=" * 55)
+    port = int(os.environ.get("PORT", 5000))
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
