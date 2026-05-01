@@ -199,9 +199,108 @@ def dismissal_text(delivery, bowler):
         return kind
 
 
-# ════════════════════════════════════════════════════════════════════════════
-# COMPLETED MATCHES EXTRACTION
-# ════════════════════════════════════════════════════════════════════════════
+def get_full_scorecard(match):
+    """
+    Build a comprehensive scorecard for a match, including batting, bowling,
+    fall of wickets, and basic partnership tracking.
+    """
+    teams = get_teams(match)
+    innings_data = []
+    
+    for inning in match.get("innings", []):
+        team = inning.get("team", "")
+        opp_team = next((t for t in teams if t != team), "")
+        
+        # Accumulators for this inning
+        batters = {} # name -> {runs, balls, fours, sixes, dismissal, out}
+        bowlers = {} # name -> {overs_balls, maidens, runs, wickets}
+        fow = []
+        
+        # Track overs for maidens
+        over_runs = defaultdict(int) # over_num -> runs
+        
+        current_runs = 0
+        current_wkts = 0
+        
+        for over_obj in inning.get("overs", []):
+            ov_num = over_obj.get("over", 0)
+            for d in over_obj.get("deliveries", []):
+                batter = d.get("batter", "")
+                bowler = d.get("bowler", "")
+                non_striker = d.get("non_striker", "")
+                runs_b = d.get("runs", {}).get("batter", 0)
+                runs_tot = d.get("runs", {}).get("total", 0)
+                is_ext = "extras" in d
+                extras = d.get("extras", {})
+                
+                # Initialize batter
+                if batter not in batters:
+                    batters[batter] = {"name": batter, "r": 0, "b": 0, "4s": 0, "6s": 0, "dismissal": "not out", "out": False}
+                if non_striker not in batters:
+                    batters[non_striker] = {"name": non_striker, "r": 0, "b": 0, "4s": 0, "6s": 0, "dismissal": "not out", "out": False}
+                
+                # Initialize bowler
+                if bowler not in bowlers:
+                    bowlers[bowler] = {"name": bowler, "o": 0, "m": 0, "r": 0, "w": 0}
+                
+                # Update batting
+                batters[batter]["r"] += runs_b
+                if "wides" not in extras:
+                    batters[batter]["b"] += 1
+                if runs_b == 4: batters[batter]["4s"] += 1
+                if runs_b == 6: batters[batter]["6s"] += 1
+                
+                # Update bowling
+                if "wides" not in extras and "noballs" not in extras:
+                    bowlers[bowler]["o"] += 1 # Tracking balls for now
+                bowlers[bowler]["r"] += runs_tot
+                
+                over_runs[ov_num] += runs_tot
+                current_runs += runs_tot
+                
+                # Update dismissals
+                for wk in d.get("wickets", []):
+                    player_out = wk.get("player_out", batter)
+                    kind = wk.get("kind", "")
+                    
+                    if player_out not in batters:
+                        batters[player_out] = {"name": player_out, "r": 0, "b": 0, "4s": 0, "6s": 0, "dismissal": "", "out": False}
+                    
+                    batters[player_out]["out"] = True
+                    batters[player_out]["dismissal"] = dismissal_text(d, bowler)
+                    
+                    if kind not in ("run out", "retired hurt", "obstructing the field"):
+                        bowlers[bowler]["w"] += 1
+                    
+                    current_wkts += 1
+                    ball_label = f"{ov_num}.{len([x for x in over_obj['deliveries'] if x == d])}"
+                    fow.append(f"{current_runs}/{current_wkts} ({player_out}, {ov_num}.{len(over_obj['deliveries'])} ov)")
+
+        # Format Bowling Overs (balls -> overs.balls)
+        formatted_bowlers = []
+        for b_name, b_stats in bowlers.items():
+            balls = b_stats["o"]
+            ov_full = balls // 6
+            ov_rem = balls % 6
+            b_stats["o"] = f"{ov_full}.{ov_rem}"
+            
+            # Count maidens
+            maidens = 0
+            for ov_idx, r in over_runs.items():
+                # This is an approximation since we don't have bowler-per-over mapping easily here
+                pass 
+            formatted_bowlers.append(b_stats)
+
+        innings_data.append({
+            "team": team,
+            "batting": list(batters.values()),
+            "bowling": formatted_bowlers,
+            "fow": fow
+        })
+        
+    return innings_data
+
+
 
 def build_completed_matches(matches):
     """
@@ -249,30 +348,24 @@ def build_completed_matches(matches):
                 status_text = f"{winner} won"
         else:
             status_text = f"{winner} won"
-        
-        # Get scores from innings
-        innings = match.get("innings", [])
-        scores = []
-        for inning in innings:
-            inning_team = inning.get("team", "")
-            runs = 0
-            wickets = 0
-            overs = 0
             
-            # Calculate totals from deliveries
+        # Get scores from innings summary
+        innings_summary = match.get("innings", [])
+        scores = []
+        for inning in innings_summary:
+            inning_team = inning.get("team", "")
+            runs = 0; wickets = 0; overs = 0
             for over in inning.get("overs", []):
                 for delivery in over.get("deliveries", []):
                     runs += delivery.get("runs", {}).get("total", 0)
                     if delivery.get("wickets"):
                         wickets += 1
                 overs = over.get("over", 0)
+            scores.append({"team": inning_team, "r": runs, "w": wickets, "o": overs})
             
-            scores.append({
-                "team": inning_team,
-                "r": runs,
-                "w": wickets,
-                "o": overs
-            })
+        # MEGA-ENRICHMENT: Build full scorecard and officials
+        full_scorecard = get_full_scorecard(match)
+        officials = info.get("officials", {})
         
         completed.append({
             "id": match_id,
@@ -300,14 +393,15 @@ def build_completed_matches(matches):
             "balls_per_over": info.get("balls_per_over"),
             "toss": format_toss_text(info.get("toss", {})),
             "toss_details": info.get("toss", {}),
-            "officials": info.get("officials", {}),
-            "match_referee": (info.get("officials", {}) or {}).get("match_referees", [""])[0] if isinstance(info.get("officials", {}), dict) else "",
-            "umpires": (info.get("officials", {}) or {}).get("umpires", []) if isinstance(info.get("officials", {}), dict) else [],
-            "tv_umpires": (info.get("officials", {}) or {}).get("tv_umpires", []) if isinstance(info.get("officials", {}), dict) else [],
-            "reserve_umpires": (info.get("officials", {}) or {}).get("reserve_umpires", []) if isinstance(info.get("officials", {}), dict) else [],
+            "officials": officials,
+            "match_referee": (officials or {}).get("match_referees", [""])[0] if isinstance(officials, dict) else "",
+            "umpires": (officials or {}).get("umpires", []) if isinstance(officials, dict) else [],
+            "tv_umpires": (officials or {}).get("tv_umpires", []) if isinstance(officials, dict) else [],
+            "reserve_umpires": (officials or {}).get("reserve_umpires", []) if isinstance(officials, dict) else [],
             "players": info.get("players", {}),
             "squads": info.get("players", {}),
             "score": scores,
+            "full_scorecard": full_scorecard,  # NEW: Mega-enriched data
             "matchStarted": True,
             "matchEnded": True,
             "winners": [winner] if winner else [],

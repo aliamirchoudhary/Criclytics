@@ -563,6 +563,21 @@ def augment_completed_match(match):
     if not isinstance(match, dict):
         return match
 
+    # If the match is already "Mega-Enriched" (from our updated processing script),
+    # we don't need to load the raw file at all.
+    if "full_scorecard" in match and match.get("full_scorecard"):
+        # We still need to ensure basic fields like scoreText and result are set
+        match["scoreText"] = match.get("scoreText") or summarize_match_score(match)
+        # Prediction check
+        if "prediction" not in match and ml_engine:
+            try:
+                t1, t2 = match.get("team1"), match.get("team2")
+                fmt = match.get("format", "ODI")
+                if t1 and t2:
+                    match["prediction"] = ml_engine.team_match_outcome(t1, t2, format=fmt)
+            except: pass
+        return match
+
     match_id = str(match.get("id") or match.get("unique_id") or "").strip()
     raw_match = load_raw_cricsheet_match(match_id)
     if not raw_match:
