@@ -40,16 +40,26 @@ class ProbabilityEngine:
         self.venue_insights = self._load_json("venue_insights.json")
 
     def _load_json(self, filename: str) -> Dict:
-        """Load a JSON file from data directory."""
+        """Load a JSON file from data directory with root fallback."""
+        # Try expected subdirectory
         path = os.path.join(self.data_dir, filename)
-        if not os.path.exists(path):
-            return {}
-        try:
-            with open(path, encoding="utf-8") as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"Error loading {filename}: {e}")
-            return {}
+        if os.path.exists(path):
+            try:
+                with open(path, encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"Error loading {path}: {e}")
+
+        # Smart Fallback: Try root directory
+        root_path = filename
+        if os.path.exists(root_path):
+            try:
+                with open(root_path, encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"Error loading {root_path}: {e}")
+                
+        return {}
 
     # ═════════════════════════════════════════════════════════════════════════
     # PLAYER PROBABILITY CALCULATIONS

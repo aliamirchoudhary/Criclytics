@@ -58,16 +58,26 @@ class CricketMLModels:
         self._load_models()
 
     def _load_json(self, filename: str) -> Dict:
-        """Load a JSON file from data directory."""
+        """Load a JSON file from data directory with root fallback."""
+        # Try expected subdirectory
         path = os.path.join(self.data_dir, filename)
-        if not os.path.exists(path):
-            return {}
-        try:
-            with open(path, encoding="utf-8") as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"[ML] Error loading {filename}: {e}")
-            return {}
+        if os.path.exists(path):
+            try:
+                with open(path, encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"[ML] Error loading {path}: {e}")
+
+        # Smart Fallback: Try root directory
+        root_path = filename
+        if os.path.exists(root_path):
+            try:
+                with open(root_path, encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"[ML] Error loading {root_path}: {e}")
+
+        return {}
 
     def _save_model(self, model, scaler, name: str):
         """Save model and scaler to disk."""
@@ -81,7 +91,7 @@ class CricketMLModels:
             print(f"[ML] Error saving {name}: {e}")
 
     def _load_models(self):
-        """Load pre-trained models from disk."""
+        """Load pre-trained models from disk with root fallback."""
         models_to_load = [
             ("player_batting_50", "player_batting_50_model"),
             ("player_batting_100", "player_batting_100_model"),
@@ -91,19 +101,28 @@ class CricketMLModels:
         ]
         
         for model_name, attr_name in models_to_load:
-            model_path = os.path.join(self.model_dir, f"{model_name}_model.pkl")
-            scaler_path = os.path.join(self.model_dir, f"{model_name}_scaler.pkl")
+            m_file = f"{model_name}_model.pkl"
+            s_file = f"{model_name}_scaler.pkl"
             
-            if os.path.exists(model_path) and os.path.exists(scaler_path):
+            # Try expected subdirectory
+            m_path = os.path.join(self.model_dir, m_file)
+            s_path = os.path.join(self.model_dir, s_file)
+            
+            # Smart Fallback: Try root if not in models/
+            if not os.path.exists(m_path):
+                m_path = m_file
+                s_path = s_file
+            
+            if os.path.exists(m_path) and os.path.exists(s_path):
                 try:
-                    with open(model_path, "rb") as f:
+                    with open(m_path, "rb") as f:
                         model = pickle.load(f)
-                    with open(scaler_path, "rb") as f:
+                    with open(s_path, "rb") as f:
                         scaler = pickle.load(f)
                     
                     setattr(self, attr_name, model)
                     setattr(self, f"{attr_name.replace('model', 'scaler')}", scaler)
-                    print(f"[ML] Loaded model: {model_name}")
+                    print(f"[ML] Loaded model: {model_name} from {m_path}")
                 except Exception as e:
                     print(f"[ML] Error loading {model_name}: {e}")
 

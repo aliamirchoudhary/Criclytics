@@ -93,11 +93,19 @@ except Exception as e:
 
 # ── Helper: load a processed JSON file ───────────────────────────────────────
 def load_processed(filename):
+    # Try expected subdirectory
     path = os.path.join(PROCESSED_DIR, filename)
-    if not os.path.exists(path):
-        return None
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    
+    # Smart Fallback: Try root directory (Hugging Face style)
+    root_path = os.path.join(BASE_DIR, filename)
+    if os.path.exists(root_path):
+        with open(root_path, encoding="utf-8") as f:
+            return json.load(f)
+            
+    return None
 
 # ── Helper: load a live cache file ───────────────────────────────────────────
 def load_live(filename):
@@ -109,11 +117,19 @@ def load_live(filename):
         except Exception as e:
             print(f"[Redis] Load error ({filename}): {e}")
             
+    # Try expected subdirectory
     path = os.path.join(LIVE_DIR, filename)
-    if not os.path.exists(path):
-        return None
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+            
+    # Smart Fallback: Try root directory
+    root_path = os.path.join(BASE_DIR, filename)
+    if os.path.exists(root_path):
+        with open(root_path, encoding="utf-8") as f:
+            return json.load(f)
+            
+    return None
 
 
 def resolve_match_detail(match_id):
@@ -1701,13 +1717,19 @@ def status():
         "player_venues.json", "h2h.json", "team_format_stats.json",
         "team_venue_stats.json", "venue_stats.json", "venue_batters.json",
         "venue_bowlers.json", "venue_insights.json", "records.json",
+        "completed_matches.json"
     ]
     status_data = {}
     for f in files:
         path = os.path.join(PROCESSED_DIR, f)
+        root_path = os.path.join(BASE_DIR, f)
+        
         if os.path.exists(path):
             size_kb = round(os.path.getsize(path) / 1024, 1)
-            status_data[f] = {"exists": True, "size_kb": size_kb}
+            status_data[f] = {"exists": True, "location": "data/processed", "size_kb": size_kb}
+        elif os.path.exists(root_path):
+            size_kb = round(os.path.getsize(root_path) / 1024, 1)
+            status_data[f] = {"exists": True, "location": "root", "size_kb": size_kb}
         else:
             status_data[f] = {"exists": False}
 
