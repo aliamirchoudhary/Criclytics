@@ -565,16 +565,21 @@ def augment_completed_match(match):
 
     # If the match is already "Mega-Enriched" (from our updated processing script),
     # we don't need to load the raw file at all.
-    if "full_scorecard" in match and match.get("full_scorecard"):
+    if "innings" in match and match.get("innings"):
         # We still need to ensure basic fields like scoreText and result are set
         match["scoreText"] = match.get("scoreText") or summarize_match_score(match)
-        # Prediction check
-        if "prediction" not in match and ml_engine:
+        
+        # Prediction check for Context Insights
+        if ml_engine:
             try:
                 t1, t2 = match.get("team1"), match.get("team2")
-                fmt = match.get("format", "ODI")
+                fmt = match.get("format", "T20")
                 if t1 and t2:
-                    match["prediction"] = ml_engine.team_match_outcome(t1, t2, format=fmt)
+                    pred = ml_engine.team_match_outcome(t1, t2, format=fmt)
+                    match["prediction"] = pred
+                    if pred and "team_a" in pred:
+                        match["team_a_prob"] = pred["team_a"].get("win_probability", 0.5)
+                        match["team_b_prob"] = pred["team_b"].get("win_probability", 0.5)
             except: pass
         return match
 

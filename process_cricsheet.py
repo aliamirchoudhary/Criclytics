@@ -199,106 +199,146 @@ def dismissal_text(delivery, bowler):
         return kind
 
 
-def get_full_scorecard(match):
+def build_mega_enriched_view(match):
     """
-    Build a comprehensive scorecard for a match, including batting, bowling,
-    fall of wickets, and basic partnership tracking.
+    Mirror of app.py's build_cricsheet_match_view to ensure 100% data parity.
+    Calculates detailed innings, partnerships, and match stats.
     """
-    teams = get_teams(match)
-    innings_data = []
+    info = match.get("info") or {}
+    innings_views = []
+    all_partnerships = []
+    top_scorer = None
+    best_bowler = None
+
+    teams_list = get_teams(match) # Safe helper
+    for inning_index, inning in enumerate(match.get("innings") or []):
+        batting_team = inning.get("team") or ""
+        bowling_team = next((team for team in teams_list if team != batting_team), "")
+        batting_map = {}
+        bowling_map = {}
+        over_tracker = defaultdict(lambda: {"runs": 0, "balls": 0})
+        innings_runs = 0
+        wickets = 0
+        legal_balls = 0
+        boundaries = 0
+        dot_balls = 0
+        partnership_runs = 0
+        fall_of_wickets = []
+        order = 0
+
+        for over in inning.get("overs", []):
+            over_num = over.get("over", 0)
+            for delivery in over.get("deliveries", []):
+                batter = str(delivery.get("batter") or "").strip()
+                bowler = str(delivery.get("bowler") or "").strip()
+                non_striker = str(delivery.get("non_striker") or "").strip()
+                runs = delivery.get("runs") or {}
+                extras = delivery.get("extras") or {}
+                wickets_info = delivery.get("wickets") or []
+
+                batter_runs = int(runs.get("batter") or 0)
+                total_runs = int(runs.get("total") or 0)
+                wides = int(extras.get("wides") or 0)
+                noballs = int(extras.get("noballs") or 0)
+                legal_ball = (wides == 0 and noballs == 0)
+
+                if batter and batter not in batting_map:
+                    order += 1
+                    batting_map[batter] = {"batsman": batter, "dismissal": "not out", "r": 0, "b": 0, "4s": 0, "6s": 0, "sr": 0, "order": order}
+
+                if bowler and bowler not in bowling_map:
+                    bowling_map[bowler] = {"bowler": bowler, "o": 0, "m": 0, "r": 0, "w": 0, "eco": 0, "wd": 0, "nb": 0}
+
+                innings_runs += total_runs
+                partnership_runs += total_runs
+                if legal_ball:
+                    legal_balls += 1
+                    if total_runs == 0: dot_balls += 1
+                if batter_runs in (4, 6): boundaries += 1
+
+                if batter and batter in batting_map:
+                    batting_map[batter]["r"] += batter_runs
+                    if legal_ball: batting_map[batter]["b"] += 1
+                    if batter_runs == 4: batting_map[batter]["4s"] += 1
+                    if batter_runs == 6: batting_map[batter]["6s"] += 1
+
+                if bowler and bowler in bowling_map:
+                    bowler_runs = batter_runs + wides + noballs
+                    bowling_map[bowler]["r"] += bowler_runs
+                    if legal_ball: bowling_map[bowler]["o"] += 1
+                    bowling_map[bowler]["wd"] += wides
+                    bowling_map[bowler]["nb"] += noballs
+                    over_tracker[(bowler, over_num)]["runs"] += bowler_runs
+                    if legal_ball: over_tracker[(bowler, over_num)]["balls"] += 1
+
+                if wickets_info:
+                    wicket = wickets_info[0] or {}
+                    kind = wicket.get("kind") or ""
+                    player_out = str(wicket.get("player_out") or batter or "").strip()
+                    wickets += 1
+                    dismissal = dismissal_text(delivery, bowler) # Uses existing helper
+                    if player_out in batting_map:
+                        batting_map[player_out]["dismissal"] = dismissal
+                    if bowler and bowler in bowling_map and kind.lower() not in ("run out", "retired hurt", "retired out"):
+                        bowling_map[bowler]["w"] += 1
+                    
+                    ov_f = f"{legal_balls // 6}.{legal_balls % 6}"
+                    fall_of_wickets.append(f"{innings_runs}/{wickets} ({player_out}, {ov_f} ov)")
+                    all_partnerships.append({
+                        "innings": inning_index + 1,
+                        "team": batting_team,
+                        "wicket_no": wickets,
+                        "names": " & ".join([n for n in [batter, non_striker] if n]),
+                        "runs": partnership_runs,
+                        "score": innings_runs,
+                    })
+                    partnership_runs = 0
+
+        batting_rows = sorted(batting_map.values(), key=lambda x: x["order"])
+        bowling_rows = list(bowling_map.values())
+
+        for row in batting_rows:
+            row["sr"] = round((row["r"] * 100.0 / row["b"]), 1) if row["b"] else 0
+        for row in bowling_rows:
+            balls = row["o"]
+            row["m"] = sum(1 for (b_n, o_n), s in over_tracker.items() if b_n == row["bowler"] and s["balls"] == 6 and s["runs"] == 0)
+            row["o"] = f"{balls // 6}.{balls % 6}"
+            row["eco"] = round((row["r"] * 6.0 / balls), 1) if balls else 0
+
+        innings_view = {
+            "team": batting_team,
+            "batting": batting_rows,
+            "bowling": bowling_rows,
+            "fall_of_wickets": fall_of_wickets,
+            "total": innings_runs, "wickets": wickets, "overs": f"{legal_balls // 6}.{legal_balls % 6}",
+            "boundaries": boundaries, "dot_balls": dot_balls,
+        }
+        
+        if batting_rows:
+            best_bat = max(batting_rows, key=lambda r: (r["r"], -r["b"]))
+            innings_view["top_scorer"] = best_bat
+            if not top_scorer or best_bat["r"] > top_scorer["runs"]:
+                top_scorer = {"name": best_bat["batsman"], "runs": best_bat["r"], "team": batting_team}
+        
+        if bowling_rows:
+            best_bowl = max(bowling_rows, key=lambda r: (r["w"], -r["r"], r["m"]))
+            innings_view["best_bowler"] = best_bowl
+            if not best_bowler or (best_bowl["w"], -best_bowl["r"]) > (best_bowler["wickets"], -best_bowler["runs"]):
+                best_bowler = {"name": best_bowl["bowler"], "wickets": best_bowl["w"], "runs": best_bowl["r"], "overs": best_bowl["o"], "team": bowling_team}
+
+        innings_views.append(innings_view)
+
+    partnerships = sorted(all_partnerships, key=lambda x: (-x["runs"], x["innings"], x["wicket_no"]))[:5]
     
-    for inning in match.get("innings", []):
-        team = inning.get("team", "")
-        opp_team = next((t for t in teams if t != team), "")
-        
-        # Accumulators for this inning
-        batters = {} # name -> {runs, balls, fours, sixes, dismissal, out}
-        bowlers = {} # name -> {overs_balls, maidens, runs, wickets}
-        fow = []
-        
-        # Track overs for maidens
-        over_runs = defaultdict(int) # over_num -> runs
-        
-        current_runs = 0
-        current_wkts = 0
-        
-        for over_obj in inning.get("overs", []):
-            ov_num = over_obj.get("over", 0)
-            for d in over_obj.get("deliveries", []):
-                batter = d.get("batter", "")
-                bowler = d.get("bowler", "")
-                non_striker = d.get("non_striker", "")
-                runs_b = d.get("runs", {}).get("batter", 0)
-                runs_tot = d.get("runs", {}).get("total", 0)
-                is_ext = "extras" in d
-                extras = d.get("extras", {})
-                
-                # Initialize batter
-                if batter not in batters:
-                    batters[batter] = {"name": batter, "r": 0, "b": 0, "4s": 0, "6s": 0, "dismissal": "not out", "out": False}
-                if non_striker not in batters:
-                    batters[non_striker] = {"name": non_striker, "r": 0, "b": 0, "4s": 0, "6s": 0, "dismissal": "not out", "out": False}
-                
-                # Initialize bowler
-                if bowler not in bowlers:
-                    bowlers[bowler] = {"name": bowler, "o": 0, "m": 0, "r": 0, "w": 0}
-                
-                # Update batting
-                batters[batter]["r"] += runs_b
-                if "wides" not in extras:
-                    batters[batter]["b"] += 1
-                if runs_b == 4: batters[batter]["4s"] += 1
-                if runs_b == 6: batters[batter]["6s"] += 1
-                
-                # Update bowling
-                if "wides" not in extras and "noballs" not in extras:
-                    bowlers[bowler]["o"] += 1 # Tracking balls for now
-                bowlers[bowler]["r"] += runs_tot
-                
-                over_runs[ov_num] += runs_tot
-                current_runs += runs_tot
-                
-                # Update dismissals
-                for wk in d.get("wickets", []):
-                    player_out = wk.get("player_out", batter)
-                    kind = wk.get("kind", "")
-                    
-                    if player_out not in batters:
-                        batters[player_out] = {"name": player_out, "r": 0, "b": 0, "4s": 0, "6s": 0, "dismissal": "", "out": False}
-                    
-                    batters[player_out]["out"] = True
-                    batters[player_out]["dismissal"] = dismissal_text(d, bowler)
-                    
-                    if kind not in ("run out", "retired hurt", "obstructing the field"):
-                        bowlers[bowler]["w"] += 1
-                    
-                    current_wkts += 1
-                    ball_label = f"{ov_num}.{len([x for x in over_obj['deliveries'] if x == d])}"
-                    fow.append(f"{current_runs}/{current_wkts} ({player_out}, {ov_num}.{len(over_obj['deliveries'])} ov)")
-
-        # Format Bowling Overs (balls -> overs.balls)
-        formatted_bowlers = []
-        for b_name, b_stats in bowlers.items():
-            balls = b_stats["o"]
-            ov_full = balls // 6
-            ov_rem = balls % 6
-            b_stats["o"] = f"{ov_full}.{ov_rem}"
-            
-            # Count maidens
-            maidens = 0
-            for ov_idx, r in over_runs.items():
-                # This is an approximation since we don't have bowler-per-over mapping easily here
-                pass 
-            formatted_bowlers.append(b_stats)
-
-        innings_data.append({
-            "team": team,
-            "batting": list(batters.values()),
-            "bowling": formatted_bowlers,
-            "fow": fow
-        })
-        
-    return innings_data
+    return {
+        "innings": innings_views,
+        "partnerships": partnerships,
+        "match_stats": {
+            "top_scorer": top_scorer,
+            "best_bowler": best_bowler,
+            "innings": [ {"boundaries": i["boundaries"], "dot_balls": i["dot_balls"]} for i in innings_views ]
+        }
+    }
 
 
 
@@ -364,8 +404,8 @@ def build_completed_matches(matches):
             scores.append({"team": inning_team, "r": runs, "w": wickets, "o": overs})
             
         # MEGA-ENRICHMENT: Build full scorecard and officials
-        full_scorecard = get_full_scorecard(match)
         officials = info.get("officials", {})
+        mega_view = build_mega_enriched_view(match)
         
         completed.append({
             "id": match_id,
@@ -401,7 +441,9 @@ def build_completed_matches(matches):
             "players": info.get("players", {}),
             "squads": info.get("players", {}),
             "score": scores,
-            "full_scorecard": full_scorecard,  # NEW: Mega-enriched data
+            "innings": mega_view.get("innings", []),
+            "partnerships": mega_view.get("partnerships", []),
+            "match_stats": mega_view.get("match_stats", {}),
             "matchStarted": True,
             "matchEnded": True,
             "winners": [winner] if winner else [],
