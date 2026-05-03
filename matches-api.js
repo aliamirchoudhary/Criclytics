@@ -98,6 +98,8 @@ function getMatchScore(match, index) {
     var team = getMatchTeamName(match, index);
     var otherTeam = getMatchTeamName(match, index === 0 ? 1 : 0);
     var isLiveInProgress = match.matchStarted === true && match.matchEnded !== true;
+
+    // 1. Try to find a score that explicitly belongs to this team by name
     if (team) {
       for (var i = 0; i < match.score.length; i++) {
         var score = match.score[i];
@@ -109,18 +111,26 @@ function getMatchScore(match, index) {
         }
       }
     }
-    // For in-progress live cards, avoid positional fallback that can mirror the same score for both teams.
+
+    // 2. Fallback logic for matches without clear inning labels
     if (isLiveInProgress) {
-      if (match.score[index] && match.score[index].r != null) {
-        return formatScoreObject(match.score[index]);
-      }
-      if (index === 0 && match.score[0] && match.score[0].r != null) {
-        return formatScoreObject(match.score[0]);
+      // In a live match, if we have a score at this index, only use it if it doesn't belong to the other team
+      var candidate = match.score[index];
+      if (candidate && candidate.r != null) {
+        var candInningTeam = String(candidate.inning || '').split(/\s+Inning/i)[0].trim();
+        if (!scoreBelongsToTeam(candInningTeam, otherTeam, team)) {
+          return formatScoreObject(candidate);
+        }
       }
       return '';
     }
+
+    // For completed matches, fallback to positional index if name match failed
     if (match.score[index] && match.score[index].r != null) {
-      return formatScoreObject(match.score[index]);
+      var fallbackInningTeam = String(match.score[index].inning || '').split(/\s+Inning/i)[0].trim();
+      if (!scoreBelongsToTeam(fallbackInningTeam, otherTeam, team)) {
+        return formatScoreObject(match.score[index]);
+      }
     }
   }
   return '';

@@ -71,16 +71,7 @@ if REDIS_URL:
     except Exception as e:
         print(f"[Redis] Connection failed: {e}")
 
-# ── Redis (Upstash) setup ─────────────────────────────────────────────────────
-REDIS_URL = os.environ.get("REDIS_URL", "")
-r_client = None
-if REDIS_URL:
-    try:
-        # upstash uses rediss:// for TLS
-        r_client = redis.from_url(REDIS_URL, decode_responses=True)
-        print("[Redis] Connected successfully")
-    except Exception as e:
-        print(f"[Redis] Connection failed: {e}")
+
 
 # ── ML Probability Engine ─────────────────────────────────────────────────────
 # Initialize the ML probability engine for predictions
@@ -182,14 +173,31 @@ def render_match_detail_bootstrap(match):
                 if (!match) return;
                 var t1 = match.t1 || match.team1 || (Array.isArray(match.teams) ? match.teams[0] : '') || '';
                 var t2 = match.t2 || match.team2 || (Array.isArray(match.teams) ? match.teams[1] : '') || '';
-                var score = Array.isArray(match.score) ? match.score : [];
-                var s1 = match.t1s || (score[0] ? [score[0].r, score[0].w != null ? '/' + score[0].w : '', score[0].o != null ? ' (' + score[0].o + 'o)' : ''].join('') : '—');
-                var s2 = match.t2s || (score[1] ? [score[1].r, score[1].w != null ? '/' + score[1].w : '', score[1].o != null ? ' (' + score[1].o + 'o)' : ''].join('') : '—');
+                var s1 = match.t1s || '';
+                var s2 = match.t2s || '';
+                
+                if (!s1 || !s2) {{
+                   var scoreArr = Array.isArray(match.score) ? match.score : [];
+                   var t1s_found = false, t2s_found = false;
+                   
+                   for (var i = 0; i < scoreArr.length; i++) {{
+                       var sc = scoreArr[i];
+                       var r = sc.r, w = sc.w, o = sc.o, inn = String(sc.inning || "").toLowerCase();
+                       var scoreStr = [r, w != null ? '/' + w : '', o != null ? ' (' + o + 'o)' : ''].join('');
+                       
+                       if (inn.includes(t1.toLowerCase())) {{ s1 = scoreStr; t1s_found = true; }}
+                       else if (inn.includes(t2.toLowerCase())) {{ s2 = scoreStr; t2s_found = true; }}
+                   }}
+                   
+                   // Positional fallback only if name match failed AND not belonging to other
+                   if (!s1 && scoreArr[0] && !t2s_found) s1 = [scoreArr[0].r, scoreArr[0].w != null ? '/' + scoreArr[0].w : '', scoreArr[0].o != null ? ' (' + scoreArr[0].o + 'o)' : ''].join('');
+                   if (!s2 && scoreArr[1]) s2 = [scoreArr[1].r, scoreArr[1].w != null ? '/' + scoreArr[1].w : '', scoreArr[1].o != null ? ' (' + scoreArr[1].o + 'o)' : ''].join('');
+                }}
 
                 setText('#team1Name', t1);
                 setText('#team2Name', t2);
-                setText('#team1Score', s1);
-                setText('#team2Score', s2);
+                setText('#team1Score', s1 || '—');
+                setText('#team2Score', s2 || '—');
 
                 var status = match.matchEnded ? (match.status || 'Completed') : (match.matchStarted ? (match.status || 'Live') : (match.status || 'Upcoming'));
                 var statusEl = document.querySelector('.match-status-live');

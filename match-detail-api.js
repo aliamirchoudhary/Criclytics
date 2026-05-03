@@ -104,12 +104,15 @@ function formatScoreObject(score) {
 function getMatchScoreText(match, index) {
   if (!match || !Array.isArray(match.score) || !match.score.length) return '';
   var team = getMatchTeamName(match, index);
+  var otherTeam = getMatchTeamName(match, index === 0 ? 1 : 0);
+
   if (team) {
     var inningsScores = [];
     for (var i = 0; i < match.score.length; i++) {
       var score = match.score[i];
       if (score && score.r != null) {
         var inningTeam = String(score.inning || '').split(/\s+Inning/i)[0].trim();
+        // Use the same robust check as matches-api.js
         if (inningTeam && inningTeam.toLowerCase() === team.toLowerCase()) {
           inningsScores.push(formatScoreObject(score));
         }
@@ -119,7 +122,13 @@ function getMatchScoreText(match, index) {
       return inningsScores.join(' · ');
     }
   }
+
+  // Fallback to positional index, but ONLY if it doesn't belong to the other team
   if (match.score[index] && match.score[index].r != null) {
+    var fallbackInningTeam = String(match.score[index].inning || '').split(/\s+Inning/i)[0].trim();
+    if (fallbackInningTeam && otherTeam && fallbackInningTeam.toLowerCase() === otherTeam.toLowerCase()) {
+      return '';
+    }
     return formatScoreObject(match.score[index]);
   }
   return '';
