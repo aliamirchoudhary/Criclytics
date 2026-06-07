@@ -293,7 +293,6 @@ async function loadFixtures() {
       if (!g) return;
       const label = g.querySelector('.match-group-label');
       const labelHtml = label ? label.outerHTML : '';
-      if (g.style.display === 'none') return; // skip hidden groups
       g.innerHTML = labelHtml + '<div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:0.88rem;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--radius-lg);">'
         + '<i class="fa fa-calendar-xmark" style="font-size:1.5rem;display:block;margin-bottom:0.75rem;opacity:0.4;"></i>'
         + 'Match data is unavailable. Run <code>python app.py</code> to start the server.</div>';

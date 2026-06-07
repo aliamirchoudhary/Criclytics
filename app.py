@@ -87,14 +87,20 @@ def load_processed(filename):
     # Try expected subdirectory
     path = os.path.join(PROCESSED_DIR, filename)
     if os.path.exists(path):
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            print(f"[Warning] {filename} in processed dir is invalid JSON (possibly a Git LFS pointer)")
     
     # Smart Fallback: Try root directory (Hugging Face style)
     root_path = os.path.join(BASE_DIR, filename)
     if os.path.exists(root_path):
-        with open(root_path, encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(root_path, encoding="utf-8") as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            print(f"[Warning] {filename} in root dir is invalid JSON (possibly a Git LFS pointer)")
             
     return None
 
