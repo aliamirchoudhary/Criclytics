@@ -61,6 +61,27 @@
       border-color: var(--steel);
       box-shadow: 0 0 0 3px rgba(74,127,167,0.15);
     }
+
+    @media (max-width: 700px) {
+      .search-hero,
+      .search-category-bar {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .big-search-wrap {
+        max-width: 100%;
+      }
+
+      .search-meta {
+        gap: 0.5rem;
+      }
+
+      .cat-tab {
+        padding: 0.36rem 0.8rem;
+      }
+    }
+
     .big-search-clear {
       position: absolute;
       right: 1rem;
@@ -1141,12 +1162,12 @@
     <div class="no-results-title">No results found</div>
     <div class="no-results-desc">We couldn't find anything matching your search. Try a different keyword or browse by category.</div>
     <div class="suggestion-chips">
-      <span class="suggestion-chip" onclick="setSearch('Player Name')">Search a player</span>
-      <span class="suggestion-chip" onclick="setSearch('Venue Name')">Search a venue</span>
-      <span class="suggestion-chip" onclick="setSearch('Team vs Team')">Search a match-up</span>
-      <span class="suggestion-chip" onclick="setSearch('Team Name')">Search a team</span>
-      <span class="suggestion-chip" onclick="setSearch('Competition Name')">Search a competition</span>
-      <span class="suggestion-chip" onclick="setSearch('Stat query')">Search by statistic</span>
+      <span class="suggestion-chip" onclick="setSearch('Virat Kohli')">Search a player</span>
+      <span class="suggestion-chip" onclick="setSearch('Wankhede Stadium')">Search a venue</span>
+      <span class="suggestion-chip" onclick="setSearch('India vs Pakistan')">Search a match-up</span>
+      <span class="suggestion-chip" onclick="setSearch('India')">Search a team</span>
+      <span class="suggestion-chip" onclick="setSearch('IPL')">Search a competition</span>
+      <span class="suggestion-chip" onclick="setSearch('centuries')">Search by statistic</span>
     </div>
   </div>
 
@@ -1241,7 +1262,6 @@
     el.classList.toggle('active');
   }
 
-  // Dummy search handler
   function handleSearch(val) {
     var trimmed = val.trim();
     var container = document.getElementById('results-container');

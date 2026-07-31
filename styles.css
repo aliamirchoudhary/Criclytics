@@ -91,6 +91,7 @@ ul { list-style: none; }
   padding: 0 2rem;
   z-index: 1000;
   gap: 2rem;
+  flex-wrap: nowrap;
 }
 
 .nav-logo {
@@ -138,6 +139,7 @@ ul { list-style: none; }
   flex: 1;
   max-width: 380px;
   position: relative;
+  min-width: 0;
 }
 
 .nav-search {
@@ -173,6 +175,7 @@ ul { list-style: none; }
   align-items: center;
   gap: 0.2rem;
   margin-left: auto;
+  min-width: 0;
 }
 
 .nav-link {
@@ -706,6 +709,21 @@ ul { list-style: none; }
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1.25rem;
+}
+
+.card,
+.player-card,
+.match-card,
+.venue-card,
+.team-card {
+  min-width: 0;
+}
+
+.grid-2 > *,
+.grid-3 > *,
+.grid-4 > *,
+.grid-auto > * {
+  min-width: 0;
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1395,7 +1413,7 @@ ul { list-style: none; }
 /* ── Tablet Portrait: ≤ 768px ───────────────────────────── */
 @media (max-width: 768px) {
   /* Navbar */
-  .nav-search-wrap { max-width: 180px; }
+  .nav-search-wrap { max-width: 180px; min-width: 0; }
   .navbar          { padding: 0 1rem; gap: 0.75rem; }
 
   /* Grids */
@@ -1500,6 +1518,25 @@ ul { list-style: none; }
 
   /* Page title */
   .page-title { font-size: 1.6rem; }
+}
+
+@media (max-width: 700px) {
+  .filter-sticky-inner {
+    padding: 0.85rem 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .filter-sticky-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-sticky .nav-search-wrap,
+  .filter-sticky .filter-select {
+    flex: 0 0 auto;
+  }
 }
 
 /* ── Tiny: ≤ 360px ──────────────────────────────────────── */
@@ -1654,9 +1691,26 @@ ul { list-style: none; }
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .grid-auto {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
   .btn,
   .btn-sm {
     min-height: 40px;
+  }
+
+  .player-stat-row {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .player-stat,
+  .venue-mini-stat,
+  .stat-item {
+    min-width: 0;
   }
 
   .nav-logo-text {
