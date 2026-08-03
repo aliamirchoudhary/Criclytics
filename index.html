@@ -265,35 +265,6 @@
     }
 
     @media (max-width: 768px) {
-      .navbar {
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        min-height: var(--nav-h);
-        height: auto;
-        padding-top: 0.55rem;
-        padding-bottom: 0.55rem;
-      }
-
-      .nav-logo {
-        flex: 1 1 auto;
-      }
-
-      .nav-links {
-        display: none !important;
-      }
-
-      .nav-menu-btn {
-        display: flex !important;
-        margin-left: auto;
-        flex: 0 0 auto;
-        position: relative;
-        z-index: 1002;
-      }
-
-      .nav-search-wrap {
-        display: none;
-      }
-
       .stats-bar {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -316,39 +287,35 @@
     }
 
     @media (max-width: 540px) {
-      .navbar {
-        justify-content: space-between;
-      }
-
-      .nav-menu-btn {
-        display: flex !important;
-      }
-
       .stats-bar {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         margin-bottom: 2rem;
       }
 
+      .stat-item {
+        padding: 0.9rem 0.75rem;
+      }
+
+      .stat-value {
+        font-size: 1.15rem;
+      }
+
+      .stat-label {
+        font-size: 0.64rem;
+      }
       .stat-item {
         border-right: none;
       }
     }
 
-    .upcoming-meta {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
+    @media (max-width: 420px) {
+      .stats-bar {
+        gap: 0;
+      }
 
-    .upcoming-time {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent-warm);
-      white-space: nowrap;
+      .stat-item {
+        min-width: 0;
+      }
     }
 
     /* ── Quick nav tiles ───────────────────────────── */
