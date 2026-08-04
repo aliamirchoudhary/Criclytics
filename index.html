@@ -428,6 +428,19 @@
       font-size: 1rem;
     }
 
+    /* ── Rankings / recent results split grid ───────── */
+    .home-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .home-split-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
     /* ── Section divider line ───────────────────────── */
     .section-rule {
       height: 1px;
@@ -837,7 +850,7 @@
      MINI RANKINGS + RECENT RESULTS
 ════════════════════════════════════════ -->
     <section class="section">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+      <div class="home-split-grid">
 
         <!-- ICC T20 Team Rankings -->
         <div>
