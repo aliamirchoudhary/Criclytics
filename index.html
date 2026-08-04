@@ -266,14 +266,15 @@
 
     @media (max-width: 768px) {
       .stats-bar {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 0;
       }
 
       .stat-item {
+        flex: 0 0 50%;
         min-width: 0;
-        flex: none;
         border-bottom: 1px solid var(--border);
       }
 
@@ -288,7 +289,6 @@
 
     @media (max-width: 540px) {
       .stats-bar {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
         margin-bottom: 2rem;
       }
 
