@@ -389,14 +389,14 @@ function upgradeLogo() {
 // ── WebCraft links fix ────────────────────────────────────────────────────────
 
 /**
- * Update WebCraft watermark links to correct URLs.
+ * Update Kryzect watermark links to correct URLs.
  */
-function fixWebcraftLinks() {
-  const brand = document.querySelector('.webcraft-brand');
-  if (brand) brand.href = 'https://webcraft-dev.vercel.app/';
+function fixKryzectLinks() {
+  const brand = document.querySelector('.kryzect-brand');
+  if (brand) brand.href = 'https://kryzect.vercel.app/';
 
-  const contact = document.querySelector('.webcraft-contact');
-  if (contact) contact.href = 'https://webcraft-dev.vercel.app/#contact';
+  const contact = document.querySelector('.kryzect-contact');
+  if (contact) contact.href = 'https://kryzect.vercel.app/contact/';
 }
 
 
@@ -413,7 +413,7 @@ function toggleMobileNav() {
 document.addEventListener('DOMContentLoaded', () => {
   initNavSearch();
   ensureMobileSearchLink();
-  fixWebcraftLinks();
+  fixKryzectLinks();
   upgradeLogo();
   // Flag upgrade is called per-page after dynamic content loads
 });

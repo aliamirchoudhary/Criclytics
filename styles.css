@@ -3,7 +3,7 @@
    Palette: #0A1931 · #1A3D63 · #4A7FA7 · #B3CFE5 · #F6FAFD
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ── CSS Variables ─────────────────────────────────────────── */
 :root {
@@ -1263,7 +1263,7 @@ ul { list-style: none; }
 }
 
 /* ── WebCraft Watermark ────────────────────────────────────── */
-.webcraft-watermark {
+.kryzect-watermark {
   border-top: 1px solid var(--border-light);
   max-width: 1280px;
   margin: 0 auto;
@@ -1275,14 +1275,14 @@ ul { list-style: none; }
   flex-wrap: wrap;
 }
 
-.webcraft-by {
+.kryzect-by {
   font-size: 0.72rem;
   color: var(--text-muted);
   opacity: 0.55;
   letter-spacing: 0.02em;
 }
 
-.webcraft-brand {
+.kryzect-brand {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -1290,37 +1290,39 @@ ul { list-style: none; }
   transition: opacity var(--transition);
   opacity: 0.7;
 }
-.webcraft-brand:hover { opacity: 1; }
+.kryzect-brand:hover { opacity: 1; }
 
-.webcraft-name {
-  font-family: 'Outfit', 'Clash Display', sans-serif;
+.kryzect-name {
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 700;
   font-size: 0.82rem;
-  color: #99FFCC;
+  color: #8FAEFF;
   letter-spacing: 0.04em;
 }
 
-.webcraft-hex {
+.kryzect-logo {
   display: inline-block;
   vertical-align: middle;
   flex-shrink: 0;
+  height: 18px;
+  width: auto;
 }
 
-.webcraft-contact {
+.kryzect-contact {
   font-size: 0.7rem;
   color: var(--text-muted);
   opacity: 0.5;
   text-decoration: none;
-  border: 1px solid rgba(153,255,204,0.2);
+  border: 1px solid rgba(143,174,255,0.2);
   padding: 0.15rem 0.55rem;
   border-radius: 4px;
   transition: color var(--transition), border-color var(--transition), opacity var(--transition);
   letter-spacing: 0.04em;
   margin-left: 0.2rem;
 }
-.webcraft-contact:hover {
-  color: #99FFCC;
-  border-color: rgba(153,255,204,0.5);
+.kryzect-contact:hover {
+  color: #8FAEFF;
+  border-color: rgba(143,174,255,0.5);
   opacity: 1;
 }
 
@@ -1507,7 +1509,7 @@ ul { list-style: none; }
   /* Footer */
   .footer-main       { grid-template-columns: 1fr; gap: 1.5rem; }
   .footer-brand-desc { max-width: 100%; }
-  .webcraft-watermark { flex-direction: column; gap: 0.3rem; }
+  .kryzect-watermark { flex-direction: column; gap: 0.3rem; }
 
   /* Insight card */
   .insight-card { flex-direction: column; }
