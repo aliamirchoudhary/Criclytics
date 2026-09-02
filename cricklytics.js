@@ -24,7 +24,7 @@ const FLAG_CDN = 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dis
 const COUNTRY_ISO = {
   'India':         'IN',
   'Australia':     'AU',
-  'England':       'GB-ENG',
+  'England':       'ENGLAND',
   'Pakistan':      'PK',
   'New Zealand':   'NZ',
   'South Africa':  'ZA',
@@ -35,7 +35,7 @@ const COUNTRY_ISO = {
   'Zimbabwe':      'ZW',
   'Ireland':       'IE',
   'Netherlands':   'NL',
-  'Scotland':      'GB-SCT',
+  'Scotland':      'SCOTLAND',
   'Nepal':         'NP',
   'Oman':          'OM',
   'UAE':           'AE',
