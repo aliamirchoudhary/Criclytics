@@ -1,0 +1,20 @@
+name: Offline regression checks
+on:
+  pull_request:
+    branches: [dev, main]
+  push:
+    branches: [dev]
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      - run: python -m compileall -q criclytics_app scripts tools app.py wsgi.py
+      - run: python -m scripts.build_frontend
+      - run: python -m scripts.stage_backend

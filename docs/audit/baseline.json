@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-25",
+  "base_commit": "ef7c279",
+  "processed": {
+    "completed_matches.json": {
+      "count": 6246,
+      "bytes": 98257171
+    },
+    "h2h.json": {
+      "count": 1034,
+      "bytes": 321644
+    },
+    "players_index.json": {
+      "count": 4812,
+      "bytes": 4383737
+    },
+    "player_venues.json": {
+      "count": 4812,
+      "bytes": 12898838
+    },
+    "player_vs_opp.json": {
+      "count": 4812,
+      "bytes": 8091191
+    },
+    "player_yearly.json": {
+      "count": 4812,
+      "bytes": 4754478
+    },
+    "records.json": {
+      "count": 4,
+      "bytes": 19215
+    },
+    "team_format_stats.json": {
+      "count": 109,
+      "bytes": 31577
+    },
+    "team_venue_stats.json": {
+      "count": 108,
+      "bytes": 487639
+    },
+    "venue_batters.json": {
+      "count": 452,
+      "bytes": 717675
+    },
+    "venue_bowlers.json": {
+      "count": 449,
+      "bytes": 664928
+    },
+    "venue_insights.json": {
+      "count": 463,
+      "bytes": 103887
+    },
+    "venue_stats.json": {
+      "count": 463,
+      "bytes": 400329
+    }
+  },
+  "raw_counts": {
+    "odis_male_json": 2520,
+    "t20s_male_json": 3254,
+    "tests_male_json": 877
+  },
+  "completed_match_formats": {
+    "Test": 710,
+    "ODI": 2392,
+    "T20": 3144
+  },
+  "first_match_date": "2002-06-27",
+  "last_match_date": "2026-04-10",
+  "duplicate_match_ids": 0,
+  "player_metadata_count": 168,
+  "baseline_checks": {
+    "repository_source_get": 200,
+    "git_head_get": 200,
+    "env_get": 200,
+    "malformed_player_limit": 500,
+    "negative_player_limit_bytes": 2209689,
+    "malformed_leaderboard_limit": 500,
+    "matches_response_bytes": 43110285,
+    "matches_response_local_ms": 5229
+  },
+  "note": "No secret contents retained. Response timing is one local sample, not a benchmark."
+}
