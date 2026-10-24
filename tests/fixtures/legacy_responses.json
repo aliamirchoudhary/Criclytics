@@ -1,0 +1,50 @@
+{
+  "/api/players?limit=2": {
+    "status": 200,
+    "sha256": "05544964cadd796a730936fbd2a38d6ad2c2521a574b870a342f9e85d10b0443"
+  },
+  "/api/players/SC%20Cook": {
+    "status": 200,
+    "sha256": "247ea7ea30d5c998437052afcabd16e89e8cc5fd63e1019255d80cb86f922703"
+  },
+  "/api/teams": {
+    "status": 200,
+    "sha256": "08d4c8037d745cd8cb0a60a420c465348b6bf7a1f23a1c5be9eaf09001bed071"
+  },
+  "/api/venues": {
+    "status": 200,
+    "sha256": "9e7a5bbfa1f3927b4835355a60c97230fdb4cdae118defd69e8bb442874ad3c7"
+  },
+  "/api/records": {
+    "status": 200,
+    "sha256": "07b72fac1fdfb72c5330f0ce34a56188bf334d10723cb902e0de6fdf1e6f8d78"
+  },
+  "/api/h2h?team_a=India&team_b=Pakistan&format=ODI": {
+    "status": 200,
+    "sha256": "b0eb2de6501c64b5fc29dde758b4ec77a97f010de0e6b1fd50aa426be8b6261e"
+  },
+  "/api/meta/players": {
+    "status": 200,
+    "sha256": "3882f766e6396d910d084ece416b072077c596b3ae5ff8cea7c5905a1206bd88"
+  },
+  "/api/meta/teams": {
+    "status": 200,
+    "sha256": "744155e65f742b84e9b53caf487135237d25762f7aa43384b076a187bfe55a08"
+  },
+  "/api/meta/venues": {
+    "status": 200,
+    "sha256": "c01a71c47c84d9ff214d5c7b18a83ad1c6c42f5e58d04c582446ad8710af74c2"
+  },
+  "/api/predict/player/SC%20Cook/all?format=Test": {
+    "status": 200,
+    "sha256": "ad8054c293811dc621fd9b924c50c45e99ff2cb738a2f68ee416f56579e7c640"
+  },
+  "/api/predict/venue/Lords?format=Test": {
+    "status": 200,
+    "sha256": "3a748782b8ead6083f7db48304cea3636fb2f738f8be1eaaa0051150454737b7"
+  },
+  "/api/matches": {
+    "status": 200,
+    "sha256": "d8a11601b0c3b7ba876244e7d80a2354fbfe205ec3297d5a6819bc39c8ac1ecc"
+  }
+}

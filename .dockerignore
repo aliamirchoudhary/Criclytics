@@ -1,0 +1,16 @@
+.git
+.env
+*.env
+criclytics/
+.venv/
+venv/
+__pycache__/
+**/__pycache__/
+tests/
+tools/
+documentation/
+docs/
+tickets/
+dist/
+data/raw/
+*.log

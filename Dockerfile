@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements and install
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install gunicorn
 
 # Copy the rest of the application
 COPY . .
@@ -23,4 +22,4 @@ EXPOSE 7860
 
 # Start the app using Gunicorn
 # Using 4 workers for better performance
-CMD ["gunicorn", "--bind", "0.0.0.0:7860", "--timeout", "120", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:7860", "--workers", "1", "--threads", "2", "--timeout", "120", "wsgi:app"]

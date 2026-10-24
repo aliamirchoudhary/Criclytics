@@ -1,0 +1,200 @@
+[
+  {
+    "path": "/",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/match-detail.html",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/<path:filename>",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/players",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/players/<player_name>",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/teams",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/teams/<team_name>",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/venues",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/venues/<path:venue_name>",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/team-venue-stats",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/rankings",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/records",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/h2h",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/compare/players",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/search",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/insights",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/live",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/matches",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/matches/<match_id>",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/matches/<match_id>/score",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/series",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/status",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/icc-rankings",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/meta/players",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/meta/players/<player_name>",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/meta/teams",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/meta/venues",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/predict/player/<player_name>",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/predict/player/<player_name>/all",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/predict/team_match",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/api/predict/venue/<venue_name>",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/predict/leaderboard",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/api/predict/status",
+    "methods": [
+      "GET"
+    ]
+  }
+]
