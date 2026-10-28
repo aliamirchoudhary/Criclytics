@@ -54,3 +54,5 @@ node_modules/
 
 # Immutable local datasets and retained versions are not Git artifacts.
 data/datasets/
+
+data/events/

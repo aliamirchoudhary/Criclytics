@@ -234,3 +234,12 @@ ambiguous names return409. Name-keyed multi-label aggregates are not silently
 combined. Explicit reviewed match maps deduplicate canonical identity while
 retaining original IDs/source references; unknown joins stay separate. See
 IDENTITIES.md for provisional venue/team IDs, observed memberships and limits.
+
+## T018 delivery observations and replay
+
+Offline pipeline.events imports bounded validated historical subsets into private
+SQLite observations/receipts and indexed immutable event revisions. Replay tracks
+score/legal-ball/innings/partnership state with source IDs, explicit penalties
+and observed target controls. Latest and as-of views differ; unknown historical
+availability is never replaced with import time. DELIVERY_EVENTS.md describes
+strike/target abstention and correction/reorder rules. No HTTP ingest is enabled.

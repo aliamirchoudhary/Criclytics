@@ -1,0 +1,516 @@
+{
+  "schema_version": 1,
+  "dataset_id": "e6dce5850e36a851f95537e702fc9f782fe26f0dd98c15448b2a767c0f4c2da3",
+  "counts": {
+    "observations": 100,
+    "receipts": 100,
+    "matches": 100,
+    "events": 23104
+  },
+  "store_bytes": 24281088,
+  "unknown_observed_times": 23104,
+  "matches_reconciled": [
+    {
+      "match_id": "match:cricsheet:1001349",
+      "innings": 2,
+      "attempts": 250
+    },
+    {
+      "match_id": "match:cricsheet:1001351",
+      "innings": 2,
+      "attempts": 247
+    },
+    {
+      "match_id": "match:cricsheet:1001353",
+      "innings": 2,
+      "attempts": 240
+    },
+    {
+      "match_id": "match:cricsheet:1004729",
+      "innings": 2,
+      "attempts": 249
+    },
+    {
+      "match_id": "match:cricsheet:1007655",
+      "innings": 2,
+      "attempts": 253
+    },
+    {
+      "match_id": "match:cricsheet:1007657",
+      "innings": 2,
+      "attempts": 207
+    },
+    {
+      "match_id": "match:cricsheet:1007659",
+      "innings": 2,
+      "attempts": 247
+    },
+    {
+      "match_id": "match:cricsheet:1019979",
+      "innings": 2,
+      "attempts": 244
+    },
+    {
+      "match_id": "match:cricsheet:1019981",
+      "innings": 2,
+      "attempts": 241
+    },
+    {
+      "match_id": "match:cricsheet:1019983",
+      "innings": 2,
+      "attempts": 245
+    },
+    {
+      "match_id": "match:cricsheet:1020029",
+      "innings": 2,
+      "attempts": 213
+    },
+    {
+      "match_id": "match:cricsheet:1031431",
+      "innings": 2,
+      "attempts": 210
+    },
+    {
+      "match_id": "match:cricsheet:1031433",
+      "innings": 2,
+      "attempts": 251
+    },
+    {
+      "match_id": "match:cricsheet:1031435",
+      "innings": 2,
+      "attempts": 246
+    },
+    {
+      "match_id": "match:cricsheet:1031665",
+      "innings": 2,
+      "attempts": 248
+    },
+    {
+      "match_id": "match:cricsheet:1034825",
+      "innings": 2,
+      "attempts": 241
+    },
+    {
+      "match_id": "match:cricsheet:1034827",
+      "innings": 2,
+      "attempts": 246
+    },
+    {
+      "match_id": "match:cricsheet:1034829",
+      "innings": 2,
+      "attempts": 230
+    },
+    {
+      "match_id": "match:cricsheet:1041615",
+      "innings": 2,
+      "attempts": 250
+    },
+    {
+      "match_id": "match:cricsheet:1041617",
+      "innings": 2,
+      "attempts": 135
+    },
+    {
+      "match_id": "match:cricsheet:1050217",
+      "innings": 2,
+      "attempts": 216
+    },
+    {
+      "match_id": "match:cricsheet:1050219",
+      "innings": 2,
+      "attempts": 254
+    },
+    {
+      "match_id": "match:cricsheet:1050221",
+      "innings": 2,
+      "attempts": 214
+    },
+    {
+      "match_id": "match:cricsheet:1072316",
+      "innings": 2,
+      "attempts": 197
+    },
+    {
+      "match_id": "match:cricsheet:1072317",
+      "innings": 2,
+      "attempts": 238
+    },
+    {
+      "match_id": "match:cricsheet:1072318",
+      "innings": 2,
+      "attempts": 218
+    },
+    {
+      "match_id": "match:cricsheet:1072319",
+      "innings": 2,
+      "attempts": 249
+    },
+    {
+      "match_id": "match:cricsheet:1072320",
+      "innings": 2,
+      "attempts": 254
+    },
+    {
+      "match_id": "match:cricsheet:1072321",
+      "innings": 2,
+      "attempts": 249
+    },
+    {
+      "match_id": "match:cricsheet:1072322",
+      "innings": 2,
+      "attempts": 213
+    },
+    {
+      "match_id": "match:cricsheet:1074957",
+      "innings": 2,
+      "attempts": 246
+    },
+    {
+      "match_id": "match:cricsheet:1074959",
+      "innings": 2,
+      "attempts": 247
+    },
+    {
+      "match_id": "match:cricsheet:1074961",
+      "innings": 2,
+      "attempts": 179
+    },
+    {
+      "match_id": "match:cricsheet:1074964",
+      "innings": 2,
+      "attempts": 246
+    },
+    {
+      "match_id": "match:cricsheet:1074965",
+      "innings": 2,
+      "attempts": 251
+    },
+    {
+      "match_id": "match:cricsheet:1074966",
+      "innings": 2,
+      "attempts": 219
+    },
+    {
+      "match_id": "match:cricsheet:1074968",
+      "innings": 2,
+      "attempts": 245
+    },
+    {
+      "match_id": "match:cricsheet:1074970",
+      "innings": 2,
+      "attempts": 216
+    },
+    {
+      "match_id": "match:cricsheet:1075507",
+      "innings": 2,
+      "attempts": 252
+    },
+    {
+      "match_id": "match:cricsheet:1075508",
+      "innings": 2,
+      "attempts": 239
+    },
+    {
+      "match_id": "match:cricsheet:1077947",
+      "innings": 2,
+      "attempts": 231
+    },
+    {
+      "match_id": "match:cricsheet:1077948",
+      "innings": 2,
+      "attempts": 244
+    },
+    {
+      "match_id": "match:cricsheet:1083449",
+      "innings": 2,
+      "attempts": 242
+    },
+    {
+      "match_id": "match:cricsheet:1083450",
+      "innings": 2,
+      "attempts": 235
+    },
+    {
+      "match_id": "match:cricsheet:1085495",
+      "innings": 2,
+      "attempts": 215
+    },
+    {
+      "match_id": "match:cricsheet:1085496",
+      "innings": 2,
+      "attempts": 238
+    },
+    {
+      "match_id": "match:cricsheet:1089202",
+      "innings": 2,
+      "attempts": 206
+    },
+    {
+      "match_id": "match:cricsheet:1089203",
+      "innings": 2,
+      "attempts": 252
+    },
+    {
+      "match_id": "match:cricsheet:1089243",
+      "innings": 2,
+      "attempts": 241
+    },
+    {
+      "match_id": "match:cricsheet:1098211",
+      "innings": 2,
+      "attempts": 244
+    },
+    {
+      "match_id": "match:cricsheet:1109610",
+      "innings": 2,
+      "attempts": 243
+    },
+    {
+      "match_id": "match:cricsheet:1115798",
+      "innings": 2,
+      "attempts": 239
+    },
+    {
+      "match_id": "match:cricsheet:1115799",
+      "innings": 1,
+      "attempts": 57
+    },
+    {
+      "match_id": "match:cricsheet:1115800",
+      "innings": 2,
+      "attempts": 229
+    },
+    {
+      "match_id": "match:cricsheet:1115807",
+      "innings": 2,
+      "attempts": 219
+    },
+    {
+      "match_id": "match:cricsheet:1115808",
+      "innings": 2,
+      "attempts": 245
+    },
+    {
+      "match_id": "match:cricsheet:1115809",
+      "innings": 2,
+      "attempts": 247
+    },
+    {
+      "match_id": "match:cricsheet:1117821",
+      "innings": 2,
+      "attempts": 246
+    },
+    {
+      "match_id": "match:cricsheet:1117822",
+      "innings": 2,
+      "attempts": 250
+    },
+    {
+      "match_id": "match:cricsheet:1117824",
+      "innings": 2,
+      "attempts": 245
+    },
+    {
+      "match_id": "match:cricsheet:1119501",
+      "innings": 2,
+      "attempts": 147
+    },
+    {
+      "match_id": "match:cricsheet:1119502",
+      "innings": 2,
+      "attempts": 220
+    },
+    {
+      "match_id": "match:cricsheet:1119542",
+      "innings": 2,
+      "attempts": 245
+    },
+    {
+      "match_id": "match:cricsheet:1119543",
+      "innings": 2,
+      "attempts": 239
+    },
+    {
+      "match_id": "match:cricsheet:1119544",
+      "innings": 2,
+      "attempts": 242
+    },
+    {
+      "match_id": "match:cricsheet:1119545",
+      "innings": 2,
+      "attempts": 234
+    },
+    {
+      "match_id": "match:cricsheet:1120093",
+      "innings": 2,
+      "attempts": 249
+    },
+    {
+      "match_id": "match:cricsheet:1120094",
+      "innings": 2,
+      "attempts": 247
+    },
+    {
+      "match_id": "match:cricsheet:1120095",
+      "innings": 2,
+      "attempts": 99
+    },
+    {
+      "match_id": "match:cricsheet:1120291",
+      "innings": 2,
+      "attempts": 218
+    },
+    {
+      "match_id": "match:cricsheet:1120292",
+      "innings": 2,
+      "attempts": 246
+    },
+    {
+      "match_id": "match:cricsheet:1120293",
+      "innings": 2,
+      "attempts": 246
+    },
+    {
+      "match_id": "match:cricsheet:1122285",
+      "innings": 2,
+      "attempts": 255
+    },
+    {
+      "match_id": "match:cricsheet:1122286",
+      "innings": 2,
+      "attempts": 238
+    },
+    {
+      "match_id": "match:cricsheet:1122287",
+      "innings": 2,
+      "attempts": 248
+    },
+    {
+      "match_id": "match:cricsheet:1122729",
+      "innings": 2,
+      "attempts": 223
+    },
+    {
+      "match_id": "match:cricsheet:1122730",
+      "innings": 2,
+      "attempts": 237
+    },
+    {
+      "match_id": "match:cricsheet:1122731",
+      "innings": 2,
+      "attempts": 245
+    },
+    {
+      "match_id": "match:cricsheet:1127300",
+      "innings": 2,
+      "attempts": 247
+    },
+    {
+      "match_id": "match:cricsheet:1127301",
+      "innings": 2,
+      "attempts": 220
+    },
+    {
+      "match_id": "match:cricsheet:1130746",
+      "innings": 2,
+      "attempts": 240
+    },
+    {
+      "match_id": "match:cricsheet:1130747",
+      "innings": 2,
+      "attempts": 249
+    },
+    {
+      "match_id": "match:cricsheet:1133817",
+      "innings": 2,
+      "attempts": 243
+    },
+    {
+      "match_id": "match:cricsheet:1133818",
+      "innings": 2,
+      "attempts": 247
+    },
+    {
+      "match_id": "match:cricsheet:1133819",
+      "innings": 2,
+      "attempts": 252
+    },
+    {
+      "match_id": "match:cricsheet:1133820",
+      "innings": 2,
+      "attempts": 230
+    },
+    {
+      "match_id": "match:cricsheet:1133821",
+      "innings": 2,
+      "attempts": 248
+    },
+    {
+      "match_id": "match:cricsheet:1133822",
+      "innings": 2,
+      "attempts": 249
+    },
+    {
+      "match_id": "match:cricsheet:1133823",
+      "innings": 2,
+      "attempts": 246
+    },
+    {
+      "match_id": "match:cricsheet:1140069",
+      "innings": 2,
+      "attempts": 209
+    },
+    {
+      "match_id": "match:cricsheet:1140070",
+      "innings": 2,
+      "attempts": 239
+    },
+    {
+      "match_id": "match:cricsheet:1140071",
+      "innings": 2,
+      "attempts": 224
+    },
+    {
+      "match_id": "match:cricsheet:1140384",
+      "innings": 2,
+      "attempts": 243
+    },
+    {
+      "match_id": "match:cricsheet:1140992",
+      "innings": 2,
+      "attempts": 247
+    },
+    {
+      "match_id": "match:cricsheet:1140993",
+      "innings": 2,
+      "attempts": 210
+    },
+    {
+      "match_id": "match:cricsheet:1141232",
+      "innings": 2,
+      "attempts": 232
+    },
+    {
+      "match_id": "match:cricsheet:1141835",
+      "innings": 1,
+      "attempts": 102
+    },
+    {
+      "match_id": "match:cricsheet:1142501",
+      "innings": 2,
+      "attempts": 250
+    },
+    {
+      "match_id": "match:cricsheet:1142502",
+      "innings": 2,
+      "attempts": 242
+    },
+    {
+      "match_id": "match:cricsheet:1142503",
+      "innings": 2,
+      "attempts": 254
+    }
+  ],
+  "zero_external_api_calls": true,
+  "limitations": "100 deterministically selected historical maleT20I matches, not whole-corpus or prospective live parity. Corrections/reorder/target revisions tested with portable fictional fixtures. Exact historical event/publication times unknown; derived targets are unverified."
+}

@@ -36,7 +36,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T015](tickets/t015-version-datasets-source-rights-and-reproducible-builds.md) | Version datasets source rights and reproducible builds | P1 | T009,T010 | Implemented; local review pending |
 | [T016](tickets/t016-prove-permitted-zero-budget-live-data-feasibility.md) | Prove permitted zero-budget live data feasibility | P1 | T015 | Implemented; replay/manual decision |
 | [T017](tickets/t017-introduce-stable-cricket-identities-and-provider-mappings.md) | Introduce stable cricket identities and provider mappings | P1 | T015 | Implemented; local review pending |
-| [T018](tickets/t018-build-canonical-delivery-events-and-deterministic-replay.md) | Build canonical delivery events and deterministic replay | P1 | T010,T015,T017 | Planned |
+| [T018](tickets/t018-build-canonical-delivery-events-and-deterministic-replay.md) | Build canonical delivery events and deterministic replay | P1 | T010,T015,T017 | Implemented; local review pending |
 | [T019](tickets/t019-create-before-delivery-features-and-coherent-outcome-labels.md) | Create before-delivery features and coherent outcome labels | P1 | T018 | Planned |
 | [T020](tickets/t020-train-and-evaluate-a-calibrated-cpu-baseline.md) | Train and evaluate a calibrated CPU baseline | P1 | T019,T014 | Planned |
 | [T021](tickets/t021-evaluate-weather-context-without-hindsight-leakage.md) | Evaluate weather context without hindsight leakage | P2 | T016,T019,T020 | Planned |

@@ -32,7 +32,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T016 | work/t016-free-feed-feasibility | a120570 | NO-GO external feeds; GO local replay/manual;49tests48pass/one skip; synthetic timing only, real feed proof unavailable |
 
-| T017 | work/t017-stable-identities | Local branch tip | Source IDs/aliases, collision abstention, reviewed match-map tests;51tests50pass/one skip;5125 rostered IDs and68 colliding source labels |
+| T017 | work/t017-stable-identities | 85b7371 | Source IDs/aliases, collision abstention, reviewed match-map tests;51tests50pass/one skip;5125 rostered IDs and68 colliding source labels |
+
+| T018 | work/t018-delivery-replay | Local branch tip | Immutable source-ID attempts/revisions and replay;53tests52pass/one skip;100actual matches/23104attempts reconcile |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain
@@ -70,3 +72,5 @@ Execution stopped after T011 at the user's request, then resumed with T012 on ex
 Resumed: T012 uses work/t012-frontend-runtime from a3d445a. T013 remains gated by T001 operator credential/production verification; independent T014 is next once T012 checks finish. No account credentials requested again.
 
 T015 candidate build/data-v3-manifest-final supersedes prior candidates for manifest/coverage support. Verified isolated store build/t015-store; default serving remains legacy. Coverage begins2001-12-19 after recovered non-win outcomes (old win-only audit began2002). No private/source artifacts published.
+
+T018 isolated store build/events-t20-v1.sqlite3 contains100deterministic file-order maleT20I matches. It is not a chronological training split or a live benchmark. Event availability is unknown for historical rows.
