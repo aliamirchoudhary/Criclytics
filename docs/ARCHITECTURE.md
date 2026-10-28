@@ -95,8 +95,8 @@ hook. Workers Builds also needs its dashboard Build command set explicitly to
 that Python command; it currently ignores Wrangler Custom Builds. See the exact
 [Cloudflare settings](CLOUDFLARE_DEPLOYMENT.md). Do not serve or upload the source
 checkout as static content. Remote account settings have not been changed here.
-Current JS selects the historical HF backend for non-localhost origins; T012
-introduces explicit environment configuration.
+T012 uses explicit FRONTEND_API_BASE public configuration (empty means same-origin).
+Static builds must configure their HTTPS backend and corresponding CORS origin.
 
 Both staging commands require a clean output directory, so an old unexpected
 file cannot silently survive into a public release. Use a clean checkout/build
@@ -179,3 +179,17 @@ these ignored candidates is selected for production automatically.
 ## T011 public UI
 
 All17 allowlisted templates load application.js/application.css, using safe DOM construction and shared accessible navigation/forms/tables. Original markup is archived in docs/history/ui-pre-t011, outside static deployment output. The shared renderer owns these pages; legacy page scripts remain as historical assets and are not loaded by the new templates. Runtime API configuration and removal/consolidation of legacy assets remain T012. No dataset promotion or deployment accompanies this UI change. See UI_ACCEPTANCE.md.
+
+## T012 frontend ownership
+
+`frontend.py` validates a public origin and generates runtime configuration for
+both Flask and the dependency-free static builder. Only runtime-config.js,
+dom.js, api-client.js and application.js load on public pages. The API helper
+coalesces in-flight GETs, bounds requests to15 seconds, retains no completed
+response/error cache and sends no credentials. Filter generations reject late
+results; application initialization is idempotent. Match detail now always uses
+the same API path on Flask/static hosting; server bootstrap has been retired
+from page delivery. Legacy scripts/styles remain compatibility assets, unloaded.
+Active styles are self-contained with system fonts; no third-party font/icon
+load is required. Script/attribute CSP is enforced, with no inline allowances.
+See audit/frontend-runtime-2026-10-28.json for request and synthetic preview checks.

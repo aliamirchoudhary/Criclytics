@@ -1,18 +1,15 @@
 /* Data-driven application UI. Provider strings are rendered as text, never HTML. */
 (function () {
   'use strict';
+  if (document.documentElement.dataset.criclyticsInitialized) return;
+  document.documentElement.dataset.criclyticsInitialized = 'true';
+  const {node, display} = window.CriclyticsDOM;
+  const {request} = window.CriclyticsAPI;
   const page = document.body.dataset.page;
   const app = document.getElementById('app');
   const query = new URLSearchParams(location.search);
   const unavailable = 'Predictions unavailable. No chronologically evaluated and calibrated model is released.';
   let uid = 0;
-  function node(tag, text, className) {
-    const item = document.createElement(tag);
-    if (text !== undefined && text !== null) item.textContent = String(text);
-    if (className) item.className = className;
-    return item;
-  }
-  function display(value) { return value === null || value === undefined || value === '' ? '—' : String(value); }
   function link(title, target, values) {
     const item = node('a', title);
     item.href = target + '.html' + (values ? '?' + new URLSearchParams(values) : '');
@@ -69,11 +66,6 @@
     target.append(item); target.setAttribute('aria-busy', String(kind === 'loading'));
     if (retry) target.append(button('Try again', retry));
   }
-  async function request(path) {
-    const response = await fetch(API + path, {headers: {Accept: 'application/json'}});
-    if (!response.ok) { const error = new Error('Request unavailable'); error.kind = response.status === 404 ? 'not-found' : 'error'; throw error; }
-    return response.json();
-  }
   function filters(fields, render) {
     const form = node('form', null, 'ui-filters'), results = node('div');
     fields.forEach(item => form.append(item.wrap));
@@ -101,9 +93,9 @@
   function avatar(name) {
     const item = node('div', name.split(/\s+/).filter(Boolean).slice(0, 2).map(s => s[0]).join('').toUpperCase(), 'ui-avatar');
     item.id = 'teamCrest'; item.setAttribute('aria-label', name);
-    const initials = item.textContent, url = safeImageUrl(flagUrl(name));
-    if (COUNTRY_ISO[name] && url) {
-      const image = node('img'); image.src = url; image.alt = name;
+    const initials = item.textContent, url = ({India:'IN',Pakistan:'PK',Australia:'AU',England:'ENGLAND','South Africa':'ZA','New Zealand':'NZ','Sri Lanka':'LK',Bangladesh:'BD',Afghanistan:'AF'})[name];
+    if (url) {
+      const image = node('img'); image.src = 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/' + url + '.svg'; image.alt = name;
       image.addEventListener('error', () => { item.textContent = initials; });
       item.replaceChildren(image);
     }
@@ -239,7 +231,7 @@
   async function detail() {
     const id = query.get('id');
     if (!id) { app.replaceChildren(node('p', 'Select a match to view its details.', 'ui-state'), link('Browse matches', 'matches')); return; }
-    const payload = window.__CRICLYTICS_MATCH_DETAIL__ ? {data: window.__CRICLYTICS_MATCH_DETAIL__} : await request('/api/matches/' + encodeURIComponent(id));
+    const payload = await request('/api/matches/' + encodeURIComponent(id));
     const match = payload.data || payload;
     if (!match || Array.isArray(match)) throw new Error('Invalid match');
     const content = node('div'); document.querySelector('h1').textContent = match.name || (match.teams || []).join(' vs ');

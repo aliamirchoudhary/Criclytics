@@ -23,6 +23,7 @@ def create_app(config=None):
         REDIS_URL=os.getenv("REDIS_URL", ""),
         LIVE_FETCH_ENABLED=os.getenv("LIVE_FETCH_ENABLED", "0") == "1",
         INITIALIZE_ENGINE=False,
+        FRONTEND_API_BASE=os.getenv("FRONTEND_API_BASE", ""),
         MAX_CONTENT_LENGTH=64 * 1024,
         CORS_ORIGINS=[s.strip() for s in os.getenv(
             "CORS_ORIGINS", "https://criclytics.aliamirchoudhary.workers.dev"
@@ -30,6 +31,8 @@ def create_app(config=None):
     )
     if config:
         app.config.update(config)
+    from .frontend import api_base
+    app.config["FRONTEND_API_BASE"] = api_base(app.config["FRONTEND_API_BASE"])
     from .api.validation import register as register_validation
     register_validation(app)
     Path(app.config["LIVE_DIR"]).mkdir(parents=True, exist_ok=True)
@@ -58,14 +61,13 @@ def create_app(config=None):
 
     @app.after_request
     def security_headers(response):
-        from .web.security import BASE_POLICY, SCRIPT_REPORT_POLICY
+        from .web.security import policy
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["X-Frame-Options"] = "SAMEORIGIN"
         if response.mimetype == "text/html":
             response.headers["Cache-Control"] = "no-cache"
-            response.headers["Content-Security-Policy"] = BASE_POLICY
-            response.headers["Content-Security-Policy-Report-Only"] = SCRIPT_REPORT_POLICY
+            response.headers["Content-Security-Policy"] = policy(app.config["FRONTEND_API_BASE"])
         return response
 
     return app

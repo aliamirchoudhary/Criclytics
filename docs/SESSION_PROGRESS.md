@@ -21,7 +21,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 | T009 | work/t009-cricket-aggregation | 85b50ab | New scorer/rebuild; 6,651 matches vs old6,246, recovered405 outcomes; original artifacts unchanged |
 | T010 | work/t010-golden-schema-contracts | 046ada4 | Five portable golden matches, deterministic ETL/API tests, schema codes, diagnostic failure exit, corrected H2H; full v2.0.1 rebuild accepts6,651 with zero rejects |
 
-| T011 | work/t011-ui-accessibility | Local branch tip | Accessible data-driven surfaces on17 URLs; 85 browser cases pass; full41-test suite40pass/one optional skip |
+| T011 | work/t011-ui-accessibility | a3d445a | Accessible data-driven surfaces on17 URLs; 85 browser cases pass; full41-test suite40pass/one optional skip |
+
+| T012 | work/t012-frontend-runtime | Local branch tip | Explicit runtime origin, single initialization, enforced CSP;43tests42pass/one skip;85browser cases plus races/retries/preview checks pass |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain
@@ -54,4 +56,6 @@ schema-corpus-2026-10-28.json and aggregation-v2-schema-2026-10-28.json; initial
 rejections retained separately to explain the narrow migration. No promotion.
 
 
-Execution stopped after T011 at the user's request. T012 and later tickets have not been started. T011 page/action inventory and browser limitations: UI_ACCEPTANCE.md. Local commits only; no push, merge or deployment.
+Execution stopped after T011 at the user's request, then resumed with T012 on explicit instruction to continue. T011 page/action inventory and browser limitations: UI_ACCEPTANCE.md. Local commits only; no push, merge or deployment.
+
+Resumed: T012 uses work/t012-frontend-runtime from a3d445a. T013 remains gated by T001 operator credential/production verification; independent T014 is next once T012 checks finish. No account credentials requested again.

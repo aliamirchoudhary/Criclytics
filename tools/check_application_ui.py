@@ -57,7 +57,7 @@ def main():
             page.goto(origin + '/players.html', wait_until='networkidle')
             page.get_by_label('Player name', exact=True).fill('no-such-player-zzzz')
             page.get_by_role('button',name='Apply filters').click()
-            page.wait_for_function("document.querySelector('#app').textContent.includes('No records available')")
+            page.wait_for_function("() => document.querySelector('#app').textContent.includes('No records available')")
             interactions.append({'case':'player empty filter','passed':True})
             page.goto(origin + '/match-detail.html', wait_until='networkidle')
             assert 'Select a match' in page.locator('#app').inner_text()

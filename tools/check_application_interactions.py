@@ -43,7 +43,7 @@ def main():
             page.get_by_label('First recorded name').fill('India')
             page.get_by_label('Second recorded name').fill('Pakistan')
             page.get_by_role('button', name='Apply filters').click()
-            page.wait_for_function('document.querySelector("#app caption")?.textContent.includes("Team records")')
+            page.wait_for_function('() => document.querySelector("#app caption")?.textContent.includes("Team records")')
             assert 'India' in page.locator('#app thead').inner_text()
             assert 'Pakistan' in page.locator('#app thead').inner_text()
             checks.append({'case':'team comparison uses descriptive records','passed':True})
