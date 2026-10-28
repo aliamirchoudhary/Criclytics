@@ -1,0 +1,19 @@
+# Direct dependencies; regenerate the hashed lock using the documented uv command.
+Flask==3.1.3
+flask-cors==6.0.5
+Werkzeug==3.1.9
+python-dotenv==1.2.2
+requests==2.34.2
+beautifulsoup4==4.14.3
+numpy==2.4.3
+pandas==3.0.1
+scikit-learn==1.8.0
+scipy==1.17.1
+tqdm==4.67.3
+redis==5.0.1
+gunicorn==23.0.0
+# Explicit security floors for transitive dependencies.
+certifi==2026.10.23
+idna==3.20
+soupsieve==3.0.4
+urllib3==2.8.0
