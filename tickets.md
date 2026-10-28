@@ -36,6 +36,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T015](tickets/t015-version-datasets-source-rights-and-reproducible-builds.md) | Version datasets source rights and reproducible builds | P1 | T009,T010 | Implemented; local review pending |
 | [T016](tickets/t016-prove-permitted-zero-budget-live-data-feasibility.md) | Prove permitted zero-budget live data feasibility | P1 | T015 | Implemented; replay/manual decision |
 | [T017](tickets/t017-introduce-stable-cricket-identities-and-provider-mappings.md) | Introduce stable cricket identities and provider mappings | P1 | T015 | Implemented; local review pending |
+| [T017A](tickets/t017a-migrate-player-aggregates-to-source-identities.md) | Migrate discovered name-keyed player aggregates to source IDs | P1 | T010,T015,T017,T018 | Planned |
 | [T018](tickets/t018-build-canonical-delivery-events-and-deterministic-replay.md) | Build canonical delivery events and deterministic replay | P1 | T010,T015,T017 | Implemented; local review pending |
 | [T019](tickets/t019-create-before-delivery-features-and-coherent-outcome-labels.md) | Create before-delivery features and coherent outcome labels | P1 | T018 | Implemented; local review pending |
 | [T020](tickets/t020-train-and-evaluate-a-calibrated-cpu-baseline.md) | Train and evaluate a calibrated CPU baseline | P1 | T019,T014 | Implemented; experimental not promoted |
@@ -44,10 +45,10 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T023](tickets/t023-support-attributed-fielding-and-incident-annotations.md) | Support attributed fielding and incident annotations | P2 | T018,T019 | Implemented; real review pending |
 | [T024](tickets/t024-research-media-and-crowd-context-only-if-measurable.md) | Research media and crowd context only if measurable | P3 | T015,T020,T023 | Implemented; optional research excluded |
 | [T025](tickets/t025-implement-one-permitted-budgeted-live-collector.md) | Implement one permitted budgeted live collector | P1 | T006,T014,T016,T017,T018 | Implemented; local adapter only |
-| [T026](tickets/t026-reconcile-live-state-corrections-and-replay-parity.md) | Reconcile live state corrections and replay parity | P1 | T018,T019,T025 | Planned |
+| [T026](tickets/t026-reconcile-live-state-corrections-and-replay-parity.md) | Reconcile live state corrections and replay parity | P1 | T018,T019,T025 | Implemented; replay parity verified |
 | [T027](tickets/t027-serve-versioned-next-delivery-probabilities-and-forecasts.md) | Serve versioned next-delivery probabilities and forecasts | P1 | T020,T026,T014 | Planned |
 | [T028](tickets/t028-build-truthful-live-prediction-workspace.md) | Build truthful live prediction workspace | P1 | T011,T012,T027 | Planned |
-| [T029](tickets/t029-build-coach-scouting-scenarios-and-private-workflows.md) | Build coach scouting scenarios and private workflows | P2 | T010,T012,T017,T020,T023 | Planned |
+| [T029](tickets/t029-build-coach-scouting-scenarios-and-private-workflows.md) | Build coach scouting scenarios and private workflows | P2 | T010,T012,T017,T017A,T020,T023 | Planned |
 | [T030](tickets/t030-run-prospective-shadow-evaluation-and-context-ablations.md) | Run prospective shadow evaluation and context ablations | P1 | T020,T027,T028 | Planned |
 | [T031](tickets/t031-release-measured-coach-pilot-and-operations-runbook.md) | Release measured coach pilot and operations runbook | P1 | T001,T002,T003,T013,T014,T015,T028,T029,T030 | Planned |
 

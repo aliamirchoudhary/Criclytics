@@ -74,11 +74,11 @@ class ContextLedger:
             if not old and count>=10000:raise ValueError('Per-match context budget exceeded')
             self.connection.execute('INSERT OR IGNORE INTO context_records (record_id,revision,match_id,kind,available_at,payload,ingested_at) VALUES (?,?,?,?,?,?,?)',(record['record_id'],record['revision'],record['match_id'],record['kind'],available,payload,datetime.now(timezone.utc).isoformat()))
 
-    def eligible(self,match_id,cutoff,owner_id=None):
+    def eligible(self,match_id,cutoff,owner_id=None,require_ingested=False):
         when=utc(cutoff).timestamp()
-        rows=self.connection.execute("""SELECT c.payload FROM context_records c WHERE c.match_id=? AND c.revision=(
-            SELECT MAX(revision) FROM context_records r WHERE r.record_id=c.record_id AND r.available_at<=?)
-            ORDER BY c.available_at,c.record_id LIMIT 1025""",(match_id,when)).fetchall()
+        ingestion=" AND r.ingested_at IS NOT NULL AND r.ingested_at<=?" if require_ingested else ""
+        parameters=(match_id,when,utc(cutoff).isoformat(timespec='microseconds')) if require_ingested else (match_id,when)
+        rows=self.connection.execute("SELECT c.payload FROM context_records c WHERE c.match_id=? AND c.revision=(SELECT MAX(revision) FROM context_records r WHERE r.record_id=c.record_id AND r.available_at<=?"+ingestion+") ORDER BY c.available_at,c.record_id LIMIT 1025",parameters).fetchall()
         if len(rows)>1024:raise ValueError('Context selection budget exceeded')
         result=[]
         for row in rows:

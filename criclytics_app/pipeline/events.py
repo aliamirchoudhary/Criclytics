@@ -7,7 +7,7 @@ from pathlib import Path
 import sqlite3
 from datetime import datetime, timezone
 from .schema import validate_match,normalize_legacy_match
-from .scoring import DISMISSALS,NOT_DISMISSED
+from .scoring import DISMISSALS,NOT_DISMISSED,score_innings
 from .artifacts import validate,digest
 from .identities import local_id
 
@@ -59,6 +59,10 @@ def canonicalize(raw,source_id,observed_at=None):
                        'source_hash':source_hash,'event_time':None,'observed_at':observed_at,'deleted':False}
                 events.append(event)
         if innings.get('penalty_runs',{}).get('post'):events.append(control('penalty_post',innings['penalty_runs']['post'],attempt+1,(attempt+1)*10+1))
+        totals=score_innings(innings,index-1,info['balls_per_over'],metadata['format'])
+        closing=control('innings_end',totals['total'],attempt+1,(attempt+1)*10+2)
+        closing.update(wickets=totals['wickets'],legal_balls=totals['legal_balls'],completion_reason='source_innings_complete')
+        events.append(closing)
     return metadata,events
 
 
@@ -87,17 +91,22 @@ def validate_event(event):
         if len({event[name] for name in ('striker','non_striker','bowler')})!=3:raise ValueError('Contradictory participant identities')
         for wicket in event.get('wickets',[]):
             if wicket['kind'] not in DISMISSALS or not wicket.get('player_id'):raise ValueError('Invalid dismissal')
-    elif kind in ('penalty_pre','penalty_post','target_revision'):
+    elif kind in ('penalty_pre','penalty_post','target_revision','schedule_revision','innings_end'):
         if type(event.get('runs')) is not int or event['runs']<0:raise ValueError('Invalid control value')
-        if kind=='target_revision' and event.get('observed_at') is None:raise ValueError('Target revisions require observed availability')
+        if kind in ('target_revision','schedule_revision') and event['runs']<1:raise ValueError('Positive target/schedule required')
+        if kind=='innings_end' and any(type(event.get(key)) is not int or event[key]<0 for key in ('wickets','legal_balls')):raise ValueError('Explicit innings closing score required')
+        if kind in ('target_revision','schedule_revision') and event.get('observed_at') is None:raise ValueError('Target revisions require observed availability')
     else:raise ValueError('Unsupported event kind')
 
 
 class EventStore:
-    def __init__(self,path):
+    def __init__(self,path,readonly=False):
         from ..paths import PACKAGE_ROOT,PROJECT_ROOT
         self.path=Path(path).resolve()
         if any(self.path.is_relative_to(public) for public in (PACKAGE_ROOT/'static',PROJECT_ROOT/'dist')):raise ValueError('Event store must not be public')
+        if readonly:
+            self.connection=sqlite3.connect(self.path.as_uri()+'?mode=ro',uri=True,timeout=2)
+            return
         self.path.parent.mkdir(parents=True,exist_ok=True)
         self.connection=sqlite3.connect(self.path,timeout=10)
         self.connection.executescript("""
@@ -108,6 +117,7 @@ class EventStore:
           CREATE TABLE IF NOT EXISTS events (event_id TEXT NOT NULL,revision INTEGER NOT NULL,match_id TEXT NOT NULL,
             innings INTEGER NOT NULL,event_order INTEGER NOT NULL,available_at REAL,observation_hash TEXT NOT NULL,payload TEXT NOT NULL,
             PRIMARY KEY(event_id,revision));
+          CREATE TABLE IF NOT EXISTS metadata_revisions (match_id TEXT NOT NULL,revision INTEGER NOT NULL,available_at REAL NOT NULL,payload TEXT NOT NULL,observation_hash TEXT NOT NULL,PRIMARY KEY(match_id,revision));
           CREATE INDEX IF NOT EXISTS ordered_events ON events(match_id,innings,event_order);
         """)
 
@@ -124,21 +134,53 @@ class EventStore:
         with self.connection:
             self.connection.execute('INSERT OR IGNORE INTO observations VALUES (?,?,?)',(observation_hash,source,encoded(observation)))
             self.connection.execute('INSERT OR IGNORE INTO receipts VALUES (?,?,?)',(observation_hash,observed_at or 'unknown',datetime.now(timezone.utc).isoformat()))
-            previous=self.connection.execute('SELECT payload FROM matches WHERE match_id=?',(metadata['match_id'],)).fetchone()
-            if previous and previous[0]!=encoded(metadata):raise ValueError('Match metadata revision requires explicit reconciliation')
+            previous=self.metadata(metadata['match_id'])
+            if previous and encoded(previous)!=encoded(metadata):raise ValueError('Match metadata revision requires explicit reconciliation')
             self.connection.execute('INSERT OR IGNORE INTO matches VALUES (?,?)',(metadata['match_id'],encoded(metadata)))
             for event in events:
                 payload=encoded(event)
                 old=self.connection.execute('SELECT payload FROM events WHERE event_id=? AND revision=?',(event['event_id'],event['revision'])).fetchone()
-                if old and old[0]!=payload:raise ValueError('Conflicting immutable event revision')
+                if old:
+                    previous_event=json.loads(old[0])
+                    semantic=lambda value:{key:item for key,item in value.items() if key not in ('source_hash','observed_at')}
+                    if semantic(previous_event)!=semantic(event):raise ValueError('Conflicting immutable event revision')
+                    continue
                 available=datetime.fromisoformat(event['observed_at'].replace('Z','+00:00')).timestamp() if event.get('observed_at') else None
                 self.connection.execute('INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?,?,?)',(event['event_id'],event['revision'],event['match_id'],event['innings'],event['order'],available,observation_hash,payload))
 
-    def metadata(self,match_id):
+    def metadata(self,match_id,as_of=None):
+        exists=self.connection.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='metadata_revisions'").fetchone()
+        if exists:
+            from ..services.weather import utc
+            cutoff=utc(as_of).timestamp() if as_of else float('inf')
+            row=self.connection.execute('SELECT payload FROM metadata_revisions WHERE match_id=? AND available_at<=? ORDER BY revision DESC LIMIT 1',(match_id,cutoff)).fetchone()
+            if row:return json.loads(row[0])
         row=self.connection.execute('SELECT payload FROM matches WHERE match_id=?',(match_id,)).fetchone()
         return json.loads(row[0]) if row else None
 
-    def events(self,match_id,as_of=None,allow_unknown=True):
+    def register_metadata(self,metadata,revision,observed_at,source='manual'):
+        from ..services.weather import utc
+        if type(revision) is not int or revision<2:raise ValueError('Explicit metadata revision2+ required')
+        current=self.metadata(metadata['match_id'])
+        if current is None:raise ValueError('Base metadata must be observed first')
+        value=encoded(metadata)
+        old=self.connection.execute('SELECT payload FROM metadata_revisions WHERE match_id=? AND revision=?',(metadata['match_id'],revision)).fetchone()
+        if old:
+            if old[0]!=value:raise ValueError('Conflicting immutable metadata revision')
+            return
+        last=self.connection.execute('SELECT MAX(revision) FROM metadata_revisions WHERE match_id=?',(metadata['match_id'],)).fetchone()[0] or 1
+        if revision!=last+1:raise ValueError('Metadata revision gap')
+        if {k:v for k,v in metadata.items() if k!='innings'}!={k:v for k,v in current.items() if k!='innings'}:raise ValueError('Only explicit appended innings are supported; other identity/rule changes require review')
+        if metadata['innings'][:len(current['innings'])]!=current['innings'] or len(metadata['innings'])<=len(current['innings']):raise ValueError('Prior innings metadata is immutable')
+        for index,innings in enumerate(metadata['innings'],1):
+            if innings['innings']!=index or innings['team_id'] not in {i['team_id'] for i in current['innings']}:raise ValueError('Invalid appended innings identity')
+        observation={'metadata':metadata,'revision':revision,'observed_at':observed_at};source_hash=checksum(observation)
+        with self.connection:
+            self.connection.execute('INSERT OR IGNORE INTO observations VALUES (?,?,?)',(source_hash,source,encoded(observation)))
+            self.connection.execute('INSERT OR IGNORE INTO receipts VALUES (?,?,?)',(source_hash,observed_at,datetime.now(timezone.utc).isoformat()))
+            self.connection.execute('INSERT INTO metadata_revisions VALUES (?,?,?,?,?)',(metadata['match_id'],revision,utc(observed_at).timestamp(),value,source_hash))
+
+    def events(self,match_id,as_of=None,allow_unknown=True,include_deleted=False):
         cutoff=datetime.fromisoformat(as_of.replace('Z','+00:00')).timestamp() if as_of else None
         if as_of and datetime.fromisoformat(as_of.replace('Z','+00:00')).tzinfo is None:raise ValueError('Cutoff requires timezone')
         eligible="(available_at IS NULL OR available_at<=?)" if allow_unknown else "(available_at IS NOT NULL AND available_at<=?)"
@@ -146,7 +188,7 @@ class EventStore:
         cursor=self.connection.execute("SELECT e.payload FROM events e WHERE e.match_id=? AND e.revision=(SELECT MAX(revision) FROM events r WHERE r.event_id=e.event_id AND "+eligible+") ORDER BY e.innings,e.event_order,e.event_id",(match_id,cutoff))
         for row in cursor:
             event=json.loads(row[0])
-            if not event.get('deleted'):yield event
+            if include_deleted or not event.get('deleted'):yield event
 
 
 def initial_state(metadata,innings):
@@ -154,10 +196,15 @@ def initial_state(metadata,innings):
     return {'match_id':metadata['match_id'],'innings':innings,'team_id':info['team_id'],'super_over':info['super_over'],
             'runs':0,'wickets':0,'legal_balls':0,'attempts':0,'striker':None,'non_striker':None,'bowler':None,
             'target':None,'target_verified':False,'target_basis':'unavailable','partnership_runs':0,
-            'striker_after':None,'non_striker_after':None,'last_revision':None,'legal_ball_id':None,'last_attempt_id':None}
+            'striker_after':None,'non_striker_after':None,'last_revision':None,'legal_ball_id':None,'last_attempt_id':None,'innings_complete':False,'closing_total_match':None,'scheduled_balls':None,'scheduled_balls_verified':False}
 
 
 def apply_event(state,event):
+    if event['kind']=='innings_end':
+        state['closing_total_match']=all(state[key]==event[key] for key in ('runs','wickets','legal_balls'))
+        state['innings_complete']=state['closing_total_match'];return state
+    if event['kind']=='schedule_revision':
+        state.update(scheduled_balls=event['runs'],scheduled_balls_verified=True);return state
     if event['kind']=='target_revision':
         state.update(target=event['runs'],target_verified=True,target_basis='explicit_observed_revision');return state
     if event['kind'].startswith('penalty_'):
@@ -176,7 +223,7 @@ def apply_event(state,event):
     if event.get('over_end') and legal:after.reverse()
     # Crossings/replacement batter and old/new caught laws cannot be reconstructed
     # exactly from total runs alone. The next source delivery supplies actual ends.
-    if event.get('wickets'):after=[None,None]
+    if event.get('wickets') or extras.get('noballs',0)>1:after=[None,None]
     if dismissed:state['partnership_runs']=0
     state.update(striker_after=after[0],non_striker_after=after[1],last_revision=event['revision'])
     return state

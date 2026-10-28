@@ -308,3 +308,14 @@ Capture time is worker-owned; read_snapshot uses read-only SQLite and cannot
 collect. Source errors/backoff/quota/stale/kill flags block inference while
 preserving last-good display. No public write endpoint or hosted worker is added;
 LOCAL_COLLECTOR.md records limits and pending human/prospective evidence.
+
+## T026 reconciliation and immutable derived history
+
+services.reconciliation reads raw workspace stores at a confirmed source cutoff,
+reuses reducer/vector and caches16source receipt/revision cores. StateLedger stores
+immutable snapshots/forecasts with separate invalidation/replacement links; old
+readers cannot regress current source state. Explicit innings ending, target/
+schedule and appended metadata revisions preserve earlier views. Online contexts
+require actual ingestion by cutoff. RECONCILIATION.md records strict abstention,
+replay emulation limits and no external live/model-promotion claim. T017A is the
+explicit required follow-up for discovered name-keyed aggregate collisions.

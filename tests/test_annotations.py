@@ -28,6 +28,7 @@ class AnnotationTests(unittest.TestCase):
             try:
                 first=annotation();ledger.add(first)
                 other=annotation('other',False);other['observer']='observer-b';ledger.add(other)
+                self.assertEqual(ledger.eligible('match:fixture','2020-01-01T10:01:00Z',require_ingested=True),[])
                 records=ledger.eligible('match:fixture','2020-01-01T10:01:00Z')
                 self.assertIsNone(annotation_context(records,'match:fixture#i1/d2')['confirmed_drops'])
                 revised=deepcopy(other);revised['revision']=2;revised['value']['occurred']=True;revised['observed_at']='2020-01-01T11:00:00Z';ledger.add(revised)

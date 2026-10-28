@@ -31,7 +31,7 @@ def manual_session(identifier,batting_first,bowling_first,match_date,gender='unk
 
 def manual_delivery(metadata,state,striker,non_striker,bowler,batter_runs=0,extras=None,wickets=None,event_time=None):
     extras=dict(extras or {});legal=not extras.get('wides') and not extras.get('noballs')
-    attempt=state['attempts']+1;innings=state['innings'];bpo=metadata['balls_per_over']
+    attempt=state.get('next_attempt_number',state['attempts']+1);innings=state['innings'];bpo=metadata['balls_per_over']
     return {'schema_version':1,'match_id':metadata['match_id'],'innings':innings,'attempt':attempt,'kind':'delivery',
             'event_id':metadata['match_id']+'#i'+str(innings)+'/d'+str(attempt),'revision':1,'order':attempt*10,
             'over':state['legal_balls']//bpo,'over_legal_limit':bpo,'over_end':bool(legal and (state['legal_balls']+1)%bpo==0),
@@ -72,7 +72,7 @@ class LocalCollector:
 
     def _validate(self,metadata,payload):
         if not isinstance(metadata,dict) or not isinstance(payload,dict):raise ValueError('Object session/observation required')
-        if set(payload)-{'schema_version','match_id','observation_id','events','status','next_context'}:raise ValueError('Unsupported observation fields')
+        if set(payload)-{'schema_version','match_id','observation_id','events','status','next_context','metadata_revision'}:raise ValueError('Unsupported observation fields')
         if metadata.get('schema_version')!=1 or not isinstance(metadata.get('match_id'),str) or not isinstance(metadata.get('innings'),list) or not 1<=len(metadata['innings'])<=32 or len(encoded(metadata))>65536:raise ValueError('Invalid bounded session')
         if metadata.get('format') not in ('T20I','ODI','Test') or metadata.get('gender') not in ('male','female','mixed','unknown') or type(metadata.get('balls_per_over')) is not int or not 1<=metadata['balls_per_over']<=8:raise ValueError('Invalid match rules/scope')
         if not isinstance(metadata.get('teams'),list) or len(metadata['teams'])!=2:raise ValueError('Two teams required')
@@ -86,7 +86,7 @@ class LocalCollector:
         if self.mode=='manual' and not metadata['match_id'].startswith('match:manual:'):raise ValueError('Manual sessions need distinct manual identity namespace')
         if self.mode=='replay' and not metadata['match_id'].startswith('match:'):raise ValueError('Replay match identity required')
         if len(encoded(payload))>65536 or not isinstance(payload.get('events'),list) or len(payload['events'])>50:raise ValueError('Collector batch budget exceeded')
-        if not payload['events'] and not payload.get('next_context'):raise ValueError('Empty observation')
+        if not payload['events'] and not payload.get('next_context') and payload['status']=='in_progress':raise ValueError('In-progress observation needs events or announced context')
         context=payload.get('next_context')
         if context:
             if set(context)-{'innings','attempt','striker','non_striker','bowler','not_started_confirmed','expected_state'}:raise ValueError('Unsupported announced context')
@@ -144,9 +144,15 @@ class LocalCollector:
                     from ..services.weather import utc
                     if utc(event['event_time'])>utc(captured):raise ValueError('Future event time')
                 validate_event(event)
+            lease=self.guard.execute('SELECT owner,until FROM leases WHERE match_id=?',(mid,)).fetchone()
+            if not lease or lease[0]!=owner or lease[1]<=self.clock():return {'status':'deferred','reason':'lease_lost'}
             store=EventStore(self.path)
-            try:store.ingest(payload,metadata,events,source=self.mode,observed_at=captured)
+            try:
+                if payload.get('metadata_revision'):store.register_metadata(metadata,payload['metadata_revision'],captured,source=self.mode)
+                store.ingest(payload,metadata,events,source=self.mode,observed_at=captured)
             finally:store.close()
+            lease=self.guard.execute('SELECT owner,until FROM leases WHERE match_id=?',(mid,)).fetchone()
+            if not lease or lease[0]!=owner or lease[1]<=self.clock():return {'status':'deferred','reason':'lease_lost_after_commit'}
             snapshot={'mode':self.mode,'match_id':mid,'last_observation_id':input_id,'last_observed_at':captured,
                       'status':payload['status'],'next_context':deepcopy(payload.get('next_context')),'external_calls':0}
             if snapshot['next_context']:snapshot['next_context']['announced_at']=captured
@@ -178,7 +184,9 @@ def _snapshot(connection,match_id,clock,stale_after_seconds):
         limit=connection.execute('SELECT value FROM settings WHERE name=?',(kind+'_limit',)).fetchone()[0]
         count=connection.execute('SELECT count FROM budgets WHERE kind=? AND window=?',(kind,int(clock()//width))).fetchone()
         exhausted=exhausted or bool(count and count[0]>=limit)
-    pending_or_failed=bool((latest and latest[0]!='accepted') or (lease and lease[0]>clock()))
+    pending=connection.execute("SELECT 1 FROM inputs WHERE match_id=? AND status='reserved' LIMIT 1",(match_id,)).fetchone()
+    payload['source_revision_counter']=connection.execute("SELECT COUNT(*) FROM inputs WHERE match_id=? AND status='accepted'",(match_id,)).fetchone()[0]
+    pending_or_failed=bool(pending or (latest and latest[0]!='accepted') or (lease and lease[0]>clock()))
     payload['source_health']='killed' if payload['killed'] else 'budget_exhausted' if exhausted else 'ingest_pending_or_failed' if pending_or_failed else 'ok'
     payload['blocked']=payload['source_health']!='ok'
 

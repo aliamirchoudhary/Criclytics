@@ -48,7 +48,10 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T024 | work/t024-media-research | c42c8d6; protocol ed4a874 | Bounded observable-proxy research plan;70tests69pass/one skip;real agreement/benefit unavailable,production feature excluded |
 
-| T025 | work/t025-local-collector | Local branch tip | Bounded local manual/replay adapter;75tests74pass/one skip;parallel/lease/quota/kill/readonly checks,no external costs |
+| T025 | work/t025-local-collector | fbd433e | Bounded local manual/replay adapter;75tests74pass/one skip;parallel/lease/quota/kill/readonly checks,no external costs |
+
+| T026 | work/t026-reconcile-live-state | Local branch tip | Source-cutoff reconciliation/immutable history;80tests79pass/one skip;250real historical vectors and cached-reader parity |
+| T017A | Pending required child | None | Discovered identity-correct aggregate migration; execute next before dependent coach summaries |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain

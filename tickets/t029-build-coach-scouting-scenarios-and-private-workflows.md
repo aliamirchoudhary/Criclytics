@@ -2,7 +2,7 @@
 
 - Status: Planned
 - Priority: P2
-- Depends on: T010,T012,T017,T020,T023
+- Depends on: T010,T012,T017,T017A,T020,T023
 - Branch: feat/t029-build-coach-scouting-scenarios-and-private-workflows
 - Base: latest dev
 
@@ -32,3 +32,6 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+T017A is required for identity-correct global player summaries; do not present
+legacy collided-name totals as validated scouting careers.

@@ -78,7 +78,7 @@ def vector(state,participants,history,local,metadata):
             'prior_batter_runs_per_attempt':smooth(batter,1,prior_runs),'prior_bowler_wicket_rate':smooth(bowl,2,prior_wicket),
             'prior_matchup_wicket_rate':smooth(pair,2,prior_wicket),'target':target,
             'runs_required':max(0,target-state['runs']) if target is not None else None,
-            'balls_remaining':max(0,info['scheduled_balls']-state['legal_balls']) if info.get('scheduled_balls_verified') else None}
+            'balls_remaining':max(0,state['scheduled_balls']-state['legal_balls']) if state.get('scheduled_balls_verified') else max(0,info['scheduled_balls']-state['legal_balls']) if info.get('scheduled_balls_verified') else None}
     return {key:values[key] for key in NUMERIC}
 
 
