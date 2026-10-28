@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "not_started",
+  "participants": [],
+  "task_results": [],
+  "aggregate": {
+    "actual_participants": 0,
+    "actual_tasks": 0,
+    "task_completion_fraction": null,
+    "usefulness_rating": null,
+    "severe_privacy_or_false_live_errors": null
+  },
+  "privacy": "Copy to private storage. Do not commit participant identities, consent or tactical notes. No outreach or upload is implied."
+}

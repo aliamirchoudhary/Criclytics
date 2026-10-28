@@ -3,8 +3,8 @@
 - Status: Tooling implemented; prospective cohort pending
 - Priority: P1
 - Depends on: T020,T027,T028
-- Branch: feat/t030-run-prospective-shadow-evaluation-and-context-ablations
-- Base: latest dev
+- Branch: work/t030-prospective-evaluation
+- Base: preceding local ticket branch (resumed-session user override)
 
 ## Problem
 

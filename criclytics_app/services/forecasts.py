@@ -22,7 +22,8 @@ class ForecastService:
             if any(path == public or path.is_relative_to(public) for public in
                    (PACKAGE_ROOT/'static', PROJECT_ROOT/'dist')):
                 raise ValueError('Shadow artifacts must be private')
-        if self.source == self.ledger: raise ValueError('Derived ledger must be separate from source')
+        if self.ledger in (self.source, self.source.with_suffix('.collector.sqlite3')):
+            raise ValueError('Derived ledger must be separate from source and collector coordinator')
         if not evaluation_sha or digest(evaluation) != evaluation_sha:
             raise ValueError('Trusted evaluation hash required')
         self.model = load_model(model, model_sha)

@@ -3,8 +3,8 @@
 - Status: Implemented locally; coach review pending
 - Priority: P2
 - Depends on: T010,T012,T017,T017A,T020,T023
-- Branch: feat/t029-build-coach-scouting-scenarios-and-private-workflows
-- Base: latest dev
+- Branch: work/t029-coach-scouting
+- Base: preceding local ticket branch (resumed-session user override)
 
 ## Problem
 

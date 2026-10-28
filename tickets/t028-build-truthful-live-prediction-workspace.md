@@ -3,8 +3,8 @@
 - Status: Implemented, awaiting review
 - Priority: P1
 - Depends on: T011,T012,T027
-- Branch: feat/t028-build-truthful-live-prediction-workspace
-- Base: latest dev
+- Branch: work/t028-prediction-workspace
+- Base: preceding local ticket branch (resumed-session user override)
 
 ## Problem
 

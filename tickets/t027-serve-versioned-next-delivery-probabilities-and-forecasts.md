@@ -3,8 +3,8 @@
 - Status: Implemented, awaiting review
 - Priority: P1
 - Depends on: T020,T026,T014
-- Branch: feat/t027-serve-versioned-next-delivery-probabilities-and-forecasts
-- Base: latest dev
+- Branch: work/t027-versioned-forecasts
+- Base: preceding local ticket branch (resumed-session user override)
 
 ## Problem
 

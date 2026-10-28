@@ -4,7 +4,7 @@
 - Priority: P1
 - Depends on: T010,T015,T017,T018
 - Branch: work/t017a-identity-aggregates
-- Base: previous local ticket branch, per session override
+- Base: preceding local ticket branch (resumed-session user override)
 
 ## Problem
 

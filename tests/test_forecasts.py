@@ -59,6 +59,8 @@ class ForecastTests(unittest.TestCase):
             try:
                 score=apply_event(initial_state(meta,1),one);collector.ingest(meta,observation(meta,'one',[one],next_context(score,2)))
                 service=ForecastService(source,root/'ledger.sqlite3',model,digest(model),report,digest(report),clock=lambda:NOW)
+                for unsafe in (source,source.with_suffix('.collector.sqlite3')):
+                    with self.assertRaises(ValueError):ForecastService(source,unsafe,model,digest(model),report,digest(report))
                 self.assertIn('outside_model_scope',service.forecast(meta['match_id'])['blocked_reasons'])
                 with self.assertRaises(ValueError):ForecastService(source,root/'ledger.sqlite3',model,'bad',report,digest(report))
                 app=create_app({'TESTING':True,'LIVE_DIR':root/'live','LIVE_FETCH_ENABLED':False,'REDIS_URL':'',

@@ -12,7 +12,7 @@ code tickets, per the user's instruction. All development remains $0/no card.
 |---|---|---|---|
 | T001 | work/t001-containment | 9b8ad3a | Local containment/instructions prepared; operator rotations and production verification pending |
 | T002 | work/t002-dependencies | 60c29d7 | Patched hash locks, zero pip-audit advisories, isolated Python3.11/3.12 checks |
-| T003 | work/t003-dom-security | 6102e7c | Vendored sanitizer and browser adversarial checks; script CSP report-only pending T012 |
+| T003 | work/t003-dom-security | 6102e7c | Vendored sanitizer and browser adversarial checks; script CSP initially report-only; enforced by T012 |
 | T004 | work/t004-api-validation | dfe36be | Bounded inputs and redacted structured errors |
 | T005 | work/t005-match-summaries | e5bf221 | Compact pagination/all callers; 12,708-byte default vs old43MB; mobile/desktop interactions pass |
 | T006 | work/t006-data-repositories | f31d513 | App-isolated bounded snapshots/index, atomic timestamped cache and shared SQLite refresh lease |
@@ -20,38 +20,28 @@ code tickets, per the user's instruction. All development remains $0/no card.
 | T008 | work/t008-prediction-containment | e8abb42 | Legacy predictions withdrawn/null probabilities; 12 browser unavailable-state cases pass |
 | T009 | work/t009-cricket-aggregation | 85b50ab | New scorer/rebuild; 6,651 matches vs old6,246, recovered405 outcomes; original artifacts unchanged |
 | T010 | work/t010-golden-schema-contracts | 046ada4 | Five portable golden matches, deterministic ETL/API tests, schema codes, diagnostic failure exit, corrected H2H; full v2.0.1 rebuild accepts6,651 with zero rejects |
-
 | T011 | work/t011-ui-accessibility | a3d445a | Accessible data-driven surfaces on17 URLs; 85 browser cases pass; full41-test suite40pass/one optional skip |
-
 | T012 | work/t012-frontend-runtime | e30684e | Explicit runtime origin, single initialization, enforced CSP;43tests42pass/one skip;85browser cases plus races/retries/preview checks pass |
-
 | T013 | No implementation branch | None | Blocked by deferred T001 operator rotations/production verification |
 | T014 | work/t014-safe-diagnostics | 8d61bda | Honest health/readiness, bounded redacted telemetry;46tests45pass/one skip;20request resource sample |
-
 | T015 | work/t015-dataset-manifests | 1c3b5d3 | Rights registry, full6651 manifest/coverage, validated retained promotion/restore;47tests46pass/one skip and coverage UI checks pass |
-
 | T016 | work/t016-free-feed-feasibility | a120570 | NO-GO external feeds; GO local replay/manual;49tests48pass/one skip; synthetic timing only, real feed proof unavailable |
-
 | T017 | work/t017-stable-identities | 85b7371 | Source IDs/aliases, collision abstention, reviewed match-map tests;51tests50pass/one skip;5125 rostered IDs and68 colliding source labels |
-
 | T018 | work/t018-delivery-replay | 3bb3805 | Immutable source-ID attempts/revisions and replay;53tests52pass/one skip;100actual matches/23104attempts reconcile |
-
 | T019 | work/t019-before-delivery-features | e47a364 | Shared before-attempt vectors/joint labels;56tests55pass/one skip;23104 reproducible rows with58/21/21 whole-match temporal splits |
-
 | T020 | work/t020-cpu-baseline | 5740b3a; protocol d357306/amendment87bd2c6 | Trusted CPU model/evaluation;60tests59pass/one skip;repeat artifact hash identical;not promoted, learner does not beat stronger phase baseline |
-
 | T021 | work/t021-weather-context | c429067 | Weather as-of/timezone contracts;62tests61pass/one skip;no eligible historical weather, family excluded/no API calls |
-
 | T022 | work/t022-lineup-matchup-context | f270c63; protocol e050a22 | Timestamped XI/pitch/home ledger;65tests64pass/one skip;fresh100match matchup ablation, no promotion/invented context |
-
 | T023 | work/t023-fielding-annotations | c0a2acc | Immutable attributed fielding/incident context;68tests67pass/one skip;fictional review example only,no promoted incident features |
-
 | T024 | work/t024-media-research | c42c8d6; protocol ed4a874 | Bounded observable-proxy research plan;70tests69pass/one skip;real agreement/benefit unavailable,production feature excluded |
-
 | T025 | work/t025-local-collector | fbd433e | Bounded local manual/replay adapter;75tests74pass/one skip;parallel/lease/quota/kill/readonly checks,no external costs |
-
 | T026 | work/t026-reconcile-live-state | 24b42a8 | Source-cutoff reconciliation/immutable history;80tests79pass/one skip;250real historical vectors and cached-reader parity |
 | T017A | work/t017a-identity-aggregates | ba6525a | 6651-match identity rebuild;5125 rostered/5050 scored IDs;all profile/context/record totals reconcile;82tests81pass/one skip;375/1440 browser flows pass |
+| T027 | work/t027-versioned-forecasts | 7e3122a | Default-off local shadow API/immutable ledger;84tests83pass/one skip;100readers reuse1inference,~63ms p95;no promotion |
+| T028 | work/t028-prediction-workspace | 381c27d |18th public page;90layoutcases+workspace correction/stale/retry/expiry flows;84tests83pass/one skip;local shadow only |
+| T029 | work/t029-coach-scouting | 98408cf |Identity scouting/private memory+export;95layoutcases+coach simulations;86tests85pass/one skip;real coach feedback pending |
+| T030 | work/t030-prospective-evaluation | 361fe3c; protocol0e3b5b0 |Frozen baselines/timing+feature audit;89tests88pass/one skip;actual cohort0/metricsnull/NO-GO, prospective acceptance pending |
+| T031 | work/t031-release-readiness | Local branch tip | Offline readiness/restore/runbook pass;89tests88pass/one skip on3.11+3.12,31locked packages/0advisories;actual pilot/release blocked |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain
@@ -83,7 +73,6 @@ JS syntax pass. Diagnostic success0/failure1 verified. Evidence in
 schema-corpus-2026-10-28.json and aggregation-v2-schema-2026-10-28.json; initial88
 rejections retained separately to explain the narrow migration. No promotion.
 
-
 Execution stopped after T011 at the user's request, then resumed with T012 on explicit instruction to continue. T011 page/action inventory and browser limitations: UI_ACCEPTANCE.md. Local commits only; no push, merge or deployment.
 
 Resumed: T012 uses work/t012-frontend-runtime from a3d445a. T013 remains gated by T001 operator credential/production verification; independent T014 is next once T012 checks finish. No account credentials requested again.
@@ -96,10 +85,5 @@ T020 experimental model build/baseline-v1-first/model.json (same as repeat) rema
 
 T017A resumed after the user stop: isolated build/player-ids-v1-final is opt-in only. Default/original artifacts preserved. Sampled rebuild peak resident memory505,196,544bytes locally, not a hosted guarantee. No pushes/merges/deployments.
 
-| T027 | work/t027-versioned-forecasts | 7e3122a | Default-off local shadow API/immutable ledger;84tests83pass/one skip;100readers reuse1inference,~63ms p95;no promotion |
 
-| T028 | work/t028-prediction-workspace | 381c27d |18th public page;90layoutcases+workspace correction/stale/retry/expiry flows;84tests83pass/one skip;local shadow only |
-
-| T029 | work/t029-coach-scouting | 98408cf |Identity scouting/private memory+export;95layoutcases+coach simulations;86tests85pass/one skip;real coach feedback pending |
-
-| T030 | work/t030-prospective-evaluation | Local branch tip; protocol0e3b5b0 |Frozen baselines/timing+feature audit;89tests88pass/one skip;actual cohort0/metricsnull/NO-GO, prospective acceptance pending |
+Final resumed-session handoff: SESSION_HANDOFF.md lists changed files, local commits, verification, no deployment URLs and the external/Git approval gates. Original13processed hashes verified; main/dev unchanged.

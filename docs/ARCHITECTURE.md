@@ -183,8 +183,9 @@ All17 allowlisted templates load application.js/application.css, using safe DOM 
 ## T012 frontend ownership
 
 `frontend.py` validates a public origin and generates runtime configuration for
-both Flask and the dependency-free static builder. Only runtime-config.js,
-dom.js, api-client.js and application.js load on public pages. The API helper
+both Flask and the dependency-free static builder. The shared runtime loads
+runtime-config.js, dom.js, api-client.js and application.js; the later scouting
+page additionally loads coaching.js for its local private-plan workflow. The API helper
 coalesces in-flight GETs, bounds requests to15 seconds, retains no completed
 response/error cache and sends no credentials. Filter generations reject late
 results; application initialization is idempotent. Match detail now always uses
@@ -364,3 +365,11 @@ receipt/feature replay and reviewed actual timing, retaining missing/late/correc
 failures and null unknowns. StateLedger also keeps bounded idempotent decisions;
 repeated current issued reads avoid write transactions. SHADOW_EVALUATION.md
 separates authored fixture validation from the empty real cohort and NO-GO gate.
+
+## T031 independent readiness preparation
+
+tools.release_preflight builds clean allowlisted artifacts and runs offline API/
+containment smoke plus isolated SQLite/dataset restore fixtures. It never deploys
+or approves release. OPERATIONS_RUNBOOK.md records the real coach pilot protocol,
+incident/backup/rollback procedures, $0 constraints and unmet T001/T013/T029/T030/
+Git-publication gates. Actual pilot/prospective counts stay zero and release blocked.

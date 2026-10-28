@@ -10,9 +10,11 @@ pinned: false
 
 # Criclytics
 
-Cricket history, contextual analysis, and a planned next-delivery probability
-platform. The legacy statistics and probability engine are under audit and are
-not yet suitable for coaching decisions. See [the audit](docs/AUDIT.md).
+Cricket history, source-ID scouting and an experimental next-delivery shadow
+workflow. Public predictions remain unavailable: the current historical model
+has not passed prospective promotion gates. Original data is preserved; corrected
+dataset/identity candidates require explicit selection. See [progress](docs/SESSION_PROGRESS.md)
+and [release readiness](docs/OPERATIONS_RUNBOOK.md).
 
 ## Start here
 
@@ -21,6 +23,8 @@ not yet suitable for coaching decisions. See [the audit](docs/AUDIT.md).
 - [Product roadmap and $0 constraints](docs/ROADMAP.md)
 - [Ticket index](tickets.md) and [implementation tickets](tickets/)
 - [Branch workflow](docs/GIT_WORKFLOW.md)
+- [Identity-correct statistics](docs/PLAYER_ID_AGGREGATES.md), [scouting/private plans](docs/COACH_SCOUTING.md)
+- [Local shadow API](docs/FORECAST_API.md), [workspace](docs/WORKSPACE_UI.md), [prospective evaluation](docs/SHADOW_EVALUATION.md)
 - [Original reports and notes](docs/history/)
 
 ## Local setup
@@ -30,26 +34,30 @@ Use Python 3.11 or 3.12 in a virtual environment:
 ```powershell
 python -m venv .venv
 .venv/Scripts/Activate.ps1
-python -m pip install -r requirements.txt
-Copy-Item .env.example .env
+python -m pip install --require-hashes -r requirements.txt
 python app.py
 ```
 
 Open http://localhost:5000. `flask --app criclytics_app:create_app run` is an
 alternative. Network feeds and Redis are disabled by default, even when keys
-exist. `LIVE_FETCH_ENABLED=1` explicitly enables them. Never commit `.env`.
-Dependencies currently have known advisory findings; T002 is a release blocker.
+exist. A flag/key alone does not approve network collection: the source-policy
+allowlist is currently empty. Manual scoring and historical replay are supported
+locally. For a new setup, `.env.example` documents optional settings; preserve any
+existing `.env` and never commit it. The pinned runtime dependency audit found no
+known advisories on2026-10-28; that is not proof of absent application defects.
 
 A clean clone does not include historical/live/model artifacts. Keep Cricsheet
 JSON in `data/raw/{t20s_male_json,odis_male_json,tests_male_json}/`, then run:
 
 ```powershell
-python -m criclytics_app.pipeline.cricsheet
+python -m criclytics_app.pipeline.cricsheet --output build/dataset-candidate
 ```
 
-**The legacy pipeline has known cricket-statistics defects (T009).** Generating
-artifacts does not certify their correctness. Existing datasets have been left
-unchanged during the folder migration. Curated reference files remain in
+The current rebuild uses the validated per-innings scorer and emits a private
+manifest-bound candidate. Follow [dataset validation/selection](docs/DATASETS.md)
+and [source-ID regeneration](docs/PLAYER_ID_AGGREGATES.md) before enabling corrected
+player summaries; old name-keyed files retain known collision/coverage defects.
+No candidate is automatically promoted. Curated reference files remain in
 `data/static/`. Original .pkl artifacts remain in `models/`; the web engine does
 not serve them. Do not load model files from untrusted sources.
 
@@ -62,8 +70,10 @@ Application code is under `criclytics_app/`: `api/`, `web/`, `services/`, `ml/`,
 repository entry documents remain at the root. The existing `criclytics/` folder
 is an ignored local virtual environment, not application source.
 
-Existing page URLs and all 30 `/api/` routes remain available. API analytics are
-preserved for migration compatibility, including defects documented in the audit.
+The19public pages include new workspace and scouting views. Existing URLs are
+retained with documented API validation/statistical migrations and new versioned
+endpoints. Legacy heuristic predictions stay withdrawn, rather than serving
+invented probabilities. Original artifacts are not silently rewritten.
 Public static files use `/static/`; checkout/data/config files are not served.
 
 ## Checks
@@ -97,8 +107,12 @@ assets. Direct Wrangler CLI commands include this build hook. In Cloudflare
 Workers Builds, explicitly set **Build command** to that Python command before
 the preview/deploy command. See [exact settings](docs/CLOUDFLARE_DEPLOYMENT.md).
 Remote hosting settings have not been changed here. Main-only HF release is gated
-on offline tests and dependency scanning; current vulnerabilities intentionally
-block it until repaired. Nothing has been deployed from this work branch.
+on offline tests and dependency scanning. Credential/production verification,
+remote release controls and human/prospective gates still block release; see
+[the runbook](docs/OPERATIONS_RUNBOOK.md). Existing resources are preserved: do not
+activate billing or assume a new free compute Space is available. Source/free-tier
+feasibility is recorded in [LIVE_FEASIBILITY.md](docs/LIVE_FEASIBILITY.md).
+Nothing has been deployed from the local ticket branches.
 
 ## Data and limitations
 
