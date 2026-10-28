@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "protocol_sha256": "c0b818e533b57120aec719d57011f46e57523e6606b0789e6d8b18e67f85cbd4",
+  "model_id": "fe917b696bb25d2672b94f68e590fd665cdeed21ec06c55e23bafc1dda319beb",
+  "baseline_sha256": "461043fd133601034a0a4421a7d43a0edf7c3a0f92ba0f428e08abfa30c65213",
+  "cohort_status": "audited_asserted_timing_requires_human_review",
+  "counts": {
+    "collected_attempts": 3,
+    "completed_matches": 1,
+    "reviewed_start_times": 2,
+    "no_issued_forecast": 1,
+    "corrected_outcomes": 1,
+    "late_or_equal_issue": 1,
+    "unknown_actual_start": 1,
+    "forecasts_without_collected_outcome": 0
+  },
+  "scored_attempts": 1,
+  "scored_matches": 1,
+  "collected_attempt_coverage": 0.3333333333333333,
+  "reviewed_timing_fraction": 0.6666666666666666,
+  "source_lag_p95_seconds": 1.0,
+  "metrics": {
+    "learner": {
+      "rows": 1,
+      "matches": 1,
+      "log_loss": 4.199026145398829,
+      "multiclass_brier": 1.2565858732872928,
+      "top_label_ece_10bins": 0.45902624085906213,
+      "reliability": [
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1,
+          "mean_probability": 0.45902624085906213,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    },
+    "empirical": {
+      "rows": 1,
+      "matches": 1,
+      "log_loss": 2.6031724991433878,
+      "multiclass_brier": 1.0965142855617644,
+      "top_label_ece_10bins": 0.3754641318877172,
+      "reliability": [
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 1,
+          "mean_probability": 0.3754641318877172,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    },
+    "phase_innings": {
+      "rows": 1,
+      "matches": 1,
+      "log_loss": 2.9316449436509244,
+      "multiclass_brier": 1.1495473831627228,
+      "top_label_ece_10bins": 0.39853129553165684,
+      "reliability": [
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 1,
+          "mean_probability": 0.39853129553165684,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    }
+  },
+  "subgroups": {
+    "no_dismissal": {
+      "rows": 1,
+      "matches": 1,
+      "log_loss": 4.199026145398829,
+      "multiclass_brier": 1.2565858732872928,
+      "top_label_ece_10bins": 0.45902624085906213,
+      "reliability": [
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1,
+          "mean_probability": 0.45902624085906213,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    },
+    "legal": {
+      "rows": 1,
+      "matches": 1,
+      "log_loss": 4.199026145398829,
+      "multiclass_brier": 1.2565858732872928,
+      "top_label_ece_10bins": 0.45902624085906213,
+      "reliability": [
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1,
+          "mean_probability": 0.45902624085906213,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    },
+    "innings_1": {
+      "rows": 1,
+      "matches": 1,
+      "log_loss": 4.199026145398829,
+      "multiclass_brier": 1.2565858732872928,
+      "top_label_ece_10bins": 0.45902624085906213,
+      "reliability": [
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1,
+          "mean_probability": 0.45902624085906213,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    },
+    "phase_0": {
+      "rows": 1,
+      "matches": 1,
+      "log_loss": 4.199026145398829,
+      "multiclass_brier": 1.2565858732872928,
+      "top_label_ece_10bins": 0.45902624085906213,
+      "reliability": [
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1,
+          "mean_probability": 0.45902624085906213,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    },
+    "cold": {
+      "rows": 1,
+      "matches": 1,
+      "log_loss": 4.199026145398829,
+      "multiclass_brier": 1.2565858732872928,
+      "top_label_ece_10bins": 0.45902624085906213,
+      "reliability": [
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1,
+          "mean_probability": 0.45902624085906213,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    }
+  },
+  "learner_minus_baseline_log_loss_intervals": {
+    "empirical": {
+      "method": "whole-match bootstrap",
+      "replicates": 200,
+      "seed": 17,
+      "matches": 1,
+      "loss_delta_vs_reference": 1.5958536462554411,
+      "lower_95": 1.5958536462554411,
+      "upper_95": 1.5958536462554411
+    },
+    "phase_innings": {
+      "method": "whole-match bootstrap",
+      "replicates": 200,
+      "seed": 17,
+      "matches": 1,
+      "loss_delta_vs_reference": 1.2673812017479045,
+      "lower_95": 1.2673812017479045,
+      "upper_95": 1.2673812017479045
+    }
+  },
+  "drift": {
+    "outcome_frequency_l1_from_training_prior": 1.8519233625427,
+    "unseen_outcomes": 0
+  },
+  "gates": {
+    "minimum_matches": false,
+    "minimum_attempts": false,
+    "coverage": false,
+    "reviewed_timing": false,
+    "source_lag": true,
+    "beats_both_baselines": false,
+    "calibration": false,
+    "rare_event_support": false
+  },
+  "promotion_decision": "NO-GO",
+  "human_release_review_required": true,
+  "external_source_completeness": null,
+  "context_ablations": {
+    "weather": {
+      "enabled": false,
+      "prospective_benefit": null
+    },
+    "lineup_pitch_home": {
+      "enabled": false,
+      "prospective_benefit": null
+    },
+    "fielding": {
+      "enabled": false,
+      "prospective_benefit": null
+    },
+    "media_crowd": {
+      "enabled": false,
+      "prospective_benefit": null
+    }
+  },
+  "evidence_kind": "AUTHORED_VIRTUAL_CLOCK_FIXTURE_NOT_PROSPECTIVE_COHORT"
+}

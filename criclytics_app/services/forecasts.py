@@ -14,7 +14,7 @@ from ..pipeline.artifacts import digest
 
 
 class ForecastService:
-    def __init__(self, source, ledger, model, model_sha, evaluation, evaluation_sha, clock=time.time):
+    def __init__(self, source, ledger, model, model_sha, evaluation, evaluation_sha, clock=time.time, baselines=None, baselines_sha=None):
         from ..ml.baseline import load_model
         from ..paths import PACKAGE_ROOT, PROJECT_ROOT
         self.source, self.ledger = Path(source).resolve(), Path(ledger).resolve()
@@ -34,9 +34,23 @@ class ForecastService:
                 or not self.model.get('training_last_date') or not self.model.get('calibration_last_date')):
             raise ValueError('Model/evaluation/data provenance mismatch')
         self.model_id, self.clock = model_sha, clock
+        self.baselines=None;self.baselines_sha=baselines_sha
+        if baselines:
+            baseline_path=Path(baselines).resolve()
+            if any(baseline_path.is_relative_to(p) for p in (PACKAGE_ROOT/'static',PROJECT_ROOT/'dist')):raise ValueError('Baselines must be private')
+            from ..ml.shadow_baselines import load
+            self.baselines=load(baseline_path,baselines_sha,model_sha,self.model)
+            self.protocol_sha=digest(PROJECT_ROOT/'docs/SHADOW_PROTOCOL.md')
+            if self.baselines.get('protocol_sha256')!=self.protocol_sha:raise ValueError('Baseline/protocol mismatch')
         self.reconciler = Reconciler(self.source, clock=clock)
         self._lock = threading.RLock()
         self.inferences = 0
+        self._ledger_initialized=False
+
+    def open_ledger(self):
+        ledger=StateLedger(self.ledger,initialize=not self._ledger_initialized)
+        self._ledger_initialized=True
+        return ledger
 
     @contextmanager
     def source_confirmation(self):
@@ -86,9 +100,17 @@ class ForecastService:
                     reasons = list(state['blocked_reasons'])
                     core = state.get('core')
                     if reasons or not core:
+                        if core:
+                            with closing(self.open_ledger()) as ledger:
+                                now=datetime.fromtimestamp(self.clock(),timezone.utc).isoformat()
+                                ledger.record(core,reasons,now=now);ledger.decision(core,reasons,now)
                         return {**state, 'forecast_allowed': False, 'blocked_reasons': sorted(set(reasons)), 'forecast': None}
-                    with closing(StateLedger(self.ledger)) as ledger:
+                    with closing(self.open_ledger()) as ledger:
+                        cached=ledger.connection.execute('SELECT f.forecast_id FROM issued_forecasts f JOIN current_state c ON c.state_id=f.state_id WHERE f.state_id=? AND f.model_id=?',
+                                                         (checksum(core),self.model_id)).fetchone()
+                        if cached:return {**state,'forecast':ledger.forecast(cached[0])}
                         sid = ledger.record(core)
+                        ledger.decision(core,[],datetime.fromtimestamp(self.clock(),timezone.utc).isoformat())
                         old = ledger.connection.execute('SELECT forecast_id FROM issued_forecasts WHERE state_id=? AND model_id=?',
                                                         (sid, self.model_id)).fetchone()
                         if old:
@@ -110,6 +132,11 @@ class ForecastService:
                                    'distribution': distribution, 'unknown_mass': distribution['OTHER'],
                                    'semantics': 'Joint next attempt including illegal deliveries. OTHER has unknown runs/dismissals; it is not zero-risk.',
                                    'experimental': True, 'promoted': False, 'model': self.metadata()}
+                        if self.baselines:
+                            from ..ml.shadow_baselines import predict as baseline_predict
+                            content['baselines']=baseline_predict(self.baselines,core['features'])
+                            content['baseline_artifact_sha256']=self.baselines_sha
+                            content['protocol_sha256']=self.protocol_sha
                         issued = ledger.issue(content, issued_at)
                         self.inferences += 1
                         return {**current, 'forecast': issued, 'inference_ms': round(elapsed, 4)}
@@ -132,4 +159,5 @@ def initialize(app):
     if not app.config['EXPERIMENTAL_FORECASTS']: return
     app.extensions['forecast_service'] = ForecastService(app.config['WORKSPACE_SOURCE'], app.config['WORKSPACE_LEDGER'],
         app.config['FORECAST_MODEL'], app.config['FORECAST_MODEL_SHA256'],
-        app.config['FORECAST_EVALUATION'], app.config['FORECAST_EVALUATION_SHA256'])
+        app.config['FORECAST_EVALUATION'], app.config['FORECAST_EVALUATION_SHA256'],
+        baselines=app.config['FORECAST_BASELINES'] or None,baselines_sha=app.config['FORECAST_BASELINES_SHA256'] or None)

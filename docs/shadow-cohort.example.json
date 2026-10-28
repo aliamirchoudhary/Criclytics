@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "protocol_sha256": "c0b818e533b57120aec719d57011f46e57523e6606b0789e6d8b18e67f85cbd4",
+  "model_id": "fe917b696bb25d2672b94f68e590fd665cdeed21ec06c55e23bafc1dda319beb",
+  "baseline_sha256": "461043fd133601034a0a4421a7d43a0edf7c3a0f92ba0f428e08abfa30c65213",
+  "frozen_artifacts_at": "2026-10-28T17:40:54.111676+00:00",
+  "matches": []
+}

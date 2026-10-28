@@ -355,3 +355,12 @@ uses coaching.js for descriptive preparation and page-memory private plans with
 explicit file export/import. No private input reaches server storage or URLs and
 no hosted ownership guarantee is claimed. COACH_SCOUTING.md separates archive
 coverage, scenario assumptions, data loss/export behavior and pending real feedback.
+
+## T030 prospective audit machinery
+
+ml.shadow_baselines freezes training-only empirical/phase artifacts for optional
+pre-issued comparisons. ml.shadow_evaluation audits first issues against raw
+receipt/feature replay and reviewed actual timing, retaining missing/late/correction
+failures and null unknowns. StateLedger also keeps bounded idempotent decisions;
+repeated current issued reads avoid write transactions. SHADOW_EVALUATION.md
+separates authored fixture validation from the empty real cohort and NO-GO gate.

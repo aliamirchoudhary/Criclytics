@@ -15,11 +15,12 @@ from ..pipeline.features import History,LocalHistory,vector
 
 
 class StateLedger:
-    def __init__(self,path):
+    def __init__(self,path,initialize=True):
         from ..paths import PACKAGE_ROOT,PROJECT_ROOT
         path=Path(path).resolve()
         if any(path.is_relative_to(public) for public in (PACKAGE_ROOT/'static',PROJECT_ROOT/'dist')):raise ValueError('State ledger must be private')
         path.parent.mkdir(parents=True,exist_ok=True);self.connection=sqlite3.connect(path,timeout=5)
+        if not initialize:return
         self.connection.executescript("""
             CREATE TABLE IF NOT EXISTS state_snapshots (state_id TEXT PRIMARY KEY,match_id TEXT NOT NULL,source_cutoff TEXT NOT NULL,payload TEXT NOT NULL);
             CREATE INDEX IF NOT EXISTS state_match ON state_snapshots(match_id);
@@ -27,9 +28,20 @@ class StateLedger:
             CREATE INDEX IF NOT EXISTS forecast_match ON issued_forecasts(match_id);
             CREATE TABLE IF NOT EXISTS current_state (match_id TEXT PRIMARY KEY,state_id TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS state_invalidations (old_state_id TEXT,new_state_id TEXT,reason TEXT,recorded_at TEXT,PRIMARY KEY(old_state_id,new_state_id,reason));
+            CREATE TABLE IF NOT EXISTS forecast_decisions (decision_id TEXT PRIMARY KEY,match_id TEXT,target_event_id TEXT,state_id TEXT,recorded_at TEXT,reasons TEXT);
+            CREATE INDEX IF NOT EXISTS decision_target ON forecast_decisions(match_id,target_event_id);
         """)
 
     def close(self):self.connection.close()
+
+    def decision(self,core,reasons,recorded_at):
+        utc(recorded_at);reasons=sorted(set(reasons))
+        value={'state_id':checksum(core),'reasons':reasons};identifier=checksum(value)
+        with self.connection:
+            self.connection.execute('BEGIN IMMEDIATE')
+            if self.connection.execute('SELECT 1 FROM forecast_decisions WHERE decision_id=?',(identifier,)).fetchone():return
+            if self.connection.execute('SELECT COUNT(*) FROM forecast_decisions').fetchone()[0]>=100000 or self.connection.execute('SELECT COUNT(*) FROM forecast_decisions WHERE match_id=?',(core['match_id'],)).fetchone()[0]>=10000:raise ValueError('Decision retention budget exceeded')
+            self.connection.execute('INSERT INTO forecast_decisions VALUES (?,?,?,?,?,?)',(identifier,core['match_id'],core['target_event_id'],value['state_id'],recorded_at,encoded(reasons)))
 
     def record(self,core,reasons=(),now=None):
         state_id=checksum(core);mid=core['match_id'];payload=encoded(core)

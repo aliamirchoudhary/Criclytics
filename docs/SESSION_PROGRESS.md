@@ -100,4 +100,6 @@ T017A resumed after the user stop: isolated build/player-ids-v1-final is opt-in 
 
 | T028 | work/t028-prediction-workspace | 381c27d |18th public page;90layoutcases+workspace correction/stale/retry/expiry flows;84tests83pass/one skip;local shadow only |
 
-| T029 | work/t029-coach-scouting | Local branch tip |Identity scouting/private memory+export;95layoutcases+coach simulations;86tests85pass/one skip;real coach feedback pending |
+| T029 | work/t029-coach-scouting | 98408cf |Identity scouting/private memory+export;95layoutcases+coach simulations;86tests85pass/one skip;real coach feedback pending |
+
+| T030 | work/t030-prospective-evaluation | Local branch tip; protocol0e3b5b0 |Frozen baselines/timing+feature audit;89tests88pass/one skip;actual cohort0/metricsnull/NO-GO, prospective acceptance pending |

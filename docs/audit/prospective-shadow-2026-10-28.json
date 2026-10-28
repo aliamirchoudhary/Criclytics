@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "protocol_sha256": "c0b818e533b57120aec719d57011f46e57523e6606b0789e6d8b18e67f85cbd4",
+  "model_id": "fe917b696bb25d2672b94f68e590fd665cdeed21ec06c55e23bafc1dda319beb",
+  "baseline_sha256": "461043fd133601034a0a4421a7d43a0edf7c3a0f92ba0f428e08abfa30c65213",
+  "cohort_status": "pending_no_enrolled_matches",
+  "counts": {
+    "collected_attempts": 0,
+    "completed_matches": 0,
+    "reviewed_start_times": 0,
+    "no_issued_forecast": 0
+  },
+  "scored_attempts": 0,
+  "scored_matches": 0,
+  "collected_attempt_coverage": null,
+  "reviewed_timing_fraction": null,
+  "source_lag_p95_seconds": null,
+  "metrics": {
+    "learner": null,
+    "empirical": null,
+    "phase_innings": null
+  },
+  "subgroups": {},
+  "learner_minus_baseline_log_loss_intervals": {},
+  "drift": null,
+  "gates": {
+    "minimum_matches": false,
+    "minimum_attempts": false,
+    "coverage": false,
+    "reviewed_timing": false,
+    "source_lag": false,
+    "beats_both_baselines": false,
+    "calibration": false,
+    "rare_event_support": false
+  },
+  "promotion_decision": "NO-GO",
+  "human_release_review_required": true,
+  "external_source_completeness": null,
+  "context_ablations": {
+    "weather": {
+      "enabled": false,
+      "prospective_benefit": null
+    },
+    "lineup_pitch_home": {
+      "enabled": false,
+      "prospective_benefit": null
+    },
+    "fielding": {
+      "enabled": false,
+      "prospective_benefit": null
+    },
+    "media_crowd": {
+      "enabled": false,
+      "prospective_benefit": null
+    }
+  },
+  "evidence_kind": "ACTUAL_PROSPECTIVE_COHORT_NOT_STARTED"
+}

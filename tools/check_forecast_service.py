@@ -1,5 +1,6 @@
 """Local experimental model latency/readers evidence, not prospective scoring."""
 from concurrent.futures import ThreadPoolExecutor
+import argparse
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -15,6 +16,9 @@ from tests.test_reconciliation import setup_data, next_context, observation
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--report',type=Path,default=PROJECT_ROOT/'docs/audit/forecast-service-2026-10-28.json')
+    args=parser.parse_args()
     model = PROJECT_ROOT/'build/baseline-v1-first/model.json'
     evaluation = PROJECT_ROOT/'build/baseline-v1-first/evaluation.json'
     with tempfile.TemporaryDirectory() as directory:
@@ -43,7 +47,7 @@ def main():
                     'parity':'Uses the T026 shared feature core; actual250historical before-attempt parity recorded separately.',
                     'limitations':'One authored manual session with real experimental weights. No prospective performance, actual human latency or model promotion.'}
             assert first['inference_ms']<10 and np.percentile(samples,95)<100,result
-            (PROJECT_ROOT/'docs/audit/forecast-service-2026-10-28.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+            args.report.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
             print(json.dumps(result))
         finally:collector.close()
 

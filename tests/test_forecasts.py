@@ -64,8 +64,10 @@ class ForecastTests(unittest.TestCase):
                 app=create_app({'TESTING':True,'LIVE_DIR':root/'live','LIVE_FETCH_ENABLED':False,'REDIS_URL':'',
                                 'EXPERIMENTAL_FORECASTS':False,'IDENTITY_REGISTRY':'','IDENTITY_PLAYER_STORE':''})
                 client=app.test_client();path='/api/v1/workspaces/'+meta['match_id']+'/forecast'
+                before_disabled=digest(root/'ledger.sqlite3')
                 self.assertEqual(client.get(path).json['blocked_reasons'],['experimental_workspace_disabled'])
-                self.assertFalse((root/'ledger.sqlite3').exists())
+                self.assertEqual(digest(root/'ledger.sqlite3'),before_disabled)
+                self.assertEqual(service.history(meta['match_id']),[])
                 app.extensions['forecast_service']=service
                 self.assertEqual(client.get(path).status_code,200)
                 self.assertEqual(client.get(path,headers={'Origin':'https://attacker.invalid'}).status_code,403)
