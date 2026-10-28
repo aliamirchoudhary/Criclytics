@@ -18,7 +18,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | Ticket | Outcome | Priority | Dependencies | Status |
 |---|---|---|---|---|
 | [T000](tickets/t000-audit-and-flask-package-migration.md) | Audit and Flask package migration | P0 | None | Implemented, awaiting review |
-| [T001](tickets/t001-rotate-exposed-credentials-and-verify-public-file-containment.md) | Rotate exposed credentials and verify public-file containment | P0 | T000 | Planned |
+| [T001](tickets/t001-rotate-exposed-credentials-and-verify-public-file-containment.md) | Rotate exposed credentials and verify public-file containment | P0 | T000 | Waiting for operator |
 | [T002](tickets/t002-upgrade-vulnerable-dependencies-and-verify-compatibility.md) | Upgrade vulnerable dependencies and verify compatibility | P0 | T000 | Planned |
 | [T003](tickets/t003-remove-dom-injection-hazards-and-tighten-browser-policy.md) | Remove DOM injection hazards and tighten browser policy | P0 | T000 | Planned |
 | [T004](tickets/t004-validate-api-inputs-and-standardize-errors.md) | Validate API inputs and standardize errors | P1 | T000 | Planned |

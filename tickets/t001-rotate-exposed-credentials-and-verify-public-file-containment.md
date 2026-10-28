@@ -1,6 +1,6 @@
 # T001: Rotate exposed credentials and verify public-file containment
 
-- Status: Planned
+- Status: Waiting for operator
 - Priority: P0
 - Depends on: T000
 - Branch: fix/t001-rotate-exposed-credentials-and-verify-public-file-containment
@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+### Session update 2026-10-28T08:30:47+00:00
+
+Local containment and secret-storage exclusions retained. HEAD-only production checks are inconclusive (fallback status responses/timeouts); no secret bodies retrieved. Provider rotations and HF login require the owner. See docs/AUTHENTICATION.md. Local work does not complete production acceptance.

@@ -49,3 +49,5 @@ models/
 
 # ── Node (if any tooling) ────────────────────────────────────────────────────
 node_modules/
+.auth/
+.wrangler/

@@ -1,0 +1,29 @@
+{
+  "method": "HEAD only; no secret body retrieved",
+  "checks": [
+    {
+      "url": "https://criclytics.aliamirchoudhary.workers.dev/.env",
+      "status": 404
+    },
+    {
+      "url": "https://criclytics.aliamirchoudhary.workers.dev/.git/HEAD",
+      "status": 200
+    },
+    {
+      "url": "https://criclytics.aliamirchoudhary.workers.dev/app.py",
+      "status": 200
+    },
+    {
+      "url": "https://aliamirchoudhary-criclytics-backend.hf.space/.env",
+      "error": "ReadTimeout"
+    },
+    {
+      "url": "https://aliamirchoudhary-criclytics-backend.hf.space/.git/HEAD",
+      "error": "ReadTimeout"
+    },
+    {
+      "url": "https://aliamirchoudhary-criclytics-backend.hf.space/app.py",
+      "error": "ReadTimeout"
+    }
+  ]
+}

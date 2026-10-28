@@ -1,4 +1,7 @@
 .git
+.auth
+.wrangler
+build/
 .env
 *.env
 criclytics/
