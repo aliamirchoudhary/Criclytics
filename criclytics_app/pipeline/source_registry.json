@@ -55,6 +55,24 @@
       "terms": null,
       "redistribution": "No source evidence for all legacy fields; exclude from new verified dataset promotion and do not infer licence from historical data.",
       "updates": "Preserve originals privately; clearance or replacement required."
+    },
+    {
+      "id": "open-meteo",
+      "family": "weather forecasts and historical reanalysis",
+      "rights": "noncommercial_free_api_only",
+      "terms": "https://open-meteo.com/en/terms",
+      "license": "CC-BY-4.0",
+      "redistribution": "Data licence and API service terms differ; intended public coaching product not cleared for non-commercial-only free service.",
+      "updates": "No calls enabled;2016?2018 sample has no suitable issued-run/UTC context."
+    },
+    {
+      "id": "met-norway-weather",
+      "family": "optional future as-issued weather forecasts",
+      "rights": "allowed_with_attribution_and_traffic_conditions",
+      "terms": "https://api.met.no/doc/TermsOfService",
+      "license": "CC-BY-4.0/NLOD-2.0",
+      "redistribution": "Attribute MET Norway, preserve licence; identify app/contact, honor Expires/conditionalGET and traffic rules. No sports-feed rights implied.",
+      "updates": "No collector enabled. Future optional endpoint must respect cache/global budget and explicit venue coordinates/cutoff; no historical2016?2018 availability proved."
     }
   ]
 }

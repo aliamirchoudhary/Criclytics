@@ -1,0 +1,20 @@
+{
+  "reviewed_at": "2026-10-28",
+  "selected_model": "v1 unchanged",
+  "historical_attempts": 23104,
+  "eligible_as_issued_weather_attempts": 0,
+  "actual_venue_location_mappings": 0,
+  "external_api_calls": 0,
+  "weather_features_included": false,
+  "ablation_log_loss_delta": null,
+  "ablation_brier_delta": null,
+  "reason": "No precise historical UTC/issued forecast observations; unknown context cannot be imputed as observed weather.",
+  "future_candidate": "MET Norway Locationforecast2.0 subject to attribution/contact/caching and new preregistered evaluation",
+  "application_budget_if_later_approved": {
+    "per_venue_per_hour": 1,
+    "per_venue_per_day": 24,
+    "global_per_day": 96,
+    "honor_expires": true
+  },
+  "tests": "Timezone/DST, late issue/observed, reanalysis exclusion, missingness/ranges, cache bounds and default network denial."
+}

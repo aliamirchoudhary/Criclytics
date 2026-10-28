@@ -263,3 +263,11 @@ finite-weight/joint-label checks; no pickle loading. OTHER is explicit unknown
 outcome mass. MODEL_CARD.md records held-out metrics and no-go promotion: the
 small/stale historical sample and unknown source availability do not support
 current coaching forecasts. Legacy prediction availability remains false.
+
+## T021 optional weather
+
+services.weather validates explicit venue/UTC/issue/validity/observation provenance
+and selects only eligible as-of fields in a bounded local cache. Reanalysis,
+future issue/observation and unknown location/cutoff abstain. No collector or
+model weather inputs are enabled; sample weather coverage is zero. WEATHER.md
+records primary free-service rights, candidate traffic limits and exclusion.

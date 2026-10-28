@@ -38,7 +38,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T019 | work/t019-before-delivery-features | e47a364 | Shared before-attempt vectors/joint labels;56tests55pass/one skip;23104 reproducible rows with58/21/21 whole-match temporal splits |
 
-| T020 | work/t020-cpu-baseline | Local branch tip; protocol d357306/amendment87bd2c6 | Trusted CPU model/evaluation;60tests59pass/one skip;repeat artifact hash identical;not promoted, learner does not beat stronger phase baseline |
+| T020 | work/t020-cpu-baseline | 5740b3a; protocol d357306/amendment87bd2c6 | Trusted CPU model/evaluation;60tests59pass/one skip;repeat artifact hash identical;not promoted, learner does not beat stronger phase baseline |
+
+| T021 | work/t021-weather-context | Local branch tip | Weather as-of/timezone contracts;62tests61pass/one skip;no eligible historical weather, family excluded/no API calls |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain
