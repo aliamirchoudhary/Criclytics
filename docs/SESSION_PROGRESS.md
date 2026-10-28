@@ -42,7 +42,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T021 | work/t021-weather-context | c429067 | Weather as-of/timezone contracts;62tests61pass/one skip;no eligible historical weather, family excluded/no API calls |
 
-| T022 | work/t022-lineup-matchup-context | Local branch tip; protocol e050a22 | Timestamped XI/pitch/home ledger;65tests64pass/one skip;fresh100match matchup ablation, no promotion/invented context |
+| T022 | work/t022-lineup-matchup-context | f270c63; protocol e050a22 | Timestamped XI/pitch/home ledger;65tests64pass/one skip;fresh100match matchup ablation, no promotion/invented context |
+
+| T023 | work/t023-fielding-annotations | Local branch tip | Immutable attributed fielding/incident context;68tests67pass/one skip;fictional review example only,no promoted incident features |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain

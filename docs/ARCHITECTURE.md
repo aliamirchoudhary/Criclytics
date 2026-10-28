@@ -281,3 +281,13 @@ venue affiliation is explicit. Unavailable families remain excluded from modelv1
 A separately preregistered future-window matchup ablation is recorded in
 MATCH_CONTEXT.md; no experimental model is promoted. Event subset import can
 filter explicit date windows while retaining source integrity checks.
+
+## T023 annotations
+
+Context ledger also stores attributed fielding/incident revisions, with local
+ingestion time separated from claimed source times. services.annotations resolves
+only earlier attempts, keeps conflicts/unknown coverage explicit and prevents
+actor uncertainty from double counting a chance. Tactical text is excluded from
+annotation payloads and private owner scope remains local, not HTTP auth. No
+annotation model feature is enabled; ANNOTATIONS.md records fictional evidence
+and the pending real reviewed observation/prospective validation gates.

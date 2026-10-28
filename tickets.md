@@ -41,7 +41,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T020](tickets/t020-train-and-evaluate-a-calibrated-cpu-baseline.md) | Train and evaluate a calibrated CPU baseline | P1 | T019,T014 | Implemented; experimental not promoted |
 | [T021](tickets/t021-evaluate-weather-context-without-hindsight-leakage.md) | Evaluate weather context without hindsight leakage | P2 | T016,T019,T020 | Implemented; weather excluded |
 | [T022](tickets/t022-add-lineup-matchup-and-pitch-context-feature-families.md) | Add lineup matchup and pitch-context feature families | P2 | T017,T019,T020 | Implemented; experimental context gated |
-| [T023](tickets/t023-support-attributed-fielding-and-incident-annotations.md) | Support attributed fielding and incident annotations | P2 | T018,T019 | Planned |
+| [T023](tickets/t023-support-attributed-fielding-and-incident-annotations.md) | Support attributed fielding and incident annotations | P2 | T018,T019 | Implemented; real review pending |
 | [T024](tickets/t024-research-media-and-crowd-context-only-if-measurable.md) | Research media and crowd context only if measurable | P3 | T015,T020,T023 | Planned |
 | [T025](tickets/t025-implement-one-permitted-budgeted-live-collector.md) | Implement one permitted budgeted live collector | P1 | T006,T014,T016,T017,T018 | Planned |
 | [T026](tickets/t026-reconcile-live-state-corrections-and-replay-parity.md) | Reconcile live state corrections and replay parity | P1 | T018,T019,T025 | Planned |

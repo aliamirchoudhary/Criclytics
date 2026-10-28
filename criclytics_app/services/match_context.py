@@ -4,10 +4,11 @@ import json
 import math
 from pathlib import Path
 import sqlite3
+from datetime import datetime,timezone
 from .weather import utc
 from ..pipeline.events import encoded
 
-KINDS={'lineup','substitution','pitch_report','venue_affiliation'}
+KINDS={'lineup','substitution','pitch_report','venue_affiliation','fielding','incident'}
 
 
 def validate(record):
@@ -35,6 +36,9 @@ def validate(record):
                 if number is not None and (not isinstance(number,(int,float)) or not math.isfinite(number) or not low<=number<=high):raise ValueError('Invalid tracking measurement')
         if value.get('quality')!='instrument_measured' and any(value.get(k) is not None for k in ('bounce_cm','line_m','length_m')):raise ValueError('Reported pitch tags are not measured tracking')
     if kind=='venue_affiliation' and (value.get('status') not in ('home','away','neutral','unknown') or not value.get('venue_id') or not value.get('team_id')):raise ValueError('Explicit sourced venue affiliation required')
+    if kind in ('fielding','incident'):
+        from .annotations import validate_annotation
+        validate_annotation(record)
     return record
 
 
@@ -46,9 +50,12 @@ class ContextLedger:
         self.path.parent.mkdir(parents=True,exist_ok=True);self.connection=sqlite3.connect(self.path,timeout=10)
         self.connection.executescript("""CREATE TABLE IF NOT EXISTS context_records (
             record_id TEXT NOT NULL,revision INTEGER NOT NULL,match_id TEXT NOT NULL,kind TEXT NOT NULL,
-            available_at REAL NOT NULL,payload TEXT NOT NULL,PRIMARY KEY(record_id,revision));
+            available_at REAL NOT NULL,payload TEXT NOT NULL,ingested_at TEXT,PRIMARY KEY(record_id,revision));
             CREATE INDEX IF NOT EXISTS context_cutoff ON context_records(match_id,available_at);
         """)
+        if 'ingested_at' not in {row[1] for row in self.connection.execute('PRAGMA table_info(context_records)')}:
+            self.connection.execute('ALTER TABLE context_records ADD COLUMN ingested_at TEXT')
+            self.connection.commit()
 
     def close(self):self.connection.close()
 
@@ -65,7 +72,7 @@ class ContextLedger:
             if old and old[0]!=payload:raise ValueError('Conflicting immutable context revision')
             count=self.connection.execute('SELECT COUNT(*) FROM context_records WHERE match_id=?',(record['match_id'],)).fetchone()[0]
             if not old and count>=10000:raise ValueError('Per-match context budget exceeded')
-            self.connection.execute('INSERT OR IGNORE INTO context_records VALUES (?,?,?,?,?,?)',(record['record_id'],record['revision'],record['match_id'],record['kind'],available,payload))
+            self.connection.execute('INSERT OR IGNORE INTO context_records (record_id,revision,match_id,kind,available_at,payload,ingested_at) VALUES (?,?,?,?,?,?,?)',(record['record_id'],record['revision'],record['match_id'],record['kind'],available,payload,datetime.now(timezone.utc).isoformat()))
 
     def eligible(self,match_id,cutoff,owner_id=None):
         when=utc(cutoff).timestamp()
