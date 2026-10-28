@@ -1,0 +1,67 @@
+{
+  "candidate": "build\\player-ids-v1-final",
+  "manifest_sha256": "b88d92e942c173d1a7fbdb7f4deb27de6d0301e7a51b4738cbb491a2d4b84b03",
+  "manifest": {
+    "schema_version": 1,
+    "dataset_id": "e6dce5850e36a851f95537e702fc9f782fe26f0dd98c15448b2a767c0f4c2da3",
+    "registry_sha256": "94476e45b2267841ef618f4f7b2321a75deda6cd8206c3c7a2190e01df31fb06",
+    "database_sha256": "828012716e7a820b994326b78618d09c2fb837e3a06135728627bbe84f76f4f2",
+    "input_count": 6651,
+    "totals": {
+      "batting_runs": 2764241,
+      "batting_innings": 129490,
+      "bowling_wickets": 99625,
+      "bowling_innings": 86051,
+      "matches": 6651
+    },
+    "rostered_identities": 5125,
+    "scored_identities": 5050,
+    "original_artifacts_unchanged": true,
+    "code_sha256": {
+      "aggregation.py": "522f3d76f3c2fa9c158a1e59a80e5166d715a0f6dbfa5f66681220fc8936891a",
+      "artifacts.py": "e9d7a21db2af1a7f1876636f5056ccc645207d226254bc0d33dd4b0b93313af9",
+      "cricsheet.py": "3401b70584eeea87bc673082fc5681548797edbdd63031ce62db54403a6fa03c",
+      "events.py": "417906f116651957cc21bb0dbe6ad50d6b1d962c0fc8b52c2d220e57808c5ae3",
+      "features.py": "9f9319b7e37f7e0cada1f4ab9ff35925137f0a26664812cdead1a5dfc189b6fe",
+      "identities.py": "057c6b0d8b54d30d9978d976e1a100162e928f0effbff2985b7dd6ec5ca9e3cb",
+      "player_id_stats.py": "7757091006989300fd4e4a0a1cf50f5ba02a15afce320ccbf99f8b9e60a5123f",
+      "rebuild.py": "1fe12954c6e5399e724ae78c3ba1d6d1cb41adc64b317ed78386ee53944017a9",
+      "reference.py": "c79f8cbc865bfbf9164f6d46167687c2d964211466c85176a57bf67d2773c7cb",
+      "schema.py": "2e324d4d31dcb6b4f82c13a773e0f78539952f6383c7abf1cf7fd4618607c2f9",
+      "scoring.py": "d88cba815a0f46204786947ba41e6d3a238c1c1f23882f0ad527d8203e40ceca",
+      "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "attribution": "Cricsheet JSON and People/Venue Registers (ODC-BY-1.0); derived identity mappings by Criclytics.",
+    "promoted": false
+  },
+  "profiles_checked": 5125,
+  "profile_totals": {
+    "batting_runs": 2764241,
+    "batting_innings": 129490,
+    "bowling_wickets": 99625,
+    "bowling_innings": 86051
+  },
+  "all_player_context_totals_reconcile": true,
+  "records_reconcile": true,
+  "cook_test_highest": 117,
+  "cook_test_innings": 19,
+  "browser": [
+    {
+      "width": 375,
+      "directory_id_link": true,
+      "ambiguous_name_recovery": true,
+      "profile": true,
+      "overflow": false,
+      "page_errors": []
+    },
+    {
+      "width": 1440,
+      "directory_id_link": true,
+      "ambiguous_name_recovery": true,
+      "profile": true,
+      "overflow": false,
+      "page_errors": []
+    }
+  ],
+  "limitations": "Local opt-in only; no default promotion, deployment, complete-career or nationality claim."
+}

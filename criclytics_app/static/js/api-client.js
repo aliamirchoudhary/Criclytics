@@ -13,7 +13,7 @@
       const timeout = setTimeout(() => controller.abort(), 15000);
       try {
         const response = await fetch(key, {headers: {Accept:'application/json'}, signal:controller.signal, credentials:'omit', cache:'no-store'});
-        if (!response.ok) { const error = new Error('Request unavailable'); error.kind = response.status === 404 ? 'not-found' : 'error'; throw error; }
+        if (!response.ok) { const error = new Error('Request unavailable'); error.status = response.status; error.kind = response.status === 404 ? 'not-found' : 'error'; throw error; }
         return await response.json();
       } finally { clearTimeout(timeout); }
     })();

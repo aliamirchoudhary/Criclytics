@@ -44,6 +44,8 @@ def get_players():
         limit     â€” number of results (default: 50)
         offset    â€” pagination offset (default: 0)
     """
+    store = current_app.extensions['player_id_store']
+    if store: return jsonify(store.listing(request.args))
     data = load_processed("players_index.json")
     if data is None:
         return jsonify({"error": "players_index.json not found â€” run process_cricsheet.py first"}), 500
@@ -128,6 +130,8 @@ def get_players():
 @bp.route("/api/players/<player_name>")
 def get_player(player_name):
     """Full profile by recorded name, explicit alias or stable identifier."""
+    store = current_app.extensions['player_id_store']
+    if store: return jsonify(store.profile(player_name) or {'found': False, 'error': 'Player not found'})
     player_name, identity_id = current_app.extensions["identity_registry"].source_name("player",player_name)
     data = load_processed("players_index.json")
     if data is None:
@@ -256,6 +260,11 @@ def get_venue(venue_name):
     if identity_id:venue["identity_id"] = identity_id
     venue["top_batters"] = batters.get(venue_name, [])
     venue["top_bowlers"] = bowlers.get(venue_name, [])
+    store = current_app.extensions['player_id_store']
+    if store:
+        venue['top_batters'] = store.document('venue:batters:'+venue_name) or []
+        venue['top_bowlers'] = store.document('venue:bowlers:'+venue_name) or []
+        venue['player_leaderboard_scope'] = 'Observed matches across formats'
 
     return jsonify(venue)
 
@@ -281,6 +290,10 @@ def get_rankings():
     fmt   = request.args.get("format", "T20I")
     rtype = request.args.get("type", "batting")
     limit = int(request.args.get("limit", 10))
+
+    store = current_app.extensions['player_id_store']
+    if store:
+        return jsonify({'format': fmt, 'type': rtype, 'results': store.rankings(fmt, rtype, limit), 'identity_correct': True})
 
     data = load_processed("players_index.json")
     if data is None:
@@ -327,6 +340,8 @@ def get_rankings():
 @bp.route("/api/records")
 def get_records():
     """All-time records, enriched with country from players_index."""
+    store = current_app.extensions['player_id_store']
+    if store: return jsonify({**store.records(), 'sidebar': {}, 'identity_correct': True})
     data = load_processed("records.json")
     if data is None:
         return jsonify({"error": "Data not found"}), 500
@@ -475,9 +490,11 @@ def compare_players():
     if not pa or not pb:
         return jsonify({"error": "player_a and player_b are required"}), 400
 
-    data = load_processed("players_index.json") or {}
+    store = current_app.extensions['player_id_store']
+    data = {} if store else (load_processed("players_index.json") or {})
 
     def find_player(name):
+        if store: return store.profile(name)
         name, _ = current_app.extensions["identity_registry"].source_name("player",name)
         p = data.get(name)
         if not p:
@@ -510,7 +527,9 @@ def search():
     if not q or len(q) < 2:
         return jsonify({"players": [], "teams": [], "venues": [], "matches": []})
 
-    players_data = load_processed("players_index.json") or {}
+    store = current_app.extensions['player_id_store']
+    candidates = store.listing({'search': q, 'limit': limit})['players'] if store else []
+    players_data = {p['identity_id']: p for p in candidates} if store else (load_processed("players_index.json") or {})
     teams_data   = load_processed("team_format_stats.json") or {}
     venues_data  = load_processed("venue_stats.json") or {}
     live_data    = load_live("matches.json") or {}
@@ -594,11 +613,12 @@ def search():
     # Search players
     matched_players = []
     for name, player in players_data.items():
-        if q in name.lower():
+        if store or q in name.lower():
             total_runs = sum(f.get("runs", 0) for f in player.get("batting", {}).values())
             total_wkts = sum(f.get("wickets", 0) for f in player.get("bowling", {}).values())
             matched_players.append({
-                "name":    name,
+                "name":    player['name'] if store else name,
+                **({'identity_id': player['identity_id'], 'observed_teams': player['observed_teams']} if store else {}),
                 "formats": player.get("formats", []),
                 "runs":    total_runs,
                 "wickets": total_wkts,

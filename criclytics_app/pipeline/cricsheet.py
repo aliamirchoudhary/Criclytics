@@ -429,7 +429,7 @@ def bowl_avg(runs, wickets):
     return round(runs / wickets, 2)
 
 
-def build_players_index(bat, bowl, player_country=None):
+def build_players_index(bat, bowl, player_country=None, include_bowling_only=False):
     print("\n[2/4] Building players_index …")
     if player_country is None:
         player_country = {}
@@ -500,7 +500,7 @@ def build_players_index(bat, bowl, player_country=None):
             len(bat.get((player, fmt), {}).get("matches", set()))
             for fmt in ("Test", "ODI", "T20I")
         )
-        if total_matches >= 1:
+        if total_matches >= 1 or (include_bowling_only and entry['bowling']):
             players[player] = entry
 
     return players

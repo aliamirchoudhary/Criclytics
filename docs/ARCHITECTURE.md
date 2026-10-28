@@ -319,3 +319,12 @@ schedule and appended metadata revisions preserve earlier views. Online contexts
 require actual ingestion by cutoff. RECONCILIATION.md records strict abstention,
 replay emulation limits and no external live/model-promotion claim. T017A is the
 explicit required follow-up for discovered name-keyed aggregate collisions.
+
+## T017A identity-based player summaries
+
+pipeline.player_id_stats scores source-ID substituted raw matches into a separate
+SQLite candidate with a parent-dataset/registry/database hash manifest. Optional
+IDENTITY_PLAYER_STORE enables read-only bounded player/profile/search/comparison/
+ranking/record/venue-player queries; default artifacts remain selected otherwise.
+Aliases resolve uniquely or409, and observed memberships never imply nationality.
+See PLAYER_ID_AGGREGATES.md for the explicit compatibility and rollback contract.

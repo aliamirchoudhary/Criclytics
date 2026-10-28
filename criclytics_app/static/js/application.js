@@ -139,7 +139,7 @@
     });
   }
   function players() {
-    const search = field('Player name', null, query.get('search') || ''), fmt = formats('', true), country = field('Country', null, '');
+    const search = field('Player name', null, query.get('search') || ''), fmt = formats('', true), country = field('Team or country', null, '');
     const role = field('Player role', [['all', 'All observed roles'], ['bat', 'Batting records'], ['bowl', 'Bowling records']], 'all');
     const sort = field('Sort players by', [['runs', 'Runs'], ['wickets', 'Wickets'], ['avg', 'Batting average'], ['sr', 'Strike rate']], 'runs');
     let offset = 0, active = '';
@@ -149,7 +149,8 @@
       const params = new URLSearchParams({search: search.input.value, country: country.input.value, role: role.input.value, sort: sort.input.value, limit: 20, offset});
       if (fmt.input.value) params.set('format', fmt.input.value);
       const data = await request('/api/players?' + params), content = node('div');
-      content.append(table('Players in available matches', ['Player', 'Country', 'Formats'], (data.players || []).map(p => [link(p.name, 'player-profile', {name: p.name}), p.country, (p.formats || []).join(', ')])),
+      if (data.identity_correct) content.append(node('p', 'Teams are observed memberships, not nationality. Statistics cover available matches only.', 'ui-notice'));
+      content.append(table('Players in available matches', ['Player', data.identity_correct ? 'Observed teams' : 'Country', 'Formats'], (data.players || []).map(p => [link(p.name, 'player-profile', {name: p.identity_id || p.name}), p.observed_teams ? p.observed_teams.map(t => t.team_name).join(', ') : p.country, (p.formats || []).join(', ')])),
         pager(data.total, offset, 20, next => { offset = next; surface.run(); })); return content;
     });
   }
@@ -193,12 +194,19 @@
     const name = query.get('name');
     if (!name) { app.replaceChildren(node('p', 'Select a ' + kind + ' to view its records.', 'ui-state'), link('Find records', 'search')); return; }
     const route = kind === 'player' ? 'players' : kind === 'team' ? 'teams' : 'venues';
-    const data = await request('/api/' + route + '/' + encodeURIComponent(name));
+    let data;
+    try { data = await request('/api/' + route + '/' + encodeURIComponent(name)); }
+    catch (error) {
+      if (kind === 'player' && error.status === 409) {
+        app.replaceChildren(node('p', 'This name matches more than one player. Choose a player from the directory.', 'ui-state'), link('Choose player', 'players', {search:name})); return;
+      }
+      throw error;
+    }
     document.querySelector('h1').textContent = data.name || data.venue || name;
     const content = node('div');
     if (kind === 'team') content.append(avatar(name));
     if (kind === 'player') {
-      content.append(node('p', data.country || 'Country unavailable'));
+      content.append(node('p', data.observed_teams ? 'Observed teams: ' + data.observed_teams.map(t => t.team_name + ' (' + t.first_date + ' to ' + t.last_date + ')').join('; ') + '. Nationality is not inferred.' : data.country || 'Country unavailable'));
       const available = ['T20I', 'ODI', 'Test'].filter(fmt => (data.batting || {})[fmt] || (data.bowling || {})[fmt]);
       tabs(content, available.concat(['T20I', 'ODI', 'Test'].filter(fmt => !available.includes(fmt))).map(fmt => [fmt, fmt]), (target, fmt) => {
         if (data.batting && data.batting[fmt]) { target.append(node('h2', 'Batting')); batting(target, data.batting[fmt]); }
@@ -223,8 +231,9 @@
         const s = data[fmt]; if (!s) { state(target, 'empty'); return; }
         target.append(metrics([['First innings average', s.avg_1st_innings], ['Second innings average', s.avg_2nd_innings], ['Highest', s.highest], ['Lowest', s.lowest], ['Chase win %', s.chase_win_pct], ['Chase samples', s.chase_samples]]));
       });
-      content.append(table('Observed top batters at this venue', ['Player', 'Runs', 'Matches'], (data.top_batters || []).map(p => [link(p.player, 'player-profile', {name: p.player}), p.runs, p.matches])));
-      content.append(table('Observed top bowlers at this venue', ['Player','Wickets','Matches'], (data.top_bowlers || []).map(p => [link(p.player,'player-profile',{name:p.player}),p.wickets,p.matches])));
+      content.append(node('p', data.player_leaderboard_scope || 'Venue leaderboards combine observed formats.'));
+      content.append(table('Observed top batters at this venue', ['Player', 'Runs', 'Matches'], (data.top_batters || []).map(p => [link(p.player, 'player-profile', {name: p.identity_id || p.player}), p.runs, p.matches])));
+      content.append(table('Observed top bowlers at this venue', ['Player','Wickets','Matches'], (data.top_bowlers || []).map(p => [link(p.player,'player-profile',{name:p.identity_id || p.player}),p.wickets,p.matches])));
     }
     prediction(content); app.replaceChildren(content);
   }
@@ -258,7 +267,7 @@
     const fmt = formats('T20I'), category = field('Record', [['most_runs', 'Most runs'], ['most_wickets', 'Most wickets'], ['best_averages', 'Best batting averages'], ['most_hundreds', 'Most hundreds']], 'most_runs');
     filters([fmt, category], async () => {
       const data = await request('/api/records'), rows = (data[category.input.value] || {})[fmt.input.value] || [];
-      return table('Records from available matches', ['Player', 'Runs', 'Wickets', 'Average', 'Hundreds'], rows.map(r => [link(r.player, 'player-profile', {name: r.player}), r.runs, r.wickets, r.average, r.hundreds]));
+      return table('Records from available matches', ['Player', 'Runs', 'Wickets', 'Average', 'Hundreds'], rows.map(r => [link(r.player, 'player-profile', {name: r.identity_id || r.player}), r.runs, r.wickets, r.average, r.hundreds]));
     });
   }
   function search() {
@@ -268,7 +277,7 @@
       if (!term.input.value.trim()) { content.append(node('p', 'Enter a name, venue or match to search.', 'ui-state')); return content; }
       const data = await request('/api/search?' + new URLSearchParams({q: term.input.value.trim(), limit:20}));
       for (const [key, target] of [['players', 'player-profile'], ['teams', 'team-profile'], ['venues', 'venue-profile']]) {
-        content.append(table(key[0].toUpperCase() + key.slice(1), ['Name'], (data[key] || []).map(r => [link(r.name, target, {name:r.name})])));
+        content.append(table(key[0].toUpperCase() + key.slice(1), ['Name'], (data[key] || []).map(r => [link(r.name, target, {name:r.identity_id || r.name})])));
       }
       content.append(node('h2', 'Matching fixtures and results'), fixtureCards(data.matches || [])); return content;
     });
