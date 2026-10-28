@@ -44,7 +44,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T022 | work/t022-lineup-matchup-context | f270c63; protocol e050a22 | Timestamped XI/pitch/home ledger;65tests64pass/one skip;fresh100match matchup ablation, no promotion/invented context |
 
-| T023 | work/t023-fielding-annotations | Local branch tip | Immutable attributed fielding/incident context;68tests67pass/one skip;fictional review example only,no promoted incident features |
+| T023 | work/t023-fielding-annotations | c0a2acc | Immutable attributed fielding/incident context;68tests67pass/one skip;fictional review example only,no promoted incident features |
+
+| T024 | work/t024-media-research | Local branch tip; protocol ed4a874 | Bounded observable-proxy research plan;70tests69pass/one skip;real agreement/benefit unavailable,production feature excluded |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain

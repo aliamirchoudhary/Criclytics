@@ -291,3 +291,11 @@ actor uncertainty from double counting a chance. Tactical text is excluded from
 annotation payloads and private owner scope remains local, not HTTP auth. No
 annotation model feature is enabled; ANNOTATIONS.md records fictional evidence
 and the pending real reviewed observation/prospective validation gates.
+
+## T024 optional proxy research
+
+MEDIA_RESEARCH_PROTOCOL.md preregisters bounded observable media/crowd research,
+not psychological ground truth. tools.media_research validates authored-fixture
+rights/availability/identity windows and agreement arithmetic. Real agreement and
+benefit remain unknown; no collector, paid model or production proxy is enabled.
+This P3 exclusion does not block core historical/manual/replay workflows.

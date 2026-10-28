@@ -1,0 +1,18 @@
+{
+  "protocol": "docs/MEDIA_RESEARCH_PROTOCOL.md preregistered ed4a874",
+  "decision": "excluded_optional_research",
+  "external_calls": 0,
+  "real_match_events": 0,
+  "real_independent_raters": 0,
+  "actual_human_agreement": null,
+  "actual_heldout_log_loss_delta": null,
+  "actual_heldout_brier_delta": null,
+  "fixture_math_only": {
+    "paired": 4,
+    "agreement": 0.75,
+    "kappa": 0.5
+  },
+  "cutoff_checks": true,
+  "production_feature_enabled": false,
+  "limitations": "Fictional arrays test arithmetic only; no real human agreement, psychological ground truth or predictive signal claimed."
+}
