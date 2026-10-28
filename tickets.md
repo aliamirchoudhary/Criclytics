@@ -42,7 +42,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T021](tickets/t021-evaluate-weather-context-without-hindsight-leakage.md) | Evaluate weather context without hindsight leakage | P2 | T016,T019,T020 | Implemented; weather excluded |
 | [T022](tickets/t022-add-lineup-matchup-and-pitch-context-feature-families.md) | Add lineup matchup and pitch-context feature families | P2 | T017,T019,T020 | Implemented; experimental context gated |
 | [T023](tickets/t023-support-attributed-fielding-and-incident-annotations.md) | Support attributed fielding and incident annotations | P2 | T018,T019 | Implemented; real review pending |
-| [T024](tickets/t024-research-media-and-crowd-context-only-if-measurable.md) | Research media and crowd context only if measurable | P3 | T015,T020,T023 | Planned |
+| [T024](tickets/t024-research-media-and-crowd-context-only-if-measurable.md) | Research media and crowd context only if measurable | P3 | T015,T020,T023 | In progress; optional research only |
 | [T025](tickets/t025-implement-one-permitted-budgeted-live-collector.md) | Implement one permitted budgeted live collector | P1 | T006,T014,T016,T017,T018 | Planned |
 | [T026](tickets/t026-reconcile-live-state-corrections-and-replay-parity.md) | Reconcile live state corrections and replay parity | P1 | T018,T019,T025 | Planned |
 | [T027](tickets/t027-serve-versioned-next-delivery-probabilities-and-forecasts.md) | Serve versioned next-delivery probabilities and forecasts | P1 | T020,T026,T014 | Planned |
