@@ -4,6 +4,7 @@ from copy import deepcopy
 from pathlib import Path
 import json
 import threading
+from .json_io import read_json
 
 
 class JsonRepository:
@@ -23,8 +24,7 @@ class JsonRepository:
                 if previous and previous[0] == version:
                     self._entries.move_to_end(path)
                     return previous
-                with path.open(encoding='utf-8') as stream:
-                    data = json.load(stream)
+                data = read_json(path)
                 if not isinstance(data, (dict, list)):
                     raise ValueError('Invalid JSON root')
                 # Build indexes before publishing a new generation under the lock.

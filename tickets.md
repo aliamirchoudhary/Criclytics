@@ -26,7 +26,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T006](tickets/t006-extract-safe-data-repositories-and-bounded-cache-refresh.md) | Extract safe data repositories and bounded cache refresh | P1 | T004,T005 | Implemented; local review pending |
 | [T007](tickets/t007-correct-ranking-and-fixture-freshness-provenance.md) | Correct ranking and fixture freshness/provenance | P1 | T004,T006 | Implemented; local review pending |
 | [T008](tickets/t008-contain-misleading-probabilities-and-validate-legacy-contracts.md) | Contain misleading probabilities and validate legacy contracts | P0 | T000,T004 | Implemented; local review pending |
-| [T009](tickets/t009-correct-delivery-and-innings-cricket-aggregation.md) | Correct delivery and innings cricket aggregation | P0 | T008 | Planned |
+| [T009](tickets/t009-correct-delivery-and-innings-cricket-aggregation.md) | Correct delivery and innings cricket aggregation | P0 | T008 | Implemented; local review pending |
 | [T010](tickets/t010-add-golden-cricket-fixtures-and-data-schema-contracts.md) | Add golden cricket fixtures and data-schema contracts | P1 | T004,T009 | Planned |
 | [T011](tickets/t011-repair-ui-behavior-empty-states-and-accessibility.md) | Repair UI behavior empty states and accessibility | P1 | T004,T007,T008 | Planned |
 | [T012](tickets/t012-consolidate-frontend-initialization-and-api-configuration.md) | Consolidate frontend initialization and API configuration | P2 | T003,T005,T011 | Planned |

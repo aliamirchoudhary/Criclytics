@@ -153,3 +153,18 @@ Offline measured warm list/detail: 347/8.49 ms, one processed parse; resident
 working set ~250 MB with engine disabled. Cold list ~3.12 seconds. These are local
 Windows samples, not hosted capacity guarantees; evidence is in audit/repositories-
 2026-10-28.json. Keep initial deployment to one worker until measured on its host.
+
+## T009 scoring candidate
+
+pipeline/scoring.py is the shared per-innings scorer for raw detail and rebuilds;
+pipeline/aggregation.py fills summary tables from explicit innings identities.
+`python -m criclytics_app.pipeline.cricsheet --output <fresh-directory>` delegates
+to streaming rebuild.py. It never chooses data/processed as implicit output.
+The full verified local candidate is build/data-v2-final (ignored data); serving
+continues to select the existing processed artifacts until schema/migration review.
+See SCORING_CONTRACT.md and audit/aggregation-v2-2026-10-28.json for deliberate
+statistical changes. There is no automatic production data promotion.
+
+json_io.py centralizes atomic publication and shared-delete Windows readers;
+bounded retry handles transient Windows sharing failures. Linux uses normal
+file handles with atomic rename. A failed write leaves the old artifact intact.

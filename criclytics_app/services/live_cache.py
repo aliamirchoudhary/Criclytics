@@ -9,30 +9,7 @@ import uuid
 from contextlib import contextmanager
 
 from .repository import safe_file
-
-
-def atomic_json(path, data):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, temporary = tempfile.mkstemp(prefix='.cache-', dir=path.parent)
-    try:
-        with os.fdopen(descriptor, 'w', encoding='utf-8') as stream:
-            json.dump(data, stream, ensure_ascii=False)
-            stream.flush()
-            os.fsync(stream.fileno())
-        for attempt in range(10):
-            try:
-                os.replace(temporary, path)
-                break
-            except PermissionError:
-                # Windows readers can briefly deny delete-sharing. Never truncate
-                # the existing last-good file while waiting for them to close.
-                if attempt == 9:
-                    raise
-                time.sleep(0.01)
-    finally:
-        if os.path.exists(temporary):
-            os.unlink(temporary)
+from .json_io import atomic_json, read_json
 
 
 class LiveCache:
@@ -46,8 +23,7 @@ class LiveCache:
         path = safe_file(self.directory, filename)
         candidates = []
         try:
-            with path.open(encoding='utf-8') as stream:
-                raw = json.load(stream)
+            raw = read_json(path)
             candidates.append(raw if isinstance(raw, dict) and raw.get('_cache_version') == 1
                               else {'written_at': path.stat().st_mtime, 'data': raw})
         except (OSError, ValueError):

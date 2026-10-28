@@ -9,6 +9,7 @@ from unittest.mock import Mock, patch
 from criclytics_app import create_app
 from criclytics_app.services.repository import JsonRepository
 from criclytics_app.services.live_cache import LiveCache, atomic_json
+from criclytics_app.services.json_io import read_json
 from criclytics_app.services.legacy import fetch_cricapi
 
 
@@ -40,7 +41,7 @@ class RepositoryTests(unittest.TestCase):
                     atomic_json(path, {'value': i, 'padding': 'x' * 1000})
             def reader():
                 for _ in range(100):
-                    self.assertIn('value', json.loads(path.read_text()))
+                    self.assertIn('value', read_json(path))
             with ThreadPoolExecutor(max_workers=4) as pool:
                 futures = [pool.submit(writer)] + [pool.submit(reader) for _ in range(3)]
                 for future in futures:

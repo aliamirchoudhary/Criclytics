@@ -44,3 +44,18 @@ Network source selection remains T015/T016; provider account work remains pendin
 
 Prediction math/schema mismatches are contained by withdrawal, not described as
 validated estimates. T020/T027 must satisfy numeric invariants before release.
+
+T009 in progress on work/t009-cricket-aggregation (base e8abb42): common innings
+scorer + streaming versioned rebuild, hand rules and attributed 2024 final checks
+implemented. Final full-corpus candidate is building under build/data-v2-verified;
+original processed data remains selected. Found/fixed transient Windows reader
+sharing denial during expanded checks. No remote writes/deployments.
+
+| T009 | work/t009-cricket-aggregation | See local branch tip | 6,651/6,651 accepted, zero rejects; recovered 167 draws/175 no-results/63 ties; 4,834 observed players; original artifacts unchanged; hashes verified; 35 tests (34 pass, one skip) |
+
+Verified candidate: build/data-v2-final; not promoted to serving. Full difference
+report: docs/audit/aggregation-v2-2026-10-28.json; real-scorecard evidence alongside.
+Earlier build/data-v2-smoke/full are development candidates; data-v2-verified was
+interrupted during refinement and has no final manifest. Preserve these artifacts;
+only data-v2-final is the verified T009 candidate. Added native Windows shared-delete
+reads plus bounded exponential write retry after contention failed short retries.

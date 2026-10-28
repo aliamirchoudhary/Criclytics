@@ -48,7 +48,7 @@ from tqdm import tqdm
 BASE_DIR = str(PROJECT_ROOT)
 RAW_DIR        = os.path.join(BASE_DIR, "data", "raw")
 OUT_DIR        = os.path.join(BASE_DIR, "data", "processed")
-os.makedirs(OUT_DIR, exist_ok=True)
+
 
 FORMAT_DIRS = {
     "Test": os.path.join(RAW_DIR, "tests_male_json"),
@@ -201,146 +201,8 @@ def dismissal_text(delivery, bowler):
 
 
 def build_mega_enriched_view(match):
-    """
-    Mirror of app.py's build_cricsheet_match_view to ensure 100% data parity.
-    Calculates detailed innings, partnerships, and match stats.
-    """
-    info = match.get("info") or {}
-    innings_views = []
-    all_partnerships = []
-    top_scorer = None
-    best_bowler = None
-
-    teams_list = get_teams(match) # Safe helper
-    for inning_index, inning in enumerate(match.get("innings") or []):
-        batting_team = inning.get("team") or ""
-        bowling_team = next((team for team in teams_list if team != batting_team), "")
-        batting_map = {}
-        bowling_map = {}
-        over_tracker = defaultdict(lambda: {"runs": 0, "balls": 0})
-        innings_runs = 0
-        wickets = 0
-        legal_balls = 0
-        boundaries = 0
-        dot_balls = 0
-        partnership_runs = 0
-        fall_of_wickets = []
-        order = 0
-
-        for over in inning.get("overs", []):
-            over_num = over.get("over", 0)
-            for delivery in over.get("deliveries", []):
-                batter = str(delivery.get("batter") or "").strip()
-                bowler = str(delivery.get("bowler") or "").strip()
-                non_striker = str(delivery.get("non_striker") or "").strip()
-                runs = delivery.get("runs") or {}
-                extras = delivery.get("extras") or {}
-                wickets_info = delivery.get("wickets") or []
-
-                batter_runs = int(runs.get("batter") or 0)
-                total_runs = int(runs.get("total") or 0)
-                wides = int(extras.get("wides") or 0)
-                noballs = int(extras.get("noballs") or 0)
-                legal_ball = (wides == 0 and noballs == 0)
-
-                if batter and batter not in batting_map:
-                    order += 1
-                    batting_map[batter] = {"batsman": batter, "dismissal": "not out", "r": 0, "b": 0, "4s": 0, "6s": 0, "sr": 0, "order": order}
-
-                if bowler and bowler not in bowling_map:
-                    bowling_map[bowler] = {"bowler": bowler, "o": 0, "m": 0, "r": 0, "w": 0, "eco": 0, "wd": 0, "nb": 0}
-
-                innings_runs += total_runs
-                partnership_runs += total_runs
-                if legal_ball:
-                    legal_balls += 1
-                    if total_runs == 0: dot_balls += 1
-                if batter_runs in (4, 6): boundaries += 1
-
-                if batter and batter in batting_map:
-                    batting_map[batter]["r"] += batter_runs
-                    if legal_ball: batting_map[batter]["b"] += 1
-                    if batter_runs == 4: batting_map[batter]["4s"] += 1
-                    if batter_runs == 6: batting_map[batter]["6s"] += 1
-
-                if bowler and bowler in bowling_map:
-                    bowler_runs = batter_runs + wides + noballs
-                    bowling_map[bowler]["r"] += bowler_runs
-                    if legal_ball: bowling_map[bowler]["o"] += 1
-                    bowling_map[bowler]["wd"] += wides
-                    bowling_map[bowler]["nb"] += noballs
-                    over_tracker[(bowler, over_num)]["runs"] += bowler_runs
-                    if legal_ball: over_tracker[(bowler, over_num)]["balls"] += 1
-
-                if wickets_info:
-                    wicket = wickets_info[0] or {}
-                    kind = wicket.get("kind") or ""
-                    player_out = str(wicket.get("player_out") or batter or "").strip()
-                    wickets += 1
-                    dismissal = dismissal_text(delivery, bowler) # Uses existing helper
-                    if player_out in batting_map:
-                        batting_map[player_out]["dismissal"] = dismissal
-                    if bowler and bowler in bowling_map and kind.lower() not in ("run out", "retired hurt", "retired out"):
-                        bowling_map[bowler]["w"] += 1
-
-                    ov_f = f"{legal_balls // 6}.{legal_balls % 6}"
-                    fall_of_wickets.append(f"{innings_runs}/{wickets} ({player_out}, {ov_f} ov)")
-                    all_partnerships.append({
-                        "innings": inning_index + 1,
-                        "team": batting_team,
-                        "wicket_no": wickets,
-                        "names": " & ".join([n for n in [batter, non_striker] if n]),
-                        "runs": partnership_runs,
-                        "score": innings_runs,
-                    })
-                    partnership_runs = 0
-
-        batting_rows = sorted(batting_map.values(), key=lambda x: x["order"])
-        bowling_rows = list(bowling_map.values())
-
-        for row in batting_rows:
-            row["sr"] = round((row["r"] * 100.0 / row["b"]), 1) if row["b"] else 0
-        for row in bowling_rows:
-            balls = row["o"]
-            row["m"] = sum(1 for (b_n, o_n), s in over_tracker.items() if b_n == row["bowler"] and s["balls"] == 6 and s["runs"] == 0)
-            row["o"] = f"{balls // 6}.{balls % 6}"
-            row["eco"] = round((row["r"] * 6.0 / balls), 1) if balls else 0
-
-        innings_view = {
-            "team": batting_team,
-            "batting": batting_rows,
-            "bowling": bowling_rows,
-            "fall_of_wickets": fall_of_wickets,
-            "total": innings_runs, "wickets": wickets, "overs": f"{legal_balls // 6}.{legal_balls % 6}",
-            "boundaries": boundaries, "dot_balls": dot_balls,
-        }
-
-        if batting_rows:
-            best_bat = max(batting_rows, key=lambda r: (r["r"], -r["b"]))
-            innings_view["top_scorer"] = best_bat
-            if not top_scorer or best_bat["r"] > top_scorer["runs"]:
-                top_scorer = {"name": best_bat["batsman"], "runs": best_bat["r"], "team": batting_team}
-
-        if bowling_rows:
-            best_bowl = max(bowling_rows, key=lambda r: (r["w"], -r["r"], r["m"]))
-            innings_view["best_bowler"] = best_bowl
-            if not best_bowler or (best_bowl["w"], -best_bowl["r"]) > (best_bowler["wickets"], -best_bowler["runs"]):
-                best_bowler = {"name": best_bowl["bowler"], "wickets": best_bowl["w"], "runs": best_bowl["r"], "overs": best_bowl["o"], "team": bowling_team}
-
-        innings_views.append(innings_view)
-
-    partnerships = sorted(all_partnerships, key=lambda x: (-x["runs"], x["innings"], x["wicket_no"]))[:5]
-
-    return {
-        "innings": innings_views,
-        "partnerships": partnerships,
-        "match_stats": {
-            "top_scorer": top_scorer,
-            "best_bowler": best_bowler,
-            "innings": [ {"boundaries": i["boundaries"], "dot_balls": i["dot_balls"]} for i in innings_views ]
-        }
-    }
-
+    from .scoring import score_match
+    return match.get('_scored') or score_match(match)
 
 
 def build_completed_matches(matches):
@@ -361,8 +223,6 @@ def build_completed_matches(matches):
 
         # Only include if there's a winner or it's a tie
         winner = outcome.get("winner")
-        if not winner and "by" not in outcome:
-            continue
 
         teams = get_teams(match)
         if len(teams) < 2:
@@ -374,8 +234,8 @@ def build_completed_matches(matches):
 
         # Build match record
         match_id = match.get("_file", "").replace(".json", "")
-        fmt = info.get("match_type", "Unknown")
-        venue = info.get("city", "Unknown Venue")
+        fmt = match.get("_format") or info.get("match_type", "Unknown")
+        venue = get_venue(match)
         series = info.get("event", {}).get("name", "")
 
         # Build status text
@@ -390,23 +250,16 @@ def build_completed_matches(matches):
         else:
             status_text = f"{winner} won"
 
-        # Get scores from innings summary
-        innings_summary = match.get("innings", [])
-        scores = []
-        for inning in innings_summary:
-            inning_team = inning.get("team", "")
-            runs = 0; wickets = 0; overs = 0
-            for over in inning.get("overs", []):
-                for delivery in over.get("deliveries", []):
-                    runs += delivery.get("runs", {}).get("total", 0)
-                    if delivery.get("wickets"):
-                        wickets += 1
-                overs = over.get("over", 0)
-            scores.append({"team": inning_team, "r": runs, "w": wickets, "o": overs})
+        if not winner:
+            status_text = outcome.get('result') or 'no result'
+        scored = build_mega_enriched_view(match)
+        scores = [{'team': inn['team'], 'r': inn['total'], 'w': inn['wickets'],
+                   'o': inn['overs'], 'inning': inn['team'] + ' Innings ' + str(inn['innings_id']),
+                   'super_over': inn['super_over']} for inn in scored['innings']]
 
         # MEGA-ENRICHMENT: Build full scorecard and officials
         officials = info.get("officials", {})
-        mega_view = build_mega_enriched_view(match)
+        mega_view = scored
 
         completed.append({
             "id": match_id,
@@ -435,7 +288,7 @@ def build_completed_matches(matches):
             "toss": format_toss_text(info.get("toss", {})),
             "toss_details": info.get("toss", {}),
             "officials": officials,
-            "match_referee": (officials or {}).get("match_referees", [""])[0] if isinstance(officials, dict) else "",
+            "match_referee": ((officials or {}).get("match_referees") or [""])[0] if isinstance(officials, dict) else "",
             "umpires": (officials or {}).get("umpires", []) if isinstance(officials, dict) else [],
             "tv_umpires": (officials or {}).get("tv_umpires", []) if isinstance(officials, dict) else [],
             "reserve_umpires": (officials or {}).get("reserve_umpires", []) if isinstance(officials, dict) else [],
@@ -523,7 +376,7 @@ def build_raw_accumulators(matches):
     # Key: (team_a, team_b, format) — always sorted alphabetically
     h2h_data = defaultdict(lambda: {
         "matches": 0, "team_a_wins": 0, "team_b_wins": 0,
-        "ties": 0, "no_result": 0, "last_result": ""
+        "ties": 0, "draws": 0, "no_result": 0, "last_result": ""
     })
 
     # ── Team format stats ─────────────────────────────────────────────────────
@@ -552,320 +405,27 @@ def build_raw_accumulators(matches):
     })
 
     # ── Per-match tracker ─────────────────────────────────────────────────────
-    # For tracking innings scores and match-level batter stats
-    # Key: (match_file, batter) — score in this innings
-    match_batter_score = defaultdict(int)
-    match_batter_balls = defaultdict(int)
-    match_batter_fours = defaultdict(int)
-    match_batter_sixes = defaultdict(int)
-    match_batter_dismissed = defaultdict(bool)
-    match_batter_inning_seen = defaultdict(set)  # which innings a batter appeared in
-
-    # ── Player → country mapping (from info.players team assignments) ─────────
-    # Key: player_name → country (team name)
     player_country = {}
-
-    for match in tqdm(matches, desc="  Processing"):
-        fmt    = match["_format"]
-        mfile  = match["_file"]
-        venue  = get_venue(match)
-        teams  = get_teams(match)
-        season = get_season(match)
-        winner = get_winner(match)
-        outcome = get_outcome(match)
-        toss   = get_toss(match)
-        innings_list = match.get("innings", [])
-
-        # ── Map players to their country from info.players ────────────────────
-        info_players = get_info(match).get("players", {})
-        for team_name, player_list in info_players.items():
-            for p in player_list:
-                if p and p not in player_country:
-                    player_country[p] = team_name
-
-        # ── Match-level team/H2H stats ────────────────────────────────────────
-        for team in teams:
-            team_fmt[(team, fmt)]["matches"] += 1
-            team_venue[(team, fmt, venue)]["matches"] += 1
-
-        if len(teams) == 2:
-            t_a, t_b = sorted(teams)
-            key = (t_a, t_b, fmt)
-            h2h_data[key]["matches"] += 1
-            if winner == t_a:
-                h2h_data[key]["team_a_wins"] += 1
-                h2h_data[key]["last_result"] = f"{t_a} won"
-            elif winner == t_b:
-                h2h_data[key]["team_b_wins"] += 1
-                h2h_data[key]["last_result"] = f"{t_b} won"
-            elif outcome.get("result") in ("tie", "draw"):
-                h2h_data[key]["ties"] += 1
-                h2h_data[key]["last_result"] = outcome.get("result", "")
-            else:
-                h2h_data[key]["no_result"] += 1
-                h2h_data[key]["last_result"] = "no result"
-
-        for team in teams:
-            if winner == team:
-                team_fmt[(team, fmt)]["won"] += 1
-                team_venue[(team, fmt, venue)]["won"] += 1
-            elif winner and winner != team:
-                team_fmt[(team, fmt)]["lost"] += 1
-                team_venue[(team, fmt, venue)]["lost"] += 1
-            elif outcome.get("result") == "tie":
-                team_fmt[(team, fmt)]["tied"] += 1
-            elif not winner:
-                team_fmt[(team, fmt)]["nr"] += 1
-
-        # ── Toss venue stats ──────────────────────────────────────────────────
-        venue_data[venue]["matches"] += 1
-        venue_data[venue]["formats"].add(fmt)
-        toss_winner = toss.get("winner")
-        if toss_winner:
-            venue_data[venue]["toss_total"] += 1
-            if toss_winner == winner:
-                venue_data[venue]["toss_winner_won"] += 1
-
-        # ── Batting first / chasing outcome ──────────────────────────────────
-        if len(innings_list) >= 2 and winner:
-            batting_first_team = innings_list[0].get("team", "")
-            chasing_team_won = (winner != batting_first_team)
-            venue_data[venue]["chase_results"].append(chasing_team_won)
-
-        # ── Innings-level venue scoring ───────────────────────────────────────
-        for i_idx, inning in enumerate(innings_list):
-            bat_team = inning.get("team", "")
-            inn_runs = 0; inn_wkts = 0; inn_overs = 0
-            pp_runs = 0; pp_wkts = 0
-            mid_runs = 0; mid_wkts = 0
-            death_runs = 0; death_wkts = 0
-
-            for over_obj in inning.get("overs", []):
-                ov = over_obj.get("over", 0)
-                for d in over_obj.get("deliveries", []):
-                    r = d.get("runs", {}).get("total", 0)
-                    inn_runs += r
-                    wk = len(d.get("wickets", []))
-                    inn_wkts += wk
-                    # Phase split (T20I)
-                    if fmt == "T20I":
-                        if ov < 6:
-                            pp_runs += r; pp_wkts += wk
-                        elif ov < 15:
-                            mid_runs += r; mid_wkts += wk
-                        else:
-                            death_runs += r; death_wkts += wk
-                    inn_overs = ov + 1
-
-            batting_first = (i_idx == 0)
-            venue_data[venue]["innings"].append({
-                "total": inn_runs, "wickets": inn_wkts,
-                "overs": inn_overs, "format": fmt,
-                "batting_first": batting_first
-            })
-            team_fmt[(bat_team, fmt)]["total_runs"]   += inn_runs
-            team_fmt[(bat_team, fmt)]["total_innings"] += 1
-            team_fmt[(bat_team, fmt)]["total_wkts"]   += inn_wkts
-            team_venue[(bat_team, fmt, venue)]["total_runs"]    += inn_runs
-            team_venue[(bat_team, fmt, venue)]["innings_count"] += 1
-            if inn_runs > team_venue[(bat_team, fmt, venue)]["highest"]:
-                team_venue[(bat_team, fmt, venue)]["highest"] = inn_runs
-
-            if fmt == "T20I":
-                if pp_runs:
-                    venue_data[venue]["powerplay_runs"].append(pp_runs)
-                    venue_data[venue]["powerplay_wkts"].append(pp_wkts)
-                if mid_runs:
-                    venue_data[venue]["middle_runs"].append(mid_runs)
-                    venue_data[venue]["middle_wkts"].append(mid_wkts)
-                if death_runs:
-                    venue_data[venue]["death_runs"].append(death_runs)
-                    venue_data[venue]["death_wkts"].append(death_wkts)
-
-        # ── Delivery-level batting and bowling ────────────────────────────────
-        # Reset per-match batter trackers for this match
-        match_batters_this = defaultdict(lambda: {
-            "runs": 0, "balls": 0, "fours": 0, "sixes": 0, "dismissed": False
-        })
-        match_bowlers_over = defaultdict(lambda: defaultdict(int))  # bowl -> over -> runs
-
-        opp_map = {}
-        for team in teams:
-            opp = next((t for t in teams if t != team), "")
-            opp_map[team] = opp
-
-        for i_idx, over_num, d, bat_team, bowl_team in iter_deliveries(match):
-            batter  = d.get("batter", "")
-            bowler  = d.get("bowler", "")
-            runs_b  = d.get("runs", {}).get("batter", 0)
-            runs_tot = d.get("runs", {}).get("total", 0)
-            is_wd_nb = is_wide_or_noball(d)
-            wk_kind  = dismissal_kind(d)
-            wickets  = d.get("wickets", [])
-
-            opposition = opp_map.get(bat_team, "")
-            bk = (batter, fmt)
-            bvk = (batter, fmt, opposition)
-            bvnk = (batter, fmt, venue)
-            byk = (batter, fmt, season) if season else None
-
-            # ── Batter runs ───────────────────────────────────────────────────
-            match_batters_this[batter]["runs"]   += runs_b
-            match_batters_this[batter]["balls"]  += (0 if is_wd_nb else 1)
-            if runs_b == 4:
-                match_batters_this[batter]["fours"] += 1
-                bat[bk]["fours"] += 1
-            if runs_b == 6:
-                match_batters_this[batter]["sixes"] += 1
-                bat[bk]["sixes"] += 1
-
-            bat[bk]["runs"]  += runs_b
-            bat[bk]["balls"] += (0 if is_wd_nb else 1)
-            bat[bk]["matches"].add(mfile)
-
-            bat_vs[bvk]["runs"]   += runs_b
-            bat_vs[bvk]["balls"]  += (0 if is_wd_nb else 1)
-            bat_venue[bvnk]["runs"]  += runs_b
-            bat_venue[bvnk]["balls"] += (0 if is_wd_nb else 1)
-            if byk:
-                bat_year[byk]["runs"]  += runs_b
-                bat_year[byk]["balls"] += (0 if is_wd_nb else 1)
-                bat_year[byk]["matches"].add(mfile)
-
-            venue_bat[(venue, batter)]["runs"]   += runs_b
-            venue_bat[(venue, batter)]["balls"]  += (0 if is_wd_nb else 1)
-            venue_bat[(venue, batter)]["matches"].add(mfile)
-
-            # ── Wicket kind for venue stats ───────────────────────────────────
-            for wk in wickets:
-                venue_data[venue]["wicket_kinds"][wk.get("kind", "other")] += 1
-
-            # ── Dismissal ─────────────────────────────────────────────────────
-            for wk in wickets:
-                player_out = wk.get("player_out", "")
-                k = wk.get("kind", "")
-                if k not in ("run out", "obstructing the field", "retired hurt"):
-                    # Bowler gets credit
-                    bowl[(bowler, fmt)]["wickets"] += 1
-                    bowl[(bowler, fmt)]["matches"].add(mfile)
-                    venue_bowl[(venue, bowler)]["wickets"] += 1
-                    venue_bowl[(venue, bowler)]["matches"].add(mfile)
-                # Batter dismissed
-                if player_out == batter or not player_out:
-                    match_batters_this[batter]["dismissed"] = True
-
-            # ── Bowler runs ────────────────────────────────────────────────────
-            if not is_wide_or_noball(d) or d.get("extras", {}).get("noballs"):
-                bowl[(bowler, fmt)]["balls"] += 1
-                venue_bowl[(venue, bowler)]["balls"] += 1
-            bowl[(bowler, fmt)]["runs"] += runs_tot
-            bowl[(bowler, fmt)]["matches"].add(mfile)
-            venue_bowl[(venue, bowler)]["runs"] += runs_tot
-            match_bowlers_over[bowler][over_num] += runs_tot
-
-        # ── Post-match: finalise batter innings ────────────────────────────────
-        # We need per-inning scores per batter — approximate by using per-match totals
-        for batter, stats in match_batters_this.items():
-            runs = stats["runs"]
-            dismissed = stats["dismissed"]
-            fmt2 = fmt
-            bk = (batter, fmt2)
-            bvk_inner = (batter, fmt2, opp_map.get("", ""))
-
-            # Find batter's team from match
-            player_team = ""
-            for team, players in get_info(match).get("players", {}).items():
-                if batter in players:
-                    player_team = team
-                    break
-            opposition2 = opp_map.get(player_team, "")
-            bvk = (batter, fmt2, opposition2)
-            bvnk = (batter, fmt2, venue)
-            byk = (batter, fmt2, season) if season else None
-
-            bat[bk]["innings"] += 1
-            if dismissed:
-                bat[bk]["dismissals"] += 1
-                bat_vs[bvk]["dismissals"] += 1
-                bat_venue[bvnk]["dismissals"] += 1
-                if byk: bat_year[byk]["dismissals"] += 1
-            else:
-                bat[bk]["not_outs"] += 1
-
-            bat_vs[bvk]["innings"] += 1
-            bat_venue[bvnk]["innings"] += 1
-            if byk: bat_year[byk]["innings"] += 1
-            venue_bat[(venue, batter)]["matches"]  # already added
-
-            if runs >= 100:
-                bat[bk]["hundreds"] += 1
-                bat_vs[bvk]["hundreds"] += 1
-                bat_venue[bvnk]["hundreds"] += 1
-                if byk: bat_year[byk]["hundreds"] += 1
-                venue_bat[(venue, batter)]["hundreds"] += 1
-            elif runs >= 50:
-                bat[bk]["fifties"] += 1
-                bat_vs[bvk]["fifties"] += 1
-                bat_venue[bvnk]["fifties"] += 1
-                if byk: bat_year[byk]["fifties"] += 1
-
-            if runs > bat[bk]["highest"]:
-                bat[bk]["highest"] = runs
-            if runs > bat_vs[bvk]["highest"]:
-                bat_vs[bvk]["highest"] = runs
-            if runs > bat_venue[bvnk]["highest"]:
-                bat_venue[bvnk]["highest"] = runs
-            if runs > venue_bat[(venue, batter)]["highest"]:
-                venue_bat[(venue, batter)]["highest"] = runs
-
-            bat[bk]["innings_scores"].append(runs)
-
-        # ── Post-match: finalise bowler innings ────────────────────────────────
-        # Maiden overs
-        for bowler, over_runs in match_bowlers_over.items():
-            bk = (bowler, fmt)
-            bowl[bk]["innings"] += 1
-            innings_wkts = 0
-            for o_runs in over_runs.values():
-                if o_runs == 0:
-                    bowl[bk]["maidens"] += 1
-            # Track best bowling
-            # We'll compute best figures at output stage from accumulated data
-
-        # ── Venue bowler innings ──────────────────────────────────────────────
-        for batter in match_batters_this:
-            venue_bat[(venue, batter)]["matches"].add(mfile)
-
-    return {
-        "bat": bat, "bowl": bowl,
-        "bat_vs": bat_vs, "bat_venue": bat_venue, "bat_year": bat_year,
-        "venue_data": venue_data,
-        "h2h_data": h2h_data,
-        "team_fmt": team_fmt, "team_venue": team_venue,
-        "venue_bat": venue_bat, "venue_bowl": venue_bowl,
-        "player_country": player_country,
-    }
+    from .aggregation import aggregate
+    return aggregate(matches, locals())
 
 
-# ════════════════════════════════════════════════════════════════════════════
-# SECTION 2 — COMPUTE DERIVED STATS
-# ════════════════════════════════════════════════════════════════════════════
 
 def avg(runs, dismissals):
     if dismissals == 0:
-        return round(runs, 1) if runs else 0.0
+        return None
     return round(runs / dismissals, 2)
 
 def sr(runs, balls):
-    if balls == 0: return 0.0
+    if balls == 0: return None
     return round(runs / balls * 100, 2)
 
 def econ(runs, balls):
-    if balls == 0: return 0.0
+    if balls == 0: return None
     return round(runs / balls * 6, 2)
 
 def bowl_avg(runs, wickets):
-    if wickets == 0: return 0.0
+    if wickets == 0: return None
     return round(runs / wickets, 2)
 
 
@@ -881,7 +441,7 @@ def build_players_index(bat, bowl, player_country=None):
         all_players.add(player)
 
     players = {}
-    for player in all_players:
+    for player in sorted(all_players):
         entry = {
             "name": player,
             "country": player_country.get(player, ""),
@@ -908,10 +468,12 @@ def build_players_index(bat, bowl, player_country=None):
                     "fours":      b["fours"],
                     "sixes":      b["sixes"],
                     "not_outs":   b["not_outs"],
+                    "dismissals": b["dismissals"],
+                    "balls": b["balls"],
                 }
 
             bwk = (player, fmt)
-            if bwk in bowl and bowl[bwk]["wickets"] > 0:
+            if bwk in bowl and bowl[bwk]["innings"] > 0:
                 bw = bowl[bwk]
                 entry["formats"].append(fmt) if fmt not in entry["formats"] else None
                 entry["bowling"][fmt] = {
@@ -924,13 +486,14 @@ def build_players_index(bat, bowl, player_country=None):
                     "economy":   econ(bw["runs"], bw["balls"]),
                     "maidens":   bw["maidens"],
                     "five_wkts": bw["five_wkts"],
+                    "best_wkts": bw["best_wkts"],
+                    "best_runs": bw["best_runs"],
                 }
 
         # Recent form — last 10 innings scores across all formats
-        all_scores = []
-        for fmt in ("Test", "ODI", "T20I"):
-            all_scores.extend(bat.get((player, fmt), {}).get("innings_scores", []))
-        entry["recent_form"] = all_scores[-10:]
+        form = [event for fmt in ('Test', 'ODI', 'T20I')
+                for event in bat.get((player, fmt), {}).get('form_events', [])]
+        entry['recent_form'] = [event[3] for event in sorted(form)[-10:]]
 
         # Only include players with meaningful data
         total_matches = sum(
@@ -1011,6 +574,7 @@ def build_h2h(h2h_data):
             "team_a_wins": stats["team_a_wins"],
             "team_b_wins": stats["team_b_wins"],
             "ties":        stats["ties"],
+            "draws": stats.get("draws", 0),
             "no_result":   stats["no_result"],
             "team_a_win_pct": round(stats["team_a_wins"] / total * 100, 1) if total else 0,
             "team_b_win_pct": round(stats["team_b_wins"] / total * 100, 1) if total else 0,
@@ -1029,6 +593,7 @@ def build_team_format_stats(team_fmt):
             "won":        stats["won"],
             "lost":       stats["lost"],
             "tied":       stats["tied"],
+            "drawn": stats.get("drawn", 0),
             "no_result":  stats["nr"],
             "win_pct":    round(stats["won"] / m * 100, 1) if m else 0,
             "avg_score":  round(stats["total_runs"] / stats["total_innings"], 1)
@@ -1059,7 +624,7 @@ def build_team_venue_stats(team_venue):
 
 
 def _safe_avg(lst):
-    return round(sum(lst) / len(lst), 1) if lst else 0
+    return round(sum(lst) / len(lst), 1) if lst else None
 
 def build_venue_stats(venue_data):
     print("  Building venue_stats …")
@@ -1098,7 +663,7 @@ def build_venue_stats(venue_data):
         result[venue] = {
             "venue":       venue,
             "matches":     total_matches,
-            "formats":     list(data["formats"]),
+            "formats":     sorted(data["formats"]),
             "t20i": {
                 "avg_1st_innings": _safe_avg(fmt_innings("T20I", True)),
                 "avg_2nd_innings": _safe_avg(fmt_innings("T20I", False)),
@@ -1124,6 +689,19 @@ def build_venue_stats(venue_data):
             "toss_winner_win_pct": toss_win_pct,
             "wicket_types":     wkt_types,
         }
+        for fmt, label in (('T20I', 't20i'), ('ODI', 'odi'), ('Test', 'test')):
+            target = result[venue].setdefault(label, {})
+            chase = data.get('chase_by_format', {}).get(fmt, [])
+            target['chase_samples'] = len(chase)
+            target['chase_win_pct'] = round(sum(chase) / len(chase) * 100, 2) if chase else None
+            target['innings_by_number'] = {str(number): _safe_avg([i['total'] for i in innings
+                if i['format'] == fmt and i['innings_id'] == number]) for number in (1, 2, 3, 4)}
+            if fmt == 'Test':
+                target['chase_win_pct'] = None
+                target.pop('avg_1st_innings', None)
+                target.pop('avg_2nd_innings', None)
+        # No all-format chase likelihood: choose a format explicitly.
+        result[venue]['chase_win_pct'] = None
     return result
 
 
@@ -1346,45 +924,9 @@ def save_all(accumulators, matches):
 # ════════════════════════════════════════════════════════════════════════════
 
 def main():
-    print("=" * 60)
-    print("  Cricklytics — Cricsheet Pipeline")
-    print("=" * 60)
-
-    # Verify folders exist
-    missing = []
-    for fmt, folder in FORMAT_DIRS.items():
-        if not os.path.isdir(folder):
-            missing.append(f"  ✗  {folder}  ({fmt})")
-    if missing:
-        print("\n⚠  Missing raw data folders:")
-        for m in missing:
-            print(m)
-        print("\nPlease unzip your Cricsheet downloads into data/raw/ like this:")
-        print("  data/raw/tests_male_json/")
-        print("  data/raw/odis_male_json/")
-        print("  data/raw/t20s_male_json/")
-        return
-
-    print(f"\nOutput folder: {OUT_DIR}")
-
-    start = datetime.now()
-    matches       = load_all_matches()
-    accumulators  = build_raw_accumulators(matches)
-    completed_matches = build_completed_matches(matches)
-    save_all(accumulators, matches)
-
-    # Save completed matches for frontend
-    path = os.path.join(OUT_DIR, "completed_matches.json")
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump({"data": completed_matches}, f, ensure_ascii=False, indent=2, default=str)
-    size_kb = os.path.getsize(path) / 1024
-    print(f"\n[4/4] Saving output files …")
-    print(f"  ✓  {'completed_matches.json':<35} {size_kb:>8.1f} KB")
-
-    elapsed = (datetime.now() - start).seconds
-    print(f"\n✅  Done in {elapsed}s — all files written to data/processed/")
-    print("=" * 60)
+    from .rebuild import main as rebuild_main
+    rebuild_main()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
