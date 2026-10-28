@@ -98,4 +98,6 @@ T017A resumed after the user stop: isolated build/player-ids-v1-final is opt-in 
 
 | T027 | work/t027-versioned-forecasts | 7e3122a | Default-off local shadow API/immutable ledger;84tests83pass/one skip;100readers reuse1inference,~63ms p95;no promotion |
 
-| T028 | work/t028-prediction-workspace | Local branch tip |18th public page;90layoutcases+workspace correction/stale/retry/expiry flows;84tests83pass/one skip;local shadow only |
+| T028 | work/t028-prediction-workspace | 381c27d |18th public page;90layoutcases+workspace correction/stale/retry/expiry flows;84tests83pass/one skip;local shadow only |
+
+| T029 | work/t029-coach-scouting | Local branch tip |Identity scouting/private memory+export;95layoutcases+coach simulations;86tests85pass/one skip;real coach feedback pending |

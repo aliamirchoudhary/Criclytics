@@ -3,7 +3,7 @@
 html { font-size:16px; }
 body { background:#0a1931; color:#f6fafd; line-height:1.6; min-height:100vh; }
 a { color:inherit; text-decoration:none; }
-input, select, button { font:inherit; }
+input, select, button, textarea { font:inherit; }
 img { max-width:100%; }
 /* Accessible application surfaces; system fonts work with external assets denied. */
 body { font-family: system-ui, sans-serif; }
@@ -25,7 +25,7 @@ body { font-family: system-ui, sans-serif; }
 .ui-global-search { display:flex; flex-wrap:wrap; gap:8px; max-width:440px; }
 .ui-global-search label { flex-basis:100%; font-size:.75rem; color:#c1d4e5; }
 .ui-global-search input { flex:1; min-width:120px; width:170px; }
-.ui-main input, .ui-main select, .ui-global-search input { border:1px solid #587a98; border-radius:7px; padding:10px 12px; min-height:44px; background:#102442; color:#fff; font:inherit; width:100%; }
+.ui-main input, .ui-main select, .ui-main textarea, .ui-global-search input { border:1px solid #587a98; border-radius:7px; padding:10px 12px; min-height:44px; background:#102442; color:#fff; font:inherit; width:100%; }
 .ui-main input::placeholder, .ui-global-search input::placeholder { color:#acc5db; opacity:1; }
 .ui-main button, .ui-global-search button { min-height:44px; padding:10px 16px; background:#a5d7ff; color:#081a30; border:1px solid #a5d7ff; border-radius:7px; font:inherit; font-weight:700; cursor:pointer; }
 .ui-main button:disabled { opacity:.55; cursor:default; }

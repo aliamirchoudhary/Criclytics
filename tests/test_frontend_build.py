@@ -25,8 +25,9 @@ class FrontendBuildTests(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             output = checkout / "dist"
-            self.assertEqual(len(list(output.glob("*.html"))), 18)
+            self.assertEqual(len(list(output.glob("*.html"))), 19)
             self.assertTrue((output/'workspace.html').is_file())
+            self.assertTrue((output/'scouting.html').is_file())
             self.assertTrue((output / "static/js/cricklytics.js").is_file())
             self.assertTrue((output / "static/css/styles.css").is_file())
             self.assertFalse(list(output.rglob("*.py")))

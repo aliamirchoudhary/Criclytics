@@ -206,6 +206,7 @@
     const content = node('div');
     if (kind === 'team') content.append(avatar(name));
     if (kind === 'player') {
+      content.append(link('Prepare scouting plan', 'scouting', {player:data.identity_id || data.name}));
       content.append(node('p', data.observed_teams ? 'Observed teams: ' + data.observed_teams.map(t => t.team_name + ' (' + t.first_date + ' to ' + t.last_date + ')').join('; ') + '. Nationality is not inferred.' : data.country || 'Country unavailable'));
       const available = ['T20I', 'ODI', 'Test'].filter(fmt => (data.batting || {})[fmt] || (data.bowling || {})[fmt]);
       tabs(content, available.concat(['T20I', 'ODI', 'Test'].filter(fmt => !available.includes(fmt))).map(fmt => [fmt, fmt]), (target, fmt) => {
@@ -406,7 +407,9 @@
     document.querySelectorAll('.ui-navigation a').forEach(item => { if (item.getAttribute('href') === page + '.html') item.setAttribute('aria-current', 'page'); });
     const handlers = {index:home, matches, players, teams:() => entities('teams'), venues:() => entities('venues'),
       'player-profile':() => profile('player'), 'team-profile':() => profile('team'), 'venue-profile':() => profile('venue'),
-      'match-detail':detail, 'match-upcoming':detail, rankings, records, search, compare, workspace, about:information, 'data-sources':information, disclaimer:information};
+      'match-detail':detail, 'match-upcoming':detail, rankings, records, search, compare, workspace,
+      scouting:() => window.CriclyticsCoach.init({app,query,node,field,formats,table,metrics,panel,button,request,state,link}),
+      about:information, 'data-sources':information, disclaimer:information};
     try { await handlers[page](); } catch (error) { state(app, error.kind || 'error', init); }
     app.setAttribute('aria-busy', 'false');
   }

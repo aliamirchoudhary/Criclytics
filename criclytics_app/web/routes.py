@@ -8,7 +8,7 @@ PAGES = frozenset({
     "index.html", "about.html", "compare.html", "data-sources.html", "disclaimer.html",
     "matches.html", "match-detail.html", "match-upcoming.html", "players.html",
     "player-profile.html", "teams.html", "team-profile.html", "venues.html",
-    "venue-profile.html", "rankings.html", "records.html", "search.html", "workspace.html",
+    "venue-profile.html", "rankings.html", "records.html", "search.html", "workspace.html", "scouting.html",
 })
 
 

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "dataset_id": "e6dce5850e36a851f95537e702fc9f782fe26f0dd98c15448b2a767c0f4c2da3",
+  "source_event_hash": "72fdb4d08152e77356c19b649ba609e93e0fe9648f59b4f2feb8563c8c5f54e0",
+  "source_store_sha256": "e5d319a1df739bdf9c219e3cee4f530136c155b2cff5a5c5ff4cf99474f08efe",
+  "matches": 100,
+  "attempts": 23104,
+  "first_match_date": "2016-06-18",
+  "last_match_date": "2018-10-27",
+  "historical_publication_availability": null,
+  "scope": "Explicit historical archive subset; not complete head-to-head careers. Pair/phase rows are not conditioned on selected opponent or venue.",
+  "attribution": "Cricsheet JSON, ODC-BY-1.0; derived historical delivery evidence.",
+  "artifact_sha256": "3056dcceb336f8063ea41ccc7a005c3d7706b8911e35288edb200fed5110523d",
+  "pair_rows": 3498,
+  "phase_rows": 708,
+  "pair_attempts": 23104,
+  "phase_attempts": 23104
+}

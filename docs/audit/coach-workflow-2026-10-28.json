@@ -1,0 +1,28 @@
+{
+  "browser": [
+    {
+      "width": 375,
+      "prepare_and_filter": true,
+      "private_export_import": true,
+      "public_export_excludes_notes": true,
+      "private_not_transmitted": true,
+      "refresh_loss_explicit": true,
+      "separate_tab_isolation": true,
+      "invalid_import_preserves_fields": true,
+      "page_errors": []
+    },
+    {
+      "width": 1440,
+      "prepare_and_filter": true,
+      "private_export_import": true,
+      "public_export_excludes_notes": true,
+      "private_not_transmitted": true,
+      "refresh_loss_explicit": true,
+      "separate_tab_isolation": true,
+      "invalid_import_preserves_fields": true,
+      "page_errors": []
+    }
+  ],
+  "actual_coach_feedback": null,
+  "limitations": "Agent task simulation with actual local ID candidate and limited historical delivery sample; real coach feedback/pilot pending. No server private persistence/accounts are claimed."
+}

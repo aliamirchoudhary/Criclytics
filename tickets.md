@@ -48,7 +48,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T026](tickets/t026-reconcile-live-state-corrections-and-replay-parity.md) | Reconcile live state corrections and replay parity | P1 | T018,T019,T025 | Implemented; replay parity verified |
 | [T027](tickets/t027-serve-versioned-next-delivery-probabilities-and-forecasts.md) | Serve versioned next-delivery probabilities and forecasts | P1 | T020,T026,T014 | Implemented, awaiting review |
 | [T028](tickets/t028-build-truthful-live-prediction-workspace.md) | Build truthful live prediction workspace | P1 | T011,T012,T027 | Implemented, awaiting review |
-| [T029](tickets/t029-build-coach-scouting-scenarios-and-private-workflows.md) | Build coach scouting scenarios and private workflows | P2 | T010,T012,T017,T017A,T020,T023 | Planned |
+| [T029](tickets/t029-build-coach-scouting-scenarios-and-private-workflows.md) | Build coach scouting scenarios and private workflows | P2 | T010,T012,T017,T017A,T020,T023 | Implemented locally; coach review pending |
 | [T030](tickets/t030-run-prospective-shadow-evaluation-and-context-ablations.md) | Run prospective shadow evaluation and context ablations | P1 | T020,T027,T028 | Planned |
 | [T031](tickets/t031-release-measured-coach-pilot-and-operations-runbook.md) | Release measured coach pilot and operations runbook | P1 | T001,T002,T003,T013,T014,T015,T028,T029,T030 | Planned |
 

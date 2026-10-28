@@ -346,3 +346,12 @@ forecast/history API. Explicit manual/replay/unavailable modes, confirmation
 expiry without polling, source/model/context coverage and immutable issued anchors
 keep historical distributions distinct from current eligibility. WORKSPACE_UI.md
 records local setup, browser evidence and remaining validation limits.
+
+## T029 scouting and local private plans
+
+api.scouting/services.scouting use only the bound identity player store, with an
+optional offline bounded source-ID delivery evidence JSON. The19th page scouting
+uses coaching.js for descriptive preparation and page-memory private plans with
+explicit file export/import. No private input reaches server storage or URLs and
+no hosted ownership guarantee is claimed. COACH_SCOUTING.md separates archive
+coverage, scenario assumptions, data loss/export behavior and pending real feedback.

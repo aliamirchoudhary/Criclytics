@@ -25,6 +25,7 @@ def create_app(config=None):
         INITIALIZE_ENGINE=False,
         IDENTITY_REGISTRY=os.getenv("IDENTITY_REGISTRY", ""),
         IDENTITY_PLAYER_STORE=os.getenv("IDENTITY_PLAYER_STORE", ""),
+        SCOUTING_SAMPLE=os.getenv('SCOUTING_SAMPLE',''),
         EXPERIMENTAL_FORECASTS=os.getenv('EXPERIMENTAL_FORECASTS', '0') == '1',
         WORKSPACE_SOURCE=os.getenv('WORKSPACE_SOURCE', ''),
         WORKSPACE_LEDGER=os.getenv('WORKSPACE_LEDGER', ''),
@@ -80,6 +81,10 @@ def create_app(config=None):
     from .api.forecasts import bp as forecasts
     initialize_forecasts(app)
     app.register_blueprint(forecasts)
+    from .services.scouting import initialize as initialize_scouting
+    from .api.scouting import bp as scouting
+    initialize_scouting(app)
+    app.register_blueprint(scouting)
     CORS(app, resources={r"/api/*": {"origins": app.config["CORS_ORIGINS"]}},
          methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type"])
 
