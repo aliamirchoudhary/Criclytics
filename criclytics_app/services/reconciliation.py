@@ -180,7 +180,7 @@ class Reconciler:
         core={'schema_version':1,'feature_schema':1,'match_id':match_id,'mode':source['mode'],'source_cutoff':cutoff,
               'source_observation_id':source['last_observation_id'],'source_revision_counter':source.get('source_revision_counter',0),'source_status':source['status'],
               'source_revision_hash':checksum(events),'metadata_hash':checksum(metadata),
-              'scope':{key:metadata.get(key) for key in ('format','gender','team_type','dates')},'teams':metadata['teams'],
+              'scope':{key:metadata.get(key) for key in ('format','gender','team_type','dates','balls_per_over')},'teams':metadata['teams'],
               'innings':[states[index] for index in sorted(states)],'active_innings':active,
               'next_context':announced,'target_event_id':target_id,'features':features,'annotations':annotations,
               'event_lag_seconds':max(0,(utc(cutoff)-utc(latest_event_time)).total_seconds()) if latest_event_time else None,

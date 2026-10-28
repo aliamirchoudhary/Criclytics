@@ -25,6 +25,13 @@ def create_app(config=None):
         INITIALIZE_ENGINE=False,
         IDENTITY_REGISTRY=os.getenv("IDENTITY_REGISTRY", ""),
         IDENTITY_PLAYER_STORE=os.getenv("IDENTITY_PLAYER_STORE", ""),
+        EXPERIMENTAL_FORECASTS=os.getenv('EXPERIMENTAL_FORECASTS', '0') == '1',
+        WORKSPACE_SOURCE=os.getenv('WORKSPACE_SOURCE', ''),
+        WORKSPACE_LEDGER=os.getenv('WORKSPACE_LEDGER', ''),
+        FORECAST_MODEL=os.getenv('FORECAST_MODEL', ''),
+        FORECAST_MODEL_SHA256=os.getenv('FORECAST_MODEL_SHA256', ''),
+        FORECAST_EVALUATION=os.getenv('FORECAST_EVALUATION', ''),
+        FORECAST_EVALUATION_SHA256=os.getenv('FORECAST_EVALUATION_SHA256', ''),
         DATASET_STORE=os.getenv("DATASET_STORE", ""),
         FRONTEND_API_BASE=os.getenv("FRONTEND_API_BASE", ""),
         MAX_CONTENT_LENGTH=64 * 1024,
@@ -69,6 +76,10 @@ def create_app(config=None):
     from .web.routes import bp as web
     app.register_blueprint(api)
     app.register_blueprint(web)
+    from .services.forecasts import initialize as initialize_forecasts
+    from .api.forecasts import bp as forecasts
+    initialize_forecasts(app)
+    app.register_blueprint(forecasts)
     CORS(app, resources={r"/api/*": {"origins": app.config["CORS_ORIGINS"]}},
          methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type"])
 

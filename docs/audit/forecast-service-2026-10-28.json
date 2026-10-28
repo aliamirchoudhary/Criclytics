@@ -1,0 +1,20 @@
+{
+  "model_id": "fe917b696bb25d2672b94f68e590fd665cdeed21ec06c55e23bafc1dda319beb",
+  "evaluation_sha256": "4d9a2b2afaabcff59a501bb47054f034d699066bc3572a7364de4dc542317cff",
+  "promoted": false,
+  "first_end_to_end_ms": 46.06459999922663,
+  "single_inference_ms": 0.6912,
+  "readers": 100,
+  "threads": 4,
+  "reader_ms": {
+    "p50": 47.17410000739619,
+    "p95": 62.89612499385834,
+    "max": 121.45100001362152
+  },
+  "inferences": 1,
+  "collector_inputs": 1,
+  "resident_bytes": 35430400,
+  "target": "Local warm single inference below10ms; bounded4-reader p95 below100ms. No hosted SLA.",
+  "parity": "Uses the T026 shared feature core; actual250historical before-attempt parity recorded separately.",
+  "limitations": "One authored manual session with real experimental weights. No prospective performance, actual human latency or model promotion."
+}

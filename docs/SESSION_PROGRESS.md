@@ -51,7 +51,7 @@ code tickets, per the user's instruction. All development remains $0/no card.
 | T025 | work/t025-local-collector | fbd433e | Bounded local manual/replay adapter;75tests74pass/one skip;parallel/lease/quota/kill/readonly checks,no external costs |
 
 | T026 | work/t026-reconcile-live-state | 24b42a8 | Source-cutoff reconciliation/immutable history;80tests79pass/one skip;250real historical vectors and cached-reader parity |
-| T017A | work/t017a-identity-aggregates | Local branch tip | 6651-match identity rebuild;5125 rostered/5050 scored IDs;all profile/context/record totals reconcile;82tests81pass/one skip;375/1440 browser flows pass |
+| T017A | work/t017a-identity-aggregates | ba6525a | 6651-match identity rebuild;5125 rostered/5050 scored IDs;all profile/context/record totals reconcile;82tests81pass/one skip;375/1440 browser flows pass |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain
@@ -95,3 +95,5 @@ T018 isolated store build/events-t20-v1.sqlite3 contains100deterministic file-or
 T020 experimental model build/baseline-v1-first/model.json (same as repeat) remains private/unpromoted. MODEL_CARD.md and audit/cpu-baseline-2026-10-28.json record metrics and limits. T019 test count corrected to56(55pass/one skip) from its earlier off-by-one documentation; original verification log is preserved.
 
 T017A resumed after the user stop: isolated build/player-ids-v1-final is opt-in only. Default/original artifacts preserved. Sampled rebuild peak resident memory505,196,544bytes locally, not a hosted guarantee. No pushes/merges/deployments.
+
+| T027 | work/t027-versioned-forecasts | Local branch tip | Default-off local shadow API/immutable ledger;84tests83pass/one skip;100readers reuse1inference,~63ms p95;no promotion |

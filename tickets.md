@@ -46,7 +46,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T024](tickets/t024-research-media-and-crowd-context-only-if-measurable.md) | Research media and crowd context only if measurable | P3 | T015,T020,T023 | Implemented; optional research excluded |
 | [T025](tickets/t025-implement-one-permitted-budgeted-live-collector.md) | Implement one permitted budgeted live collector | P1 | T006,T014,T016,T017,T018 | Implemented; local adapter only |
 | [T026](tickets/t026-reconcile-live-state-corrections-and-replay-parity.md) | Reconcile live state corrections and replay parity | P1 | T018,T019,T025 | Implemented; replay parity verified |
-| [T027](tickets/t027-serve-versioned-next-delivery-probabilities-and-forecasts.md) | Serve versioned next-delivery probabilities and forecasts | P1 | T020,T026,T014 | Planned |
+| [T027](tickets/t027-serve-versioned-next-delivery-probabilities-and-forecasts.md) | Serve versioned next-delivery probabilities and forecasts | P1 | T020,T026,T014 | Implemented, awaiting review |
 | [T028](tickets/t028-build-truthful-live-prediction-workspace.md) | Build truthful live prediction workspace | P1 | T011,T012,T027 | Planned |
 | [T029](tickets/t029-build-coach-scouting-scenarios-and-private-workflows.md) | Build coach scouting scenarios and private workflows | P2 | T010,T012,T017,T017A,T020,T023 | Planned |
 | [T030](tickets/t030-run-prospective-shadow-evaluation-and-context-ablations.md) | Run prospective shadow evaluation and context ablations | P1 | T020,T027,T028 | Planned |
