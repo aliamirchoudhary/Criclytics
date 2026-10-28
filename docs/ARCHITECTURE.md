@@ -243,3 +243,13 @@ score/legal-ball/innings/partnership state with source IDs, explicit penalties
 and observed target controls. Latest and as-of views differ; unknown historical
 availability is never replaced with import time. DELIVERY_EVENTS.md describes
 strike/target abstention and correction/reorder rules. No HTTP ingest is enabled.
+
+## T019 feature contract
+
+Shared pipeline.features.vector builds pre-attempt numeric values from replay state,
+announced participant IDs and strictly previous completed-date history. Joint
+labels permit simultaneous runs/extras/dismissals. Same-day matches share no final
+history; chronological match/date-grouped partitions reject boundary overlap.
+Private JSONL exports are streamed under one SQLite snapshot with deterministic
+row/source hashes. Missing target/schedule/priors stay null, and retrospective
+source-availability uncertainty remains explicit. See FEATURES.md.

@@ -34,7 +34,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T017 | work/t017-stable-identities | 85b7371 | Source IDs/aliases, collision abstention, reviewed match-map tests;51tests50pass/one skip;5125 rostered IDs and68 colliding source labels |
 
-| T018 | work/t018-delivery-replay | Local branch tip | Immutable source-ID attempts/revisions and replay;53tests52pass/one skip;100actual matches/23104attempts reconcile |
+| T018 | work/t018-delivery-replay | 3bb3805 | Immutable source-ID attempts/revisions and replay;53tests52pass/one skip;100actual matches/23104attempts reconcile |
+
+| T019 | work/t019-before-delivery-features | Local branch tip | Shared before-attempt vectors/joint labels;57tests56pass/one skip;23104 reproducible rows with58/21/21 whole-match temporal splits |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain

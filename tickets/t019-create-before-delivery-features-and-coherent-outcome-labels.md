@@ -1,10 +1,10 @@
 # T019: Create before-delivery features and coherent outcome labels
 
-- Status: Planned
+- Status: Implemented; local review pending
 - Priority: P1
 - Depends on: T018
-- Branch: feat/t019-create-before-delivery-features-and-coherent-outcome-labels
-- Base: latest dev
+- Branch: work/t019-before-delivery-features
+- Base: T018 3bb3805
 
 ## Problem
 
@@ -16,10 +16,10 @@ Define next-attempt versus next-legal-ball product and coherent joint/factorized
 
 ## Acceptance criteria
 
-- [ ] All features exclude target delivery and future innings/matches
-- [ ] Wicket can coexist with extras/runs without contradictory labels
-- [ ] Same pipeline produces replay/live feature vectors and documents missingness
-- [ ] Chronological match-grouped train/calibration/test partitions and leakage checks exist
+- [x] All features exclude target delivery and future innings/matches
+- [x] Wicket can coexist with extras/runs without contradictory labels
+- [x] Same pipeline produces replay/live feature vectors and documents missingness
+- [x] Chronological match-grouped train/calibration/test partitions and leakage checks exist
 
 ## Validation
 
@@ -31,4 +31,12 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 
 ## Implementation evidence
 
-Not started.
+Next-attempt product includes illegal deliveries and coherent exact runs/extras/dismissal labels. Shared numeric vector accepts only prior state/announced IDs/strictly earlier completed-day history. Generator updates only after yielding target row; same-day and overlapping match history are isolated. Cold priors remain null until empirical previous data exists; smoothing uses20 prior attempts, not fabricated probabilities. Export is streamed/private under a SQLite read snapshot with logical-source and row hashes. Historical timestamps remain unknown: retrospective order tests do not prove prospective source availability. Rollback retains isolated store/export and leaves default serving unchanged.
+
+### Session update 2026-10-28T12:35:56+00:00
+
+Chained from T018 3bb3805. Shared next-attempt features use source IDs, only prior attempts and strictly earlier completed-date history; same-day matches stay isolated. Joint outcome labels preserve simultaneous runs/extras/dismissals; historical source-availability uncertainty stays explicit.
+
+### Session update 2026-10-28T12:40:54+00:00
+
+57tests56pass/one optional skip. Shared pre-attempt vectors and exact joint labels pass hand vectors, target/future-match perturbation, cutoff, same-day grouping and multi-day overlap tests. Two100match exports reproduce23,104rows and identical SHA256; train58matches/13426rows, calibration21/4826, test21/4852, chronological cutoffs recorded. Null target/schedule/cold priors remain missing; publication availability remains unknown. See FEATURES.md and audit/features-2026-10-28.json. No model/prediction claim or deployment.
