@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+The independently scoped [T013a](t013a-cloudflare-assets-build.md) addresses the
+reported missing-dist failure. Its local build verification does not complete
+this ticket's wider security, account policy, release or rollback prerequisites.

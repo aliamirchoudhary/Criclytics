@@ -31,6 +31,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T011](tickets/t011-repair-ui-behavior-empty-states-and-accessibility.md) | Repair UI behavior empty states and accessibility | P1 | T004,T007,T008 | Planned |
 | [T012](tickets/t012-consolidate-frontend-initialization-and-api-configuration.md) | Consolidate frontend initialization and API configuration | P2 | T003,T005,T011 | Planned |
 | [T013](tickets/t013-verify-ci-deployment-artifacts-branch-controls-and-rollback.md) | Verify CI deployment artifacts branch controls and rollback | P1 | T001,T002,T003,T010 | Planned |
+| [T013a](tickets/t013a-cloudflare-assets-build.md) | Generate frontend assets before Cloudflare upload | P1 | T000 | Implemented locally; operator setup pending |
 | [T014](tickets/t014-add-safe-diagnostics-readiness-and-resource-budgets.md) | Add safe diagnostics readiness and resource budgets | P1 | T004,T006 | Planned |
 | [T015](tickets/t015-version-datasets-source-rights-and-reproducible-builds.md) | Version datasets source rights and reproducible builds | P1 | T009,T010 | Planned |
 | [T016](tickets/t016-prove-permitted-zero-budget-live-data-feasibility.md) | Prove permitted zero-budget live data feasibility | P1 | T015 | Planned |

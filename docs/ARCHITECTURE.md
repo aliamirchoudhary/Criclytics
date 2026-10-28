@@ -90,9 +90,11 @@ Provider secrets are never staged. Existing remote files must be reviewed during
 the operator release ticket, including possible previously uploaded secrets.
 
 Frontend: `python -m scripts.build_frontend` emits public pages and `/static/`
-under `dist/`. Configure Cloudflare's build output as `dist`; `wrangler.jsonc`
-points at it. Do not serve or upload the source checkout as static content. A
-hosting account may have additional existing settings; those were not changed.
+under `dist/`; `wrangler.jsonc` points at it and includes the direct CLI build
+hook. Workers Builds also needs its dashboard Build command set explicitly to
+that Python command; it currently ignores Wrangler Custom Builds. See the exact
+[Cloudflare settings](CLOUDFLARE_DEPLOYMENT.md). Do not serve or upload the source
+checkout as static content. Remote account settings have not been changed here.
 Current JS selects the historical HF backend for non-localhost origins; T012
 introduces explicit environment configuration.
 

@@ -2,14 +2,15 @@
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
-from flask import Flask
-from flask_cors import CORS
-
 from .paths import PACKAGE_ROOT, PROJECT_ROOT
 
 
 def create_app(config=None):
+    # Static build tools import paths without needing backend dependencies.
+    from dotenv import load_dotenv
+    from flask import Flask
+    from flask_cors import CORS
+
     load_dotenv(PROJECT_ROOT / ".env", override=False)
     app = Flask(__name__, static_folder=str(PACKAGE_ROOT / "static"),
                 template_folder=str(PACKAGE_ROOT / "templates"))

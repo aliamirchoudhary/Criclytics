@@ -93,8 +93,10 @@ Use `python -m scripts.stage_backend` to create an allowlisted HF upload artifac
 never upload the whole checkout. Provide ignored datasets separately.
 
 Frontend: `python -m scripts.build_frontend` creates `dist/` for Cloudflare static
-assets. Configure the build output as `dist`; see `wrangler.jsonc`. Remote hosting
-settings have not been changed by this migration. Main-only HF release is gated
+assets. Direct Wrangler CLI commands include this build hook. In Cloudflare
+Workers Builds, explicitly set **Build command** to that Python command before
+the preview/deploy command. See [exact settings](docs/CLOUDFLARE_DEPLOYMENT.md).
+Remote hosting settings have not been changed here. Main-only HF release is gated
 on offline tests and dependency scanning; current vulnerabilities intentionally
 block it until repaired. Nothing has been deployed from this work branch.
 
