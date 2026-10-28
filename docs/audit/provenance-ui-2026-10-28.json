@@ -1,0 +1,20 @@
+{
+  "pages": [
+    {
+      "page": "index.html",
+      "label": "Rankings: hardcoded_april_2026 | Effective: 2026-04 | Fetched: unknown | Fallback snapshot | Stale or observation time unknown",
+      "errors_with_stubbed_other_data": []
+    },
+    {
+      "page": "rankings.html",
+      "label": "Rankings: hardcoded_april_2026 | Effective: 2026-04 | Fetched: unknown | Fallback snapshot | Stale or observation time unknown",
+      "errors_with_stubbed_other_data": []
+    },
+    {
+      "page": "team-profile.html?name=Pakistan",
+      "label": "Rankings: hardcoded_april_2026 | Effective: 2026-04 | Fetched: unknown | Fallback snapshot | Stale or observation time unknown",
+      "errors_with_stubbed_other_data": []
+    }
+  ],
+  "limitations": "Source-label acceptance only; other endpoints stubbed, external assets blocked."
+}

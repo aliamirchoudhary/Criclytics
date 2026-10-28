@@ -248,6 +248,7 @@ async function apiFetch(path) {
       return null;
     }
     const data = await res.json();
+    if (data && data.provenance) showDataProvenance(path, data.provenance);
     if (data && data.found === false) return null;
     if (data && typeof data.error === 'string') {
       var msg = data.error.toLowerCase();
@@ -261,6 +262,25 @@ async function apiFetch(path) {
     console.error(`API fetch failed: ${path}`, e);
     return null;
   }
+}
+
+function showDataProvenance(path, info) {
+  var kind = path.indexOf('/api/icc-rankings') === 0 ? 'Rankings' : 'Fixtures';
+  var id = 'source-notice-' + kind.toLowerCase();
+  var node = document.getElementById(id);
+  if (!node) {
+    node = document.createElement('p');
+    node.id = id;
+    node.className = 'source-notice';
+    node.setAttribute('role', 'status');
+    var parent = document.querySelector('main') || document.body;
+    parent.prepend(node);
+  }
+  node.textContent = kind + ': ' + (info.source || 'unknown source')
+    + ' | Effective: ' + (info.effective_date || 'unknown')
+    + ' | Fetched: ' + (info.fetched_at || 'unknown')
+    + (info.fallback ? ' | Fallback snapshot' : '')
+    + (info.stale ? ' | Stale or observation time unknown' : ' | Within freshness window');
 }
 
 /**

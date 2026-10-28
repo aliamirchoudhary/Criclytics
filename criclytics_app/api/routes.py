@@ -768,6 +768,7 @@ def get_matches():
     """
     # Get live/upcoming matches from CricAPI
     data = fetch_cricapi("matches", cache_file="matches.json", max_age_minutes=MATCH_LIST_CACHE_TTL_MINUTES)
+    cached = None
     live_upcoming = (data or {}).get("data") or (data or {}).get("matches") or []
     if not live_upcoming:
         cached = load_live("matches.json")
@@ -777,7 +778,11 @@ def get_matches():
     completed = completed_summaries()
 
     from criclytics_app.services.match_listing import listing
-    return jsonify(listing(live_upcoming, completed, request.args))
+    from ..services.provenance import metadata
+    result = listing(live_upcoming, completed, request.args)
+    result['provenance'] = metadata(data or cached)
+    result['provenance']['historical_source'] = 'cricsheet_legacy_processed'
+    return jsonify(result)
 
 
 @bp.route("/api/matches/<match_id>")
@@ -884,39 +889,18 @@ def status():
 def get_icc_rankings():
     category = request.args.get("category", "batting")
     fmt      = request.args.get("format", "T20I")
-    try:
-        from ..integrations.rankings import get_current_rankings, build_hardcoded_rankings
-        data = (get_current_rankings() if current_app.config["LIVE_FETCH_ENABLED"]
-                else load_live("rankings.json") or build_hardcoded_rankings())
-        # If cached file was empty, force use hardcoded fallback
-        if data:
-            if category == "teams":
-                check = data.get("team", {}).get(fmt, [])
-            else:
-                check = data.get("player", {}).get(category, {}).get(fmt, [])
-            if not check:
-                data = build_hardcoded_rankings()
-        else:
-            data = build_hardcoded_rankings()
-    except Exception as e:
-        print(f"  rankings error: {e}")
-        data = None
-
-    if not data:
-        return jsonify({"category": category, "format": fmt, "rankings": []}), 200
-
-    if category == "teams":
-        result = data.get("team", {}).get(fmt, [])
-    else:
-        result = data.get("player", {}).get(category, {}).get(fmt, [])
-
-    return jsonify({
-        "category": category,
-        "format": fmt,
-        "scraped_at": data.get("scraped_at", ""),
-        "source":     data.get("source", "hardcoded_fallback"),
-        "rankings":   result or []
-    })
+    from werkzeug.exceptions import BadRequest
+    from ..integrations.rankings import build_hardcoded_rankings
+    from ..services.provenance import metadata
+    if category not in ('teams', 'batting', 'bowling', 'allrounder'):
+        raise BadRequest('Unsupported ranking category')
+    data = load_live('rankings.json') or build_hardcoded_rankings()
+    result = (data.get('team', {}).get(fmt, []) if category == 'teams' else
+              data.get('player', {}).get(category, {}).get(fmt, []))
+    stored_info = data.get('category_metadata', {}).get(category + ':' + fmt)
+    info = metadata(stored_info or data)
+    return jsonify({'category': category, 'format': fmt, 'rankings': result or [],
+                    'provenance': info, **info})
 
 
 @bp.route("/api/meta/players")

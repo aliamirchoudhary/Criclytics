@@ -34,3 +34,8 @@ All tooling is local/free; no billing or card setup.
 
 T006 evidence: docs/audit/repositories-2026-10-28.json. Warm list/detail 347/8.49ms;
 ~250MB working set, one processed parse. No source data regenerated or deleted.
+
+| T007 | work/t007-source-provenance | See local branch tip | Cache-only ranking HTTP; conservative dates/stale labels; bounded offline import preserves partial categories; sample schedule publication disabled; 28 tests (27 pass, one skip); three browser label checks pass |
+
+T007 does not enable any collector or claim ranking fallback is current/verified.
+Network source selection remains T015/T016; provider account work remains pending.

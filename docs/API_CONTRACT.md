@@ -37,3 +37,21 @@ T004 soft-miss H2H errors and T005 full-corpus listing fingerprints are explicit
 retired from the opt-in legacy equality test; focused error/list/detail contracts
 replace them. Historical statistical fingerprints are otherwise retained until
 T008/T009 deliberately change their contracts.
+
+## T007 provenance and snapshot imports
+
+Ranking and fixture listings include `provenance`: source, effective_date,
+fetched_at, fallback and stale. Unknown dates remain null. The historical April
+ranking fallback has month precision only and no claimed fetch timestamp.
+`/api/icc-rankings` never refreshes providers, even with live fetching enabled.
+Per-category provenance survives partial imports, and stale state is computed at
+request time. UI source notices use plain text on all callers.
+
+Permitted local ranking imports (no network, 1 MiB input bound):
+`python -m criclytics_app.integrations.rankings --input snapshot.json --source manual_snapshot --effective-date 2026-10-28 --rights-note "your documented permission" --output-dir build/import-preview`.
+Inspect the preview before configuring its directory as the backend live source.
+This command records the operator's rights declaration; it does not establish
+provider permission. Automated ranking scraping is disabled pending T015/T016
+source-rights review. No request retries or access-control workarounds are added.
+The schedule CLI no longer merges the sample calendar or overwrites last-good
+snapshots when its provider is unavailable. Existing historical files are retained.

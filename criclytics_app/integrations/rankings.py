@@ -63,7 +63,9 @@ def fetch_rankings_json(category, fmt, retries=2):
 
 def build_hardcoded_rankings():
     return {
-        "scraped_at": datetime.now().isoformat(),
+        "scraped_at": None,
+        "effective_date": "2026-04",
+        "fallback": True,
         "source": "hardcoded_april_2026",
         "player": {
             "batting": {
@@ -187,64 +189,48 @@ def build_hardcoded_rankings():
 
 
 def scrape_all_rankings():
-    print("=" * 55)
-    print("  Cricklytics — ICC Rankings Fetch")
-    print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("=" * 55)
-
-    # Try live scraping
-    total = 0
-    all_rankings = {
-        "scraped_at": datetime.now().isoformat(),
-        "source": "live",
-        "player": {"batting": {"Test":[],"ODI":[],"T20I":[]}, "bowling": {"Test":[],"ODI":[],"T20I":[]}, "allrounder": {"Test":[],"ODI":[],"T20I":[]}},
-        "team": {"Test":[],"ODI":[],"T20I":[]}
-    }
-    for cat, fmt in [("batting","Test"),("batting","ODI"),("batting","T20I"),("bowling","Test"),("bowling","ODI"),("bowling","T20I"),("allrounder","Test"),("allrounder","ODI"),("allrounder","T20I"),("teams","Test"),("teams","ODI"),("teams","T20I")]:
-        print(f"  Fetching {cat} {fmt} ...", end=" ", flush=True)
-        entries = fetch_rankings_json(cat, fmt)
-        if cat == "teams":
-            all_rankings["team"][fmt] = entries
-        else:
-            all_rankings["player"][cat][fmt] = entries
-        total += len(entries)
-        print(f"{len(entries)} entries")
-        time.sleep(1)
-
-    # Fallback if nothing scraped
-    if total == 0:
-        print("\n  ICC blocked live scraping. Using hardcoded fallback data (April 2026).")
-        all_rankings = build_hardcoded_rankings()
-    else:
-        print(f"\n  Live scraping got {total} entries.")
-
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(all_rankings, f, ensure_ascii=False, indent=2)
-
-    size_kb = os.path.getsize(OUTPUT_FILE) / 1024
-    print(f"  Saved rankings.json ({size_kb:.1f} KB)  source={all_rankings.get('source')}")
-    print("=" * 55)
-    return all_rankings
+    raise RuntimeError('Remote ranking collection disabled pending source-rights review; import a permitted snapshot explicitly.')
 
 
 def get_current_rankings():
-    if os.path.exists(OUTPUT_FILE):
-        age_hours = (time.time() - os.path.getmtime(OUTPUT_FILE)) / 3600
-        if age_hours < 24:
-            with open(OUTPUT_FILE, encoding="utf-8") as f:
-                return json.load(f)
-    data = scrape_all_rankings()
-    if data and data.get("source") != "hardcoded_april_2026":
-        return data
-
-    if os.path.exists(OUTPUT_FILE):
-        with open(OUTPUT_FILE, encoding="utf-8") as f:
-            cached = json.load(f)
-        if cached:
-            return cached
-
-    return data
+    from ..services.live_cache import LiveCache
+    return LiveCache(LIVE_DIR).read('rankings.json') or build_hardcoded_rankings()
 
 
-if __name__ == "__main__":
-    scrape_all_rankings()
+def main():
+    import argparse
+    from datetime import timezone
+    from pathlib import Path
+    from ..services.live_cache import LiveCache
+    from ..services.provenance import merge_rankings
+    parser = argparse.ArgumentParser(description='Import a permitted ranking snapshot without network access.')
+    parser.add_argument('--input', type=Path, required=True)
+    parser.add_argument('--source', required=True)
+    parser.add_argument('--effective-date', required=True)
+    parser.add_argument('--rights-note', required=True)
+    parser.add_argument('--output-dir', type=Path, required=True)
+    args = parser.parse_args()
+    try:
+        datetime.fromisoformat(args.effective_date)
+    except ValueError:
+        parser.error('effective-date must be an ISO date or timestamp')
+    if args.input.stat().st_size > 1024 * 1024:
+        parser.error('Snapshot exceeds 1 MiB bound')
+    for value in (args.source, args.effective_date, args.rights_note):
+        if len(value) > 200 or any(ord(c) < 32 for c in value):
+            parser.error('Metadata must be bounded plain text')
+    incoming = json.loads(args.input.read_text(encoding='utf-8'))
+    if not isinstance(incoming, dict):
+        parser.error('Snapshot must be a JSON object')
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    cache = LiveCache(args.output_dir)
+    info = {'source': args.source, 'effective_date': args.effective_date,
+            'fetched_at': datetime.now(timezone.utc).isoformat(), 'fallback': False,
+            'stale': False, 'rights_note': args.rights_note}
+    result = merge_rankings(cache.read('rankings.json'), incoming, info)
+    cache.write('rankings.json', result)
+    print('Imported nonempty categories; retained missing categories with original dates.')
+
+
+if __name__ == '__main__':
+    main()

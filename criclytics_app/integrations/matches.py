@@ -370,6 +370,8 @@ def main():
         with open(existing_path, encoding="utf-8") as f:
             try:
                 ex = json.load(f)
+                if isinstance(ex, dict) and ex.get('_cache_version') == 1:
+                    ex = ex['data']
                 for em in ex.get("data", []):
                     if em.get("score") and em["score"]:
                         existing_sc[em.get("id","")] = em["score"]
