@@ -28,7 +28,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 | T013 | No implementation branch | None | Blocked by deferred T001 operator rotations/production verification |
 | T014 | work/t014-safe-diagnostics | 8d61bda | Honest health/readiness, bounded redacted telemetry;46tests45pass/one skip;20request resource sample |
 
-| T015 | work/t015-dataset-manifests | Local branch tip | Rights registry, full6651 manifest/coverage, validated retained promotion/restore;47tests46pass/one skip and coverage UI checks pass |
+| T015 | work/t015-dataset-manifests | 1c3b5d3 | Rights registry, full6651 manifest/coverage, validated retained promotion/restore;47tests46pass/one skip and coverage UI checks pass |
+
+| T016 | work/t016-free-feed-feasibility | Local branch tip | NO-GO external feeds; GO local replay/manual;49tests48pass/one skip; synthetic timing only, real feed proof unavailable |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain

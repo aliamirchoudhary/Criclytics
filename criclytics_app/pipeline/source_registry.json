@@ -35,10 +35,10 @@
     {
       "id": "cricapi",
       "family": "provider fixtures/live scorecards",
-      "rights": "unverified",
-      "terms": "https://cricketdata.org/",
-      "redistribution": "Account-specific display/redistribution, no-card quota and retention terms not verified.",
-      "updates": "Disabled by default; T016 must gate access."
+      "rights": "not_cleared_for_public_reuse",
+      "terms": "https://cricketdata.org/terms-of-use/",
+      "redistribution": "Personal/non-commercial permissions and commercial-credit requirement do not clear public platform reuse; no-card100calls/day pricing is insufficient evidence of timely delivery service.",
+      "updates": "T016 rejects automated live collection; replay/manual only."
     },
     {
       "id": "rapidapi",

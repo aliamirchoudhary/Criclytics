@@ -59,7 +59,7 @@ class DiagnosticTests(unittest.TestCase):
     def test_distinct_cache_timeout_parse_quota_and_fallback_events(self):
         with tempfile.TemporaryDirectory() as directory:
             app=self.make_app(directory,LIVE_FETCH_ENABLED=True,CRICAPI_KEY='test-only')
-            with app.app_context():
+            with app.app_context(),patch('criclytics_app.services.legacy.source_allowed',return_value=True):
                 cache=app.extensions['live_cache'];stats=app.extensions['diagnostics']
                 cache.write('matches.json',{'data':[]}); cache.read('matches.json')
                 (Path(directory)/'live'/'broken.json').write_text('invalid')

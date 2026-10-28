@@ -53,6 +53,8 @@ def ms_to_date(ms):
     except: return str(ms)[:10]
 
 def api_get(path, params=None):
+    from .source_policy import require_source
+    require_source('rapidapi')
     if not HAS_REQUESTS: return None
     try:
         r = requests.get(RAPIDAPI_BASE + path, headers=HEADERS, params=params, timeout=15)

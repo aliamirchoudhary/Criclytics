@@ -9,7 +9,7 @@ from pathlib import Path
 REQUIRED = ('players_index.json','player_yearly.json','player_vs_opp.json','player_venues.json',
             'h2h.json','team_format_stats.json','team_venue_stats.json','venue_stats.json',
             'venue_batters.json','venue_bowlers.json','venue_insights.json','records.json','completed_matches.json')
-EVENTS = frozenset(('cache_hit','cache_miss','cache_parse_failure','cache_store_failure','repository_hit',
+EVENTS = frozenset(('source_not_approved','cache_hit','cache_miss','cache_parse_failure','cache_store_failure','repository_hit',
                     'repository_parse','repository_parse_failure','refresh_disabled','refresh_backoff','provider_success',
                     'provider_error','provider_timeout','provider_parse_failure','quota_stop','stale_fallback'))
 
@@ -50,10 +50,11 @@ def readiness(app):
     cache=app.extensions['live_cache']
     entry=cache.entry('matches.json')
     age=max(0,int(cache.clock()-entry['written_at'])) if entry else None
+    from ..integrations.source_policy import source_allowed
     return {'ready':ready,'status':'ready' if ready else 'not_ready','required_artifacts':states,
             'dataset_id':manifest.get('dataset_id') if isinstance(manifest,dict) else None,
             'dataset_schema_version':version,'model':{'available':False,'version':None},
-            'optional_feed':{'enabled':bool(app.config['LIVE_FETCH_ENABLED']),'available':entry is not None,
+            'optional_feed':{'network_approved':source_allowed('cricapi'),'enabled':bool(app.config['LIVE_FETCH_ENABLED']),'available':entry is not None,
                              'snapshot_age_seconds':age,'state':'degraded' if entry is None or age>120 else 'cached'},
             'limits':{'workers':1,'threads':2,'repository_files':repo.maximum,'cache_files':cache.maximum,
                       'request_body_bytes':app.config['MAX_CONTENT_LENGTH'],'telemetry_samples':256}}

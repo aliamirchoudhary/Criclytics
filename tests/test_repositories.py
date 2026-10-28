@@ -78,7 +78,7 @@ class RepositoryTests(unittest.TestCase):
             app = create_app({'TESTING': True, 'INITIALIZE_ENGINE': False,
                               'LIVE_FETCH_ENABLED': True, 'CRICAPI_KEY': 'not-a-real-key',
                               'LIVE_DIR': folder, 'REDIS_URL': ''})
-            with app.app_context(), patch('requests.get') as request:
+            with app.app_context(), patch('criclytics_app.services.legacy.source_allowed',return_value=True), patch('requests.get') as request:
                 for mid in range(200):
                     self.assertIsNone(fetch_cricapi('match_info', {'id': str(mid)}, f'match_{mid}.json'))
                 request.assert_not_called()
@@ -101,7 +101,7 @@ class RepositoryTests(unittest.TestCase):
             def refresh(app):
                 with app.app_context():
                     return fetch_cricapi('matches', cache_file='matches.json')
-            with patch('requests.get', side_effect=upstream) as request, ThreadPoolExecutor(max_workers=2) as pool:
+            with patch('criclytics_app.services.legacy.source_allowed',return_value=True), patch('requests.get', side_effect=upstream) as request, ThreadPoolExecutor(max_workers=2) as pool:
                 future = pool.submit(refresh, apps[0])
                 self.assertTrue(started.wait(3))
                 self.assertIsNone(refresh(apps[1]))

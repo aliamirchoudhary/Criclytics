@@ -32,3 +32,10 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+## T016 source decision (2026-10-28)
+
+The approved adapter is local authorized manual/replay input. External HTTP/browser
+collection is NO-GO; network allowlist is empty. Keep automated live measurements
+unavailable until a future source clears the rights/no-card/timing gate. Build
+quota/owner/cursor/failure semantics against local fixtures without a paid fallback.

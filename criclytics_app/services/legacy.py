@@ -23,6 +23,7 @@ from pathlib import Path
 from flask import current_app
 from werkzeug.local import LocalProxy
 from ..paths import PROJECT_ROOT
+from ..integrations.source_policy import source_allowed
 BASE_DIR = str(PROJECT_ROOT)
 class ConfigPath(os.PathLike):
     def __init__(self, key):
@@ -415,6 +416,9 @@ def fetch_cricapi(endpoint, params=None, cache_file=None, max_age_minutes=60):
         return cached
     if not current_app.config['LIVE_FETCH_ENABLED'] or not CRICAPI_KEY:
         monitor.event('refresh_disabled')
+        return fallback()
+    if not source_allowed('cricapi'):
+        monitor.event('source_not_approved')
         return fallback()
     if endpoint not in {'matches', 'currentMatches', 'match_info', 'match_scorecard', 'series'}:
         return cached

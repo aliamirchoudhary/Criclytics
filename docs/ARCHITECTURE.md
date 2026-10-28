@@ -214,3 +214,13 @@ DATASET_STORE pins the validated selection at app startup; legacy data remains
 selected when unset. /api/coverage and UI expose only public coverage metadata.
 Publication availability is unknown, distinct from the latest match-date cutoff.
 See DATASETS.md and pipeline/source_registry.json for rights, retention and restore.
+
+## T016 collection gate
+
+Dated integrations/live_source_policy.json selects historical replay/local manual
+mode only. Existing refresh/CLI primitives require source_policy approval before
+network calls; environment flags/keys alone do not grant it. Current network
+allowlist is empty. Real feed lag/coverage/corrections remain unmeasured.
+LIVE_FEASIBILITY.md records primary terms, no-card/quota decisions and synthetic
+experiments, including current restrictions on creating new HF compute Spaces.
+Preserve existing resources; do not assume a new free Docker backend is available.

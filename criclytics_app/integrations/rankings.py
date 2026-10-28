@@ -34,6 +34,8 @@ ICC_API = "https://www.icc-cricket.com/api/v1/rankings"
 
 
 def fetch_rankings_json(category, fmt, retries=2):
+    from .source_policy import require_source
+    require_source('icc-rankings')
     fmt_map = {"Test": "test", "ODI": "odi", "T20I": "t20i"}
     cat_map = {"batting": "batting", "bowling": "bowling", "allrounder": "all-rounder", "teams": "teams"}
     fmt_code = fmt_map.get(fmt, fmt.lower())

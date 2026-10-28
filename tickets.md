@@ -34,7 +34,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T013a](tickets/t013a-cloudflare-assets-build.md) | Generate frontend assets before Cloudflare upload | P1 | T000 | Implemented locally; operator setup pending |
 | [T014](tickets/t014-add-safe-diagnostics-readiness-and-resource-budgets.md) | Add safe diagnostics readiness and resource budgets | P1 | T004,T006 | Implemented; local review pending |
 | [T015](tickets/t015-version-datasets-source-rights-and-reproducible-builds.md) | Version datasets source rights and reproducible builds | P1 | T009,T010 | Implemented; local review pending |
-| [T016](tickets/t016-prove-permitted-zero-budget-live-data-feasibility.md) | Prove permitted zero-budget live data feasibility | P1 | T015 | Planned |
+| [T016](tickets/t016-prove-permitted-zero-budget-live-data-feasibility.md) | Prove permitted zero-budget live data feasibility | P1 | T015 | Implemented; replay/manual decision |
 | [T017](tickets/t017-introduce-stable-cricket-identities-and-provider-mappings.md) | Introduce stable cricket identities and provider mappings | P1 | T015 | Planned |
 | [T018](tickets/t018-build-canonical-delivery-events-and-deterministic-replay.md) | Build canonical delivery events and deterministic replay | P1 | T010,T015,T017 | Planned |
 | [T019](tickets/t019-create-before-delivery-features-and-coherent-outcome-labels.md) | Create before-delivery features and coherent outcome labels | P1 | T018 | Planned |

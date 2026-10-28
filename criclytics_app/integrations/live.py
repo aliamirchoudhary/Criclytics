@@ -48,6 +48,8 @@ def save(filename, data):
 
 def cricapi_get(endpoint, params=None, retries=2):
     """Make a CricAPI request. Fails fast if network is blocked."""
+    from .source_policy import require_source
+    require_source('cricapi')
     if not CRICAPI_KEY:
         print("  ✗  No CricAPI key found.")
         return None

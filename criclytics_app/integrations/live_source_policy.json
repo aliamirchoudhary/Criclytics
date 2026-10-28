@@ -1,0 +1,11 @@
+{
+  "reviewed_at": "2026-10-28",
+  "decision": "replay_and_manual_only",
+  "network_collectors_allowed": [],
+  "permitted_modes": [
+    "historical_replay",
+    "local_manual"
+  ],
+  "external_live_benchmark": null,
+  "reason": "No reviewed source proves no-card zero-cost next-delivery timeliness and public redistribution rights. No paid or metered fallback."
+}
