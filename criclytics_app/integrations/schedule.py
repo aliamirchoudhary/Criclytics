@@ -242,41 +242,27 @@ def main():
         source       = "cricapi"
         print(f"  CricAPI OK → Live:{len(lv)} Completed:{len(cm)} Upcoming:{len(up)}")
     else:
-        print("  CricAPI unavailable — using ICC 2026 calendar fallback")
+        print('Provider unavailable: retaining last-good snapshots; sample calendar is not published.')
+        return
 
-    # ── Always merge ICC calendar ─────────────────────────────────
-    # Use ICC calendar for any gaps (upcoming always)
-    existing_ids = {m['id'] for m in live_matches + completed + upcoming}
-    for m in ICC_2026:
-        if m['id'] not in existing_ids:
-            if m['matchEnded']:
-                completed.append(m)
-            elif m['matchStarted']:
-                live_matches.append(m)
-            else:
-                upcoming.append(m)
-            existing_ids.add(m['id'])
-
-    # ── Sort ──────────────────────────────────────────────────────
     upcoming_s  = sorted(upcoming,     key=lambda x: x.get('date',''))
     completed_s = sorted(completed,    key=lambda x: x.get('date',''), reverse=True)
     final       = live_matches + upcoming_s + completed_s
 
     # ── Write matches.json ────────────────────────────────────────
     path = os.path.join(LIVE_DIR, "matches.json")
-    with open(path, 'w', encoding='utf-8') as f:
-        json.dump({"data": final,
-                   "fetched_at": datetime.now(timezone.utc).isoformat(),
-                   "source": source}, f, indent=2, ensure_ascii=False)
+    from ..services.live_cache import atomic_json
+    atomic_json(path, {"data": final,
+                       "fetched_at": datetime.now(timezone.utc).isoformat(),
+                       "source": source})
     print(f"\n  ✓ matches.json — {len(final)} matches "
           f"(Live:{len(live_matches)} Upcoming:{len(upcoming_s)} Completed:{len(completed_s)})")
 
     # ── Write live.json ───────────────────────────────────────────
     path2 = os.path.join(LIVE_DIR, "live.json")
-    with open(path2, 'w', encoding='utf-8') as f:
-        json.dump({"data": live_matches,
-                   "fetched_at": datetime.now(timezone.utc).isoformat(),
-                   "source": source}, f, indent=2, ensure_ascii=False)
+    atomic_json(path2, {"data": live_matches,
+                        "fetched_at": datetime.now(timezone.utc).isoformat(),
+                        "source": source})
     print(f"  ✓ live.json — {len(live_matches)} live matches")
 
     print("\n" + "=" * 55)

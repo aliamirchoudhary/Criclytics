@@ -1,0 +1,35 @@
+{
+  "dataset_id": "e6dce5850e36a851f95537e702fc9f782fe26f0dd98c15448b2a767c0f4c2da3",
+  "registry_sha256": "94476e45b2267841ef618f4f7b2321a75deda6cd8206c3c7a2190e01df31fb06",
+  "registry_bytes": 6242468,
+  "counts": {
+    "player": 5125,
+    "team": 109,
+    "venue": 440,
+    "match": 6651
+  },
+  "source_player_labels": 5090,
+  "colliding_source_player_labels": 68,
+  "unresolved_reasons": {
+    "name_collision": 111
+  },
+  "register_sha256": {
+    "people.csv": "ffacf43c141d729ff3a999d6fce9a2777bd462a1bb86c086467dda88946ae990",
+    "names.csv": "cde5292c15be1cf03e0b366875b5aa2e23c29283ca9d368bb0f768ea85761fb1",
+    "venues.csv": "a80150a14b90d615b494c151037dbd148fc530e8e6b1eb1a0b6024ee4eb66ad6",
+    "venue_names.csv": "53e6a001568eed770db882a3dc52f912620522c18ea8331c36cd2e1c737b0a9b"
+  },
+  "observed_multi_team_players": 119,
+  "canonical_venues": 136,
+  "provisional_venues": 304,
+  "provider_cached_rows_reviewed": 25,
+  "possible_date_overlaps": [],
+  "real_verified_provider_match_links": 0,
+  "checks": {
+    "name_stable_profile_parity": true,
+    "ambiguous_profile_409": true,
+    "ambiguous_comparison_409": true,
+    "identity_metadata": true
+  },
+  "limitations": "Provider cache review is offline and not evidence of live completeness. No real match join is invented; cross-provider confirmed duplicates are covered by portable fictional fixtures. Legacy name aggregates remain under review; default dataset/identity configuration unchanged."
+}

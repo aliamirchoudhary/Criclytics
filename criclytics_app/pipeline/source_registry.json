@@ -1,0 +1,78 @@
+{
+  "version": "2026-10-28",
+  "reviewed_at": "2026-10-28",
+  "sources": [
+    {
+      "id": "cricsheet-json",
+      "family": "historical deliveries and derived aggregates",
+      "rights": "allowed_with_attribution",
+      "license": "ODC-BY-1.0",
+      "terms": "https://cricsheet.org/licensing/",
+      "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+      "attribution": "Derived from Cricsheet JSON match data; modified statistical aggregates by Criclytics.",
+      "redistribution": "Preserve source/license notices and attribution; no endorsement. Independent image/personality/trademark rights are not granted.",
+      "updates": "Manual bounded downloads; retain source hashes; not a live feed."
+    },
+    {
+      "id": "cricsheet-register",
+      "family": "people and venue identity metadata",
+      "rights": "allowed_with_attribution",
+      "license": "ODC-BY-1.0",
+      "terms": "https://cricsheet.org/register/",
+      "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+      "attribution": "Cricsheet People and Venue Registers.",
+      "redistribution": "Attribute and preserve notices. Provider identifiers do not license provider content.",
+      "updates": "Optional explicit offline import; no scraping."
+    },
+    {
+      "id": "icc-rankings",
+      "family": "rankings and ICC images",
+      "rights": "not_cleared_for_public_reuse",
+      "terms": "https://www.icc-cricket.com/about/the-icc/legal-notices/website-terms-of-use",
+      "redistribution": "Website terms reserve rights and restrict commercial use without licence; cached snapshots are not proof of permission.",
+      "updates": "No automated collector; public release requires clearance or removal."
+    },
+    {
+      "id": "cricapi",
+      "family": "provider fixtures/live scorecards",
+      "rights": "not_cleared_for_public_reuse",
+      "terms": "https://cricketdata.org/terms-of-use/",
+      "redistribution": "Personal/non-commercial permissions and commercial-credit requirement do not clear public platform reuse; no-card100calls/day pricing is insufficient evidence of timely delivery service.",
+      "updates": "T016 rejects automated live collection; replay/manual only."
+    },
+    {
+      "id": "rapidapi",
+      "family": "provider live metadata",
+      "rights": "unverified",
+      "terms": "https://rapidapi.com/terms",
+      "redistribution": "Marketplace access is not a blanket data redistribution licence; provider-specific review required.",
+      "updates": "No collector enabled."
+    },
+    {
+      "id": "legacy-reference",
+      "family": "curated biographies, images, logos and pitch descriptions",
+      "rights": "unverified",
+      "terms": null,
+      "redistribution": "No source evidence for all legacy fields; exclude from new verified dataset promotion and do not infer licence from historical data.",
+      "updates": "Preserve originals privately; clearance or replacement required."
+    },
+    {
+      "id": "open-meteo",
+      "family": "weather forecasts and historical reanalysis",
+      "rights": "noncommercial_free_api_only",
+      "terms": "https://open-meteo.com/en/terms",
+      "license": "CC-BY-4.0",
+      "redistribution": "Data licence and API service terms differ; intended public coaching product not cleared for non-commercial-only free service.",
+      "updates": "No calls enabled;2016?2018 sample has no suitable issued-run/UTC context."
+    },
+    {
+      "id": "met-norway-weather",
+      "family": "optional future as-issued weather forecasts",
+      "rights": "allowed_with_attribution_and_traffic_conditions",
+      "terms": "https://api.met.no/doc/TermsOfService",
+      "license": "CC-BY-4.0/NLOD-2.0",
+      "redistribution": "Attribute MET Norway, preserve licence; identify app/contact, honor Expires/conditionalGET and traffic rules. No sports-feed rights implied.",
+      "updates": "No collector enabled. Future optional endpoint must respect cache/global budget and explicit venue coordinates/cutoff; no historical2016?2018 availability proved."
+    }
+  ]
+}

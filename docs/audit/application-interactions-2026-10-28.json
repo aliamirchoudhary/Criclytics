@@ -1,0 +1,64 @@
+{
+  "checks": [
+    {
+      "case": "server pagination changes result page",
+      "passed": true
+    },
+    {
+      "case": "team comparison uses descriptive records",
+      "passed": true
+    },
+    {
+      "case": "long malicious name, zero and missing values",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "case": "long malicious name, zero and missing values",
+      "width": 375,
+      "passed": true
+    },
+    {
+      "case": "long malicious name, zero and missing values",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "case": "long malicious name, zero and missing values",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "case": "long malicious name, zero and missing values",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "case": "reduced motion applied",
+      "passed": true
+    }
+  ],
+  "contrast": [
+    {
+      "foreground": "#c1d4e5",
+      "background": "#102442",
+      "ratio": 10.21
+    },
+    {
+      "foreground": "#a5d7ff",
+      "background": "#0a1931",
+      "ratio": 11.51
+    },
+    {
+      "foreground": "#081a30",
+      "background": "#a5d7ff",
+      "ratio": 11.46
+    },
+    {
+      "foreground": "#f6fafd",
+      "background": "#0d2040",
+      "ratio": 15.42
+    }
+  ],
+  "limitations": "Selected authored color pairs reviewed; no screen-reader speech or exhaustive WCAG certification."
+}

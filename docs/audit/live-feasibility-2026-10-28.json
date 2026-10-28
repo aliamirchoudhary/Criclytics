@@ -1,0 +1,53 @@
+{
+  "scope": "Synthetic virtual replay only; no actual live-feed latency benchmark",
+  "external_api_calls": 0,
+  "actual_external_lag_seconds": null,
+  "actual_external_missed_deliveries": null,
+  "actual_external_corrections": null,
+  "budget_example": {
+    "four_hour_30s_polls": 480,
+    "100calls_four_hour_min_interval_seconds": 144
+  },
+  "experiments": [
+    {
+      "virtual_poll_seconds": 144,
+      "assumed_source_delay_seconds": 0,
+      "synthetic_requests": 12,
+      "initial_deliveries_seen": 36,
+      "missed_initial_deliveries": 0,
+      "delivery_states_received_before_following_delivery": 10,
+      "opportunities_too_late": 26,
+      "corrections_seen": 1,
+      "correction_observation_delay_seconds": 120,
+      "lag_seconds": {
+        "min": 0,
+        "max": 136,
+        "mean": 68.0
+      }
+    },
+    {
+      "virtual_poll_seconds": 2,
+      "assumed_source_delay_seconds": 2,
+      "synthetic_requests": 800,
+      "initial_deliveries_seen": 36,
+      "missed_initial_deliveries": 0,
+      "delivery_states_received_before_following_delivery": 36,
+      "opportunities_too_late": 0,
+      "corrections_seen": 1,
+      "correction_observation_delay_seconds": 2,
+      "lag_seconds": {
+        "min": 2,
+        "max": 2,
+        "mean": 2.0
+      }
+    }
+  ],
+  "browser": {
+    "synthetic_selector_break_observed": true,
+    "renderer_js_heap_used_bytes": 785296,
+    "total_browser_rss_bytes": null,
+    "memory_limitations": "JS heap is not total browser/process memory. No production browser worker capacity claim."
+  },
+  "decision": "NO-GO external collector; GO historical replay and rights-authorized local manual input",
+  "limitations": "Assumed full event-history snapshots avoid missing final delivery records but many states arrive too late for before-next-ball predictions. Does not prove human scoring latency, provider quality or live permission."
+}

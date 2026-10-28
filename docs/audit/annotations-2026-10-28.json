@@ -1,0 +1,70 @@
+{
+  "scope": "Authored fictional match; review states are fixture assertions, not a real coach review",
+  "fixture_license": "CC0 authored fixture",
+  "immutable_records": 3,
+  "before": {
+    "available": false,
+    "coverage": "partial attributed observations only",
+    "observations": [],
+    "confirmed_drops": null,
+    "confirmed_misfields": null,
+    "disputed_groups": 0
+  },
+  "after": {
+    "available": true,
+    "coverage": "partial attributed observations only",
+    "observations": [
+      {
+        "event_id": "match:fixture#i1/d1",
+        "annotation_kind": "dropped_catch",
+        "chance_id": "unspecified",
+        "player_id": null,
+        "actor_conflict": false,
+        "occurred": null,
+        "status": "conflict_or_uncertain",
+        "record_revisions": [
+          {
+            "id": "drop",
+            "revision": 1,
+            "source": "authored fictional match",
+            "observer": "observer-a"
+          },
+          {
+            "id": "observer-two",
+            "revision": 1,
+            "source": "authored fictional match",
+            "observer": "observer-b"
+          }
+        ]
+      },
+      {
+        "event_id": "match:fixture#i1/d2",
+        "annotation_kind": "misfield",
+        "chance_id": "unspecified",
+        "player_id": "player:fictional:fielder",
+        "actor_conflict": false,
+        "occurred": true,
+        "status": "reviewed",
+        "record_revisions": [
+          {
+            "id": "misfield",
+            "revision": 1,
+            "source": "authored fictional match",
+            "observer": "observer-a"
+          }
+        ]
+      }
+    ],
+    "confirmed_drops": null,
+    "confirmed_misfields": 1,
+    "disputed_groups": 1
+  },
+  "checks": {
+    "duplicate_reorder_idempotent": true,
+    "unknown_without_coverage": true,
+    "conflict_retained": true
+  },
+  "real_match_incident_annotations": 0,
+  "model_features_enabled": false,
+  "limitations": "Authored fictional example; no real coach review, video licence or prospective fielding benefit claimed."
+}

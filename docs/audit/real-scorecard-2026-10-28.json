@@ -1,0 +1,35 @@
+{
+  "match": "2024-06-29 India v South Africa, T20 World Cup Final",
+  "source": "Cricsheet JSON, Open Data Commons Attribution License 1.0",
+  "raw_sha256": "e360b7a1d21d253253f7f0488914c07f44708e23823e525643c69a3ddd784344",
+  "actual_innings": [
+    [
+      "India",
+      176,
+      7,
+      "20.0"
+    ],
+    [
+      "South Africa",
+      169,
+      8,
+      "20.0"
+    ]
+  ],
+  "players": {
+    "V Kohli": [
+      76,
+      59
+    ],
+    "H Klaasen": [
+      52,
+      27
+    ]
+  },
+  "independent_reference": [
+    "https://www.bcci.tv/matches/0aaa903c-1b4e-4647-b739-bdfa695798f4/south-africa-vs-india/scorecard",
+    "https://www.icc-cricket.com/tournaments/t20cricketworldcup/news/final-over-thrillers-in-the-2024-men-s-t20-world-cup/",
+    "https://www.icc-cricket.com/tournaments/t20cricketworldcup/news/live-india-and-south-africa-face-off-in-t20-world-cup-final?appview=true"
+  ],
+  "limitations": "Selected innings and batting figures only; not every historic scorecard independently reviewed."
+}

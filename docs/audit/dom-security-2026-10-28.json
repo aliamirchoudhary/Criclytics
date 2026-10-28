@@ -1,0 +1,27 @@
+{
+  "handlers": 0,
+  "unsafeHref": null,
+  "rows": 1,
+  "cell": "safe",
+  "imageUrl": "",
+  "credentialUrl": "",
+  "escaped": "&#39;&quot;&lt;&gt;&amp;",
+  "executed": 0,
+  "page_cases": [
+    {
+      "page": "/search.html",
+      "handlers": 0,
+      "executed": 0
+    },
+    {
+      "page": "/compare.html",
+      "handlers": 0,
+      "executed": 0
+    },
+    {
+      "page": "/player-profile.html",
+      "handlers": 0,
+      "executed": 0
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 # T028: Build truthful live prediction workspace
 
-- Status: Planned
+- Status: Implemented, awaiting review
 - Priority: P1
 - Depends on: T011,T012,T027
-- Branch: feat/t028-build-truthful-live-prediction-workspace
-- Base: latest dev
+- Branch: work/t028-prediction-workspace
+- Base: preceding local ticket branch (resumed-session user override)
 
 ## Problem
 
@@ -16,10 +16,10 @@ Build current-score/striker/bowler panels with next-delivery distributions, lag/
 
 ## Acceptance criteria
 
-- [ ] Every displayed prediction links to a real issued ledger entry and pre-delivery state
-- [ ] Users can distinguish fresh delayed unavailable manual and replay states
-- [ ] No duplicate browser heuristic or hidden missing context
-- [ ] Mobile keyboard and reduced-motion flows work under slow/error connections
+- [x] Every displayed prediction links to a real issued ledger entry and pre-delivery state
+- [x] Users can distinguish fresh delayed unavailable manual and replay states
+- [x] No duplicate browser heuristic or hidden missing context
+- [x] Mobile keyboard and reduced-motion flows work under slow/error connections
 
 ## Validation
 
@@ -31,4 +31,12 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 
 ## Implementation evidence
 
-Not started.
+Implemented for default-off local shadow review; public live feed/model promotion remain unavailable.
+
+### Session update 2026-10-28T17:14:59+00:00
+
+Chained from T027 local commit. Build explicit manual/replay/unavailable workspace tied to issued ledger records, no public live feed or model promotion.
+
+### Session update 2026-10-28T17:21:10+00:00
+
+18th allowlisted/static-build page workspace.html, shared navigation/renderer/CSP. Manual/replay/unavailable modes, score/announced actors/source age/cutoff/revision/model/sample/context coverage; current distribution links to real issued history, replacement links retained, no heuristic. Manual refresh makes two workspace reads; current eligibility expires without polling and subtracts history network delay. Browser375/1440 keyboard/reduced-motion/correction/stale/error-retry/slow/replay/disabled/actual15sec expiry pass. All18pages at320/375/768/1024/1440:90cases+4interactions pass.84tests83pass/one optional skip, compilation/JS syntax pass. Updated explicit static page count17->18; independent PAGES allowlist parity check retained. Evidence workspace-ui and application-ui-t028 JSON; WORKSPACE_UI.md. Authored local source/model, no real coach/feed trial, promotion or deployment.

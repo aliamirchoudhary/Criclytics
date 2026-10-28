@@ -53,6 +53,8 @@ def ms_to_date(ms):
     except: return str(ms)[:10]
 
 def api_get(path, params=None):
+    from .source_policy import require_source
+    require_source('rapidapi')
     if not HAS_REQUESTS: return None
     try:
         r = requests.get(RAPIDAPI_BASE + path, headers=HEADERS, params=params, timeout=15)
@@ -370,6 +372,8 @@ def main():
         with open(existing_path, encoding="utf-8") as f:
             try:
                 ex = json.load(f)
+                if isinstance(ex, dict) and ex.get('_cache_version') == 1:
+                    ex = ex['data']
                 for em in ex.get("data", []):
                     if em.get("score") and em["score"]:
                         existing_sc[em.get("id","")] = em["score"]

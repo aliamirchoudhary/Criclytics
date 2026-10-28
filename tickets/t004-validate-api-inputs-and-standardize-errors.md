@@ -1,6 +1,6 @@
 # T004: Validate API inputs and standardize errors
 
-- Status: Planned
+- Status: Implemented; local review pending
 - Priority: P1
 - Depends on: T000
 - Branch: fix/t004-validate-api-inputs-and-standardize-errors
@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+### Session update 2026-10-28T08:42:18+00:00
+
+17 tests discovered, 16 passed and optional original-data test skipped. Added boundary/type/format/size/duplicate-key/error-redaction tests. Inputs reject before data/provider access; missing artifacts=503, unknown=404, malformed=400, unsupported media=415, size=413. Errors include request IDs with generic internal failures. Success representations preserved; prior soft-error 200 responses deliberately retired per docs/API_CONTRACT.md.

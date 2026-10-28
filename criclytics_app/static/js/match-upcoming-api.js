@@ -14,12 +14,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     return;
   }
 
-  // Find match in /api/matches
-  var match = null;
-  var data = await apiFetch('/api/matches');
-  if (data && data.data) {
-    match = data.data.find(function(m) { return String(m.id) === String(matchId); });
-  }
+  var data = await apiFetch('/api/matches/' + encodeURIComponent(matchId));
+  var match = data && data.data;
   if (!match) {
     var liveData = await apiFetch('/api/live');
     if (liveData && liveData.data) {
@@ -187,8 +183,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   // H2H
   var h2hEl = document.getElementById('h2hContent');
-  if (h2hEl && t1 && t2) {
-    var h2hData = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=' + (match.matchType || 'T20I'));
+  var h2hFormat = canonicalFormat(match.matchType);
+  if (h2hEl && t1 && t2 && h2hFormat) {
+    var h2hData = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=' + h2hFormat);
     if (h2hData) {
       var wins1 = h2hData.team_a_wins || 0;
       var wins2 = h2hData.team_b_wins || 0;
@@ -199,16 +196,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         + '<div style="text-align:center;color:var(--text-muted);font-size:.8rem;">'+total+' matches played</div>'
         + '<div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:var(--accent)">'+wins2+'</div><div style="font-size:.75rem;color:var(--text-muted)">'+esc(t2)+' wins</div></div>'
         + '</div>';
-      // Win probability from H2H
-      if (total > 0) {
-        var pct1 = Math.round((wins1/total)*100);
-        var pct2 = 100 - pct1;
-        var wp1 = document.getElementById('wpTeam1'); if (wp1) wp1.textContent = esc(t1);
-        var wp2 = document.getElementById('wpTeam2'); if (wp2) wp2.textContent = esc(t2);
-        var bar = document.getElementById('wpBar');   if (bar) bar.style.width = pct1 + '%';
-        var p1 = document.getElementById('wpPct1');  if (p1) p1.textContent = pct1 + '%';
-        var p2 = document.getElementById('wpPct2');  if (p2) p2.textContent = pct2 + '%';
-      }
+
     } else {
       h2hEl.innerHTML = '<div style="color:var(--text-muted);font-size:.83rem;">No H2H data available.</div>';
     }

@@ -1,0 +1,81 @@
+{
+  "release_decision": "BLOCKED",
+  "public_pages": 19,
+  "clean_frontend_allowlist": true,
+  "clean_backend_allowlist": true,
+  "original_processed_hashes_verified": 13,
+  "offline_api_smoke": {
+    "/api/ready": {
+      "status": 200,
+      "bytes": 1396
+    },
+    "/api/coverage": {
+      "status": 200,
+      "bytes": 814
+    },
+    "/api/players?limit=5": {
+      "status": 200,
+      "bytes": 8035
+    },
+    "/api/players/SC%20Cook": {
+      "status": 200,
+      "bytes": 2731
+    },
+    "/api/v1/scouting?player=SC%20Cook&format=Test": {
+      "status": 200,
+      "bytes": 3297
+    },
+    "/api/v1/workspaces/match:manual:none/forecast": {
+      "status": 200,
+      "bytes": 168
+    },
+    "/api/predict/status": {
+      "status": 200,
+      "bytes": 293
+    }
+  },
+  "public_private_paths_denied": true,
+  "script_csp_enforced": true,
+  "dependency_audit": {
+    "packages": 31,
+    "known_advisories": 0,
+    "source": "pip-audit resolved pinned requirements; not proof of absent application vulnerabilities"
+  },
+  "authored_restore_drill": {
+    "sqlite_integrity": true,
+    "source_and_collector_coordinator_and_ledger": true,
+    "kill_retained": true,
+    "issued_payload_unchanged": true,
+    "original_source_ledger_hashes_unchanged": true,
+    "two_immutable_json_versions_and_rollback": true,
+    "previous_version_retained": true
+  },
+  "actual_coach_participants": 0,
+  "actual_prospective_matches": 0,
+  "hosted_restore_verified": false,
+  "deployment": null,
+  "blockers": [
+    "T001 credential rotation/production containment",
+    "T013 remote branch/CI/host release verification",
+    "T029 real coach feedback",
+    "T030 prospective cohort/timing/metrics",
+    "Git publication/integration approval"
+  ],
+  "limitations": "Offline local fixtures/candidates only. Network GET blocked during smoke/drill. No production resource, original dataset, credential, Git remote or deployment changed.",
+  "verification": {
+    "python_3_11": {
+      "tests": 89,
+      "passed": 88,
+      "optional_skipped": 1
+    },
+    "python_3_12": {
+      "tests": 89,
+      "passed": 88,
+      "optional_skipped": 1
+    },
+    "uv_package_compatibility": "passed both",
+    "active_js_syntax": "passed",
+    "python_compilation": "passed",
+    "source_coordinator_ledger_alias_rejection": "passed Python3.11 and3.12"
+  }
+}

@@ -235,7 +235,7 @@ async function loadQuickInsights() {
 
 // ─── Upcoming Matches ─────────────────────────────────────────────────────────
 async function loadUpcoming() {
-  var data = await apiFetch('/api/matches');
+  var data = await apiFetch('/api/matches?status=upcoming&sort=oldest&limit=5');
   var allMatches = (data && data.data) ? data.data : [];
   var upcoming = allMatches.filter(function(m) { return !m.matchEnded; }).slice(0,5);
 
@@ -321,7 +321,7 @@ async function loadTrendingPlayers() {
     var photoUrl=(meta[name]&&meta[name].image_url)||p.image_url||'';
     var isoCode2=(meta[name]&&meta[name].iso_code)||COUNTRY_ISO[country]||'';
     return '<div class="card player-card anim-up ' + delays[i] + '">'
-      + '<div class="player-avatar" style="position:relative;overflow:hidden;">'        + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--accent);">' + initials + '</span>'        + (photoUrl ? '<img src="' + photoUrl + '" alt="' + esc(name) + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">' : '')        + (isoCode2 ? '<img src="' + FLAG_CDN + isoCode2 + '.svg" style="position:absolute;bottom:2px;right:2px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--surface-1);object-fit:cover;" onerror="this.style.display=\'none\'">' : '')      + '</div>'
+      + '<div class="player-avatar" style="position:relative;overflow:hidden;">'        + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--accent);">' + initials + '</span>'        + (photoUrl ? '<img src="' + esc(safeImageUrl(photoUrl)) + '" alt="' + esc(name) + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">' : '')        + (isoCode2 ? '<img src="' + FLAG_CDN + isoCode2 + '.svg" style="position:absolute;bottom:2px;right:2px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--surface-1);object-fit:cover;" onerror="this.style.display=\'none\'">' : '')      + '</div>'
       + '<div class="player-name">' + esc(name) + '</div>'
       + '<div class="player-meta">' + (country ? fl(country,14) + esc(country) : '—') + '</div>'
       + '<div class="player-stat-row" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;">' + statsHtml + '</div>'
@@ -356,7 +356,7 @@ async function loadMiniRankings() {
 
 // ─── Recent Results ──────────────────────────────────────────────────────────
 async function loadRecentResults() {
-  var data = await apiFetch('/api/matches');
+  var data = await apiFetch('/api/matches?status=completed&limit=4');
   var allMatches = (data && data.data) ? data.data : [];
   var completed = allMatches.filter(function(m){ return m.matchEnded; }).slice(0,4);
 

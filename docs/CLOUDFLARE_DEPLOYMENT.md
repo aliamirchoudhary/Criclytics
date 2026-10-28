@@ -65,3 +65,18 @@ Local tests and Wrangler dry-run evidence belong in T013a. Dashboard settings an
 actual Cloudflare upload success require operator verification; no account
 setting or live production deployment is implied by a local dry-run. Wider T013
 security/release prerequisites remain separate.
+
+## T012 explicit browser API origin
+
+Set public build variable `FRONTEND_API_BASE` to
+`https://aliamirchoudhary-criclytics-backend.hf.space` for the existing static
+Worker, or pass `--api-base` to the builder. This value is public configuration,
+never a secret. An unset/empty value deliberately means same-origin (Flask or a
+local API proxy); there is no hostname-based production fallback. Static preview
+builds need their own explicit API origin and matching backend CORS origin.
+The generated `/static/js/runtime-config.js` and CSP connect-src agree. Config
+is no-store, and the script policy is enforced with no inline/external scripts.
+Flask uses the same setting and serves the same config contract dynamically.
+
+Example isolated build: `python -m scripts.build_frontend --output <fresh-external-directory> --api-base https://aliamirchoudhary-criclytics-backend.hf.space`.
+No dashboard setting or production release was changed during T012.

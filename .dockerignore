@@ -1,4 +1,7 @@
 .git
+.auth
+.wrangler
+build/
 .env
 *.env
 criclytics/
@@ -14,3 +17,8 @@ tickets/
 dist/
 data/raw/
 *.log
+
+data/datasets/
+data/live/
+
+data/events/

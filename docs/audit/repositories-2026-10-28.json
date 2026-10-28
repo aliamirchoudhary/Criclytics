@@ -1,0 +1,28 @@
+{
+  "before_bytes": 38825984,
+  "samples": [
+    {
+      "mode": "cold_list",
+      "milliseconds": 3123.77,
+      "bytes": 13072
+    },
+    {
+      "mode": "warm_list",
+      "milliseconds": 347.15,
+      "bytes": 13072
+    },
+    {
+      "mode": "first_detail",
+      "milliseconds": 11.15,
+      "bytes": 851
+    },
+    {
+      "mode": "warm_detail",
+      "milliseconds": 8.49,
+      "bytes": 851
+    }
+  ],
+  "json_parses": 1,
+  "after_bytes": 249958400,
+  "limitations": "Single Windows process, local files, OS cache not flushed, engine disabled. Not a hosted capacity guarantee."
+}

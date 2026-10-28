@@ -260,45 +260,9 @@ function populateKeyPlayers(match) {
   body.textContent = 'Player insights will display here once match-specific performance data is available.';
 }
 
-async function updateWinProbability(match, t1, t2) {
-  if (!match || match.matchEnded || !t1 || !t2) return;
-
-  var statusEl = document.querySelector('.sidebar-card .sidebar-card-title');
-  var payload = {
-    team_a: t1,
-    team_b: t2,
-    format: String(match.matchType || match.type || match.format || 'ODI').trim(),
-    venue: String(match.venue || '').trim(),
-  };
-
-  try {
-    var res = await fetch(API + '/api/predict/team_match', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) return;
-    var data = await res.json();
-    if (!data || !data.team_a || !data.team_b) return;
-
-    var pctA = Math.round((data.team_a.win_probability || 0) * 100);
-    var pctB = Math.round((data.team_b.win_probability || 0) * 100);
-    document.querySelectorAll('.win-prob-team').forEach(function(el, i) {
-      var team = i === 0 ? t1 : t2;
-      el.innerHTML = flInline(team, 16) + esc(team);
-    });
-    document.querySelectorAll('.win-prob-pct').forEach(function(el, i) {
-      el.textContent = (i === 0 ? pctA : pctB) + '%';
-    });
-    document.querySelectorAll('.win-prob-fill-ind').forEach(function(el) { el.style.width = pctA + '%'; });
-    document.querySelectorAll('.win-prob-fill-aus').forEach(function(el) { el.style.width = pctB + '%'; });
-
-    var note = document.querySelector('.win-prob-visual p');
-    if (note) note.textContent = 'Historical model estimate based on team strength, venue, and head-to-head data.';
-    if (statusEl) statusEl.textContent = 'Win Probability';
-  } catch (e) {
-    return;
-  }
+async function updateWinProbability() {
+  var card = document.getElementById('win-prob-card');
+  if (card) card.textContent = 'Predictions unavailable pending evaluation and calibration.';
 }
 
 // ── Clear ALL hardcoded content, replace with — ───────────────────────────────
@@ -343,7 +307,7 @@ function wipePage(t1, t2) {
   // Status badge
   var statusEl = document.querySelector('.match-status-live');
   if (statusEl) {
-    statusEl.innerHTML = '<span class="live-dot"></span> ' + (t1 && t2 ? t1 + ' vs ' + t2 : 'Match Detail');
+    statusEl.innerHTML = '<span class="live-dot"></span> ' + (t1 && t2 ? esc(t1) + ' vs ' + esc(t2) : 'Match Detail');
   }
 
   // Chase bar
@@ -758,7 +722,9 @@ function updateBowlingScorecard(bowling, id) {
 }
 
 // ── H2H ───────────────────────────────────────────────────────────────────────
-async function updateH2H(t1, t2) {
+async function updateH2H(t1, t2, format) {
+  format = canonicalFormat(format);
+  if (!format) return;
   // Only call H2H API for men's international teams, not IPL teams or women's teams
   var isInternational1 = COUNTRY_ISO[t1] || guessIso(t1);
   var isInternational2 = COUNTRY_ISO[t2] || guessIso(t2);
@@ -766,7 +732,7 @@ async function updateH2H(t1, t2) {
   var isWomen2 = (t2 || '').toLowerCase().includes('women');
   if (!isInternational1 || !isInternational2 || isWomen1 || isWomen2) return;
 
-  var data = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=Test');
+  var data = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=' + encodeURIComponent(format === 'T20' ? 'T20I' : format));
   if (!data) return;
   var r = Object.values(data)[0];
   if (!r) return;
@@ -841,17 +807,6 @@ async function loadMatchDetail() {
   var match = null;
   var matchData = await apiFetch('/api/matches/' + matchId);
   match = unwrapMatch(matchData);
-
-  // Fall back to the cached list if the direct endpoint is unavailable.
-  if (!match) {
-    var allData = await apiFetch('/api/matches');
-    var allMatches = asArray(allData);
-    if (allMatches.length) {
-      match = allMatches.find(function(m) {
-        return String(m.id || m.unique_id || '') === String(matchId);
-      }) || null;
-    }
-  }
 
   // Also try live endpoint
   if (!match) {
@@ -1020,7 +975,7 @@ async function loadMatchDetail() {
 
   updateWinProbability(match, t1, t2);
 
-  if (t1 && t2) updateH2H(t1, t2);
+  if (t1 && t2) updateH2H(t1, t2, match.matchType);
   if (match.venue) updateVenueContext(match.venue);
 }
 

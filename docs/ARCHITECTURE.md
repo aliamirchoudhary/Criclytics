@@ -95,8 +95,8 @@ hook. Workers Builds also needs its dashboard Build command set explicitly to
 that Python command; it currently ignores Wrangler Custom Builds. See the exact
 [Cloudflare settings](CLOUDFLARE_DEPLOYMENT.md). Do not serve or upload the source
 checkout as static content. Remote account settings have not been changed here.
-Current JS selects the historical HF backend for non-localhost origins; T012
-introduces explicit environment configuration.
+T012 uses explicit FRONTEND_API_BASE public configuration (empty means same-origin).
+Static builds must configure their HTTPS backend and corresponding CORS origin.
 
 Both staging commands require a clean output directory, so an old unexpected
 file cannot silently survive into a public release. Use a clean checkout/build
@@ -123,3 +123,253 @@ Use SQLite for local transactional metadata/event indexes and partitioned
 columnar artifacts for offline training only after workload measurements justify
 them. A hosted SQL database, Redis dependency, message broker, microservices,
 Kubernetes, GPU or paid feature store is not a prerequisite.
+
+## T006 repository and refresh ownership
+
+Each factory instance owns a bounded (32-file) JSON repository. A generation is
+keyed by resolved path, nanosecond mtime and byte size. Parsing/index building
+completes before publication under a lock. Invalid replacements retain last-good
+objects. Mutation is isolated through defensive copies; historical details use an
+ID index and lists/search receive compact projections, never the full snapshot.
+Raw-match caching is app-owned too. Producers must publish changed generations
+with atomic replacement; in-place edits retaining size and mtime are unsupported.
+
+Live cache v1 stores explicit Unix `written_at` with payload, atomically replaces
+disk JSON and mirrors an expiring namespaced Redis entry. Disk always retains
+stale fallback. Legacy plain JSON uses disk mtime; legacy Redis TTL alone is
+unknown freshness and is ignored. API callers still receive unwrapped payloads.
+At most 128 new JSON keys can be admitted per live directory; existing files/data
+are preserved. Public unknown IDs cannot trigger provider detail refreshes.
+
+A SQLite provider-wide lease/backoff row in LIVE_DIR serializes refreshes across
+workers sharing that volume; it expires after a crash. No per-ID lock dictionary
+or paid Redis is required. Without a shared disk, configure exactly one collector
+and disable HTTP refresh in other replicas; these are not distributed leases
+across unrelated hosts. Provider daily-budget reservation/scorecard scheduling is
+T025; live fetch stays disabled by default. Legacy CLI writers still need their
+T007/T025 migration and must not run concurrently with serving until migrated.
+
+Offline measured warm list/detail: 347/8.49 ms, one processed parse; resident
+working set ~250 MB with engine disabled. Cold list ~3.12 seconds. These are local
+Windows samples, not hosted capacity guarantees; evidence is in audit/repositories-
+2026-10-28.json. Keep initial deployment to one worker until measured on its host.
+
+## T009 scoring candidate
+
+pipeline/scoring.py is the shared per-innings scorer for raw detail and rebuilds;
+pipeline/aggregation.py fills summary tables from explicit innings identities.
+`python -m criclytics_app.pipeline.cricsheet --output <fresh-directory>` delegates
+to streaming rebuild.py. It never chooses data/processed as implicit output.
+The full verified local candidate is build/data-v2-final (ignored data); serving
+continues to select the existing processed artifacts until schema/migration review.
+See SCORING_CONTRACT.md and audit/aggregation-v2-2026-10-28.json for deliberate
+statistical changes. There is no automatic production data promotion.
+
+json_io.py centralizes atomic publication and shared-delete Windows readers;
+bounded retry handles transient Windows sharing failures. Linux uses normal
+file handles with atomic rename. A failed write leaves the old artifact intact.
+
+T010 supersedes the T009 development candidate with build/data-v2-schema-final
+(schema2.0.1), correcting actual pre/post penalty keys and recording90 narrow
+miscount-count normalization events across80 source files. Strict ingestion checks
+all6,651 inputs, with zero rejects; original sources/processed artifacts stay intact.
+Portable golden fixtures and DATA_SCHEMAS.md define the tested boundary. None of
+these ignored candidates is selected for production automatically.
+
+## T011 public UI
+
+All17 allowlisted templates load application.js/application.css, using safe DOM construction and shared accessible navigation/forms/tables. Original markup is archived in docs/history/ui-pre-t011, outside static deployment output. The shared renderer owns these pages; legacy page scripts remain as historical assets and are not loaded by the new templates. Runtime API configuration and removal/consolidation of legacy assets remain T012. No dataset promotion or deployment accompanies this UI change. See UI_ACCEPTANCE.md.
+
+## T012 frontend ownership
+
+`frontend.py` validates a public origin and generates runtime configuration for
+both Flask and the dependency-free static builder. The shared runtime loads
+runtime-config.js, dom.js, api-client.js and application.js; the later scouting
+page additionally loads coaching.js for its local private-plan workflow. The API helper
+coalesces in-flight GETs, bounds requests to15 seconds, retains no completed
+response/error cache and sends no credentials. Filter generations reject late
+results; application initialization is idempotent. Match detail now always uses
+the same API path on Flask/static hosting; server bootstrap has been retired
+from page delivery. Legacy scripts/styles remain compatibility assets, unloaded.
+Active styles are self-contained with system fonts; no third-party font/icon
+load is required. Script/attribute CSP is enforced, with no inline allowances.
+See audit/frontend-runtime-2026-10-28.json for request and synthetic preview checks.
+
+## T014 diagnostics
+
+App-owned fixed counters and256 request samples live in services/diagnostics.py.
+/api/health is liveness; /api/ready and /api/status check required artifact roots
+and report optional cached-feed degradation separately. Repository inspection
+recognizes malformed replacement generations despite retaining last-good data.
+Request logs use generated IDs and endpoint names, never raw URLs or bodies.
+Offline tools.diagnostics measures local memory/payload/latency with live access
+disabled. See DIAGNOSTICS.md for limits and the public status contract migration.
+
+## T015 immutable datasets
+
+Rebuilds emit manifest version1 plus coverage/source licence metadata and a
+deterministic dataset identity. pipeline.artifacts validates JSON allowlist,
+hashes, schema roots and inventory accounting, then retains immutable versions
+and selects one via atomic pointer under a local SQLite promotion lock. Optional
+DATASET_STORE pins the validated selection at app startup; legacy data remains
+selected when unset. /api/coverage and UI expose only public coverage metadata.
+Publication availability is unknown, distinct from the latest match-date cutoff.
+See DATASETS.md and pipeline/source_registry.json for rights, retention and restore.
+
+## T016 collection gate
+
+Dated integrations/live_source_policy.json selects historical replay/local manual
+mode only. Existing refresh/CLI primitives require source_policy approval before
+network calls; environment flags/keys alone do not grant it. Current network
+allowlist is empty. Real feed lag/coverage/corrections remain unmeasured.
+LIVE_FEASIBILITY.md records primary terms, no-card/quota decisions and synthetic
+experiments, including current restrictions on creating new HF compute Spaces.
+Preserve existing resources; do not assume a new free Docker backend is available.
+
+## T017 stable identity registry
+
+Offline pipeline.identities binds source/register IDs and alias sets to one dataset.
+Optional IDENTITY_REGISTRY is validated against dataset_id at startup. Identity
+metadata APIs and selected profile/list/summary IDs coexist with legacy name URLs;
+ambiguous names return409. Name-keyed multi-label aggregates are not silently
+combined. Explicit reviewed match maps deduplicate canonical identity while
+retaining original IDs/source references; unknown joins stay separate. See
+IDENTITIES.md for provisional venue/team IDs, observed memberships and limits.
+
+## T018 delivery observations and replay
+
+Offline pipeline.events imports bounded validated historical subsets into private
+SQLite observations/receipts and indexed immutable event revisions. Replay tracks
+score/legal-ball/innings/partnership state with source IDs, explicit penalties
+and observed target controls. Latest and as-of views differ; unknown historical
+availability is never replaced with import time. DELIVERY_EVENTS.md describes
+strike/target abstention and correction/reorder rules. No HTTP ingest is enabled.
+
+## T019 feature contract
+
+Shared pipeline.features.vector builds pre-attempt numeric values from replay state,
+announced participant IDs and strictly previous completed-date history. Joint
+labels permit simultaneous runs/extras/dismissals. Same-day matches share no final
+history; chronological match/date-grouped partitions reject boundary overlap.
+Private JSONL exports are streamed under one SQLite snapshot with deterministic
+row/source hashes. Missing target/schedule/priors stay null, and retrospective
+source-availability uncertainty remains explicit. See FEATURES.md.
+
+## T020 experimental CPU model
+
+ml.baseline compares fixed smoothed empirical/context counts with train-only
+standardized logistic regression and separate temperature calibration. Portable
+JSON inference requires an externally trusted SHA256 and strict feature/schema/
+finite-weight/joint-label checks; no pickle loading. OTHER is explicit unknown
+outcome mass. MODEL_CARD.md records held-out metrics and no-go promotion: the
+small/stale historical sample and unknown source availability do not support
+current coaching forecasts. Legacy prediction availability remains false.
+
+## T021 optional weather
+
+services.weather validates explicit venue/UTC/issue/validity/observation provenance
+and selects only eligible as-of fields in a bounded local cache. Reanalysis,
+future issue/observation and unknown location/cutoff abstain. No collector or
+model weather inputs are enabled; sample weather coverage is zero. WEATHER.md
+records primary free-service rights, candidate traffic limits and exclusion.
+
+## T022 timestamped match context
+
+services.match_context stores immutable local context revisions and selects only
+published/observed/effective records at cutoff with explicit ownership. XI and
+substitutions use stable IDs; pitch quality is separated from measured tracking;
+venue affiliation is explicit. Unavailable families remain excluded from modelv1.
+A separately preregistered future-window matchup ablation is recorded in
+MATCH_CONTEXT.md; no experimental model is promoted. Event subset import can
+filter explicit date windows while retaining source integrity checks.
+
+## T023 annotations
+
+Context ledger also stores attributed fielding/incident revisions, with local
+ingestion time separated from claimed source times. services.annotations resolves
+only earlier attempts, keeps conflicts/unknown coverage explicit and prevents
+actor uncertainty from double counting a chance. Tactical text is excluded from
+annotation payloads and private owner scope remains local, not HTTP auth. No
+annotation model feature is enabled; ANNOTATIONS.md records fictional evidence
+and the pending real reviewed observation/prospective validation gates.
+
+## T024 optional proxy research
+
+MEDIA_RESEARCH_PROTOCOL.md preregisters bounded observable media/crowd research,
+not psychological ground truth. tools.media_research validates authored-fixture
+rights/availability/identity windows and agreement arithmetic. Real agreement and
+benefit remain unknown; no collector, paid model or production proxy is enabled.
+This P3 exclusion does not block core historical/manual/replay workflows.
+
+## T025 local collection adapter
+
+integrations.collector is a bounded manual/replay-only CLI/library with same-volume
+SQLite leases, shared quotas/receipts/kill state and immutable EventStore writes.
+Capture time is worker-owned; read_snapshot uses read-only SQLite and cannot
+collect. Source errors/backoff/quota/stale/kill flags block inference while
+preserving last-good display. No public write endpoint or hosted worker is added;
+LOCAL_COLLECTOR.md records limits and pending human/prospective evidence.
+
+## T026 reconciliation and immutable derived history
+
+services.reconciliation reads raw workspace stores at a confirmed source cutoff,
+reuses reducer/vector and caches16source receipt/revision cores. StateLedger stores
+immutable snapshots/forecasts with separate invalidation/replacement links; old
+readers cannot regress current source state. Explicit innings ending, target/
+schedule and appended metadata revisions preserve earlier views. Online contexts
+require actual ingestion by cutoff. RECONCILIATION.md records strict abstention,
+replay emulation limits and no external live/model-promotion claim. T017A is the
+explicit required follow-up for discovered name-keyed aggregate collisions.
+
+## T017A identity-based player summaries
+
+pipeline.player_id_stats scores source-ID substituted raw matches into a separate
+SQLite candidate with a parent-dataset/registry/database hash manifest. Optional
+IDENTITY_PLAYER_STORE enables read-only bounded player/profile/search/comparison/
+ranking/record/venue-player queries; default artifacts remain selected otherwise.
+Aliases resolve uniquely or409, and observed memberships never imply nationality.
+See PLAYER_ID_AGGREGATES.md for the explicit compatibility and rollback contract.
+
+## T027 local shadow forecasting
+
+services.forecasts binds trusted numeric model/evaluation hashes to the shared
+Reconciler core and StateLedger. Default-off api.forecasts exposes versioned
+loopback/same-origin state/forecast/history reads with explicit experimental
+semantics. Collector reservations serialize source confirmation; readers never
+collect. Unsupported/stale/ended state abstains; current-state/model issuance is
+idempotent and correction-linked. Public prediction availability stays false.
+FORECAST_API.md documents configuration, timing uncertainty and rollback.
+
+## T028 workspace UI
+
+The18th allowlisted page workspace.html uses the shared renderer and versioned
+forecast/history API. Explicit manual/replay/unavailable modes, confirmation
+expiry without polling, source/model/context coverage and immutable issued anchors
+keep historical distributions distinct from current eligibility. WORKSPACE_UI.md
+records local setup, browser evidence and remaining validation limits.
+
+## T029 scouting and local private plans
+
+api.scouting/services.scouting use only the bound identity player store, with an
+optional offline bounded source-ID delivery evidence JSON. The19th page scouting
+uses coaching.js for descriptive preparation and page-memory private plans with
+explicit file export/import. No private input reaches server storage or URLs and
+no hosted ownership guarantee is claimed. COACH_SCOUTING.md separates archive
+coverage, scenario assumptions, data loss/export behavior and pending real feedback.
+
+## T030 prospective audit machinery
+
+ml.shadow_baselines freezes training-only empirical/phase artifacts for optional
+pre-issued comparisons. ml.shadow_evaluation audits first issues against raw
+receipt/feature replay and reviewed actual timing, retaining missing/late/correction
+failures and null unknowns. StateLedger also keeps bounded idempotent decisions;
+repeated current issued reads avoid write transactions. SHADOW_EVALUATION.md
+separates authored fixture validation from the empty real cohort and NO-GO gate.
+
+## T031 independent readiness preparation
+
+tools.release_preflight builds clean allowlisted artifacts and runs offline API/
+containment smoke plus isolated SQLite/dataset restore fixtures. It never deploys
+or approves release. OPERATIONS_RUNBOOK.md records the real coach pilot protocol,
+incident/backup/rollback procedures, $0 constraints and unmet T001/T013/T029/T030/
+Git-publication gates. Actual pilot/prospective counts stay zero and release blocked.

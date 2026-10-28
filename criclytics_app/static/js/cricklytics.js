@@ -10,6 +10,10 @@
 
 'use strict';
 
+function canonicalFormat(value) {
+  return {test:'Test', odi:'ODI', t20:'T20I', t20i:'T20I', it20:'T20I'}[String(value || '').toLowerCase()] || null;
+}
+
 // ── API base URL ─────────────────────────────────────────────────────────────
 // Replace with your actual Hugging Face Space URL after deployment
 // Example: "https://aliamirchoudhary-criclytics-backend.hf.space"
@@ -52,7 +56,8 @@ const COUNTRY_ISO = {
  * @returns {string} Full CDN URL to SVG flag image
  */
 function flagUrl(countryOrCode) {
-  const code = COUNTRY_ISO[countryOrCode] || countryOrCode;
+  const candidate = COUNTRY_ISO[countryOrCode] || countryOrCode;
+  const code = /^[A-Z]{2,10}$/.test(candidate) ? candidate : "";
   return `${FLAG_CDN}${code}.svg`;
 }
 
@@ -247,6 +252,7 @@ async function apiFetch(path) {
       return null;
     }
     const data = await res.json();
+    if (data && data.provenance) showDataProvenance(path, data.provenance);
     if (data && data.found === false) return null;
     if (data && typeof data.error === 'string') {
       var msg = data.error.toLowerCase();
@@ -260,6 +266,25 @@ async function apiFetch(path) {
     console.error(`API fetch failed: ${path}`, e);
     return null;
   }
+}
+
+function showDataProvenance(path, info) {
+  var kind = path.indexOf('/api/icc-rankings') === 0 ? 'Rankings' : 'Fixtures';
+  var id = 'source-notice-' + kind.toLowerCase();
+  var node = document.getElementById(id);
+  if (!node) {
+    node = document.createElement('p');
+    node.id = id;
+    node.className = 'source-notice';
+    node.setAttribute('role', 'status');
+    var parent = document.querySelector('main') || document.body;
+    parent.prepend(node);
+  }
+  node.textContent = kind + ': ' + (info.source || 'unknown source')
+    + ' | Effective: ' + (info.effective_date || 'unknown')
+    + ' | Fetched: ' + (info.fetched_at || 'unknown')
+    + (info.fallback ? ' | Fallback snapshot' : '')
+    + (info.stale ? ' | Stale or observation time unknown' : ' | Within freshness window');
 }
 
 /**
@@ -294,10 +319,11 @@ function fmtStat(val, decimals = 1) {
  * @returns {string} HTML string
  */
 function flagHtml(country, flagOnly = false) {
-  const code = COUNTRY_ISO[country] || country;
+  const candidate = COUNTRY_ISO[country] || country;
+  const code = /^[A-Z]{2,10}$/.test(candidate) ? candidate : "";
   const url = `${FLAG_CDN}${code}.svg`;
-  const imgHtml = `<img src="${url}" alt="${country}" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">`;
-  return flagOnly ? imgHtml : `${imgHtml}<span>${country}</span>`;
+  const imgHtml = `<img src="${url}" alt="${esc(country)}" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">`;
+  return flagOnly ? imgHtml : `${imgHtml}<span>${esc(country)}</span>`;
 }
 
 /**
@@ -309,7 +335,8 @@ function esc(str) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 

@@ -1,10 +1,10 @@
 # T021: Evaluate weather context without hindsight leakage
 
-- Status: Planned
+- Status: Implemented; weather excluded
 - Priority: P2
 - Depends on: T016,T019,T020
-- Branch: feat/t021-evaluate-weather-context-without-hindsight-leakage
-- Base: latest dev
+- Branch: work/t021-weather-context
+- Base: T020 5740b3a
 
 ## Problem
 
@@ -16,10 +16,10 @@ Verify specific free/no-card weather endpoints and intended-use terms. Map venue
 
 ## Acceptance criteria
 
-- [ ] Usage rights and bounded call budgets cover the intended deployment
-- [ ] Venue UTC alignment never uses information unavailable at prediction cutoff
-- [ ] Unknown weather degrades safely and does not assert pitch bounce/dew
-- [ ] Held-out ablation records benefit/cost or excludes unhelpful features
+- [x] Usage rights and bounded call budgets cover the intended deployment
+- [x] Venue UTC alignment never uses information unavailable at prediction cutoff
+- [x] Unknown weather degrades safely and does not assert pitch bounce/dew
+- [x] Held-out ablation records benefit/cost or excludes unhelpful features
 
 ## Validation
 
@@ -31,4 +31,12 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 
 ## Implementation evidence
 
-Not started.
+As-of weather schema/UTC/location validation and bounded local cache implemented; weather family excluded from modelv1 for lack of eligible precise historical UTC/issued observations. Primary MET Norway terms support a possible future attributed free source with identified/cached traffic; no collector or paid fallback enabled. Open-Meteo free-service scope does not automatically clear intended commercial coaching use, and its archive starts after this sample. No actual weather/coordinate join or statistical benefit is invented; null ablation metrics and0eligible rows are an exclusion decision, not evidence weather has no signal. Future accepted coordinate mappings/forecasts and preregistered benefit testing remain pending. Rollback removes optional helpers only; baseline and serving unchanged.
+
+### Session update 2026-10-28T12:53:51+00:00
+
+Chained from T020 5740b3a. Open-Meteo primary terms/pricing/history reviewed2026-10-28: free access is non-commercial, archive starts~2022 and stitched historical forecast series are not complete as-issued runs. No endpoint called;2016?2018 sample lacks precise UTC/event/issued context. Implement fail-closed as-of weather contracts and exclude unproven family.
+
+### Session update 2026-10-28T12:57:06+00:00
+
+62tests61pass/one optional skip. Primary sources verify MET Norway future attributed public reuse/traffic conditions; Open-Meteo free service is non-commercial and its forecast archive does not cover this2016?2018 slice. No external calls/collector enabled. UTC/DST ambiguity/nonexistent times, issue/observation/cutoff, reanalysis exclusion, ranges/cache/missingness tests pass. All23,104historical rows lack eligible precise issued weather; no fabricated ablation benefit (deltas null), model unchanged. Actual venue mappings remain unavailable, not guessed. See WEATHER.md/audit/weather-2026-10-28.json; future source/coordinate collection and prospective benefit remain gates.

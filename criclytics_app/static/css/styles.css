@@ -1719,3 +1719,12 @@ ul { list-style: none; }
     font-size: 1.1rem;
   }
 }
+.source-notice {
+  padding: .65rem 1rem;
+  margin: .5rem auto;
+  max-width: 1200px;
+  color: var(--text-primary, #eee);
+  background: var(--surface-2, #202838);
+  font-size: .8rem;
+  overflow-wrap: anywhere;
+}

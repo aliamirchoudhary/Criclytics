@@ -1,0 +1,924 @@
+{
+  "license": "CC0-1.0, project-authored fictional test data; no real match is represented",
+  "contract": "docs/SCORING_CONTRACT.md",
+  "fixtures": [
+    {
+      "id": "test-draw",
+      "match": {
+        "meta": {
+          "data_version": "1.1.0",
+          "created": "2020-01-01",
+          "revision": 1
+        },
+        "info": {
+          "balls_per_over": 6,
+          "dates": [
+            "2020-01-01"
+          ],
+          "gender": "male",
+          "team_type": "international",
+          "match_type": "Test",
+          "players": {
+            "Team A": [
+              "A",
+              "B",
+              "C"
+            ],
+            "Team X": [
+              "X",
+              "Y"
+            ]
+          },
+          "teams": [
+            "Team A",
+            "Team X"
+          ],
+          "venue": "Fictional Ground",
+          "outcome": {
+            "result": "draw"
+          }
+        },
+        "innings": [
+          {
+            "team": "Team A",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  }
+                ]
+              },
+              {
+                "over": 1,
+                "deliveries": [
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 2,
+                      "extras": 0,
+                      "total": 2
+                    }
+                  }
+                ]
+              }
+            ],
+            "declared": true
+          },
+          {
+            "team": "Team X",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "declared": true
+          },
+          {
+            "team": "Team A",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  }
+                ]
+              },
+              {
+                "over": 1,
+                "deliveries": [
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  }
+                ]
+              }
+            ],
+            "declared": true
+          },
+          {
+            "team": "Team X",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "declared": true
+          }
+        ]
+      },
+      "expected": {
+        "totals": [
+          50,
+          0,
+          60,
+          0
+        ],
+        "wickets": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "A_Test_innings": 2,
+        "A_Test_highest": 60,
+        "A_Test_fifties": 2,
+        "A_Test_hundreds": 0
+      }
+    },
+    {
+      "id": "t20-tie-super",
+      "match": {
+        "meta": {
+          "data_version": "1.1.0",
+          "created": "2020-01-01",
+          "revision": 1
+        },
+        "info": {
+          "balls_per_over": 6,
+          "dates": [
+            "2020-01-01"
+          ],
+          "gender": "male",
+          "team_type": "international",
+          "match_type": "T20",
+          "players": {
+            "Team A": [
+              "A",
+              "B",
+              "C"
+            ],
+            "Team X": [
+              "X",
+              "Y"
+            ]
+          },
+          "teams": [
+            "Team A",
+            "Team X"
+          ],
+          "venue": "Fictional Ground",
+          "outcome": {
+            "result": "tie",
+            "eliminator": "Team A"
+          }
+        },
+        "innings": [
+          {
+            "team": "Team A",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 1,
+                      "total": 1
+                    },
+                    "extras": {
+                      "wides": 1
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 4,
+                      "extras": 1,
+                      "total": 5
+                    },
+                    "extras": {
+                      "noballs": 1
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 2,
+                      "total": 2
+                    },
+                    "extras": {
+                      "byes": 2
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 1,
+                      "total": 1
+                    },
+                    "extras": {
+                      "legbyes": 1
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 1,
+                      "extras": 0,
+                      "total": 1
+                    },
+                    "wickets": [
+                      {
+                        "kind": "run out",
+                        "player_out": "B"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "team": "Team X",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 4,
+                      "extras": 0,
+                      "total": 4
+                    }
+                  },
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "team": "Team A",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 6,
+                      "extras": 0,
+                      "total": 6
+                    }
+                  }
+                ]
+              }
+            ],
+            "super_over": true
+          },
+          {
+            "team": "Team X",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "X",
+                    "non_striker": "Y",
+                    "bowler": "A",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "super_over": true
+          }
+        ]
+      },
+      "expected": {
+        "totals": [
+          10,
+          10,
+          6,
+          0
+        ],
+        "wickets": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "A_first_balls": 5,
+        "X_first_runs_conceded": 7,
+        "regulation_A_runs": 5
+      }
+    },
+    {
+      "id": "odi-retirement",
+      "match": {
+        "meta": {
+          "data_version": "1.1.0",
+          "created": "2020-01-01",
+          "revision": 1
+        },
+        "info": {
+          "balls_per_over": 6,
+          "dates": [
+            "2020-01-01"
+          ],
+          "gender": "male",
+          "team_type": "international",
+          "match_type": "ODI",
+          "players": {
+            "Team A": [
+              "A",
+              "B",
+              "C"
+            ],
+            "Team X": [
+              "X",
+              "Y"
+            ]
+          },
+          "teams": [
+            "Team A",
+            "Team X"
+          ],
+          "venue": "Fictional Ground",
+          "outcome": {
+            "result": "no result"
+          }
+        },
+        "innings": [
+          {
+            "team": "Team A",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    },
+                    "wickets": [
+                      {
+                        "kind": "retired hurt",
+                        "player_out": "B"
+                      }
+                    ]
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    },
+                    "wickets": [
+                      {
+                        "kind": "timed out",
+                        "player_out": "C"
+                      }
+                    ]
+                  },
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    },
+                    "wickets": [
+                      {
+                        "kind": "bowled",
+                        "player_out": "A"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "totals": [
+          0
+        ],
+        "wickets": [
+          2
+        ],
+        "bowler_wickets": 1
+      }
+    },
+    {
+      "id": "odi-abandoned",
+      "match": {
+        "meta": {
+          "data_version": "1.1.0",
+          "created": "2020-01-01",
+          "revision": 1
+        },
+        "info": {
+          "balls_per_over": 6,
+          "dates": [
+            "2020-01-01"
+          ],
+          "gender": "male",
+          "team_type": "international",
+          "match_type": "ODI",
+          "players": {
+            "Team A": [
+              "A",
+              "B",
+              "C"
+            ],
+            "Team X": [
+              "X",
+              "Y"
+            ]
+          },
+          "teams": [
+            "Team A",
+            "Team X"
+          ],
+          "venue": "Fictional Ground",
+          "outcome": {
+            "result": "no result"
+          }
+        },
+        "innings": []
+      },
+      "expected": {
+        "totals": [],
+        "wickets": []
+      }
+    },
+    {
+      "id": "odi-penalties",
+      "match": {
+        "meta": {
+          "data_version": "1.1.0",
+          "created": "2020-01-01",
+          "revision": 1
+        },
+        "info": {
+          "balls_per_over": 6,
+          "dates": [
+            "2020-01-01"
+          ],
+          "gender": "male",
+          "team_type": "international",
+          "match_type": "ODI",
+          "players": {
+            "Team A": [
+              "A",
+              "B",
+              "C"
+            ],
+            "Team X": [
+              "X",
+              "Y"
+            ]
+          },
+          "teams": [
+            "Team A",
+            "Team X"
+          ],
+          "venue": "Fictional Ground",
+          "outcome": {
+            "result": "no result"
+          }
+        },
+        "innings": [
+          {
+            "team": "Team A",
+            "overs": [
+              {
+                "over": 0,
+                "deliveries": [
+                  {
+                    "batter": "A",
+                    "non_striker": "B",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    },
+                    "wickets": [
+                      {
+                        "kind": "bowled",
+                        "player_out": "A"
+                      }
+                    ]
+                  },
+                  {
+                    "batter": "B",
+                    "non_striker": "C",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "B",
+                    "non_striker": "C",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "B",
+                    "non_striker": "C",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "B",
+                    "non_striker": "C",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  },
+                  {
+                    "batter": "B",
+                    "non_striker": "C",
+                    "bowler": "X",
+                    "runs": {
+                      "batter": 0,
+                      "extras": 0,
+                      "total": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "penalty_runs": {
+              "pre": 3,
+              "post": 5
+            }
+          }
+        ]
+      },
+      "expected": {
+        "totals": [
+          8
+        ],
+        "wickets": [
+          1
+        ]
+      }
+    }
+  ]
+}

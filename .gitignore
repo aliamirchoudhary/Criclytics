@@ -49,3 +49,10 @@ models/
 
 # ── Node (if any tooling) ────────────────────────────────────────────────────
 node_modules/
+.auth/
+.wrangler/
+
+# Immutable local datasets and retained versions are not Git artifacts.
+data/datasets/
+
+data/events/

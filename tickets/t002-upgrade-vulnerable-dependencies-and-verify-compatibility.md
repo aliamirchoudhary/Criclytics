@@ -1,6 +1,6 @@
 # T002: Upgrade vulnerable dependencies and verify compatibility
 
-- Status: Planned
+- Status: Implemented; local review pending
 - Priority: P0
 - Depends on: T000
 - Branch: fix/t002-upgrade-vulnerable-dependencies-and-verify-compatibility
@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+### Session update 2026-10-28T08:32:26+00:00
+
+Verified hash-locked fresh installs on CPython 3.11.9 and 3.12.3; uv pip check passes on both. Regression suite passes (13 discovered, optional legacy-data test skipped); model imports pass. pip-audit 2.10.1 reports no known vulnerabilities. Docker/CI consume hashed requirements; CI matrix added. See docs/DEPENDENCIES.md and dated advisory JSON. No model/data artifacts were regenerated.

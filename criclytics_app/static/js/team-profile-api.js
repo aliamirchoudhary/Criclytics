@@ -37,9 +37,11 @@ function setTeamCrest(teamName) {
   if (!crest) return;
   var iso = COUNTRY_ISO[teamName];
   if (iso) {
-    crest.innerHTML = '<img src="' + FLAG_CDN + iso + '.svg" alt="' + esc(teamName)
-      + '" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-lg);" '
-      + 'onerror="this.remove();this.parentElement.textContent=\'' + esc(teamInitials(teamName)) + '\';this.parentElement.style.color=\'var(--accent)\';this.parentElement.style.fontWeight=\'700\';">';
+    const image = document.createElement('img');
+    image.src = flagUrl(iso); image.alt = String(teamName);
+    image.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:var(--radius-lg)';
+    image.addEventListener('error', () => { crest.textContent = teamInitials(teamName); });
+    crest.replaceChildren(image);
   } else {
     crest.textContent = teamInitials(teamName);
     crest.style.color = 'var(--accent)';
@@ -449,7 +451,7 @@ async function renderRecentResults(teamName) {
   var subTitle = recentCard.querySelector('.sub-title');
   var subHtml = subTitle ? subTitle.outerHTML : '<div class="sub-title"><i class="fa fa-clock-rotate-left"></i> Recent Results</div>';
 
-  const data = await apiFetch('/api/matches');
+  const data = await apiFetch('/api/matches?status=completed&limit=4&team=' + encodeURIComponent(teamName));
   const allMatches = (data && data.data) ? data.data : [];
 
   const completed = allMatches.filter(function(m) {

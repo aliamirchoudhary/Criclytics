@@ -3,6 +3,7 @@ import json
 import os
 import re
 from datetime import datetime
+from werkzeug.exceptions import Conflict
 from flask import Blueprint, current_app, jsonify, request
 from ..services.legacy import (
     BASE_DIR,
@@ -16,6 +17,8 @@ from ..services.legacy import (
     SERIES_CACHE_TTL_MINUTES,
     STATIC_DIR,
     augment_completed_match,
+    completed_match,
+    completed_summaries,
     cache_age_minutes,
     fetch_cricapi,
     load_live,
@@ -33,17 +36,19 @@ def get_players():
     """
     All players with career stats.
     Query params:
-        format    — filter by format: Test / ODI / T20I
-        country   — filter by country name (partial match)
-        role      — bat / bowl / all (default: all)
-        search    — search by name (partial match)
-        sort      — runs / wickets / avg / sr (default: runs)
-        limit     — number of results (default: 50)
-        offset    — pagination offset (default: 0)
+        format    â€” filter by format: Test / ODI / T20I
+        country   â€” filter by country name (partial match)
+        role      â€” bat / bowl / all (default: all)
+        search    â€” search by name (partial match)
+        sort      â€” runs / wickets / avg / sr (default: runs)
+        limit     â€” number of results (default: 50)
+        offset    â€” pagination offset (default: 0)
     """
+    store = current_app.extensions['player_id_store']
+    if store: return jsonify(store.listing(request.args))
     data = load_processed("players_index.json")
     if data is None:
-        return jsonify({"error": "players_index.json not found — run process_cricsheet.py first"}), 500
+        return jsonify({"error": "players_index.json not found â€” run process_cricsheet.py first"}), 500
 
     fmt     = request.args.get("format")
     country = request.args.get("country", "").lower()
@@ -79,10 +84,10 @@ def get_players():
             total = sum(f.get("wickets", 0) for f in p.get("bowling", {}).values())
             return total
         elif sort == "avg":
-            avgs = [f.get("average", 0) for f in p.get("batting", {}).values()]
+            avgs = [(f.get("average") or 0) for f in p.get("batting", {}).values()]
             return max(avgs) if avgs else 0
         elif sort == "sr":
-            srs = [f.get("strike_rate", 0) for f in p.get("batting", {}).values()]
+            srs = [(f.get("strike_rate") or 0) for f in p.get("batting", {}).values()]
             return max(srs) if srs else 0
         else:  # runs (default)
             total = sum(f.get("runs", 0) for f in p.get("batting", {}).values())
@@ -101,6 +106,11 @@ def get_players():
             meta_map = json.load(mf)
 
     for p in players:
+        try:
+            identity = current_app.extensions["identity_registry"].resolve("player",p["name"])
+            if identity:p["identity_id"] = identity["id"]
+        except Conflict:
+            p["identity_status"] = "ambiguous"
         m = meta_map.get(p["name"], {})
         if m:
             p["country"]   = m.get("country", "")
@@ -119,7 +129,10 @@ def get_players():
 
 @bp.route("/api/players/<player_name>")
 def get_player(player_name):
-    """Full profile for one player by name."""
+    """Full profile by recorded name, explicit alias or stable identifier."""
+    store = current_app.extensions['player_id_store']
+    if store: return jsonify(store.profile(player_name) or {'found': False, 'error': 'Player not found'})
+    player_name, identity_id = current_app.extensions["identity_registry"].source_name("player",player_name)
     data = load_processed("players_index.json")
     if data is None:
         return jsonify({"error": "Data not found"}), 500
@@ -131,6 +144,7 @@ def get_player(player_name):
         for key, val in data.items():
             if key.lower() == name_lower:
                 player = val
+                player_name = key
                 break
 
     if not player:
@@ -142,6 +156,7 @@ def get_player(player_name):
     vs_opp  = load_processed("player_vs_opp.json") or {}
     venues  = load_processed("player_venues.json") or {}
 
+    if identity_id:player["identity_id"] = identity_id
     player["yearly"]     = yearly.get(player_name, {})
     player["vs_opp"]     = vs_opp.get(player_name, {})
     player["at_venues"]  = venues.get(player_name, {})
@@ -161,6 +176,7 @@ def get_teams():
 @bp.route("/api/teams/<team_name>")
 def get_team(team_name):
     """Full profile for one team."""
+    team_name, identity_id = current_app.extensions["identity_registry"].source_name("team",team_name)
     fmt_stats   = load_processed("team_format_stats.json") or {}
     venue_stats = load_processed("team_venue_stats.json") or {}
     h2h         = load_processed("h2h.json") or {}
@@ -192,12 +208,14 @@ def get_team(team_name):
                 "won":       record["team_a_wins"] if is_team_a else record["team_b_wins"],
                 "lost":      record["team_b_wins"] if is_team_a else record["team_a_wins"],
                 "tied":      record["ties"],
+                "drawn": record.get('draws'),
                 "no_result": record["no_result"],
                 "win_pct":   record["team_a_win_pct"] if is_team_a else record["team_b_win_pct"],
                 "last_result": record["last_result"],
             }
 
     return jsonify({
+        **({"identity_id":identity_id} if identity_id else {}),
         "name":          team_name,
         "format_stats":  team_data,
         "venue_stats":   venue_stats.get(team_name, {}),
@@ -222,33 +240,31 @@ def get_venues():
 @bp.route("/api/venues/<path:venue_name>")
 def get_venue(venue_name):
     """Full profile for one venue."""
+    venue_name, identity_id = current_app.extensions["identity_registry"].source_name("venue",venue_name)
     stats    = load_processed("venue_stats.json") or {}
     batters  = load_processed("venue_batters.json") or {}
     bowlers  = load_processed("venue_bowlers.json") or {}
 
     venue = stats.get(venue_name)
     if not venue:
-        query_key = normalize_name(venue_name)
-        for key in stats:
-            if normalize_name(key) == query_key:
-                venue = stats[key]
-                venue_name = key
-                break
-
-    if not venue:
-        query_key = normalize_name(venue_name)
-        for key in stats:
-            if query_key and query_key in normalize_name(key):
-                venue = stats[key]
-                venue_name = key
-                break
+        candidates=[name for name in stats if normalize_name(name)==normalize_name(venue_name)]
+        if len(candidates)>1:
+            from werkzeug.exceptions import Conflict
+            raise Conflict('Ambiguous venue name; use a stable identity identifier')
+        if candidates:venue_name=candidates[0];venue=stats[venue_name]
 
     if not venue:
         # Soft-miss response to avoid noisy frontend 404s for optional context lookups.
         return jsonify({"error": f"Venue '{venue_name}' not found", "found": False}), 200
 
+    if identity_id:venue["identity_id"] = identity_id
     venue["top_batters"] = batters.get(venue_name, [])
     venue["top_bowlers"] = bowlers.get(venue_name, [])
+    store = current_app.extensions['player_id_store']
+    if store:
+        venue['top_batters'] = store.document('venue:batters:'+venue_name) or []
+        venue['top_bowlers'] = store.document('venue:bowlers:'+venue_name) or []
+        venue['player_leaderboard_scope'] = 'Observed matches across formats'
 
     return jsonify(venue)
 
@@ -267,13 +283,17 @@ def get_rankings():
     """
     Returns players ranked by a stat.
     Query params:
-        format  — Test / ODI / T20I  (required)
-        type    — batting / bowling   (default: batting)
-        limit   — number of results   (default: 10)
+        format  â€” Test / ODI / T20I  (required)
+        type    â€” batting / bowling   (default: batting)
+        limit   â€” number of results   (default: 10)
     """
     fmt   = request.args.get("format", "T20I")
     rtype = request.args.get("type", "batting")
     limit = int(request.args.get("limit", 10))
+
+    store = current_app.extensions['player_id_store']
+    if store:
+        return jsonify({'format': fmt, 'type': rtype, 'results': store.rankings(fmt, rtype, limit), 'identity_correct': True})
 
     data = load_processed("players_index.json")
     if data is None:
@@ -320,6 +340,8 @@ def get_rankings():
 @bp.route("/api/records")
 def get_records():
     """All-time records, enriched with country from players_index."""
+    store = current_app.extensions['player_id_store']
+    if store: return jsonify({**store.records(), 'sidebar': {}, 'identity_correct': True})
     data = load_processed("records.json")
     if data is None:
         return jsonify({"error": "Data not found"}), 500
@@ -425,6 +447,8 @@ def get_h2h():
     team_a = request.args.get("team_a", "")
     team_b = request.args.get("team_b", "")
     fmt    = request.args.get("format")
+    if fmt == 'T20':
+        fmt = 'T20I'
 
     if not team_a or not team_b:
         return jsonify({"error": "team_a and team_b are required"}), 400
@@ -440,13 +464,18 @@ def get_h2h():
         ka, kb, kf = parts
         if ka == t_a and kb == t_b:
             if not fmt or kf == fmt:
-                results[kf] = record
+                oriented = dict(record)
+                oriented['team_a'], oriented['team_b'] = team_a, team_b
+                if team_a != ka:
+                    for left, right in (('team_a_wins', 'team_b_wins'), ('team_a_win_pct', 'team_b_win_pct')):
+                        oriented[left], oriented[right] = record.get(right), record.get(left)
+                results[kf] = oriented
 
     if not results:
         # Soft-miss response for optional sidebar context.
         return jsonify({"error": f"No H2H data found for {team_a} vs {team_b}", "found": False}), 200
 
-    return jsonify(results)
+    return jsonify(results[fmt] if fmt else results)
 
 
 @bp.route("/api/compare/players")
@@ -461,9 +490,12 @@ def compare_players():
     if not pa or not pb:
         return jsonify({"error": "player_a and player_b are required"}), 400
 
-    data = load_processed("players_index.json") or {}
+    store = current_app.extensions['player_id_store']
+    data = {} if store else (load_processed("players_index.json") or {})
 
     def find_player(name):
+        if store: return store.profile(name)
+        name, _ = current_app.extensions["identity_registry"].source_name("player",name)
         p = data.get(name)
         if not p:
             nl = name.lower()
@@ -495,11 +527,13 @@ def search():
     if not q or len(q) < 2:
         return jsonify({"players": [], "teams": [], "venues": [], "matches": []})
 
-    players_data = load_processed("players_index.json") or {}
+    store = current_app.extensions['player_id_store']
+    candidates = store.listing({'search': q, 'limit': limit})['players'] if store else []
+    players_data = {p['identity_id']: p for p in candidates} if store else (load_processed("players_index.json") or {})
     teams_data   = load_processed("team_format_stats.json") or {}
     venues_data  = load_processed("venue_stats.json") or {}
     live_data    = load_live("matches.json") or {}
-    completed_data = load_processed("completed_matches.json") or {}
+    completed_data = {"data": completed_summaries()}
 
     def normalize_text(value):
         return re.sub(r"\s+", " ", str(value or "").lower()).strip()
@@ -579,11 +613,12 @@ def search():
     # Search players
     matched_players = []
     for name, player in players_data.items():
-        if q in name.lower():
+        if store or q in name.lower():
             total_runs = sum(f.get("runs", 0) for f in player.get("batting", {}).values())
             total_wkts = sum(f.get("wickets", 0) for f in player.get("bowling", {}).values())
             matched_players.append({
-                "name":    name,
+                "name":    player['name'] if store else name,
+                **({'identity_id': player['identity_id'], 'observed_teams': player['observed_teams']} if store else {}),
                 "formats": player.get("formats", []),
                 "runs":    total_runs,
                 "wickets": total_wkts,
@@ -638,7 +673,7 @@ def search():
         "players": matched_players[:limit],
         "teams":   matched_teams[:limit],
         "venues":  matched_venues[:limit],
-        "matches": matched_matches,
+        "matches": matched_matches[:limit],
     })
 
 
@@ -766,30 +801,29 @@ def get_matches():
     """
     # Get live/upcoming matches from CricAPI
     data = fetch_cricapi("matches", cache_file="matches.json", max_age_minutes=MATCH_LIST_CACHE_TTL_MINUTES)
+    cached = None
     live_upcoming = (data or {}).get("data") or (data or {}).get("matches") or []
     if not live_upcoming:
         cached = load_live("matches.json")
         live_upcoming = (cached or {}).get("data") or (cached or {}).get("matches") or []
 
     # Get completed matches from Cricsheet
-    completed_data = load_processed("completed_matches.json")
-    completed = (completed_data or {}).get("data") or []
+    completed = completed_summaries()
 
-    # Merge all matches
-    all_matches = live_upcoming + completed
-
-    return jsonify({"data": all_matches})
+    from criclytics_app.services.match_listing import listing
+    from ..services.provenance import metadata
+    result = listing(live_upcoming, completed, request.args, current_app.extensions["identity_registry"])
+    result['provenance'] = metadata(data or cached)
+    result['provenance']['historical_source'] = 'cricsheet_legacy_processed'
+    return jsonify(result)
 
 
 @bp.route("/api/matches/<match_id>")
 def get_match(match_id):
     """Individual match detail. Searches live/upcoming and completed matches."""
-    completed_data = load_processed("completed_matches.json")
-    if completed_data:
-        completed = completed_data.get("data") or []
-        for m in completed:
-            if str(m.get("id") or m.get("unique_id") or "") == str(match_id):
-                return jsonify({"data": augment_completed_match(m)})
+    match = completed_match(match_id)
+    if match:
+        return jsonify({'data': augment_completed_match(match)})
 
     cache_file = f"match_{match_id}.json"
     data = fetch_cricapi("match_info", params={"id": match_id},
@@ -811,12 +845,9 @@ def get_match(match_id):
 @bp.route("/api/matches/<match_id>/score")
 def get_match_score(match_id):
     """Live scorecard. Falls back to cached matches and completed matches."""
-    completed_data = load_processed("completed_matches.json")
-    if completed_data:
-        completed = completed_data.get("data") or []
-        for m in completed:
-            if str(m.get("id") or m.get("unique_id") or "") == str(match_id):
-                return jsonify({"data": augment_completed_match(m)})
+    match = completed_match(match_id)
+    if match:
+        return jsonify({'data': augment_completed_match(match)})
 
     cache_file = f"score_{match_id}.json"
     data = fetch_cricapi("match_scorecard", params={"id": match_id},
@@ -852,78 +883,35 @@ def get_series():
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-@bp.route("/api/status")
+@bp.get('/api/health')
+def health():
+    return jsonify({'status':'alive'})
+
+
+@bp.get('/api/ready')
+@bp.get('/api/status')
 def status():
-    """Health check — shows which data files are available."""
-    files = [
-        "players_index.json", "player_yearly.json", "player_vs_opp.json",
-        "player_venues.json", "h2h.json", "team_format_stats.json",
-        "team_venue_stats.json", "venue_stats.json", "venue_batters.json",
-        "venue_bowlers.json", "venue_insights.json", "records.json",
-        "completed_matches.json"
-    ]
-    status_data = {}
-    for f in files:
-        path = os.path.join(PROCESSED_DIR, f)
-        root_path = os.path.join(BASE_DIR, f)
-
-        if os.path.exists(path):
-            size_kb = round(os.path.getsize(path) / 1024, 1)
-            status_data[f] = {"exists": True, "location": "data/processed", "size_kb": size_kb}
-        elif os.path.exists(root_path):
-            size_kb = round(os.path.getsize(root_path) / 1024, 1)
-            status_data[f] = {"exists": True, "location": "root", "size_kb": size_kb}
-        else:
-            status_data[f] = {"exists": False}
-
-    live_files = os.listdir(LIVE_DIR) if os.path.exists(LIVE_DIR) else []
-
-    return jsonify({
-        "status":        "ok",
-        "cricapi_key":   "set" if CRICAPI_KEY != "YOUR_CRICAPI_KEY_HERE" else "not set",
-        "processed":     status_data,
-        "live_cache":    live_files,
-        "timestamp":     datetime.now().isoformat(),
-    })
+    from ..services.diagnostics import readiness
+    data = readiness(current_app)
+    return jsonify(data), 200 if data['ready'] else 503
 
 
 @bp.route("/api/icc-rankings")
 def get_icc_rankings():
     category = request.args.get("category", "batting")
     fmt      = request.args.get("format", "T20I")
-    try:
-        from ..integrations.rankings import get_current_rankings, build_hardcoded_rankings
-        data = (get_current_rankings() if current_app.config["LIVE_FETCH_ENABLED"]
-                else load_live("rankings.json") or build_hardcoded_rankings())
-        # If cached file was empty, force use hardcoded fallback
-        if data:
-            if category == "teams":
-                check = data.get("team", {}).get(fmt, [])
-            else:
-                check = data.get("player", {}).get(category, {}).get(fmt, [])
-            if not check:
-                data = build_hardcoded_rankings()
-        else:
-            data = build_hardcoded_rankings()
-    except Exception as e:
-        print(f"  rankings error: {e}")
-        data = None
-
-    if not data:
-        return jsonify({"category": category, "format": fmt, "rankings": []}), 200
-
-    if category == "teams":
-        result = data.get("team", {}).get(fmt, [])
-    else:
-        result = data.get("player", {}).get(category, {}).get(fmt, [])
-
-    return jsonify({
-        "category": category,
-        "format": fmt,
-        "scraped_at": data.get("scraped_at", ""),
-        "source":     data.get("source", "hardcoded_fallback"),
-        "rankings":   result or []
-    })
+    from werkzeug.exceptions import BadRequest
+    from ..integrations.rankings import build_hardcoded_rankings
+    from ..services.provenance import metadata
+    if category not in ('teams', 'batting', 'bowling', 'allrounder'):
+        raise BadRequest('Unsupported ranking category')
+    data = load_live('rankings.json') or build_hardcoded_rankings()
+    result = (data.get('team', {}).get(fmt, []) if category == 'teams' else
+              data.get('player', {}).get(category, {}).get(fmt, []))
+    stored_info = data.get('category_metadata', {}).get(category + ':' + fmt)
+    info = metadata(stored_info or data)
+    return jsonify({'category': category, 'format': fmt, 'rankings': result or [],
+                    'provenance': info, **info})
 
 
 @bp.route("/api/meta/players")
@@ -969,139 +957,63 @@ def get_venues_meta():
         return jsonify(json.load(f))
 
 
-@bp.route("/api/predict/player/<player_name>")
+def unavailable_prediction(**context):
+    from ..ml.probability import unavailable
+    return jsonify(unavailable(**context))
+
+
+@bp.route('/api/predict/player/<player_name>')
 def predict_player(player_name):
-    """
-    Get probability predictions for a player.
-    Query params:
-        metric — 50 / 100 / wicket_maiden / strike_rate>140 / avg>50
-        format — Test / ODI / T20I (default: ODI)
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    metric = request.args.get("metric", "50")
-    format = request.args.get("format", "ODI")
-
-    try:
-        result = ml_engine.player_performance_likelihood(player_name, metric, format)
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return unavailable_prediction(player=player_name, metric=request.args.get('metric', '50'),
+                                  format=request.args.get('format', 'ODI'))
 
 
-@bp.route("/api/predict/player/<player_name>/all")
+@bp.route('/api/predict/player/<player_name>/all')
 def predict_player_all(player_name):
-    """
-    Get all probability predictions for a player across metrics.
-    Query params:
-        format — Test / ODI / T20I (default: ODI)
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    format = request.args.get("format", "ODI")
-
-    try:
-        metrics = ["50", "100", "wicket_maiden", "strike_rate>140", "avg>50"]
-        results = {}
-        for metric in metrics:
-            results[metric] = ml_engine.player_performance_likelihood(
-                player_name, metric, format
-            )
-        return jsonify({
-            "player": player_name,
-            "format": format,
-            "predictions": results,
-        })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return unavailable_prediction(player=player_name, format=request.args.get('format', 'ODI'), predictions={})
 
 
-@bp.route("/api/predict/team_match", methods=["POST"])
+@bp.route('/api/predict/team_match', methods=['POST'])
 def predict_team_match():
-    """
-    Predict match outcome between two teams.
-    Request body:
-        {
-            "team_a": "India",
-            "team_b": "Australia",
-            "format": "ODI",
-            "venue": "MCG" (optional)
-        }
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    data = request.get_json() or {}
-    team_a = data.get("team_a", "")
-    team_b = data.get("team_b", "")
-    format = data.get("format", "ODI")
-    venue = data.get("venue")
-
-    if not team_a or not team_b:
-        return jsonify({"error": "team_a and team_b required"}), 400
-
-    try:
-        result = ml_engine.team_match_outcome(team_a, team_b, format, venue)
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    data = request.get_json()
+    return unavailable_prediction(team_a=data['team_a'], team_b=data['team_b'],
+                                  format=data.get('format', 'ODI'))
 
 
-@bp.route("/api/predict/venue/<venue_name>")
+@bp.route('/api/predict/venue/<venue_name>')
 def predict_venue(venue_name):
-    """
-    Get venue performance bias and probabilities.
-    Query params:
-        team — team name (optional)
-        format — Test / ODI / T20I (default: ODI)
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    team = request.args.get("team")
-    format = request.args.get("format", "ODI")
-
-    try:
-        result = ml_engine.venue_performance_bias(venue_name, team, format)
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return unavailable_prediction(venue=venue_name, format=request.args.get('format', 'ODI'))
 
 
-@bp.route("/api/predict/leaderboard")
+@bp.route('/api/predict/leaderboard')
 def predict_leaderboard():
-    """
-    Get top players by probability of achieving a metric.
-    Query params:
-        metric — 50 / 100 / wicket_maiden / strike_rate>140 / avg>50 (default: 50)
-        format — Test / ODI / T20I (default: ODI)
-        limit — number of results (default: 10)
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    metric = request.args.get("metric", "50")
-    format = request.args.get("format", "ODI")
-    limit = int(request.args.get("limit", 10))
-
-    try:
-        result = ml_engine.leaderboard_predictions(format, metric, limit)
-        return jsonify({
-            "metric": metric,
-            "format": format,
-            "limit": limit,
-            "predictions": result,
-        })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return unavailable_prediction(predictions=[], evaluated_players=0,
+                                  metric=request.args.get('metric', '50'),
+                                  format=request.args.get('format', 'ODI'))
 
 
-@bp.route("/api/predict/status")
+@bp.route('/api/predict/status')
 def predict_status():
-    """Check ML engine status."""
-    return jsonify({
-        "engine_active": ml_engine is not None,
-        "timestamp": datetime.now().isoformat(),
-    })
+    return unavailable_prediction(engine_active=False)
+
+
+@bp.get('/api/coverage')
+def dataset_coverage():
+    from ..services.repository import safe_file
+    coverage = current_app.extensions['json_repository'].read(safe_file(PROCESSED_DIR,'coverage.json'))
+    if not coverage:
+        return jsonify({'available':False,'dataset_id':None,'data_cutoff':None,
+                        'scope':'Legacy historical subset; exact coverage metadata unavailable'})
+    manifest = current_app.extensions['json_repository'].read(safe_file(PROCESSED_DIR,'manifest.json')) or {}
+    return jsonify({'available':True,'dataset_id':manifest.get('dataset_id'),**coverage})
+
+
+@bp.get('/api/identities/<kind>/<identifier>')
+def identity_record(kind,identifier):
+    from werkzeug.exceptions import BadRequest, NotFound, ServiceUnavailable
+    if kind not in ('player','team','venue','match'):raise BadRequest('Unsupported identity kind')
+    registry=current_app.extensions['identity_registry']
+    if not registry.data:raise ServiceUnavailable('Identity registry unavailable for this dataset')
+    item=registry.resolve(kind,identifier)
+    if not item:raise NotFound('Identity not found')
+    return jsonify({'dataset_id':registry.data['dataset_id'],'identity':item})
