@@ -46,7 +46,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T023 | work/t023-fielding-annotations | c0a2acc | Immutable attributed fielding/incident context;68tests67pass/one skip;fictional review example only,no promoted incident features |
 
-| T024 | work/t024-media-research | Local branch tip; protocol ed4a874 | Bounded observable-proxy research plan;70tests69pass/one skip;real agreement/benefit unavailable,production feature excluded |
+| T024 | work/t024-media-research | c42c8d6; protocol ed4a874 | Bounded observable-proxy research plan;70tests69pass/one skip;real agreement/benefit unavailable,production feature excluded |
+
+| T025 | work/t025-local-collector | Local branch tip | Bounded local manual/replay adapter;75tests74pass/one skip;parallel/lease/quota/kill/readonly checks,no external costs |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain

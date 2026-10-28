@@ -84,6 +84,7 @@ def validate_event(event):
         if runs['extras']!=sum(extras.values()) or runs['total']!=runs['batter']+runs['extras']:raise ValueError('Run conservation failure')
         if extras.get('wides') and extras.get('noballs'):raise ValueError('Conflicting illegal-ball extras')
         if any(not isinstance(event.get(name),str) or not 1<=len(event[name])<=200 for name in ('striker','non_striker','bowler')):raise ValueError('Missing participant')
+        if len({event[name] for name in ('striker','non_striker','bowler')})!=3:raise ValueError('Contradictory participant identities')
         for wicket in event.get('wickets',[]):
             if wicket['kind'] not in DISMISSALS or not wicket.get('player_id'):raise ValueError('Invalid dismissal')
     elif kind in ('penalty_pre','penalty_post','target_revision'):

@@ -1,0 +1,81 @@
+{
+  "source_mode": "replay",
+  "fixture": "Authored fictional golden match",
+  "observations": 10,
+  "ingest_samples": [
+    {
+      "status": "accepted",
+      "milliseconds": 25.303
+    },
+    {
+      "status": "accepted",
+      "milliseconds": 16.232
+    },
+    {
+      "status": "accepted",
+      "milliseconds": 15.695
+    },
+    {
+      "status": "accepted",
+      "milliseconds": 16.999
+    },
+    {
+      "status": "accepted",
+      "milliseconds": 18.92
+    },
+    {
+      "status": "accepted",
+      "milliseconds": 17.452
+    },
+    {
+      "status": "accepted",
+      "milliseconds": 18.974
+    },
+    {
+      "status": "accepted",
+      "milliseconds": 17.338
+    },
+    {
+      "status": "accepted",
+      "milliseconds": 19.279
+    },
+    {
+      "status": "accepted",
+      "milliseconds": 16.051
+    }
+  ],
+  "reader_requests": 100,
+  "reader_added_collection_cost": 0,
+  "external_api_calls": 0,
+  "dollars": 0,
+  "card_required": false,
+  "replayed_innings": [
+    {
+      "innings": 1,
+      "runs": 10,
+      "wickets": 1,
+      "legal_balls": 4
+    },
+    {
+      "innings": 2,
+      "runs": 10,
+      "wickets": 0,
+      "legal_balls": 2
+    },
+    {
+      "innings": 3,
+      "runs": 6,
+      "wickets": 0,
+      "legal_balls": 1
+    },
+    {
+      "innings": 4,
+      "runs": 0,
+      "wickets": 0,
+      "legal_balls": 1
+    }
+  ],
+  "actual_human_entry_latency": null,
+  "actual_live_source_lag": null,
+  "limitations": "Agent-run local authored replay only. No real human scoring, network uptime or actual live-feed SLA proven."
+}

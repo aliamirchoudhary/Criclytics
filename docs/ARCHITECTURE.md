@@ -299,3 +299,12 @@ not psychological ground truth. tools.media_research validates authored-fixture
 rights/availability/identity windows and agreement arithmetic. Real agreement and
 benefit remain unknown; no collector, paid model or production proxy is enabled.
 This P3 exclusion does not block core historical/manual/replay workflows.
+
+## T025 local collection adapter
+
+integrations.collector is a bounded manual/replay-only CLI/library with same-volume
+SQLite leases, shared quotas/receipts/kill state and immutable EventStore writes.
+Capture time is worker-owned; read_snapshot uses read-only SQLite and cannot
+collect. Source errors/backoff/quota/stale/kill flags block inference while
+preserving last-good display. No public write endpoint or hosted worker is added;
+LOCAL_COLLECTOR.md records limits and pending human/prospective evidence.
