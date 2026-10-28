@@ -1205,54 +1205,17 @@
         </div>
 
         <!-- ─── PROBABILITY ─────────────────────────────── -->
-        <div class="tab-panel" id="panel-probability">
-          <div class="disclaimer-banner mb-2">
-            <span class="icon">💡</span>
-            Probability insights based on historical performance data.
-          </div>
-          <div class="prob-2col">
-            <div class="prob-block">
-              <div class="prob-header"><span class="prob-icon">🏟️</span><span class="prob-label">Home Win Probability (T20I)</span></div>
-              <div class="prob-bar-wrap">
-                <div class="prob-row">
-                  <div class="prob-row-header"><span class="prob-row-name">Home advantage</span><span class="prob-row-val">—</span></div>
-                  <div class="prob-bar">
-                    <div class="prob-bar-fill" style="width:0%"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="prob-disclaimer">Home venue advantage analysis.</div>
-            </div>
-
-            <div class="prob-block">
-              <div class="prob-header"><span class="prob-icon">🏃</span><span class="prob-label">Chase Success Probability</span></div>
-              <div class="prob-bar-wrap">
-                <div class="prob-row">
-                  <div class="prob-row-header"><span class="prob-row-name">Chasing success rate</span><span class="prob-row-val">—</span></div>
-                  <div class="prob-bar">
-                    <div class="prob-bar-fill" style="width:0%"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="prob-disclaimer">Success rate when chasing targets.</div>
-            </div>
-          </div>
-        </div>
+        <div class="tab-panel" id="panel-probability"><p class="prediction-unavailable" role="status">Predictions unavailable pending chronological evaluation and calibration.</p></div>
 
         <!-- ─── ML INSIGHTS ────────────────────────────── -->
         <div class="tab-panel" id="panel-ml">
           <div class="disclaimer-banner mb-2">
             <span class="icon">⚡</span>
-            Match outcome predictions based on recent form and head-to-head records.
+            Legacy heuristic predictions are withdrawn; no validated model is released.
           </div>
 
           <!-- Content will be loaded dynamically -->
-          <div id="ml-content" class="ml-content">
-            <div class="disclaimer-banner mb-2">
-              <span class="icon">⏳</span>
-              Loading match predictions...
-            </div>
-          </div>
+          <div id="ml-content" class="ml-content"><p class="prediction-unavailable" role="status">Predictions unavailable pending chronological evaluation and calibration.</p></div>
         </div>
 
       </div><!-- end main-panels -->
@@ -1455,46 +1418,7 @@
   <script>
     // Wire team ML predictions
     async function renderTeamMLInsights(teamName, format, containerId) {
-      const container = document.getElementById(containerId);
-      if (!container) return;
-
-      container.innerHTML = '<div class="disclaimer-banner mb-2"><span class="icon">⏳</span> Loading match predictions...</div>';
-
-      // Get all opponent teams
-      const opponents = ['Australia', 'England', 'Pakistan', 'South Africa', 'New Zealand', 'Sri Lanka', 'Bangladesh', 'West Indies'];
-
-      let html = '';
-
-      for (const opponent of opponents) {
-        if (!opponent || opponent.toLowerCase() === teamName.toLowerCase()) continue;
-        const data = await loadTeamMatchPrediction(teamName, opponent, format);
-        if (data && !data.error && data.team_a) {
-          const aName = (data.team_a.name || teamName || '').toLowerCase();
-          const bName = (data.team_b?.name || opponent || '').toLowerCase();
-          if (!aName || !bName || aName === bName) continue;
-          const probA = Math.round((data.team_a.win_probability || 0.5) * 100);
-          const probB = Math.round((data.team_b.win_probability || 0.5) * 100);
-          const prediction = data.prediction || 'Match';
-          const confidence = Math.round((data.prediction_confidence || 0) * 100);
-
-          html += `<div class="ml-card anim-up">
-            <div class="ml-icon">⚽</div>
-            <div class="ml-body">
-              <div class="ml-title">${teamName} vs ${opponent}</div>
-              <div class="ml-desc" style="font-size:0.75rem;">
-                ${teamName}: <strong>${probA}%</strong> | ${opponent}: <strong>${probB}%</strong>
-              </div>
-            </div>
-            <div class="ml-val">${probA}%<br><span style="font-size:.7rem;color:var(--text-muted);font-family:var(--font-body)">Win Prob</span></div>
-          </div>`;
-        }
-      }
-
-      if (html === '') {
-        html = '<div class="disclaimer-banner"><span class="icon">ℹ</span> No prediction data available for this team.</div>';
-      }
-
-      container.innerHTML = html;
+      showPredictionUnavailable(containerId);
     }
 
     // Get team name on load and wire ML tab

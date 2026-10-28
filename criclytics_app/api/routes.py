@@ -946,139 +946,41 @@ def get_venues_meta():
         return jsonify(json.load(f))
 
 
-@bp.route("/api/predict/player/<player_name>")
+def unavailable_prediction(**context):
+    from ..ml.probability import unavailable
+    return jsonify(unavailable(**context))
+
+
+@bp.route('/api/predict/player/<player_name>')
 def predict_player(player_name):
-    """
-    Get probability predictions for a player.
-    Query params:
-        metric — 50 / 100 / wicket_maiden / strike_rate>140 / avg>50
-        format — Test / ODI / T20I (default: ODI)
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    metric = request.args.get("metric", "50")
-    format = request.args.get("format", "ODI")
-
-    try:
-        result = ml_engine.player_performance_likelihood(player_name, metric, format)
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return unavailable_prediction(player=player_name, metric=request.args.get('metric', '50'),
+                                  format=request.args.get('format', 'ODI'))
 
 
-@bp.route("/api/predict/player/<player_name>/all")
+@bp.route('/api/predict/player/<player_name>/all')
 def predict_player_all(player_name):
-    """
-    Get all probability predictions for a player across metrics.
-    Query params:
-        format — Test / ODI / T20I (default: ODI)
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    format = request.args.get("format", "ODI")
-
-    try:
-        metrics = ["50", "100", "wicket_maiden", "strike_rate>140", "avg>50"]
-        results = {}
-        for metric in metrics:
-            results[metric] = ml_engine.player_performance_likelihood(
-                player_name, metric, format
-            )
-        return jsonify({
-            "player": player_name,
-            "format": format,
-            "predictions": results,
-        })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return unavailable_prediction(player=player_name, format=request.args.get('format', 'ODI'), predictions={})
 
 
-@bp.route("/api/predict/team_match", methods=["POST"])
+@bp.route('/api/predict/team_match', methods=['POST'])
 def predict_team_match():
-    """
-    Predict match outcome between two teams.
-    Request body:
-        {
-            "team_a": "India",
-            "team_b": "Australia",
-            "format": "ODI",
-            "venue": "MCG" (optional)
-        }
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    data = request.get_json() or {}
-    team_a = data.get("team_a", "")
-    team_b = data.get("team_b", "")
-    format = data.get("format", "ODI")
-    venue = data.get("venue")
-
-    if not team_a or not team_b:
-        return jsonify({"error": "team_a and team_b required"}), 400
-
-    try:
-        result = ml_engine.team_match_outcome(team_a, team_b, format, venue)
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    data = request.get_json()
+    return unavailable_prediction(team_a=data['team_a'], team_b=data['team_b'],
+                                  format=data.get('format', 'ODI'))
 
 
-@bp.route("/api/predict/venue/<venue_name>")
+@bp.route('/api/predict/venue/<venue_name>')
 def predict_venue(venue_name):
-    """
-    Get venue performance bias and probabilities.
-    Query params:
-        team — team name (optional)
-        format — Test / ODI / T20I (default: ODI)
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    team = request.args.get("team")
-    format = request.args.get("format", "ODI")
-
-    try:
-        result = ml_engine.venue_performance_bias(venue_name, team, format)
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return unavailable_prediction(venue=venue_name, format=request.args.get('format', 'ODI'))
 
 
-@bp.route("/api/predict/leaderboard")
+@bp.route('/api/predict/leaderboard')
 def predict_leaderboard():
-    """
-    Get top players by probability of achieving a metric.
-    Query params:
-        metric — 50 / 100 / wicket_maiden / strike_rate>140 / avg>50 (default: 50)
-        format — Test / ODI / T20I (default: ODI)
-        limit — number of results (default: 10)
-    """
-    if not ml_engine:
-        return jsonify({"error": "ML engine not initialized"}), 503
-
-    metric = request.args.get("metric", "50")
-    format = request.args.get("format", "ODI")
-    limit = int(request.args.get("limit", 10))
-
-    try:
-        result = ml_engine.leaderboard_predictions(format, metric, limit)
-        return jsonify({
-            "metric": metric,
-            "format": format,
-            "limit": limit,
-            "predictions": result,
-        })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return unavailable_prediction(predictions=[], evaluated_players=0,
+                                  metric=request.args.get('metric', '50'),
+                                  format=request.args.get('format', 'ODI'))
 
 
-@bp.route("/api/predict/status")
+@bp.route('/api/predict/status')
 def predict_status():
-    """Check ML engine status."""
-    return jsonify({
-        "engine_active": ml_engine is not None,
-        "timestamp": datetime.now().isoformat(),
-    })
+    return unavailable_prediction(engine_active=False)

@@ -1,0 +1,77 @@
+{
+  "cases": [
+    {
+      "page": "compare.html",
+      "width": 375,
+      "message": "Predictions unavailable pending evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "match-detail.html?id=test-live",
+      "width": 375,
+      "message": "Predictions unavailable pending evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "match-upcoming.html",
+      "width": 375,
+      "message": "Predictions unavailable pending evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "player-profile.html?name=SC%20Cook",
+      "width": 375,
+      "message": "Predictions unavailable. No chronologically evaluated and calibrated model is released.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "team-profile.html?name=Pakistan",
+      "width": 375,
+      "message": "Predictions unavailable pending chronological evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "venue-profile.html?name=Lords",
+      "width": 375,
+      "message": "Predictions unavailable pending chronological evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "compare.html",
+      "width": 1440,
+      "message": "Predictions unavailable pending evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "match-detail.html?id=test-live",
+      "width": 1440,
+      "message": "Predictions unavailable pending evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "match-upcoming.html",
+      "width": 1440,
+      "message": "Predictions unavailable pending evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "player-profile.html?name=SC%20Cook",
+      "width": 1440,
+      "message": "Predictions unavailable. No chronologically evaluated and calibrated model is released.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "team-profile.html?name=Pakistan",
+      "width": 1440,
+      "message": "Predictions unavailable pending chronological evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    },
+    {
+      "page": "venue-profile.html?name=Lords",
+      "width": 1440,
+      "message": "Predictions unavailable pending chronological evaluation and calibration.",
+      "errors_with_other_data_unavailable": []
+    }
+  ],
+  "limitations": "Prediction containment only; other APIs forced unavailable and external assets blocked."
+}

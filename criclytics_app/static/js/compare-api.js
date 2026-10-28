@@ -411,30 +411,8 @@ async function runPlayerComparison() {
   });
 
   // ── Probability Insights ──────────────────────────────────────────────────
-  var probBlocks = document.querySelectorAll('.prob-block');
-  if (probBlocks[0] && probBlocks[1]) {
-    // Block A
-    var aInnings = aAgg.innings || 1;
-    var aProbs = [
-      { name:'Scoring 50+ in ODIs',  pct: aODI.fifties  ? Math.min(80, Math.round((aODI.fifties + (aODI.hundreds||0)) / Math.max(aODI.innings||1, 1) * 100)) : 30 },
-      { name:'Scoring 30+ in T20Is', pct: aT20.fifties  ? Math.min(75, Math.round(aT20.fifties / Math.max(aT20.innings||1, 1) * 100 + 30)) : 35 },
-      { name:'Century in Tests',     pct: aTest.hundreds ? Math.min(50, Math.round(aTest.hundreds / Math.max(aTest.innings||1, 1) * 100)) : 15 },
-      { name:'Top scorer in match',  pct: Math.min(55, Math.round(((aAgg.hundreds || 0) + (aAgg.fifties || 0)) / Math.max(aInnings, 1) * 150)) },
-    ];
-    updateProbBlock(probBlocks[0], selectedA.name, selectedA.country, aProbs);
+  // Legacy invented probability blocks were withdrawn in T008.
 
-    // Block B
-    var bInnings = bAgg.innings || 1;
-    var bProbs = [
-      { name:'Scoring 50+ in ODIs',  pct: bODI.fifties  ? Math.min(80, Math.round((bODI.fifties + (bODI.hundreds||0)) / Math.max(bODI.innings||1, 1) * 100)) : 30 },
-      { name:'Scoring 30+ in T20Is', pct: bT20.fifties  ? Math.min(75, Math.round(bT20.fifties / Math.max(bT20.innings||1, 1) * 100 + 30)) : 35 },
-      { name:'Century in Tests',     pct: bTest.hundreds ? Math.min(50, Math.round(bTest.hundreds / Math.max(bTest.innings||1, 1) * 100)) : 15 },
-      { name:'Top scorer in match',  pct: Math.min(55, Math.round(((bAgg.hundreds || 0) + (bAgg.fifties || 0)) / Math.max(bInnings, 1) * 150)) },
-    ];
-    updateProbBlock(probBlocks[1], selectedB.name, selectedB.country, bProbs, true);
-  }
-
-  // ── Attribute breakdown legend names (two places: selector panel + radar section) ──
   var legendA = document.getElementById('legend-a-label');
   var legendB = document.getElementById('legend-b-label');
   if (legendA) legendA.textContent = selectedA.name;

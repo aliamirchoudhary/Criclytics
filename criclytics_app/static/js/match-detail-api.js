@@ -260,45 +260,9 @@ function populateKeyPlayers(match) {
   body.textContent = 'Player insights will display here once match-specific performance data is available.';
 }
 
-async function updateWinProbability(match, t1, t2) {
-  if (!match || match.matchEnded || !t1 || !t2) return;
-
-  var statusEl = document.querySelector('.sidebar-card .sidebar-card-title');
-  var payload = {
-    team_a: t1,
-    team_b: t2,
-    format: String(match.matchType || match.type || match.format || 'ODI').trim(),
-    venue: String(match.venue || '').trim(),
-  };
-
-  try {
-    var res = await fetch(API + '/api/predict/team_match', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) return;
-    var data = await res.json();
-    if (!data || !data.team_a || !data.team_b) return;
-
-    var pctA = Math.round((data.team_a.win_probability || 0) * 100);
-    var pctB = Math.round((data.team_b.win_probability || 0) * 100);
-    document.querySelectorAll('.win-prob-team').forEach(function(el, i) {
-      var team = i === 0 ? t1 : t2;
-      el.innerHTML = flInline(team, 16) + esc(team);
-    });
-    document.querySelectorAll('.win-prob-pct').forEach(function(el, i) {
-      el.textContent = (i === 0 ? pctA : pctB) + '%';
-    });
-    document.querySelectorAll('.win-prob-fill-ind').forEach(function(el) { el.style.width = pctA + '%'; });
-    document.querySelectorAll('.win-prob-fill-aus').forEach(function(el) { el.style.width = pctB + '%'; });
-
-    var note = document.querySelector('.win-prob-visual p');
-    if (note) note.textContent = 'Historical model estimate based on team strength, venue, and head-to-head data.';
-    if (statusEl) statusEl.textContent = 'Win Probability';
-  } catch (e) {
-    return;
-  }
+async function updateWinProbability() {
+  var card = document.getElementById('win-prob-card');
+  if (card) card.textContent = 'Predictions unavailable pending evaluation and calibration.';
 }
 
 // ── Clear ALL hardcoded content, replace with — ───────────────────────────────

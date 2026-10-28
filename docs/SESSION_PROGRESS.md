@@ -39,3 +39,8 @@ T006 evidence: docs/audit/repositories-2026-10-28.json. Warm list/detail 347/8.4
 
 T007 does not enable any collector or claim ranking fallback is current/verified.
 Network source selection remains T015/T016; provider account work remains pending.
+
+| T008 | work/t008-prediction-containment | See local branch tip | All legacy predictions withdrawn, numeric probability/confidence null; archived engine blocked; 30 tests (29 pass, one skip); 12 Chrome unavailable-state cases pass with zero page errors |
+
+Prediction math/schema mismatches are contained by withdrawal, not described as
+validated estimates. T020/T027 must satisfy numeric invariants before release.

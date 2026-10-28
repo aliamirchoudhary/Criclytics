@@ -22,7 +22,7 @@ def create_app(config=None):
         CRICAPI_KEY=os.getenv("CRICAPI_KEY", ""),
         REDIS_URL=os.getenv("REDIS_URL", ""),
         LIVE_FETCH_ENABLED=os.getenv("LIVE_FETCH_ENABLED", "0") == "1",
-        INITIALIZE_ENGINE=True,
+        INITIALIZE_ENGINE=False,
         MAX_CONTENT_LENGTH=64 * 1024,
         CORS_ORIGINS=[s.strip() for s in os.getenv(
             "CORS_ORIGINS", "https://criclytics.aliamirchoudhary.workers.dev"
