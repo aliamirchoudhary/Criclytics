@@ -1,6 +1,6 @@
 # T030: Run prospective shadow evaluation and context ablations
 
-- Status: Planned
+- Status: In progress
 - Priority: P1
 - Depends on: T020,T027,T028
 - Branch: feat/t030-run-prospective-shadow-evaluation-and-context-ablations
@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+### Session update 2026-10-28T17:31:35+00:00
+
+Chained from T029 98408cf. Freeze prospective protocol before new scoring/tooling. No actual future cohort exists; implement immutable timing/adjudication tooling and report pending/no-go without inventing performance.
