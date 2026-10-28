@@ -43,3 +43,12 @@ The classifier/calibration APIs follow official documentation and the installed
 pinned versions: [scikit-learn logistic regression](https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.LogisticRegression.html),
 [calibration guidance](https://scikit-learn.org/1.8/modules/calibration.html),
 [SciPy scalar minimization](https://docs.scipy.org/doc/scipy-1.17.1/reference/generated/scipy.optimize.minimize_scalar.html).
+
+## Numerical convergence amendment before test evaluation
+
+The first fit hit1000iterations and raised ConvergenceWarning as a hard failure,
+before writing model.json or materializing/evaluating test rows. Increase only
+the optimization iteration ceiling to5000, retaining objective/C/solver/tolerance,
+features, splits, seed and calibration bounds. This is a recorded solver-budget
+change based on training convergence, not test metrics or model selection. The
+failed run is build/t020-fit-first.log; its partial model directory does not exist.
