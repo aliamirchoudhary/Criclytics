@@ -10,6 +10,10 @@
 
 'use strict';
 
+function canonicalFormat(value) {
+  return {test:'Test', odi:'ODI', t20:'T20I', t20i:'T20I', it20:'T20I'}[String(value || '').toLowerCase()] || null;
+}
+
 // ── API base URL ─────────────────────────────────────────────────────────────
 // Replace with your actual Hugging Face Space URL after deployment
 // Example: "https://aliamirchoudhary-criclytics-backend.hf.space"

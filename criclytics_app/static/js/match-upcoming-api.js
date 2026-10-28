@@ -183,8 +183,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   // H2H
   var h2hEl = document.getElementById('h2hContent');
-  if (h2hEl && t1 && t2) {
-    var h2hData = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=' + (match.matchType || 'T20I'));
+  var h2hFormat = canonicalFormat(match.matchType);
+  if (h2hEl && t1 && t2 && h2hFormat) {
+    var h2hData = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=' + h2hFormat);
     if (h2hData) {
       var wins1 = h2hData.team_a_wins || 0;
       var wins2 = h2hData.team_b_wins || 0;

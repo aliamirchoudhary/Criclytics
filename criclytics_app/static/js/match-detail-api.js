@@ -722,7 +722,9 @@ function updateBowlingScorecard(bowling, id) {
 }
 
 // ── H2H ───────────────────────────────────────────────────────────────────────
-async function updateH2H(t1, t2) {
+async function updateH2H(t1, t2, format) {
+  format = canonicalFormat(format);
+  if (!format) return;
   // Only call H2H API for men's international teams, not IPL teams or women's teams
   var isInternational1 = COUNTRY_ISO[t1] || guessIso(t1);
   var isInternational2 = COUNTRY_ISO[t2] || guessIso(t2);
@@ -730,7 +732,7 @@ async function updateH2H(t1, t2) {
   var isWomen2 = (t2 || '').toLowerCase().includes('women');
   if (!isInternational1 || !isInternational2 || isWomen1 || isWomen2) return;
 
-  var data = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=Test');
+  var data = await apiFetch('/api/h2h?team_a=' + encodeURIComponent(t1) + '&team_b=' + encodeURIComponent(t2) + '&format=' + encodeURIComponent(format === 'T20' ? 'T20I' : format));
   if (!data) return;
   var r = Object.values(data)[0];
   if (!r) return;
@@ -973,7 +975,7 @@ async function loadMatchDetail() {
 
   updateWinProbability(match, t1, t2);
 
-  if (t1 && t2) updateH2H(t1, t2);
+  if (t1 && t2) updateH2H(t1, t2, match.matchType);
   if (match.venue) updateVenueContext(match.venue);
 }
 

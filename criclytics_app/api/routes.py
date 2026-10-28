@@ -194,6 +194,7 @@ def get_team(team_name):
                 "won":       record["team_a_wins"] if is_team_a else record["team_b_wins"],
                 "lost":      record["team_b_wins"] if is_team_a else record["team_a_wins"],
                 "tied":      record["ties"],
+                "drawn": record.get('draws'),
                 "no_result": record["no_result"],
                 "win_pct":   record["team_a_win_pct"] if is_team_a else record["team_b_win_pct"],
                 "last_result": record["last_result"],
@@ -427,6 +428,8 @@ def get_h2h():
     team_a = request.args.get("team_a", "")
     team_b = request.args.get("team_b", "")
     fmt    = request.args.get("format")
+    if fmt == 'T20':
+        fmt = 'T20I'
 
     if not team_a or not team_b:
         return jsonify({"error": "team_a and team_b are required"}), 400
@@ -442,13 +445,18 @@ def get_h2h():
         ka, kb, kf = parts
         if ka == t_a and kb == t_b:
             if not fmt or kf == fmt:
-                results[kf] = record
+                oriented = dict(record)
+                oriented['team_a'], oriented['team_b'] = team_a, team_b
+                if team_a != ka:
+                    for left, right in (('team_a_wins', 'team_b_wins'), ('team_a_win_pct', 'team_b_win_pct')):
+                        oriented[left], oriented[right] = record.get(right), record.get(left)
+                results[kf] = oriented
 
     if not results:
         # Soft-miss response for optional sidebar context.
         return jsonify({"error": f"No H2H data found for {team_a} vs {team_b}", "found": False}), 200
 
-    return jsonify(results)
+    return jsonify(results[fmt] if fmt else results)
 
 
 @bp.route("/api/compare/players")

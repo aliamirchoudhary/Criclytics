@@ -14,7 +14,7 @@ def overs(balls, balls_per_over=6):
 def score_innings(innings, index, balls_per_over=6, fmt='T20I'):
     batting, bowling = {}, {}
     penalty_runs = innings.get('penalty_runs') or {}
-    total = penalty_runs.get('before', 0)
+    total = penalty_runs.get('pre', 0)
     legal, wickets, boundaries, dots = 0, 0, 0, 0
     fall, partnerships = [], []
     phases = defaultdict(lambda: {'runs': 0, 'wickets': 0, 'attempts': 0})
@@ -81,11 +81,13 @@ def score_innings(innings, index, balls_per_over=6, fmt='T20I'):
                 phases[phase]['wickets'] += delivery_wickets
                 phases[phase]['attempts'] += 1
         expected = innings.get('miscounted_overs', {}).get(str(over_number), {}).get('balls', balls_per_over)
+        if isinstance(expected, str) and expected.isascii() and expected.isdigit() and len(expected) <= 2:
+            expected = int(expected)
         if len(over_bowlers) == 1:
             bowler, counts = next(iter(over_bowlers.items()))
             if counts['balls'] == expected and counts['runs'] == 0:
                 bowling[bowler]['m'] += 1
-    total += penalty_runs.get('after', 0)
+    total += penalty_runs.get('post', 0)
     for row in batting.values():
         row['sr'] = round(row['r'] * 100 / row['b'], 2) if row['b'] else None
     for row in bowling.values():

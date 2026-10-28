@@ -168,3 +168,10 @@ statistical changes. There is no automatic production data promotion.
 json_io.py centralizes atomic publication and shared-delete Windows readers;
 bounded retry handles transient Windows sharing failures. Linux uses normal
 file handles with atomic rename. A failed write leaves the old artifact intact.
+
+T010 supersedes the T009 development candidate with build/data-v2-schema-final
+(schema2.0.1), correcting actual pre/post penalty keys and recording90 narrow
+miscount-count normalization events across80 source files. Strict ingestion checks
+all6,651 inputs, with zero rejects; original sources/processed artifacts stay intact.
+Portable golden fixtures and DATA_SCHEMAS.md define the tested boundary. None of
+these ignored candidates is selected for production automatically.

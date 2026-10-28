@@ -54,3 +54,13 @@ output hashes, schema and original artifact hashes. Rejected inputs have a ledge
 unexpected aggregation failure aborts the candidate. A directory without a final
 manifest is incomplete. No serving path switches automatically. Rollback keeps
 the old directory and selects a reviewed complete artifact, without deleting data.
+
+## v2.0.1 schema correction (T010)
+
+Cricsheet innings penalties use pre/post keys. Eight local source files exposed
+that mismatch during strict schema auditing; v2.0.1 applies them at the correct
+stage. The earlier build/data-v2-final is a T009 development candidate and is
+superseded by build/data-v2-schema-final. Miscounted-over counts are digit strings in
+80 local files; only that narrow bounded legacy field is normalized to integer,
+in memory with an audit ledger. Arbitrary numeric strings remain invalid.
+These are source-contract fixes, not permission to modify the original raw data.

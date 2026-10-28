@@ -1,61 +1,52 @@
-# Autonomous execution — 2026-10-28
+# Autonomous ticket execution - 2026-10-28
 
-The user authorizes local commits only on newly created ticket branches, chained
-from the previous ticket branch. No pushes, merges, rebases, resets, tags, PR/API
-repository mutations or permanent global/Codex configuration changes are allowed.
-The chain begins at the existing Cloudflare fix d8a0ad9 (itself based on dev
-e4f7ab4). The final branch must be reviewed and merged into dev by the user.
+Local ticket branches form a chain from d8a0ad9 (existing Cloudflare fix based on
+dev e4f7ab4). The user authorizes creating these branches and committing locally
+only on them. Never commit on main/dev/pre-existing branches. No pushes, merges,
+rebases, resets, tags, PR changes, remote repository mutations or permanent global
+configuration changes are authorized. The user will review/integrate the final
+branch into dev. Provider account/authentication tasks are deferred until after
+code tickets, per the user's instruction. All development remains $0/no card.
 
-T001 is waiting for provider-account rotations and HF inspection login; precise
-steps are in AUTHENTICATION.md. Live keys exist locally but their values are not
-displayed or treated as administrative credentials. HEAD-only containment results
-are recorded without retrieving secret bodies. Production status is inconclusive.
-
-T002 uses isolated environments and managed interpreters under ignored build/;
-the original environment and historical/processed datasets are preserved.
-Each ticket file/index will carry its verification evidence. Unmet external
-acceptance criteria remain pending rather than being marked complete.
-
-## Local ticket branch chain
-
-| Ticket | Branch | Commit | Evidence/status |
+| Ticket | Branch | Local commit | Result |
 |---|---|---|---|
-| T001 | work/t001-containment | 9b8ad3a | Local containment instructions; provider rotations/production checks pending operator |
-| T002 | work/t002-dependencies | 60c29d7 | Hash-locked patched dependencies; zero pip-audit advisories; isolated Python 3.11/3.12 checks |
-| T003 | work/t003-dom-security | 6102e7c | Vendored sanitizer; adversarial browser checks; script CSP report-only pending T012 |
-| T004 | work/t004-api-validation | dfe36be | Bounded inputs; structured redacted errors; 17 tests discovered, one optional skip |
-| T005 | work/t005-match-summaries | See local branch tip | 12,708-byte default list (6,271 fixtures), stable pages; Chrome 375/1440 pagination/filter checks pass; 20 tests, one optional skip |
+| T001 | work/t001-containment | 9b8ad3a | Local containment/instructions prepared; operator rotations and production verification pending |
+| T002 | work/t002-dependencies | 60c29d7 | Patched hash locks, zero pip-audit advisories, isolated Python3.11/3.12 checks |
+| T003 | work/t003-dom-security | 6102e7c | Vendored sanitizer and browser adversarial checks; script CSP report-only pending T012 |
+| T004 | work/t004-api-validation | dfe36be | Bounded inputs and redacted structured errors |
+| T005 | work/t005-match-summaries | e5bf221 | Compact pagination/all callers; 12,708-byte default vs old43MB; mobile/desktop interactions pass |
+| T006 | work/t006-data-repositories | f31d513 | App-isolated bounded snapshots/index, atomic timestamped cache and shared SQLite refresh lease |
+| T007 | work/t007-source-provenance | bdbff74 | Cache-only ranking HTTP, bounded offline partial imports, honest source/stale labels |
+| T008 | work/t008-prediction-containment | e8abb42 | Legacy predictions withdrawn/null probabilities; 12 browser unavailable-state cases pass |
+| T009 | work/t009-cricket-aggregation | 85b50ab | New scorer/rebuild; 6,651 matches vs old6,246, recovered405 outcomes; original artifacts unchanged |
+| T010 | work/t010-golden-schema-contracts | See branch tip | Five portable golden matches, deterministic ETL/API tests, schema codes, diagnostic failure exit, corrected H2H; full v2.0.1 rebuild accepts6,651 with zero rejects |
 
-T005 measured cold/warm list latency ~2.59s/2.08s before repository caching.
-No provider accounts, remote Git resources, or deployments were changed.
-All tooling is local/free; no billing or card setup.
+Every implemented ticket remains awaiting local review/integration. External
+acceptance is not silently marked complete. Ticket files and tickets.md contain
+individual verification evidence and remaining dependencies.
 
-| T006 | work/t006-data-repositories | See local branch tip | App-isolated bounded snapshots/index; atomic timestamped cache; shared SQLite refresh lease; 25 tests (24 pass, one optional skip); opt-in historical regression suite also passes |
+T006 measured one processed parse, warm list/detail347/8.49ms, ~250MB resident
+working set with engine disabled; these are local samples, not hosted guarantees.
+Expanded T009 checks also fixed transient Windows sharing failures in readers and
+writers; shared-delete handles and bounded retries preserve last-good artifacts.
 
-T006 evidence: docs/audit/repositories-2026-10-28.json. Warm list/detail 347/8.49ms;
-~250MB working set, one processed parse. No source data regenerated or deleted.
+T009 full pass accepted6,651/6,651 with no rejects:6,246 wins,167 draws,175 no-results,
+63 ties;4,834 observed players. All original processed JSON hashes unchanged.
+SC Cook Test highest176->117 and innings11->19 explain combined-innings defects.
+Attributed real2024 final checks also pass. See docs/audit/aggregation-v2-2026-10-28.json
+and real-scorecard evidence. T010 identified and corrected pre/post penalty keys
+and80 legacy miscounted-over string-count files; its final candidate supersedes
+T009's development output. Earlier interrupted candidates lack final manifests.
+No candidate has been promoted automatically; existing processed data stays selected.
 
-| T007 | work/t007-source-provenance | See local branch tip | Cache-only ranking HTTP; conservative dates/stale labels; bounded offline import preserves partial categories; sample schedule publication disabled; 28 tests (27 pass, one skip); three browser label checks pass |
+No deployments, provider-account changes or remote Git mutations occurred. Tools,
+interpreters and local credentials stay under ignored build/ and .auth/ where used.
+The original environment, source data and historical artifacts are preserved.
 
-T007 does not enable any collector or claim ranking fallback is current/verified.
-Network source selection remains T015/T016; provider account work remains pending.
-
-| T008 | work/t008-prediction-containment | See local branch tip | All legacy predictions withdrawn, numeric probability/confidence null; archived engine blocked; 30 tests (29 pass, one skip); 12 Chrome unavailable-state cases pass with zero page errors |
-
-Prediction math/schema mismatches are contained by withdrawal, not described as
-validated estimates. T020/T027 must satisfy numeric invariants before release.
-
-T009 in progress on work/t009-cricket-aggregation (base e8abb42): common innings
-scorer + streaming versioned rebuild, hand rules and attributed 2024 final checks
-implemented. Final full-corpus candidate is building under build/data-v2-verified;
-original processed data remains selected. Found/fixed transient Windows reader
-sharing denial during expanded checks. No remote writes/deployments.
-
-| T009 | work/t009-cricket-aggregation | See local branch tip | 6,651/6,651 accepted, zero rejects; recovered 167 draws/175 no-results/63 ties; 4,834 observed players; original artifacts unchanged; hashes verified; 35 tests (34 pass, one skip) |
-
-Verified candidate: build/data-v2-final; not promoted to serving. Full difference
-report: docs/audit/aggregation-v2-2026-10-28.json; real-scorecard evidence alongside.
-Earlier build/data-v2-smoke/full are development candidates; data-v2-verified was
-interrupted during refinement and has no final manifest. Preserve these artifacts;
-only data-v2-final is the verified T009 candidate. Added native Windows shared-delete
-reads plus bounded exponential write retry after contention failed short retries.
+T010 final candidate: build/data-v2-schema-final, all output/pipeline hashes checked.
+90 audited count normalizations across80 files; actual pre/post penalties covered.
+Python3.12 full suite40tests39pass/one optionalskip; Python3.11 preceding39-test
+suite passes and latest golden assertions also pass on3.12. Compilation and changed
+JS syntax pass. Diagnostic success0/failure1 verified. Evidence in
+schema-corpus-2026-10-28.json and aggregation-v2-schema-2026-10-28.json; initial88
+rejections retained separately to explain the narrow migration. No promotion.

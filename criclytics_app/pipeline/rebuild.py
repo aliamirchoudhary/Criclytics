@@ -12,6 +12,7 @@ from ..paths import PROJECT_ROOT
 from ..services.live_cache import atomic_json
 from . import cricsheet as legacy
 from .aggregation import aggregate
+from .schema import validate_match, normalize_legacy_match, SchemaError
 
 FORMATS = {'tests_male_json': 'Test', 'odis_male_json': 'ODI', 't20s_male_json': 'T20I'}
 
@@ -32,7 +33,7 @@ def rebuild(raw_dir, output, previous=None, limit=None):
     before = {p.name: digest(p) for p in sorted(previous.glob('*.json'))} if previous else {}
     output.mkdir(parents=True)
     code_hashes = {p.name: digest(p) for p in sorted(Path(__file__).parent.glob('*.py'))}
-    inputs, rejected, completed = [], [], []
+    inputs, rejected, completed, normalized = [], [], [], []
     accumulators = legacy.build_raw_accumulators([])
     outcomes = Counter()
     paths = [(p, fmt) for folder, fmt in FORMATS.items() for p in sorted((raw_dir / folder).glob('*.json'))]
@@ -43,6 +44,10 @@ def rebuild(raw_dir, output, previous=None, limit=None):
         inputs.append(record)
         try:
             match = json.loads(path.read_text(encoding='utf-8'))
+            changes = normalize_legacy_match(match)
+            if changes:
+                normalized.append({'path': record['path'], 'changes': changes})
+            validate_match(match)
             info = match['info']
             if info.get('team_type') != 'international' or info.get('gender') != 'male':
                 raise ValueError('Outside declared international male scope')
@@ -53,7 +58,9 @@ def rebuild(raw_dir, output, previous=None, limit=None):
             from .scoring import score_match
             match['_scored'] = score_match(match)
         except (KeyError, ValueError, TypeError, AttributeError) as error:
-            rejected.append({**record, 'reason_type': type(error).__name__})
+            rejected.append({**record, 'reason_type': type(error).__name__,
+                             'code': error.code if isinstance(error, SchemaError) else 'invalid_or_out_of_scope',
+                             'location': error.location if isinstance(error, SchemaError) else 'match'})
             continue
         # Unexpected aggregation/export failures abort the candidate, never skip a
         # partially accumulated match and silently publish inconsistent totals.
@@ -69,7 +76,7 @@ def rebuild(raw_dir, output, previous=None, limit=None):
         legacy.save_all(accumulators, [])
     finally:
         legacy.OUT_DIR = old_output
-    atomic_json(output / 'completed_matches.json', {'schema_version': '2.0', 'data': completed})
+    atomic_json(output / 'completed_matches.json', {'schema_version': '2.0.1', 'data': completed})
     count = len(completed)
     del completed
     gc.collect()
@@ -91,8 +98,9 @@ def rebuild(raw_dir, output, previous=None, limit=None):
     preserved = not previous or all(digest(previous / name) == value for name, value in before.items())
     if not preserved:
         raise RuntimeError('Original artifact preservation check failed')
-    report = {'schema_version': '2.0', 'scope': 'local mens international subset; not complete careers',
+    report = {'schema_version': '2.0.1', 'scope': 'local mens international subset; not complete careers',
               'inputs': len(inputs), 'accepted_matches': count, 'rejected': rejected,
+              'normalizations': normalized,
               'outcomes': dict(outcomes), 'players_before': len(old_players), 'players_after': len(current),
               'changed_player_format_fields': dict(differences), 'examples': examples,
               'original_artifacts_unchanged': preserved, 'subset_limit': limit,
@@ -101,7 +109,7 @@ def rebuild(raw_dir, output, previous=None, limit=None):
                         'Regulation totals exclude super overs; draws/ties/no-results remain distinct.',
                         'Candidate is not automatically promoted to serving.']}
     atomic_json(output / 'difference_report.json', report)
-    manifest = {'schema_version': '2.0', 'scoring_contract': 'docs/SCORING_CONTRACT.md',
+    manifest = {'schema_version': '2.0.1', 'scoring_contract': 'docs/SCORING_CONTRACT.md',
                 'inputs': inputs, 'original_artifacts': before,
                 'code_sha256': code_hashes,
                 'outputs': {p.name: digest(p) for p in sorted(output.glob('*.json'))}}

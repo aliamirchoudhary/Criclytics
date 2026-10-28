@@ -180,7 +180,7 @@ def render_match_detail_bootstrap(match):
                 }}
                 if (typeof window.populateKeyPlayers === 'function') window.populateKeyPlayers(match);
                 if (typeof window.updateWinProbability === 'function') window.updateWinProbability(match, t1, t2);
-                if (typeof window.updateH2H === 'function' && t1 && t2) window.updateH2H(t1, t2);
+                if (typeof window.updateH2H === 'function' && t1 && t2) window.updateH2H(t1, t2, match.matchType);
                 if (typeof window.updateVenueContext === 'function' && match.venue) window.updateVenueContext(match.venue);
 
                 // COMPLETED: hide live-only sections for completed matches

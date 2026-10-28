@@ -88,7 +88,7 @@ class ScoringTests(unittest.TestCase):
             wickets.append(value)
         four = delivery(4)
         four['runs']['non_boundary'] = True
-        innings = {'team': 'Team A', 'penalty_runs': {'before': 5, 'after': 5},
+        innings = {'team': 'Team A', 'penalty_runs': {'pre': 5, 'post': 5},
                    'overs': [{'over': 0, 'deliveries': wickets + [four]}]}
         value = score_match(match([innings]))['innings'][0]
         self.assertEqual(value['total'], 14)
