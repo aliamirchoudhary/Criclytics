@@ -31,3 +31,9 @@ remain until the explicit T009 schema/statistical migration. Rollback must keep
 predictions disabled; do not republish archived formulas. Releasing a model needs
 chronological match-grouped held-out evaluation, calibration, model/data identity,
 cutoff, target semantics and an as-of state/feature contract (T018-T020/T027).
+
+T020 adds a local experimental CPU next-attempt model with chronological held-out
+metrics and separate temperature calibration. It is not promoted; legacy API
+availability stays false. MODEL_CARD.md and BASELINE_PROTOCOL.md record scope,
+failed training convergence/amendment, trusted JSON identity and limits. Unknown
+historical source availability and the small/stale sample preclude live claims.

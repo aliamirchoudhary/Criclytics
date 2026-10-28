@@ -36,7 +36,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T018 | work/t018-delivery-replay | 3bb3805 | Immutable source-ID attempts/revisions and replay;53tests52pass/one skip;100actual matches/23104attempts reconcile |
 
-| T019 | work/t019-before-delivery-features | Local branch tip | Shared before-attempt vectors/joint labels;57tests56pass/one skip;23104 reproducible rows with58/21/21 whole-match temporal splits |
+| T019 | work/t019-before-delivery-features | e47a364 | Shared before-attempt vectors/joint labels;56tests55pass/one skip;23104 reproducible rows with58/21/21 whole-match temporal splits |
+
+| T020 | work/t020-cpu-baseline | Local branch tip; protocol d357306/amendment87bd2c6 | Trusted CPU model/evaluation;60tests59pass/one skip;repeat artifact hash identical;not promoted, learner does not beat stronger phase baseline |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain
@@ -76,3 +78,5 @@ Resumed: T012 uses work/t012-frontend-runtime from a3d445a. T013 remains gated b
 T015 candidate build/data-v3-manifest-final supersedes prior candidates for manifest/coverage support. Verified isolated store build/t015-store; default serving remains legacy. Coverage begins2001-12-19 after recovered non-win outcomes (old win-only audit began2002). No private/source artifacts published.
 
 T018 isolated store build/events-t20-v1.sqlite3 contains100deterministic file-order maleT20I matches. It is not a chronological training split or a live benchmark. Event availability is unknown for historical rows.
+
+T020 experimental model build/baseline-v1-first/model.json (same as repeat) remains private/unpromoted. MODEL_CARD.md and audit/cpu-baseline-2026-10-28.json record metrics and limits. T019 test count corrected to56(55pass/one skip) from its earlier off-by-one documentation; original verification log is preserved.

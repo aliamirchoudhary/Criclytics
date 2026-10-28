@@ -253,3 +253,13 @@ history; chronological match/date-grouped partitions reject boundary overlap.
 Private JSONL exports are streamed under one SQLite snapshot with deterministic
 row/source hashes. Missing target/schedule/priors stay null, and retrospective
 source-availability uncertainty remains explicit. See FEATURES.md.
+
+## T020 experimental CPU model
+
+ml.baseline compares fixed smoothed empirical/context counts with train-only
+standardized logistic regression and separate temperature calibration. Portable
+JSON inference requires an externally trusted SHA256 and strict feature/schema/
+finite-weight/joint-label checks; no pickle loading. OTHER is explicit unknown
+outcome mass. MODEL_CARD.md records held-out metrics and no-go promotion: the
+small/stale historical sample and unknown source availability do not support
+current coaching forecasts. Legacy prediction availability remains false.
