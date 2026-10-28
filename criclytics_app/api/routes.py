@@ -81,10 +81,10 @@ def get_players():
             total = sum(f.get("wickets", 0) for f in p.get("bowling", {}).values())
             return total
         elif sort == "avg":
-            avgs = [f.get("average", 0) for f in p.get("batting", {}).values()]
+            avgs = [(f.get("average") or 0) for f in p.get("batting", {}).values()]
             return max(avgs) if avgs else 0
         elif sort == "sr":
-            srs = [f.get("strike_rate", 0) for f in p.get("batting", {}).values()]
+            srs = [(f.get("strike_rate") or 0) for f in p.get("batting", {}).values()]
             return max(srs) if srs else 0
         else:  # runs (default)
             total = sum(f.get("runs", 0) for f in p.get("batting", {}).values())
@@ -648,7 +648,7 @@ def search():
         "players": matched_players[:limit],
         "teams":   matched_teams[:limit],
         "venues":  matched_venues[:limit],
-        "matches": matched_matches,
+        "matches": matched_matches[:limit],
     })
 
 

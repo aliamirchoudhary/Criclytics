@@ -1,0 +1,43 @@
+- main:
+  - paragraph: CRICKET / RECORDS & REVIEW
+  - heading "<img src=x onerror=\"window.__injected=1\">LongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongNameLongName" [level=1]
+  - paragraph: Historical figures are under review. Coverage is an available men's international subset, not complete career totals.
+  - paragraph: Unknown
+  - tablist "Record view":
+    - tab "T20I" [selected]
+    - tab "ODI"
+    - tab "Test"
+  - tabpanel "T20I":
+    - heading "Batting" [level=2]
+    - term: Matches
+    - definition: "0"
+    - term: Innings
+    - definition: "0"
+    - term: Runs
+    - definition: "0"
+    - term: Average
+    - definition: —
+    - term: Strike rate
+    - definition: —
+    - term: Highest innings
+    - definition: —
+    - term: Fifties
+    - definition: —
+    - term: Hundreds
+    - definition: —
+    - term: Not outs
+    - definition: —
+    - paragraph: Descriptive statistics from observed matches.
+    - paragraph: No records available for this selection.
+    - paragraph: No records available for this selection.
+    - paragraph: No records available for this selection.
+  - region "Recent observed innings (chronological), scrollable table":
+    - table "Recent observed innings (chronological)":
+      - caption: Recent observed innings (chronological)
+      - rowgroup:
+        - row "Innings score":
+          - columnheader "Innings score"
+      - rowgroup:
+        - row "0":
+          - cell "0"
+  - paragraph: Predictions unavailable. No chronologically evaluated and calibrated model is released.

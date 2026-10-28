@@ -41,3 +41,20 @@ class MatchListingTests(unittest.TestCase):
             self.assertLess(len(response.data), 250 * 1024)
             self.assertIn('innings', client.get('/api/matches/1').json['data'])
             self.assertEqual(client.get('/api/matches?status=bad').status_code, 400)
+
+    def test_search_matches_are_bounded_and_null_sort_is_safe(self):
+        client = create_app({'TESTING': True, 'INITIALIZE_ENGINE': False,
+                             'LIVE_FETCH_ENABLED': False, 'REDIS_URL': ''}).test_client()
+        with patch('criclytics_app.api.routes.load_processed', return_value={}), \
+             patch('criclytics_app.api.routes.completed_summaries', return_value=self.matches), \
+             patch('criclytics_app.api.routes.load_live', return_value=None):
+            result = client.get('/api/search?q=Pakistan&limit=2')
+            self.assertEqual(result.status_code, 200)
+            self.assertEqual(len(result.json['matches']), 2)
+        players = {'Missing': {'name': 'Missing', 'batting': {'Test': {'average': None}}},
+                   'Known': {'name': 'Known', 'batting': {'Test': {'average': 3}}}}
+        with patch('criclytics_app.api.routes.load_processed', return_value=players):
+            result = client.get('/api/players?sort=avg')
+            self.assertEqual(result.status_code, 200)
+            self.assertEqual(result.json['players'][0]['name'], 'Known')
+            self.assertIsNone(result.json['players'][1]['batting']['Test']['average'])

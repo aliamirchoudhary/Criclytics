@@ -19,7 +19,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 | T007 | work/t007-source-provenance | bdbff74 | Cache-only ranking HTTP, bounded offline partial imports, honest source/stale labels |
 | T008 | work/t008-prediction-containment | e8abb42 | Legacy predictions withdrawn/null probabilities; 12 browser unavailable-state cases pass |
 | T009 | work/t009-cricket-aggregation | 85b50ab | New scorer/rebuild; 6,651 matches vs old6,246, recovered405 outcomes; original artifacts unchanged |
-| T010 | work/t010-golden-schema-contracts | See branch tip | Five portable golden matches, deterministic ETL/API tests, schema codes, diagnostic failure exit, corrected H2H; full v2.0.1 rebuild accepts6,651 with zero rejects |
+| T010 | work/t010-golden-schema-contracts | 046ada4 | Five portable golden matches, deterministic ETL/API tests, schema codes, diagnostic failure exit, corrected H2H; full v2.0.1 rebuild accepts6,651 with zero rejects |
+
+| T011 | work/t011-ui-accessibility | Local branch tip | Accessible data-driven surfaces on17 URLs; 85 browser cases pass; full41-test suite40pass/one optional skip |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain
@@ -50,3 +52,6 @@ suite passes and latest golden assertions also pass on3.12. Compilation and chan
 JS syntax pass. Diagnostic success0/failure1 verified. Evidence in
 schema-corpus-2026-10-28.json and aggregation-v2-schema-2026-10-28.json; initial88
 rejections retained separately to explain the narrow migration. No promotion.
+
+
+Execution stopped after T011 at the user's request. T012 and later tickets have not been started. T011 page/action inventory and browser limitations: UI_ACCEPTANCE.md. Local commits only; no push, merge or deployment.

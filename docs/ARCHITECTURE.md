@@ -175,3 +175,7 @@ miscount-count normalization events across80 source files. Strict ingestion chec
 all6,651 inputs, with zero rejects; original sources/processed artifacts stay intact.
 Portable golden fixtures and DATA_SCHEMAS.md define the tested boundary. None of
 these ignored candidates is selected for production automatically.
+
+## T011 public UI
+
+All17 allowlisted templates load application.js/application.css, using safe DOM construction and shared accessible navigation/forms/tables. Original markup is archived in docs/history/ui-pre-t011, outside static deployment output. The shared renderer owns these pages; legacy page scripts remain as historical assets and are not loaded by the new templates. Runtime API configuration and removal/consolidation of legacy assets remain T012. No dataset promotion or deployment accompanies this UI change. See UI_ACCEPTANCE.md.
