@@ -1,0 +1,33 @@
+{
+  "cases": [
+    {
+      "width": 375,
+      "passed": true,
+      "flows": [
+        "menu/directory/filter/stable-profile",
+        "profile format tab and expandable records",
+        "photo attribution",
+        "wrong-identity/hostile-name fallback",
+        "denied portrait and flag",
+        "partial homepage API failure"
+      ],
+      "errors": [],
+      "external_requests": []
+    },
+    {
+      "width": 1440,
+      "passed": true,
+      "flows": [
+        "menu/directory/filter/stable-profile",
+        "profile format tab and expandable records",
+        "photo attribution",
+        "wrong-identity/hostile-name fallback",
+        "denied portrait and flag",
+        "partial homepage API failure"
+      ],
+      "errors": [],
+      "external_requests": []
+    }
+  ],
+  "limitations": "Local Chrome only; curated photo coverage is two players. No deployment or real-user acceptance."
+}

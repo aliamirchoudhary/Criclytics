@@ -87,3 +87,36 @@ T017A resumed after the user stop: isolated build/player-ids-v1-final is opt-in 
 
 
 Final resumed-session handoff: SESSION_HANDOFF.md lists changed files, local commits, verification, no deployment URLs and the external/Git approval gates. Original13processed hashes verified; main/dev unchanged.
+
+
+## T032 frontend revision ? 2026-10-29
+
+Owner reported T031 merged into dev and requested a complete frontend experience
+improvement, including missing flags and portraits. New local ticket branch
+`feat/t032-frontend-experience` starts at fetched `origin/dev` 633f41c; local dev,
+main, original datasets and prior ticket branches are preserved.
+
+Restored local cricket imagery and redesigned shared navigation, homepage,
+match cards, filters, typography, profiles, directory, search, records and
+comparison presentation. 105 MIT-licensed flag SVGs and two attributed CC
+portraits; exact identity binding and initials/error fallback. No new runtime
+package, paid dependency, external image request, deployment or remote Git change.
+Photo coverage remains two players; a further Wikimedia download returned429
+and was stopped. See MEDIA_ASSETS.md and T032 for evidence and remaining limits.
+
+Verification: full89-test suite88pass/one optional legacy skip; Python compilation,
+active JS syntax and clean static build pass. Focused Chrome mobile/desktop flows
+pass. The initial95-case matrix caught homepage busy states not cleared after
+loading; fixed; responsive rerun passed95page/width cases and4interaction checks.
+Profiles now use expandable record tables and compact recent-innings scores. Local preview remains
+http://127.0.0.1:5050; screenshots under build/t032-preview/.
+
+
+T032 final review notes: player detail tables are collapsed native disclosures
+with record counts and bounded scrolling; recent innings retain chronological
+source values in a score strip. Focused disclosure/tab flows pass at375/1440.
+Local Git identity remains aliamirchoudhary <aliamirchoudhary@gmail.com>.
+The new feature branch has no remote upstream; any push remains pending approval.
+
+T032 completion: final95-case responsive matrix and4interaction checks pass after
+profile disclosures; focused mobile/desktop flows also pass. No publication.

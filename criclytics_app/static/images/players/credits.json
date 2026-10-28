@@ -1,0 +1,22 @@
+[
+  {
+    "slug": "kohli",
+    "path": "/static/images/players/kohli.jpg",
+    "author": "Anand Anil",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Virat_Kohli_portrait.jpg",
+    "changes": "Original file; displayed with CSS object-fit crop",
+    "sha256": "2e6372b7b70c413de36b319589c5a5e53e6a82304abf1c73a1fefe820db82d60"
+  },
+  {
+    "slug": "babar",
+    "path": "/static/images/players/babar.png",
+    "author": "BBC Urdu",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Babar_Azam_in_2020.png",
+    "changes": "Original file; displayed with CSS object-fit crop",
+    "sha256": "c439421089c87ad49878d193caf1f56b355c5ffbf5bd803ac0f206d3b2280a49"
+  }
+]

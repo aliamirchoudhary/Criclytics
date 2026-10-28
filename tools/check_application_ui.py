@@ -52,6 +52,7 @@ def main():
             # Named and keyboard-operable tabs, denied-image fallback and preserved zero.
             page = browser.new_page(viewport={'width':375,'height':900}, reduced_motion='reduce')
             page.route('**/*', lambda route: route.continue_() if route.request.url.startswith(origin) else route.abort())
+            page.route('**/static/images/flags/*', lambda route: route.abort())
             page.goto(origin + '/team-profile.html?name=India', wait_until='networkidle')
             page.locator('[role=tab]').first.focus()
             page.keyboard.press('ArrowRight')
@@ -78,7 +79,7 @@ def main():
     finally:
         server.shutdown()
     report = {'cases':cases,'interactions':interactions,
-              'limitations':'Chrome only; external fonts/images denied; uses local schema2.0.1 candidate. Screen-reader speech and hosted latency are not certified.'}
+              'limitations':'Chrome only; external requests denied, bundled local media allowed; explicit flag failure tested. Uses local schema2.0.1 candidate. Screen-reader speech and hosted latency are not certified.'}
     args.report.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     failures = [case for case in cases if case['errors'] or case['unnamed'] or case['document'] > case['viewport'] + 2 or case['loading'] or case['headings'] != 1]
     if failures:

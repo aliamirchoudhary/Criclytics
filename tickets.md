@@ -52,6 +52,8 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T030](tickets/t030-run-prospective-shadow-evaluation-and-context-ablations.md) | Run prospective shadow evaluation and context ablations | P1 | T020,T027,T028 | Tooling implemented; prospective cohort pending |
 | [T031](tickets/t031-release-measured-coach-pilot-and-operations-runbook.md) | Release measured coach pilot and operations runbook | P1 | T001,T002,T003,T013,T014,T015,T028,T029,T030 | Blocked; offline readiness verified |
 
+| [T032](tickets/t032-restore-cricket-visuals-and-redesign-experience.md) | Restore cricket visuals and redesign the frontend experience | P1 | T011,T012,T031 | Implemented; visual review pending |
+
 ## Agent handoff
 
 Use: "Implement Txxx from its ticket on a new branch from dev. Follow AGENTS.md,

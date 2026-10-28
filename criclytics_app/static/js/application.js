@@ -5,6 +5,7 @@
   document.documentElement.dataset.criclyticsInitialized = 'true';
   const {node, display} = window.CriclyticsDOM;
   const {request} = window.CriclyticsAPI;
+  const media = window.CriclyticsMedia;
   const page = document.body.dataset.page;
   const app = document.getElementById('app');
   const query = new URLSearchParams(location.search);
@@ -38,6 +39,11 @@
       const cell = node('td'); cell.append(value instanceof Node ? value : document.createTextNode(display(value))); row.append(cell);
     }); body.append(row); });
     grid.append(body); wrap.append(grid); return wrap;
+  }
+  function recordDetails(title,headers,rows) {
+    const details=node('details',null,'ui-record-details'), summary=node('summary');
+    summary.append(node('span',title),node('span',rows.length+' records','ui-record-count'));
+    details.append(summary,table(title,headers,rows)); return details;
   }
   function field(label, values, value) {
     const id = 'ui-field-' + (++uid), wrap = node('div', null, 'ui-field');
@@ -91,36 +97,86 @@
     area.append(before, node('span', total ? `${offset + 1}–${Math.min(offset + limit, total)} of ${total}` : '0 results'), after); return area;
   }
   function avatar(name) {
-    const item = node('div', name.split(/\s+/).filter(Boolean).slice(0, 2).map(s => s[0]).join('').toUpperCase(), 'ui-avatar');
-    item.id = 'teamCrest'; item.setAttribute('aria-label', name);
-    const initials = item.textContent, url = ({India:'IN',Pakistan:'PK',Australia:'AU',England:'ENGLAND','South Africa':'ZA','New Zealand':'NZ','Sri Lanka':'LK',Bangladesh:'BD',Afghanistan:'AF'})[name];
-    if (url) {
-      const image = node('img'); image.src = 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/' + url + '.svg'; image.alt = name;
-      image.addEventListener('error', () => { item.textContent = initials; });
-      item.replaceChildren(image);
-    }
+    const item = media.flag(name); item.id = 'teamCrest'; item.classList.add('ui-team-crest');
     return item;
+  }
+  function teamLink(name) {
+    const item = link('', 'team-profile', {name}); item.className = 'ui-team-link';
+    item.append(media.flag(name), node('span', name)); return item;
+  }
+  function playerLink(player) {
+    const item = link('', 'player-profile', {name:player.identity_id || player.name}); item.className = 'ui-player-link';
+    const photo=media.portraits[player.identity_id];
+    const label = node('span',photo ? photo.name : player.name); label.append(node('small',(player.formats || []).join(' / ')));
+    item.append(media.portrait(player),label); return item;
+  }
+  function comparisonHeader(first,second,teams) {
+    const grid=node('div',null,'ui-grid ui-comparison-header');
+    [first,second].forEach(value=>{
+      const card=node('article',null,'ui-card');
+      card.append(teams ? teamLink(value.name) : playerLink(value));
+      if(!teams) { const credit=media.credit(value.identity_id); if(credit) card.append(credit); }
+      grid.append(card);
+    }); return grid;
   }
   function fixtureCards(matches) {
     const grid = node('div', null, 'ui-grid');
     if (!matches.length) return node('p', 'No cached fixtures or results match this selection.', 'ui-state');
     matches.forEach(match => {
-      const card = node('article', null, 'ui-card');
+      const card = node('article', null, 'ui-card ui-match-card');
       const names = match.teams || [match.t1, match.t2];
       const title = match.name || names.filter(Boolean).join(' vs ');
       const heading = node('h3'); heading.append(link(title || 'Match details', match.matchEnded ? 'match-detail' : 'match-upcoming', {id: match.id || match.unique_id}));
-      card.append(heading, node('p', [match.matchType, match.date, match.venue].filter(Boolean).join(' · ')),
-        node('p', match.matchEnded ? (match.status || 'Completed') : 'Cached · ' + (match.status || 'Live status unverified')));
-      if (match.t1s || match.t2s) card.append(node('p', [match.t1s, match.t2s].filter(Boolean).join(' / ')));
+      const meta = node('div',null,'ui-match-meta'); meta.append(node('span',match.matchType || 'International','ui-badge'),node('span',match.date ? String(match.date).slice(0,10) : 'Date unavailable'));
+      card.append(meta,heading);
+      names.filter(Boolean).slice(0,2).forEach((name,index) => {
+        const row = node('div',null,'ui-match-team');
+        const score = (match.score || []).find(s => (s.inning || s.team || '').startsWith(name));
+        const value = index === 0 ? match.t1s : match.t2s;
+        row.append(teamLink(name),node('strong',value || (score ? `${score.r}/${score.w} (${score.o})` : '—'))); card.append(row);
+      });
+      card.append(node('p',match.venue || 'Venue unavailable','ui-match-venue'),node('p',match.matchEnded ? (match.status || 'Completed') : 'Cached · '+(match.status || 'Live status unverified'),'ui-match-result'));
       grid.append(card);
     }); return grid;
   }
   async function home() {
-    const [recent, upcoming] = await Promise.all([request('/api/matches?status=completed&limit=4'), request('/api/matches?status=upcoming&sort=oldest&limit=4')]);
-    const content = node('div'), hero = panel('Prepare with records. Review with context.');
-    hero.append(node('p', 'Explore players, matchups, venues and results from the available historical matches. Missing data stays unavailable.'), link('Browse matches', 'matches'));
-    prediction(hero); content.append(hero, provenance(upcoming.provenance, 'Fixtures'), node('h2', 'Recent results'), fixtureCards(recent.data || []), node('h2', 'Cached upcoming fixtures'), fixtureCards(upcoming.data || []));
-    app.replaceChildren(content);
+    const content = node('div'), hero = node('section',null,'ui-hero');
+    const copy = node('div',null,'ui-hero-copy');
+    const heading=document.querySelector('.ui-main h1'), eyebrow=document.querySelector('.ui-main>.ui-eyebrow'), coverage=document.querySelector('.ui-coverage');
+    if(eyebrow) copy.append(eyebrow);
+    if(heading) copy.append(heading);
+    copy.append(node('p','Go beyond the score. Explore the players, matchups and grounds that shape the game. Build your next match plan from the evidence.'),node('span','HISTORICAL ANALYTICS · MATCH PREPARATION','ui-hero-kicker'));
+    const actions = node('div',null,'ui-hero-actions');
+    const primary = link('Explore players →','players'); primary.className='ui-action-primary';
+    actions.append(primary,link('Build a scouting plan ↗','scouting')); copy.append(actions);
+    if(coverage) copy.append(coverage);
+    const visual = node('div',null,'ui-hero-visual');
+    visual.setAttribute('aria-label','Explore cricket player profiles');
+    Object.entries(media.portraits).slice(0,2).forEach(([id,p]) => {
+      const card = link('','player-profile',{name:id}); card.className='ui-hero-player';
+      card.append(media.portrait({identity_id:id,name:p.name},true),node('span',p.name),media.flag(p.team));
+      const figure=node('figure'); figure.append(card);
+      const credit=media.credit(id); if(credit) figure.append(credit); visual.append(figure);
+    });
+    hero.append(copy,visual); content.append(hero);
+    const shortcuts=node('div',null,'ui-discover');
+    [['01','Head to head','Compare player records across formats.','compare'],['02','Know the ground','Explore venue scoring and chasing records.','venues'],['03','Prepare your XI','Build an evidence-based scouting plan.','scouting']].forEach(([number,title,description,target])=>{
+      const card=link('',target);card.className='ui-discover-card';card.append(node('span',number,'ui-discover-number'),node('h2',title),node('p',description),node('span','Explore ↗','ui-discover-arrow'));shortcuts.append(card);
+    });
+    content.append(shortcuts);
+    const results = node('section'), fixtures = node('section');
+    content.append(results,fixtures); app.replaceChildren(content);
+    async function load(target,path,title,upcoming) {
+      state(target,'loading');
+      try {
+        const data=await request(path), heading=node('div',null,'ui-section-heading');
+        heading.append(node('h2',title),link('View all →','matches',{status:upcoming?'upcoming':'completed'}));
+        target.replaceChildren(heading,fixtureCards(data.data || []));
+        if(upcoming && (data.data || []).length) target.append(provenance(data.provenance,'Fixture snapshot'));
+      } catch(error) { state(target,error.kind || 'error',()=>load(target,path,title,upcoming)); }
+      finally { target.setAttribute('aria-busy','false'); }
+    }
+    await Promise.all([load(results,'/api/matches?status=completed&limit=4','From the scorebook',false),load(fixtures,'/api/matches?status=upcoming&sort=oldest&limit=4','On the calendar',true)]);
   }
   function matches() {
     const status = field('Match status', [['completed', 'Completed'], ['upcoming', 'Upcoming'], ['live', 'Cached in progress'], ['all', 'All']], query.get('status') || 'completed');
@@ -150,7 +206,11 @@
       if (fmt.input.value) params.set('format', fmt.input.value);
       const data = await request('/api/players?' + params), content = node('div');
       if (data.identity_correct) content.append(node('p', 'Teams are observed memberships, not nationality. Statistics cover available matches only.', 'ui-notice'));
-      content.append(table('Players in available matches', ['Player', data.identity_correct ? 'Observed teams' : 'Country', 'Formats'], (data.players || []).map(p => [link(p.name, 'player-profile', {name: p.identity_id || p.name}), p.observed_teams ? p.observed_teams.map(t => t.team_name).join(', ') : p.country, (p.formats || []).join(', ')])),
+      content.append(table('Players in available matches', ['Player', data.identity_correct ? 'Observed teams' : 'Country', 'Formats'], (data.players || []).map(p => {
+        const teams=node('span',null,'ui-team-memberships');
+        (p.observed_teams ? p.observed_teams.map(t=>t.team_name) : [p.country]).filter(Boolean).forEach(name=>teams.append(teamLink(name)));
+        return [playerLink(p),teams,(p.formats || []).join(', ')];
+      })),
         pager(data.total, offset, 20, next => { offset = next; surface.run(); })); return content;
     });
   }
@@ -161,7 +221,7 @@
         name.toLowerCase().includes(search.input.value.trim().toLowerCase()) && (!fmt.input.value ||
           (kind === 'teams' ? !!stats[fmt.input.value] : (stats.formats || []).includes(fmt.input.value))));
       return table(kind === 'teams' ? 'Teams' : 'Venues', ['Name', 'Available formats'], rows.map(([name, stats]) =>
-        [link(name, kind === 'teams' ? 'team-profile' : 'venue-profile', {name}), (kind === 'teams' ? Object.keys(stats) : stats.formats || []).join(', ')]));
+        [kind === 'teams' ? teamLink(name) : link(name,'venue-profile',{name}), (kind === 'teams' ? Object.keys(stats) : stats.formats || []).join(', ')]));
     });
   }
   function tabs(target, choices, render) {
@@ -203,9 +263,16 @@
       throw error;
     }
     document.querySelector('h1').textContent = data.name || data.venue || name;
+    if(kind === 'player' && media.portraits[data.identity_id]) document.querySelector('h1').textContent=media.portraits[data.identity_id].name;
     const content = node('div');
     if (kind === 'team') content.append(avatar(name));
     if (kind === 'player') {
+      const identity = node('div',null,'ui-profile-identity'), description=node('div');
+      const portrait = media.portrait(data,true);
+      description.append(node('p','PLAYER PROFILE','ui-eyebrow'),node('h2',data.name));
+      const credit=media.credit(data.identity_id); if(credit) description.append(credit);
+      else description.append(node('small','Portrait not available for this player.','ui-photo-credit'));
+      identity.append(portrait,description); content.append(identity);
       content.append(link('Prepare scouting plan', 'scouting', {player:data.identity_id || data.name}));
       content.append(node('p', data.observed_teams ? 'Observed teams: ' + data.observed_teams.map(t => t.team_name + ' (' + t.first_date + ' to ' + t.last_date + ')').join('; ') + '. Nationality is not inferred.' : data.country || 'Country unavailable'));
       const available = ['T20I', 'ODI', 'Test'].filter(fmt => (data.batting || {})[fmt] || (data.bowling || {})[fmt]);
@@ -213,11 +280,15 @@
         if (data.batting && data.batting[fmt]) { target.append(node('h2', 'Batting')); batting(target, data.batting[fmt]); }
         if (data.bowling && data.bowling[fmt]) { const s = data.bowling[fmt]; target.append(node('h2', 'Bowling'), metrics([['Innings', s.innings], ['Wickets', s.wickets], ['Conceded runs', s.runs], ['Legal balls', s.balls], ['Economy', s.economy], ['Average', s.average], ['Maidens', s.maidens]])); }
         if (!target.childNodes.length) state(target, 'empty');
-        target.append(table('Observed yearly batting', ['Year', 'Matches', 'Innings', 'Runs', 'Average'], Object.entries((data.yearly || {})[fmt] || {}).sort().map(([year,s]) => [year,s.matches,s.innings,s.runs,s.average])),
-          table('Batting by opposition', ['Opponent', 'Innings', 'Runs', 'Average'], Object.entries((data.vs_opp || {})[fmt] || {}).map(([name,s]) => [link(name,'team-profile',{name}),s.innings,s.runs,s.average])),
-          table('Batting by venue', ['Venue', 'Innings', 'Runs', 'Average'], Object.entries((data.at_venues || {})[fmt] || {}).map(([name,s]) => [link(name,'venue-profile',{name}),s.innings,s.runs,s.average])));
+        target.append(recordDetails('Year-by-year batting', ['Year', 'Matches', 'Innings', 'Runs', 'Average'], Object.entries((data.yearly || {})[fmt] || {}).sort().reverse().map(([year,s]) => [year,s.matches,s.innings,s.runs,s.average])),
+          recordDetails('Batting by opposition', ['Opponent', 'Innings', 'Runs', 'Average'], Object.entries((data.vs_opp || {})[fmt] || {}).map(([name,s]) => [teamLink(name),s.innings,s.runs,s.average])),
+          recordDetails('Batting by venue', ['Venue', 'Innings', 'Runs', 'Average'], Object.entries((data.at_venues || {})[fmt] || {}).map(([name,s]) => [link(name,'venue-profile',{name}),s.innings,s.runs,s.average])));
       });
-      content.append(table('Recent observed innings (chronological)', ['Innings score'], (data.recent_form || []).map(score => [score])));
+      const form=panel('Recent observed innings'), scores=node('ol',null,'ui-form-scores');
+      (data.recent_form || []).forEach((score,index)=>{
+        const value=node('li',display(score));value.setAttribute('aria-label','Observed innings '+(index+1)+': '+display(score)+' runs');scores.append(value);
+      });
+      form.append(node('p','Across available formats, in chronological order. These are observed innings, not a forecast.','ui-form-caption'),scores.childNodes.length ? scores : node('p','No recent innings available.','ui-state'));content.append(form);
     } else if (kind === 'team') {
       tabs(content, ['T20I', 'ODI', 'Test'].map(fmt => [fmt, fmt]), (target, fmt) => {
         const s = (data.format_stats || {})[fmt]; if (!s) { state(target, 'empty'); return; }
@@ -236,7 +307,7 @@
       content.append(table('Observed top batters at this venue', ['Player', 'Runs', 'Matches'], (data.top_batters || []).map(p => [link(p.player, 'player-profile', {name: p.identity_id || p.player}), p.runs, p.matches])));
       content.append(table('Observed top bowlers at this venue', ['Player','Wickets','Matches'], (data.top_bowlers || []).map(p => [link(p.player,'player-profile',{name:p.identity_id || p.player}),p.wickets,p.matches])));
     }
-    prediction(content); app.replaceChildren(content);
+    app.replaceChildren(content);
   }
   async function detail() {
     const id = query.get('id');
@@ -245,6 +316,7 @@
     const match = payload.data || payload;
     if (!match || Array.isArray(match)) throw new Error('Invalid match');
     const content = node('div'); document.querySelector('h1').textContent = match.name || (match.teams || []).join(' vs ');
+    const sides=node('div',null,'ui-match-sides'); (match.teams || []).forEach(name=>sides.append(teamLink(name))); content.append(sides);
     content.append(node('p', [match.matchType, match.date, match.venue].filter(Boolean).join(' · ')), node('p', match.status || 'Status unavailable', 'ui-notice'));
     if (!match.matchEnded) content.append(node('p', 'Cached match information. Current live freshness has not been verified.', 'ui-notice'));
     content.append(table('Innings totals', ['Team', 'Runs', 'Wickets', 'Overs'], (match.score || []).map(s => [s.inning || s.team, s.r, s.w, s.o])));
@@ -255,20 +327,20 @@
         table('Bowling scorecard', ['Bowler', 'Overs', 'Maidens', 'Runs', 'Wickets'], (inn.bowling || []).map(r => [link(r.bowler, 'player-profile', {name: r.bowler}), r.o, r.m, r.r, r.w])));
       if ((inn.fall_of_wickets || []).length) { const list = node('ul'); inn.fall_of_wickets.forEach(value => list.append(node('li',value))); target.append(node('h2','Fall of wickets'),list); }
     });
-    prediction(content); app.replaceChildren(content);
+    app.replaceChildren(content);
   }
   function rankings() {
     const fmt = formats('T20I'), category = field('Ranking category', [['teams', 'Teams'], ['batting', 'Batting'], ['bowling', 'Bowling'], ['allrounder', 'All-rounders']], 'teams');
     filters([fmt, category], async () => {
       const data = await request('/api/icc-rankings?' + new URLSearchParams({category: category.input.value, format: fmt.input.value})), content = node('div');
-      content.append(provenance(data.provenance, 'Ranking snapshot'), table('Ranking snapshot', ['Rank', 'Name', 'Country', 'Rating'], (data.rankings || []).map(r => [r.rank, link(r.team || r.player || r.name, category.input.value === 'teams' ? 'team-profile' : 'player-profile', {name: r.team || r.player || r.name}), r.country, r.rating]))); return content;
+      content.append(provenance(data.provenance, 'Ranking snapshot'), table('Ranking snapshot', ['Rank', 'Name', 'Country', 'Rating'], (data.rankings || []).map(r => [r.rank, category.input.value === 'teams' ? teamLink(r.team || r.name) : playerLink({name:r.player || r.name,identity_id:r.identity_id}), r.country ? teamLink(r.country) : '—', r.rating]))); return content;
     });
   }
   function records() {
     const fmt = formats('T20I'), category = field('Record', [['most_runs', 'Most runs'], ['most_wickets', 'Most wickets'], ['best_averages', 'Best batting averages'], ['most_hundreds', 'Most hundreds']], 'most_runs');
     filters([fmt, category], async () => {
       const data = await request('/api/records'), rows = (data[category.input.value] || {})[fmt.input.value] || [];
-      return table('Records from available matches', ['Player', 'Runs', 'Wickets', 'Average', 'Hundreds'], rows.map(r => [link(r.player, 'player-profile', {name: r.identity_id || r.player}), r.runs, r.wickets, r.average, r.hundreds]));
+      return table('Records from available matches', ['Player', 'Runs', 'Wickets', 'Average', 'Hundreds'], rows.map(r => [playerLink({name:r.player,identity_id:r.identity_id}), r.runs, r.wickets, r.average, r.hundreds]));
     });
   }
   function search() {
@@ -278,7 +350,7 @@
       if (!term.input.value.trim()) { content.append(node('p', 'Enter a name, venue or match to search.', 'ui-state')); return content; }
       const data = await request('/api/search?' + new URLSearchParams({q: term.input.value.trim(), limit:20}));
       for (const [key, target] of [['players', 'player-profile'], ['teams', 'team-profile'], ['venues', 'venue-profile']]) {
-        content.append(table(key[0].toUpperCase() + key.slice(1), ['Name'], (data[key] || []).map(r => [link(r.name, target, {name:r.identity_id || r.name})])));
+        content.append(table(key[0].toUpperCase() + key.slice(1), ['Name'], (data[key] || []).map(r => [key === 'players' ? playerLink(r) : key === 'teams' ? teamLink(r.name) : link(r.name,target,{name:r.name})])));
       }
       content.append(node('h2', 'Matching fixtures and results'), fixtureCards(data.matches || [])); return content;
     });
@@ -293,16 +365,18 @@
         const [first, second] = await Promise.all([request('/api/teams/' + encodeURIComponent(a.input.value.trim())), request('/api/teams/' + encodeURIComponent(b.input.value.trim()))]);
         const s1 = (first.format_stats || {})[fmt.input.value], s2 = (second.format_stats || {})[fmt.input.value];
         if (!s1 || !s2) { state(content, 'empty'); return content; }
+        content.append(comparisonHeader(first,second,true));
         content.append(table('Team records · ' + fmt.input.value, ['Metric', first.name, second.name],
           [['Matches','matches'],['Won','won'],['Lost','lost'],['Drawn','drawn'],['Tied','tied'],['No result','no_result'],['Win %','win_pct']].map(([label,key]) => [label, s1[key], s2[key]])));
-        prediction(content); return content;
+        return content;
       }
       const data = await request('/api/compare/players?' + new URLSearchParams({player_a:a.input.value.trim(), player_b:b.input.value.trim()}));
       const first = (data.player_a.batting || {})[fmt.input.value], second = (data.player_b.batting || {})[fmt.input.value];
       if (!first || !second) { state(content, 'empty'); return content; }
+      content.append(comparisonHeader(data.player_a,data.player_b,false));
       content.append(table('Descriptive batting comparison · ' + fmt.input.value, ['Metric', data.player_a.name, data.player_b.name], [['Matches','matches'],['Innings','innings'],['Runs','runs'],['Average','average'],['Strike rate','strike_rate'],['Highest innings','highest'],['Hundreds','hundreds']].map(([name,key]) => [name, first[key], second[key]])),
         node('p', 'Sample size and match context affect comparisons. No performance verdict is inferred.', 'ui-notice'));
-      prediction(content); return content;
+      return content;
     });
   }
   function information() {
@@ -312,6 +386,9 @@
       content.append(node('p', 'Historical delivery data is provided by Cricsheet under the Open Data Commons Attribution License 1.0. Aggregates are derived from that dataset and may change as scoring contracts are corrected.'));
       const source = node('a', 'Cricsheet data and licensing'); source.href = 'https://cricsheet.org/licensing/'; content.append(source);
       content.append(node('p', 'Fixture and ranking snapshots may be cached or historical fallbacks. Their source and observation dates are displayed where available. Unknown timestamps do not imply fresh data.'));
+      content.append(node('h2','Photography & flags'),node('p','Player photographs are locally hosted, licensed editorial portraits. Crops are for display. Availability is limited to the curated identities below; initials are used elsewhere. No endorsement is implied.'));
+      Object.entries(media.portraits).forEach(([id,p])=>{const row=node('p',p.name+' — ');row.append(media.credit(id));content.append(row);});
+      const flags=node('a','Flag icons: Panayiotis Lipiridis and contributors · MIT license');flags.href='/static/images/flags/LICENSE.txt';content.append(flags);
     } else content.append(node('p', 'Historical counts describe observed matches, not complete careers or guarantees about future performance. Missing values are displayed as unavailable. A snapshot of an in-progress match is not a verified real-time feed.'));
     prediction(content); app.replaceChildren(content);
   }
@@ -396,9 +473,9 @@
       const data = await request('/api/coverage');
       if (!data.available) return;
       const target = document.querySelector('.ui-coverage');
-      target.textContent = 'Name-keyed historical aggregates remain under review; ambiguous identities are unavailable. ' + data.scope + '. Matches: ' + data.accepted_matches +
-        '. Coverage: ' + data.first_match_date + ' to ' + data.last_match_date +
-        '. Cutoff is the latest match date, not proof of historical publication time. Derived from Cricsheet (ODC-BY-1.0).';
+      target.textContent = data.scope + ' · ' + Number(data.accepted_matches).toLocaleString() +
+        ' matches · ' + data.first_match_date + ' — ' + data.last_match_date +
+        '. Available-match statistics, not complete career totals. Cricsheet (ODC-BY-1.0).';
     } catch (_) { /* Keep the existing honest unknown-coverage notice. */ }
   }
   async function init() {

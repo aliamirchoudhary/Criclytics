@@ -373,3 +373,16 @@ containment smoke plus isolated SQLite/dataset restore fixtures. It never deploy
 or approves release. OPERATIONS_RUNBOOK.md records the real coach pilot protocol,
 incident/backup/rollback procedures, $0 constraints and unmet T001/T013/T029/T030/
 Git-publication gates. Actual pilot/prospective counts stay zero and release blocked.
+
+
+## T032 frontend presentation
+
+The19 public pages retain their URLs, shared DOM/API clients and static-build
+compatibility. `media.js` loads after `dom.js` and before `application.js`; it owns
+an explicit stable-ID portrait catalog, locally bundled team flags and safe
+image-error fallbacks. Shared `application.css` defines the responsive editorial
+layout. Match sections load independently so one unavailable fixture request does
+not remove discovery or completed results. Descriptive pages do not repeat a
+prediction warning beneath every table; prediction availability remains explicit
+in the workspace and information pages. No API/statistical/private-plan contract
+or prediction promotion changed. Asset provenance: MEDIA_ASSETS.md.
