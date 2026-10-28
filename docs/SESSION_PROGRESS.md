@@ -96,4 +96,6 @@ T020 experimental model build/baseline-v1-first/model.json (same as repeat) rema
 
 T017A resumed after the user stop: isolated build/player-ids-v1-final is opt-in only. Default/original artifacts preserved. Sampled rebuild peak resident memory505,196,544bytes locally, not a hosted guarantee. No pushes/merges/deployments.
 
-| T027 | work/t027-versioned-forecasts | Local branch tip | Default-off local shadow API/immutable ledger;84tests83pass/one skip;100readers reuse1inference,~63ms p95;no promotion |
+| T027 | work/t027-versioned-forecasts | 7e3122a | Default-off local shadow API/immutable ledger;84tests83pass/one skip;100readers reuse1inference,~63ms p95;no promotion |
+
+| T028 | work/t028-prediction-workspace | Local branch tip |18th public page;90layoutcases+workspace correction/stale/retry/expiry flows;84tests83pass/one skip;local shadow only |

@@ -1,5 +1,6 @@
 """Real local-data UI matrix, plus explicit failure, keyboard and long-name cases."""
 import json
+import argparse
 import threading
 from pathlib import Path
 from werkzeug.serving import make_server
@@ -9,6 +10,9 @@ from criclytics_app.web.routes import PAGES
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--report', type=Path, default=PROJECT_ROOT/'docs/audit/application-ui-2026-10-28.json')
+    args = parser.parse_args()
     from playwright.sync_api import sync_playwright
     output = PROJECT_ROOT / 'build/ui-t011'
     output.mkdir(parents=True, exist_ok=True)
@@ -75,7 +79,7 @@ def main():
         server.shutdown()
     report = {'cases':cases,'interactions':interactions,
               'limitations':'Chrome only; external fonts/images denied; uses local schema2.0.1 candidate. Screen-reader speech and hosted latency are not certified.'}
-    (PROJECT_ROOT / 'docs/audit/application-ui-2026-10-28.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+    args.report.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     failures = [case for case in cases if case['errors'] or case['unnamed'] or case['document'] > case['viewport'] + 2 or case['loading'] or case['headings'] != 1]
     if failures:
         raise AssertionError(json.dumps(failures,indent=2))

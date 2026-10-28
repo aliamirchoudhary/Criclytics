@@ -70,6 +70,11 @@ class ForecastService:
             if not core['features']: reasons.append('missing_features')
         state['blocked_reasons'] = sorted(set(reasons))
         state['forecast_allowed'] = bool(core) and not reasons
+        state['eligibility_valid_for_seconds'] = 0
+        if state['forecast_allowed']:
+            from .weather import utc
+            announced = utc(core['next_context']['announced_at']).timestamp()
+            state['eligibility_valid_for_seconds'] = max(0, min(15-(self.clock()-announced), 60-state['source_age_seconds']))
         return {'api_version': 1, **state, 'model': self.metadata()}
 
     def forecast(self, match_id):

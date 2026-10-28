@@ -338,3 +338,11 @@ semantics. Collector reservations serialize source confirmation; readers never
 collect. Unsupported/stale/ended state abstains; current-state/model issuance is
 idempotent and correction-linked. Public prediction availability stays false.
 FORECAST_API.md documents configuration, timing uncertainty and rollback.
+
+## T028 workspace UI
+
+The18th allowlisted page workspace.html uses the shared renderer and versioned
+forecast/history API. Explicit manual/replay/unavailable modes, confirmation
+expiry without polling, source/model/context coverage and immutable issued anchors
+keep historical distributions distinct from current eligibility. WORKSPACE_UI.md
+records local setup, browser evidence and remaining validation limits.

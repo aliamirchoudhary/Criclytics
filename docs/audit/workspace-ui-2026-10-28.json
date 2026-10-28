@@ -1,0 +1,32 @@
+{
+  "browser": [
+    {
+      "width": 375,
+      "manual_mode": true,
+      "issued_anchor": true,
+      "keyboard_details_refresh": true,
+      "reduced_motion": true,
+      "initial_api_calls": 2,
+      "overflow": false,
+      "page_errors": []
+    },
+    {
+      "width": 1440,
+      "manual_mode": true,
+      "issued_anchor": true,
+      "keyboard_details_refresh": true,
+      "reduced_motion": true,
+      "initial_api_calls": 2,
+      "overflow": false,
+      "page_errors": []
+    }
+  ],
+  "correction_history": true,
+  "stale_abstention": true,
+  "error_retry": true,
+  "delayed_response": true,
+  "replay_mode": true,
+  "disabled_mode": true,
+  "expiry_without_polling": true,
+  "limitations": "Authored local scores/fictional portable model, not a real coach or external feed trial. Browser Chrome only; no production deployment."
+}

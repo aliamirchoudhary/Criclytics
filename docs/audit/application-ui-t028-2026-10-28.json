@@ -1,0 +1,923 @@
+{
+  "cases": [
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "about.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "compare.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "data-sources.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "disclaimer.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "index.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-detail.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-upcoming.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "matches.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "player-profile.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "players.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "rankings.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "records.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "search.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "team-profile.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "teams.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venue-profile.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venues.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 320,
+      "viewport": 320,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "workspace.html",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "about.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "compare.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "data-sources.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "disclaimer.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "index.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-detail.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-upcoming.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "matches.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "player-profile.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "players.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "rankings.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "records.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "search.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "team-profile.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "teams.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venue-profile.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venues.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 375,
+      "viewport": 375,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "workspace.html",
+      "width": 375,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "about.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "compare.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "data-sources.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "disclaimer.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "index.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-detail.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-upcoming.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "matches.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "player-profile.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "players.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "rankings.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "records.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "search.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "team-profile.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "teams.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venue-profile.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venues.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 768,
+      "viewport": 768,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "workspace.html",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "about.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "compare.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "data-sources.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "disclaimer.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "index.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-detail.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-upcoming.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "matches.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "player-profile.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "players.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "rankings.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "records.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "search.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "team-profile.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "teams.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venue-profile.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venues.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1024,
+      "viewport": 1024,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "workspace.html",
+      "width": 1024,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "about.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "compare.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "data-sources.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "disclaimer.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "index.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-detail.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "match-upcoming.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "matches.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "player-profile.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "players.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "rankings.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "records.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "search.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "team-profile.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "teams.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venue-profile.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "venues.html",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "document": 1440,
+      "viewport": 1440,
+      "unnamed": [],
+      "loading": 0,
+      "headings": 1,
+      "page": "workspace.html",
+      "width": 1440,
+      "errors": []
+    }
+  ],
+  "interactions": [
+    {
+      "case": "team denied images and keyboard tabs",
+      "passed": true
+    },
+    {
+      "case": "player empty filter",
+      "passed": true
+    },
+    {
+      "case": "missing parameter and unknown entity",
+      "passed": true
+    },
+    {
+      "case": "API503 shows no demo metrics",
+      "passed": true
+    }
+  ],
+  "limitations": "Chrome only; external fonts/images denied; uses local schema2.0.1 candidate. Screen-reader speech and hosted latency are not certified."
+}

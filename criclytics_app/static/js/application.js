@@ -314,6 +314,82 @@
     } else content.append(node('p', 'Historical counts describe observed matches, not complete careers or guarantees about future performance. Missing values are displayed as unavailable. A snapshot of an in-progress match is not a verified real-time feed.'));
     prediction(content); app.replaceChildren(content);
   }
+  function workspace() {
+    const identifier = field('Workspace identifier', null, query.get('id') || '');
+    let expiry;
+    const reasons = values => (values || []).map(value => String(value).replaceAll('_', ' ')).join('; ');
+    function jointLabel(label) {
+      if (label === 'OTHER') return 'Other / unknown joint outcome';
+      try {
+        const value = JSON.parse(label), extras = Object.entries(value.extras).filter(([,n]) => n).map(([key,n]) => n + ' ' + key).join(', ');
+        return 'Batter ' + value.batter_runs + (extras ? '; extras ' + extras : '; no extras') + '; ' + (value.dismissals.length ? value.dismissals.join(', ') : 'no dismissal') + '; ' + (value.legal ? 'legal' : 'illegal') + ' attempt';
+      } catch (_) { return 'Unrecognized outcome'; }
+    }
+    function issuedPanel(record) {
+      const detail = node('details'), content = record.content || {};
+      detail.id = 'forecast-' + record.forecast_id;
+      detail.append(node('summary', 'Issued ' + record.issued_at + ' · ' + record.forecast_id.slice(0,12)),
+        node('p', 'Target attempt: ' + content.target_event_id), node('p', 'Source cutoff: ' + content.source_cutoff),
+        node('p', 'Model: ' + content.model_id), node('p', 'Dataset: ' + content.dataset_id),
+        node('p', 'Feature hash: ' + content.feature_hash), node('p', 'State: ' + content.state_id));
+      if (record.replaces_forecast_id) detail.append(node('p', 'Replaces issued forecast ' + record.replaces_forecast_id));
+      detail.append(table('Issued joint next-attempt distribution', ['Joint outcome', 'Probability'], Object.entries(content.distribution || {}).sort((a,b) => b[1]-a[1]).map(([label,p]) => [jointLabel(label), (p*100).toFixed(2) + '%'])),
+        node('p', 'OTHER has unknown runs and dismissals. No exact wicket or runs marginal is claimed.'));
+      return detail;
+    }
+    const surface = filters([identifier], async () => {
+      clearTimeout(expiry);
+      const content = node('div');
+      content.append(node('p', 'Experimental shadow workspace. No validated current coaching prediction is released.', 'ui-prediction'),
+        node('p', 'Manual refresh only. A source confirmation can expire before the actual ball is observed.'));
+      const id = identifier.input.value.trim();
+      if (!id) { content.append(node('p', 'Enter an existing local manual or replay workspace identifier. No public live feed is enabled.', 'ui-state')); return content; }
+      const path = '/api/v1/workspaces/' + encodeURIComponent(id);
+      const data = await request(path + '/forecast');
+      const receivedAt = performance.now();
+      let records = [], historyUnavailable = false;
+      if (data.core) {
+        try { const history = await request(path + '/history?limit=20'); records = history.forecasts || []; }
+        catch (_) { historyUnavailable = true; }
+      }
+      const status = node('p', (data.mode === 'manual' ? 'Manual scoring' : data.mode === 'replay' ? 'Historical replay' : 'Source unavailable') +
+        (data.forecast_allowed ? ' · confirmed source snapshot' : ' · forecast unavailable: ' + reasons(data.blocked_reasons)), 'ui-notice');
+      status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite'); content.append(status);
+      const core = data.core;
+      if (core) {
+        const score = core.innings.find(inn => inn.innings === core.active_innings);
+        content.append(metrics([['Runs',score.runs],['Wickets',score.wickets],['Legal balls',score.legal_balls],['Source age at refresh (seconds)',data.source_age_seconds],['Event lag (seconds)',data.event_lag_seconds]]),
+          node('p', 'Source cutoff: ' + core.source_cutoff + ' · status: ' + core.source_status),
+          node('p', 'Source revision: ' + core.source_revision_counter + ' · state: ' + data.state_id));
+        if (core.next_context) content.append(table('Announced next-attempt participants', ['Striker','Non-striker','Bowler'], [[core.next_context.striker,core.next_context.non_striker,core.next_context.bowler]]));
+        content.append(node('p', 'History: ' + core.history_scope),
+          table('Context coverage in model', ['Context', 'Availability'], Object.entries(core.context_coverage).map(([key,value]) => [key.replaceAll('_',' '),value.replaceAll('_',' ')])));
+      }
+      if (data.model) {
+        content.append(node('p', data.model.limitations), node('p', 'Model ' + data.model.model_id + ' · calibration through ' + data.model.calibration_last_date));
+        const samples = (data.model.training_coverage || {}).matches;
+        if (samples) content.append(table('Historical model sample', ['Partition','Matches'], Object.entries(samples)));
+      }
+      const current = panel('Current shadow forecast');
+      if (data.forecast && data.forecast_allowed) {
+        const record = data.forecast;
+        const anchor = node('a', 'View issued forecast ' + record.forecast_id.slice(0,12)); anchor.href = '#forecast-' + encodeURIComponent(record.forecast_id);
+        current.append(anchor, node('p', 'Unknown joint-outcome mass: ' + (record.content.unknown_mass*100).toFixed(2) + '%'));
+        if (!records.some(r => r.forecast_id === record.forecast_id)) records.unshift(record);
+        const remaining = Math.max(0, Number(data.eligibility_valid_for_seconds || 0) - (performance.now()-receivedAt)/1000);
+        expiry = setTimeout(() => {
+          current.replaceChildren(node('h2','Current shadow forecast'), node('p', 'Confirmation expired. Refresh to recheck the source; past entries remain in issued history.', 'ui-state'));
+          status.textContent = 'Confirmation expired · current forecast unavailable';
+        }, remaining*1000);
+      } else current.append(node('p', 'No current forecast: ' + reasons(data.blocked_reasons), 'ui-state'));
+      content.append(current, node('h2', 'Issued history · past entries are not current forecasts'));
+      if (historyUnavailable) content.append(node('p', 'Full history is unavailable. The returned issued entry is retained below.', 'ui-error'));
+      records.forEach(record => content.append(issuedPanel(record)));
+      if (!records.length) content.append(node('p', 'No issued entries available.', 'ui-state'));
+      return content;
+    });
+    surface.form.querySelector('button[type=submit]').textContent = 'Refresh workspace';
+  }
   async function loadCoverage() {
     try {
       const data = await request('/api/coverage');
@@ -330,7 +406,7 @@
     document.querySelectorAll('.ui-navigation a').forEach(item => { if (item.getAttribute('href') === page + '.html') item.setAttribute('aria-current', 'page'); });
     const handlers = {index:home, matches, players, teams:() => entities('teams'), venues:() => entities('venues'),
       'player-profile':() => profile('player'), 'team-profile':() => profile('team'), 'venue-profile':() => profile('venue'),
-      'match-detail':detail, 'match-upcoming':detail, rankings, records, search, compare, about:information, 'data-sources':information, disclaimer:information};
+      'match-detail':detail, 'match-upcoming':detail, rankings, records, search, compare, workspace, about:information, 'data-sources':information, disclaimer:information};
     try { await handlers[page](); } catch (error) { state(app, error.kind || 'error', init); }
     app.setAttribute('aria-busy', 'false');
   }
