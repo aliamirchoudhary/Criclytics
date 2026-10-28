@@ -16,6 +16,8 @@ from ..services.legacy import (
     SERIES_CACHE_TTL_MINUTES,
     STATIC_DIR,
     augment_completed_match,
+    completed_match,
+    completed_summaries,
     cache_age_minutes,
     fetch_cricapi,
     load_live,
@@ -499,7 +501,7 @@ def search():
     teams_data   = load_processed("team_format_stats.json") or {}
     venues_data  = load_processed("venue_stats.json") or {}
     live_data    = load_live("matches.json") or {}
-    completed_data = load_processed("completed_matches.json") or {}
+    completed_data = {"data": completed_summaries()}
 
     def normalize_text(value):
         return re.sub(r"\s+", " ", str(value or "").lower()).strip()
@@ -772,8 +774,7 @@ def get_matches():
         live_upcoming = (cached or {}).get("data") or (cached or {}).get("matches") or []
 
     # Get completed matches from Cricsheet
-    completed_data = load_processed("completed_matches.json")
-    completed = (completed_data or {}).get("data") or []
+    completed = completed_summaries()
 
     from criclytics_app.services.match_listing import listing
     return jsonify(listing(live_upcoming, completed, request.args))
@@ -782,12 +783,9 @@ def get_matches():
 @bp.route("/api/matches/<match_id>")
 def get_match(match_id):
     """Individual match detail. Searches live/upcoming and completed matches."""
-    completed_data = load_processed("completed_matches.json")
-    if completed_data:
-        completed = completed_data.get("data") or []
-        for m in completed:
-            if str(m.get("id") or m.get("unique_id") or "") == str(match_id):
-                return jsonify({"data": augment_completed_match(m)})
+    match = completed_match(match_id)
+    if match:
+        return jsonify({'data': augment_completed_match(match)})
 
     cache_file = f"match_{match_id}.json"
     data = fetch_cricapi("match_info", params={"id": match_id},
@@ -809,12 +807,9 @@ def get_match(match_id):
 @bp.route("/api/matches/<match_id>/score")
 def get_match_score(match_id):
     """Live scorecard. Falls back to cached matches and completed matches."""
-    completed_data = load_processed("completed_matches.json")
-    if completed_data:
-        completed = completed_data.get("data") or []
-        for m in completed:
-            if str(m.get("id") or m.get("unique_id") or "") == str(match_id):
-                return jsonify({"data": augment_completed_match(m)})
+    match = completed_match(match_id)
+    if match:
+        return jsonify({'data': augment_completed_match(match)})
 
     cache_file = f"score_{match_id}.json"
     data = fetch_cricapi("match_scorecard", params={"id": match_id},

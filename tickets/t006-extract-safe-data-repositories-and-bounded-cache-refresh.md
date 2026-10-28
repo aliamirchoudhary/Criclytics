@@ -1,6 +1,6 @@
 # T006: Extract safe data repositories and bounded cache refresh
 
-- Status: Planned
+- Status: Implemented; local review pending
 - Priority: P1
 - Depends on: T004,T005
 - Branch: fix/t006-extract-safe-data-repositories-and-bounded-cache-refresh
@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+### Session update 2026-10-28T08:56:22+00:00
+
+App-owned bounded JSON generations and completed-ID index; defensive copies, last-good retention, atomic live-cache v1 with explicit timestamps and durable disk stale fallback. Namespaced Redis timestamps replace incorrect TTL-derived age. One SQLite lease/backoff row across workers on shared disk; unknown IDs cannot fetch or allocate cache. 25 tests:24 pass/one optional skip; explicit full-data regression suite 12/12 passes. Threaded readers/writers, generation replacement, Redis expiry/age, two-app provider lease and bounded unknown IDs verified. Compile passes. Windows atomic replace transient sharing-denial fixed with bounded retry. Measurements docs/audit/repositories-2026-10-28.json: one parse, warm list347.15ms/detail8.49ms, working set249958400bytes. Cross-host ownership requires single collector; legacy CLI writer migration T007/T025 and daily quota reservation T025; live fetching remains off. No existing files/data rewritten; rollback code with cache reader compatibility, retain disk stale data.

@@ -38,3 +38,12 @@ PR base if desired, protect main/dev against direct/force pushes, require checks
 and review where the account supports it, and restrict release secrets to main.
 Do not assume a paid GitHub feature or secret environment is available. T001
 credential rotation must happen without posting values in tickets or logs.
+
+## Resumed-session user override (2026-10-28)
+
+The user explicitly authorizes sequential local ticket branches chained from the
+previous ticket branch and local commits exclusively on those newly created
+branches. This overrides the normal dev-base rule for this session. Do not push,
+merge, rebase, reset, tag, change PRs or mutate remote repositories. The operator
+will review/integrate the final branch into dev. See SESSION_PROGRESS.md for chain
+and pending external acceptance. No commits on main, dev, or pre-existing branches.

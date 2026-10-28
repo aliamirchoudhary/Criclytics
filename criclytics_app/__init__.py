@@ -40,6 +40,10 @@ def create_app(config=None):
             app.config["REDIS_URL"], decode_responses=True,
             socket_connect_timeout=2, socket_timeout=2,
         )
+    from .services.repository import JsonRepository
+    from .services.live_cache import LiveCache
+    app.extensions['json_repository'] = JsonRepository()
+    app.extensions['live_cache'] = LiveCache(app.config['LIVE_DIR'], app.extensions['redis'])
     app.extensions["probability_engine"] = None
     if app.config["INITIALIZE_ENGINE"]:
         from .ml.probability import ProbabilityEngine

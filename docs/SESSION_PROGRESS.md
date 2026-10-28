@@ -29,3 +29,8 @@ acceptance criteria remain pending rather than being marked complete.
 T005 measured cold/warm list latency ~2.59s/2.08s before repository caching.
 No provider accounts, remote Git resources, or deployments were changed.
 All tooling is local/free; no billing or card setup.
+
+| T006 | work/t006-data-repositories | See local branch tip | App-isolated bounded snapshots/index; atomic timestamped cache; shared SQLite refresh lease; 25 tests (24 pass, one optional skip); opt-in historical regression suite also passes |
+
+T006 evidence: docs/audit/repositories-2026-10-28.json. Warm list/detail 347/8.49ms;
+~250MB working set, one processed parse. No source data regenerated or deleted.

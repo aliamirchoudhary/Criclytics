@@ -30,7 +30,8 @@ class MatchListingTests(unittest.TestCase):
     def test_list_and_detail_api_contract(self):
         client = create_app({'TESTING': True, 'INITIALIZE_ENGINE': False,
                              'LIVE_FETCH_ENABLED': False, 'REDIS_URL': ''}).test_client()
-        with patch('criclytics_app.api.routes.load_processed', return_value={'data': self.matches}), \
+        with patch('criclytics_app.api.routes.completed_summaries', return_value=self.matches), \
+             patch('criclytics_app.api.routes.completed_match', side_effect=lambda mid: next((m for m in self.matches if m['id'] == mid), None)), \
              patch('criclytics_app.api.routes.fetch_cricapi', return_value=None), \
              patch('criclytics_app.api.routes.load_live', return_value=None), \
              patch('criclytics_app.api.routes.augment_completed_match', side_effect=lambda m: m):

@@ -123,3 +123,33 @@ Use SQLite for local transactional metadata/event indexes and partitioned
 columnar artifacts for offline training only after workload measurements justify
 them. A hosted SQL database, Redis dependency, message broker, microservices,
 Kubernetes, GPU or paid feature store is not a prerequisite.
+
+## T006 repository and refresh ownership
+
+Each factory instance owns a bounded (32-file) JSON repository. A generation is
+keyed by resolved path, nanosecond mtime and byte size. Parsing/index building
+completes before publication under a lock. Invalid replacements retain last-good
+objects. Mutation is isolated through defensive copies; historical details use an
+ID index and lists/search receive compact projections, never the full snapshot.
+Raw-match caching is app-owned too. Producers must publish changed generations
+with atomic replacement; in-place edits retaining size and mtime are unsupported.
+
+Live cache v1 stores explicit Unix `written_at` with payload, atomically replaces
+disk JSON and mirrors an expiring namespaced Redis entry. Disk always retains
+stale fallback. Legacy plain JSON uses disk mtime; legacy Redis TTL alone is
+unknown freshness and is ignored. API callers still receive unwrapped payloads.
+At most 128 new JSON keys can be admitted per live directory; existing files/data
+are preserved. Public unknown IDs cannot trigger provider detail refreshes.
+
+A SQLite provider-wide lease/backoff row in LIVE_DIR serializes refreshes across
+workers sharing that volume; it expires after a crash. No per-ID lock dictionary
+or paid Redis is required. Without a shared disk, configure exactly one collector
+and disable HTTP refresh in other replicas; these are not distributed leases
+across unrelated hosts. Provider daily-budget reservation/scorecard scheduling is
+T025; live fetch stays disabled by default. Legacy CLI writers still need their
+T007/T025 migration and must not run concurrently with serving until migrated.
+
+Offline measured warm list/detail: 347/8.49 ms, one processed parse; resident
+working set ~250 MB with engine disabled. Cold list ~3.12 seconds. These are local
+Windows samples, not hosted capacity guarantees; evidence is in audit/repositories-
+2026-10-28.json. Keep initial deployment to one worker until measured on its host.

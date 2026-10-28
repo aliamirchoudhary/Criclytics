@@ -35,7 +35,7 @@ def main():
     origin = 'http://127.0.0.1:' + str(server.server_port)
     browsers = []
     try:
-        with patch('criclytics_app.api.routes.load_processed', return_value={'data': fixtures}), \
+        with patch('criclytics_app.api.routes.completed_summaries', return_value=fixtures), \
              patch('criclytics_app.api.routes.fetch_cricapi', return_value=None), \
              patch('criclytics_app.api.routes.load_live', return_value=None), sync_playwright() as pw:
             browser = pw.chromium.launch(channel='chrome', headless=True)

@@ -15,11 +15,9 @@ import json
 import os
 import re
 import time
-import threading
 import requests
 from collections import defaultdict
 from datetime import datetime, timedelta
-from functools import lru_cache
 
 from pathlib import Path
 from flask import current_app
@@ -37,10 +35,6 @@ LIVE_DIR = ConfigPath("LIVE_DIR")
 RAW_DIR = ConfigPath("RAW_DIR")
 STATIC_DIR = ConfigPath("REFERENCE_DIR")
 
-# Simple in-process backoff when CricAPI reports quota blocking.
-CRICAPI_BLOCK_UNTIL = 0
-CRICAPI_BLOCK_REASON = ""
-
 # Shared cache windows (minutes). All users within the window get cached data.
 # This keeps upstream hits low while still refreshing often enough for UX.
 LIVE_CACHE_TTL_MINUTES = 2
@@ -49,61 +43,34 @@ SCORECARD_CACHE_TTL_MINUTES = 5
 MATCH_LIST_CACHE_TTL_MINUTES = 15
 SERIES_CACHE_TTL_MINUTES = 60
 
-# Prevent expiry stampede: only one thread refreshes each cache file at a time.
-_CACHE_LOCKS_GUARD = threading.Lock()
-_CACHE_LOCKS = {}
-
-# ── CricAPI config ────────────────────────────────────────────────────────────
-# Replace with your actual key from cricapi.com
 CRICAPI_KEY = LocalProxy(lambda: current_app.config["CRICAPI_KEY"])
 CRICAPI_BASE = "https://api.cricapi.com/v1"
 r_client = LocalProxy(lambda: current_app.extensions.get("redis"))
 ml_engine = LocalProxy(lambda: current_app.extensions.get("probability_engine"))
 
 def load_processed(filename):
-    # Try expected subdirectory
-    path = os.path.join(PROCESSED_DIR, filename)
-    if os.path.exists(path):
-        try:
-            with open(path, encoding="utf-8") as f:
-                return json.load(f)
-        except json.JSONDecodeError:
-            print(f"[Warning] {filename} in processed dir is invalid JSON (possibly a Git LFS pointer)")
+    from .repository import safe_file
+    repo = current_app.extensions['json_repository']
+    data = repo.read(safe_file(PROCESSED_DIR, filename))
+    return data if data is not None else repo.read(safe_file(BASE_DIR, filename))
 
-    # Smart Fallback: Try root directory (Hugging Face style)
-    root_path = os.path.join(BASE_DIR, filename)
-    if os.path.exists(root_path):
-        try:
-            with open(root_path, encoding="utf-8") as f:
-                return json.load(f)
-        except json.JSONDecodeError:
-            print(f"[Warning] {filename} in root dir is invalid JSON (possibly a Git LFS pointer)")
 
-    return None
+def completed_match(match_id):
+    from .repository import safe_file
+    repo = current_app.extensions['json_repository']
+    return (repo.match(safe_file(PROCESSED_DIR, 'completed_matches.json'), match_id)
+            or repo.match(safe_file(BASE_DIR, 'completed_matches.json'), match_id))
 
-# ── Helper: load a live cache file ───────────────────────────────────────────
+
+def completed_summaries():
+    from .repository import safe_file
+    repo = current_app.extensions['json_repository']
+    return (repo.summaries(safe_file(PROCESSED_DIR, 'completed_matches.json'))
+            or repo.summaries(safe_file(BASE_DIR, 'completed_matches.json')))
+
+
 def load_live(filename):
-    if r_client:
-        try:
-            data = r_client.get(filename)
-            if data:
-                return json.loads(data)
-        except Exception as e:
-            print(f"[Redis] Load error ({filename}): {e}")
-
-    # Try expected subdirectory
-    path = os.path.join(LIVE_DIR, filename)
-    if os.path.exists(path):
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
-
-    # Smart Fallback: Try root directory
-    root_path = os.path.join(BASE_DIR, filename)
-    if os.path.exists(root_path):
-        with open(root_path, encoding="utf-8") as f:
-            return json.load(f)
-
-    return None
+    return current_app.extensions['live_cache'].read(filename)
 
 
 def resolve_match_detail(match_id):
@@ -111,12 +78,9 @@ def resolve_match_detail(match_id):
         if not match_id:
                 return None
 
-        completed_data = load_processed("completed_matches.json")
-        if completed_data:
-                completed = completed_data.get("data") or []
-                for m in completed:
-                        if str(m.get("id") or m.get("unique_id") or "") == match_id:
-                                return augment_completed_match(m)
+        match = completed_match(match_id)
+        if match:
+                return augment_completed_match(match)
 
         cached = load_live("matches.json")
         if cached:
@@ -252,20 +216,14 @@ RAW_MATCH_DIRS = LocalProxy(lambda: [
 ])
 
 
-@lru_cache(maxsize=512)
 def load_raw_cricsheet_match(match_id):
-    match_id = str(match_id or "").strip()
-    if not match_id:
+    from .repository import safe_file
+    if not re.fullmatch(r'[A-Za-z0-9_-]{1,100}', str(match_id or '')):
         return None
-
     for folder in RAW_MATCH_DIRS:
-        path = os.path.join(folder, f"{match_id}.json")
-        if os.path.exists(path):
-            try:
-                with open(path, encoding="utf-8") as f:
-                    return json.load(f)
-            except Exception:
-                return None
+        data = current_app.extensions['json_repository'].read(safe_file(folder, str(match_id) + '.json'))
+        if data:
+            return data
     return None
 
 
@@ -635,275 +593,60 @@ def augment_completed_match(match):
     return enriched
 
 def save_live(filename, data, ttl_minutes=60):
-    if r_client:
-        try:
-            r_client.set(filename, json.dumps(data, ensure_ascii=False), ex=int(ttl_minutes * 60))
-            return
-        except Exception as e:
-            print(f"[Redis] Save error ({filename}): {e}")
+    return current_app.extensions['live_cache'].write(filename, data, ttl_minutes)
 
-    path = os.path.join(LIVE_DIR, filename)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False)
+
+def normalize_name(name):
+    return re.sub(r'[^a-z0-9]+', '', name.lower()) if name else ''
 
 
 def is_cricapi_failure_payload(data):
-    return isinstance(data, dict) and str(data.get("status", "")).lower() == "failure"
+    return isinstance(data, dict) and str(data.get('status', '')).lower() == 'failure'
+
 
 def cache_age_minutes(filename):
-    """Returns how many minutes ago a live cache file was written."""
-    if r_client:
-        try:
-            ttl = r_client.ttl(filename)
-            if ttl < 0: return 9999
-            # Approximate age based on common TTLs (60 mins default)
-            # This is only used for relative comparison in fetch_cricapi
-            return 0 # If it exists in Redis, we treat it as fresh in the check below
-        except Exception:
-            pass
-
-    path = os.path.join(LIVE_DIR, filename)
-    if not os.path.exists(path):
-        return 9999
-    age = time.time() - os.path.getmtime(path)
-    return age / 60
+    return current_app.extensions['live_cache'].age(filename)
 
 
-def _get_cache_lock(cache_file):
-    if not cache_file:
-        return None
-    with _CACHE_LOCKS_GUARD:
-        if cache_file not in _CACHE_LOCKS:
-            _CACHE_LOCKS[cache_file] = threading.Lock()
-        return _CACHE_LOCKS[cache_file]
-
-# ── CricAPI fetch with caching ────────────────────────────────────────────────
 def fetch_cricapi(endpoint, params=None, cache_file=None, max_age_minutes=60):
-    """
-    Fetch from CricAPI. Serves from cache if fresh enough.
-    max_age_minutes: how old the cache can be before re-fetching.
-    """
-    global CRICAPI_BLOCK_UNTIL, CRICAPI_BLOCK_REASON
-
-    def get_fresh_cache():
-        if not cache_file:
-            return None
-        if cache_age_minutes(cache_file) < max_age_minutes:
-            cached = load_live(cache_file)
-            if cached and not is_cricapi_failure_payload(cached):
-                return cached
-        return None
-
-    fresh = get_fresh_cache()
-    if fresh is not None:
-        return fresh
-
-    cache_lock = _get_cache_lock(cache_file)
-    if cache_lock is not None:
-        # Wait for any in-flight refresh for this cache key, then re-check cache.
-        if cache_lock.acquire(timeout=15):
-            try:
-                fresh = get_fresh_cache()
-                if fresh is not None:
-                    return fresh
-
-                if time.time() < CRICAPI_BLOCK_UNTIL:
-                    cached = load_live(cache_file)
-                    if cached and not is_cricapi_failure_payload(cached):
-                        return cached
-                    return {"status": "failure", "reason": CRICAPI_BLOCK_REASON or "Temporarily blocked"}
-
-                if not current_app.config["LIVE_FETCH_ENABLED"] or not CRICAPI_KEY or CRICAPI_KEY in ("YOUR_CRICAPI_KEY_HERE", "your_cricapi_key_here"):
-                    return None
-
-                try:
-                    p = {"apikey": str(CRICAPI_KEY)}
-                    if params:
-                        p.update(params)
-                    resp = requests.get(f"{CRICAPI_BASE}/{endpoint}", params=p, timeout=10)
-                    resp.raise_for_status()
-                    data = resp.json()
-
-                    if is_cricapi_failure_payload(data):
-                        reason = str(data.get("reason") or "")
-                        reason_l = reason.lower()
-                        if "block" in reason_l or ("hits" in reason_l and "exceed" in reason_l):
-                            CRICAPI_BLOCK_UNTIL = time.time() + (15 * 60)
-                            CRICAPI_BLOCK_REASON = reason or "Blocked for 15 minutes"
-
-                        cached = load_live(cache_file)
-                        if cached and not is_cricapi_failure_payload(cached):
-                            return cached
-                        return data
-
-                    save_live(cache_file, data, ttl_minutes=max_age_minutes)
-                    return data
-                except Exception as e:
-                    current_app.logger.warning("CricAPI request failed (%s): %s", endpoint, type(e).__name__)
-                    return load_live(cache_file)
-            finally:
-                cache_lock.release()
-
-        # Could not acquire lock quickly; another request is refreshing now.
-        cached = load_live(cache_file)
-        if cached and not is_cricapi_failure_payload(cached):
+    cache = current_app.extensions['live_cache']
+    cached = cache.read(cache_file) if cache_file else None
+    if cached and cache.age(cache_file) < max_age_minutes:
+        return cached
+    if not current_app.config['LIVE_FETCH_ENABLED'] or not CRICAPI_KEY:
+        return cached
+    if endpoint not in {'matches', 'currentMatches', 'match_info', 'match_scorecard', 'series'}:
+        return cached
+    # Unknown public IDs cannot allocate files or consume provider calls.
+    if params and params.get('id'):
+        known = cache.read('matches.json') or {}
+        rows = known.get('data') or known.get('matches') or []
+        if not any(str(m.get('id') or m.get('unique_id')) == str(params['id']) for m in rows):
             return cached
-        return {"status": "failure", "reason": "Refresh in progress"}
-
-    if time.time() < CRICAPI_BLOCK_UNTIL:
-        # During provider block windows, do not hit the API repeatedly.
-        if cache_file:
-            cached = load_live(cache_file)
-            if cached and not is_cricapi_failure_payload(cached):
-                return cached
-        return {"status": "failure", "reason": CRICAPI_BLOCK_REASON or "Temporarily blocked"}
-
-    if not current_app.config["LIVE_FETCH_ENABLED"] or not CRICAPI_KEY or CRICAPI_KEY in ("YOUR_CRICAPI_KEY_HERE", "your_cricapi_key_here"):
-        # No key set — return empty so frontend falls back to dummy data
-        return None
-
     try:
-        p = {"apikey": str(CRICAPI_KEY)}
-        if params:
-            p.update(params)
-        resp = requests.get(f"{CRICAPI_BASE}/{endpoint}", params=p, timeout=10)
-        resp.raise_for_status()
-        data = resp.json()
-
-        if is_cricapi_failure_payload(data):
-            reason = str(data.get("reason") or "")
-            reason_l = reason.lower()
-            if "block" in reason_l or ("hits" in reason_l and "exceed" in reason_l):
-                CRICAPI_BLOCK_UNTIL = time.time() + (15 * 60)
-                CRICAPI_BLOCK_REASON = reason or "Blocked for 15 minutes"
-
-            # Never overwrite good cache with provider failure payloads.
-            if cache_file:
-                cached = load_live(cache_file)
-                if cached and not is_cricapi_failure_payload(cached):
-                    return cached
-            return data
-
+        owner = cache.acquire()
+    except Exception:
+        return cached
+    if not owner:
+        return cached
+    backoff = 2
+    try:
+        if cache_file and cache.age(cache_file) < max_age_minutes:
+            return cache.read(cache_file)
+        arguments = dict(params or {})
+        arguments['apikey'] = str(CRICAPI_KEY)
+        response = requests.get(f'{CRICAPI_BASE}/{endpoint}', params=arguments, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        if not isinstance(data, dict) or is_cricapi_failure_payload(data):
+            backoff = 15 * 60
+            return cached
         if cache_file:
-            save_live(cache_file, data, ttl_minutes=max_age_minutes)
+            cache.write(cache_file, data, max_age_minutes)
         return data
-    except Exception as e:
-        current_app.logger.warning("CricAPI request failed (%s): %s", endpoint, type(e).__name__)
-        # Return stale cache if available
-        if cache_file:
-            return load_live(cache_file)
-        return None
-
-
-# ════════════════════════════════════════════════════════════════════════════
-# STATIC FILE SERVING — serve your HTML pages
-# ════════════════════════════════════════════════════════════════════════════
-
-
-
-
-
-
-# ════════════════════════════════════════════════════════════════════════════
-# SOURCE B ENDPOINTS — serve pre-computed Cricsheet data
-# ════════════════════════════════════════════════════════════════════════════
-
-# ── Players ──────────────────────────────────────────────────────────────────
-
-
-
-
-
-# ── Teams ─────────────────────────────────────────────────────────────────────
-
-
-
-
-
-# ── Venues ────────────────────────────────────────────────────────────────────
-
-def normalize_name(name):
-    if not name:
-        return ''
-    return re.sub(r'[^a-z0-9]+', '', name.lower())
-
-
-
-
-
-
-
-
-# ── Rankings ──────────────────────────────────────────────────────────────────
-
-
-
-# ── Records ───────────────────────────────────────────────────────────────────
-
-
-
-# ── H2H ──────────────────────────────────────────────────────────────────────
-
-
-
-# ── Compare ───────────────────────────────────────────────────────────────────
-
-
-
-# ── Search ────────────────────────────────────────────────────────────────────
-
-
-
-# ── Venue insights (for Home/Matches sidebar) ─────────────────────────────────
-
-
-
-# ════════════════════════════════════════════════════════════════════════════
-# SOURCE A ENDPOINTS — CricAPI live data
-# ════════════════════════════════════════════════════════════════════════════
-
-
-
-
-
-
-
-
-
-
-
-# ════════════════════════════════════════════════════════════════════════════
-# UTILITY
-# ════════════════════════════════════════════════════════════════════════════
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ════════════════════════════════════════════════════════════════════════════
-# ML PROBABILITY PREDICTION ENDPOINTS
-# ════════════════════════════════════════════════════════════════════════════
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ════════════════════════════════════════════════════════════════════════════
-# RUN
-# ════════════════════════════════════════════════════════════════════════════
+    except Exception as error:
+        backoff = 60
+        current_app.logger.warning('Provider refresh failed type=%s', type(error).__name__)
+        return cached
+    finally:
+        cache.release(owner, backoff)
