@@ -1,6 +1,9 @@
 {
   "name": "criclytics",
   "compatibility_date": "2026-10-25",
+  "build": {
+    "command": "python -m scripts.build_frontend"
+  },
   "assets": {
     "directory": "./dist"
   }
