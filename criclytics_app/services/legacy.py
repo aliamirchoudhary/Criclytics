@@ -1,7 +1,7 @@
 """
 app.py
 ======
-Cricklytics — Flask Backend
+Cricklytics â€” Flask Backend
 Serves pre-computed JSON files from data/processed/ and
 live match data from CricAPI (Source A).
 
@@ -102,7 +102,7 @@ def render_match_detail_bootstrap(match):
         window.__CRICLYTICS_MATCH_DETAIL__ = {payload};
         (function() {{
             function escText(value) {{
-                return String(value == null || value === '' ? '—' : value);
+                return String(value == null || value === '' ? 'â€”' : value);
             }}
 
             function setText(selector, value) {{
@@ -143,8 +143,8 @@ def render_match_detail_bootstrap(match):
 
                 setText('#team1Name', t1);
                 setText('#team2Name', t2);
-                setText('#team1Score', s1 || '—');
-                setText('#team2Score', s2 || '—');
+                setText('#team1Score', s1 || 'â€”');
+                setText('#team2Score', s2 || 'â€”');
 
                 var status = match.matchEnded ? (match.status || 'Completed') : (match.matchStarted ? (match.status || 'Live') : (match.status || 'Upcoming'));
                 var statusEl = document.querySelector('.match-status-live');
@@ -159,15 +159,15 @@ def render_match_detail_bootstrap(match):
                     var label = ((row.querySelector('.info-row-label') || {{}}).textContent || '').trim();
                     var valueEl = row.querySelector('.info-row-value');
                     if (!valueEl) return;
-                    if (label === 'Series') valueEl.textContent = match.series || '—';
-                    else if (label === 'Match') valueEl.textContent = match.name || '—';
-                    else if (label === 'Venue') valueEl.textContent = match.venue || '—';
-                    else if (label === 'Date & Time') valueEl.textContent = match.date || match.dateTimeGMT || '—';
-                    else if (label === 'Toss') valueEl.textContent = match.toss || '—';
-                    else if (label === 'Squads') valueEl.textContent = Array.isArray(match.teams) ? match.teams.join(' · ') : '—';
-                    else if (label === 'Umpires') valueEl.textContent = match.umpires ? match.umpires.join(' · ') : '—';
-                    else if (label === 'Match Referee') valueEl.textContent = match.match_referee || '—';
-                    else if (label === 'Series Score') valueEl.textContent = match.status || '—';
+                    if (label === 'Series') valueEl.textContent = match.series || 'â€”';
+                    else if (label === 'Match') valueEl.textContent = match.name || 'â€”';
+                    else if (label === 'Venue') valueEl.textContent = match.venue || 'â€”';
+                    else if (label === 'Date & Time') valueEl.textContent = match.date || match.dateTimeGMT || 'â€”';
+                    else if (label === 'Toss') valueEl.textContent = match.toss || 'â€”';
+                    else if (label === 'Squads') valueEl.textContent = Array.isArray(match.teams) ? match.teams.join(' Â· ') : 'â€”';
+                    else if (label === 'Umpires') valueEl.textContent = match.umpires ? match.umpires.join(' Â· ') : 'â€”';
+                    else if (label === 'Match Referee') valueEl.textContent = match.match_referee || 'â€”';
+                    else if (label === 'Series Score') valueEl.textContent = match.status || 'â€”';
                 }});
 
                 if (typeof window.updateScoreboard === 'function') window.updateScoreboard(match);
@@ -262,14 +262,14 @@ def summarize_match_score(match):
         overs = score.get("o")
         if runs is None:
             continue
-        part = f"{runs}/{wickets if wickets is not None else '—'}"
+        part = f"{runs}/{wickets if wickets is not None else 'â€”'}"
         if overs is not None:
             part += f" ({overs}o)"
         inning_team = str(score.get("inning") or score.get("team") or "").split(" Inning")[0].strip()
         if inning_team:
             part = f"{inning_team} {part}"
         parts.append(part)
-    return " · ".join(parts)
+    return " Â· ".join(parts)
 
 
 def format_overs_from_balls(balls):
@@ -406,11 +406,16 @@ def cache_age_minutes(filename):
 
 def fetch_cricapi(endpoint, params=None, cache_file=None, max_age_minutes=60):
     cache = current_app.extensions['live_cache']
+    monitor = current_app.extensions['diagnostics']
+    def fallback():
+        if cached is not None: monitor.event('stale_fallback')
+        return cached
     cached = cache.read(cache_file) if cache_file else None
     if cached and cache.age(cache_file) < max_age_minutes:
         return cached
     if not current_app.config['LIVE_FETCH_ENABLED'] or not CRICAPI_KEY:
-        return cached
+        monitor.event('refresh_disabled')
+        return fallback()
     if endpoint not in {'matches', 'currentMatches', 'match_info', 'match_scorecard', 'series'}:
         return cached
     # Unknown public IDs cannot allocate files or consume provider calls.
@@ -424,7 +429,8 @@ def fetch_cricapi(endpoint, params=None, cache_file=None, max_age_minutes=60):
     except Exception:
         return cached
     if not owner:
-        return cached
+        monitor.event('refresh_backoff')
+        return fallback()
     backoff = 2
     try:
         if cache_file and cache.age(cache_file) < max_age_minutes:
@@ -432,17 +438,22 @@ def fetch_cricapi(endpoint, params=None, cache_file=None, max_age_minutes=60):
         arguments = dict(params or {})
         arguments['apikey'] = str(CRICAPI_KEY)
         response = requests.get(f'{CRICAPI_BASE}/{endpoint}', params=arguments, timeout=10)
+        if response.status_code == 429: monitor.event('quota_stop')
         response.raise_for_status()
         data = response.json()
         if not isinstance(data, dict) or is_cricapi_failure_payload(data):
             backoff = 15 * 60
-            return cached
+            monitor.event('provider_error')
+            if isinstance(data, dict) and any(word in str(data.get('reason') or data.get('message') or '').lower() for word in ('quota','limit','credit')): monitor.event('quota_stop')
+            return fallback()
         if cache_file:
             cache.write(cache_file, data, max_age_minutes)
+        monitor.event('provider_success')
         return data
     except Exception as error:
         backoff = 60
+        monitor.event('provider_timeout' if isinstance(error, requests.exceptions.Timeout) else 'provider_parse_failure' if isinstance(error, ValueError) else 'provider_error')
         current_app.logger.warning('Provider refresh failed type=%s', type(error).__name__)
-        return cached
+        return fallback()
     finally:
         cache.release(owner, backoff)

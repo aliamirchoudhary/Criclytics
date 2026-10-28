@@ -13,11 +13,15 @@ from .json_io import atomic_json, read_json
 
 
 class LiveCache:
-    def __init__(self, directory, redis=None, clock=time.time, maximum=128):
+    def __init__(self, directory, redis=None, clock=time.time, maximum=128, diagnostics=None):
+        self.diagnostics = diagnostics
         self.directory = Path(directory)
         self.redis = redis
         self.clock = clock
         self.maximum = maximum
+
+    def event(self, name):
+        if self.diagnostics: self.diagnostics.event(name)
 
     def entry(self, filename):
         path = safe_file(self.directory, filename)
@@ -26,7 +30,9 @@ class LiveCache:
             raw = read_json(path)
             candidates.append(raw if isinstance(raw, dict) and raw.get('_cache_version') == 1
                               else {'written_at': path.stat().st_mtime, 'data': raw})
-        except (OSError, ValueError):
+        except ValueError:
+            self.event("cache_parse_failure")
+        except OSError:
             pass
         if self.redis:
             try:
@@ -38,6 +44,7 @@ class LiveCache:
                 pass
         candidates = [c for c in candidates if isinstance(c.get('written_at'), (int, float))
                       and c['written_at'] <= self.clock() and c.get('data') is not None]
+        self.event('cache_hit' if candidates else 'cache_miss')
         return max(candidates, key=lambda c: c['written_at']) if candidates else None
 
     def read(self, filename):
@@ -51,6 +58,7 @@ class LiveCache:
     def write(self, filename, data, ttl_minutes=60):
         path = safe_file(self.directory, filename)
         if not path.exists() and sum(1 for _ in self.directory.glob('*.json')) >= self.maximum:
+            self.event("cache_store_failure")
             return False
         envelope = {'_cache_version': 1, 'written_at': self.clock(), 'data': data}
         # Disk is authoritative durable stale fallback even when Redis expires.

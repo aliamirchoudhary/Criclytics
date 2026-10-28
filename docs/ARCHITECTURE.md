@@ -193,3 +193,13 @@ from page delivery. Legacy scripts/styles remain compatibility assets, unloaded.
 Active styles are self-contained with system fonts; no third-party font/icon
 load is required. Script/attribute CSP is enforced, with no inline allowances.
 See audit/frontend-runtime-2026-10-28.json for request and synthetic preview checks.
+
+## T014 diagnostics
+
+App-owned fixed counters and256 request samples live in services/diagnostics.py.
+/api/health is liveness; /api/ready and /api/status check required artifact roots
+and report optional cached-feed degradation separately. Repository inspection
+recognizes malformed replacement generations despite retaining last-good data.
+Request logs use generated IDs and endpoint names, never raw URLs or bodies.
+Offline tools.diagnostics measures local memory/payload/latency with live access
+disabled. See DIAGNOSTICS.md for limits and the public status contract migration.

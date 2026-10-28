@@ -1,0 +1,225 @@
+{
+  "readiness": {
+    "ready": true,
+    "status": "ready",
+    "required_artifacts": {
+      "players_index.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 5184449
+      },
+      "player_yearly.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 4790409
+      },
+      "player_vs_opp.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 8176503
+      },
+      "player_venues.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 13029143
+      },
+      "h2h.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 339184
+      },
+      "team_format_stats.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 34351
+      },
+      "team_venue_stats.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 487646
+      },
+      "venue_stats.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 618429
+      },
+      "venue_batters.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 716452
+      },
+      "venue_bowlers.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 665002
+      },
+      "venue_insights.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 105133
+      },
+      "records.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 19229
+      },
+      "completed_matches.json": {
+        "state": "valid",
+        "last_good": false,
+        "bytes": 74147078
+      }
+    },
+    "dataset_schema_version": "2.0.1",
+    "model": {
+      "available": false,
+      "version": null
+    },
+    "optional_feed": {
+      "enabled": false,
+      "available": false,
+      "snapshot_age_seconds": null,
+      "state": "degraded"
+    },
+    "limits": {
+      "workers": 1,
+      "threads": 2,
+      "repository_files": 32,
+      "cache_files": 128,
+      "request_body_bytes": 65536,
+      "telemetry_samples": 256
+    }
+  },
+  "telemetry": {
+    "scope": "this process; counters reset on restart",
+    "uptime_seconds": 6,
+    "events": {
+      "cache_hit": 0,
+      "cache_miss": 41,
+      "cache_parse_failure": 0,
+      "cache_store_failure": 0,
+      "provider_error": 0,
+      "provider_parse_failure": 0,
+      "provider_success": 0,
+      "provider_timeout": 0,
+      "quota_stop": 0,
+      "refresh_backoff": 0,
+      "refresh_disabled": 20,
+      "repository_hit": 20,
+      "repository_parse": 14,
+      "repository_parse_failure": 0,
+      "stale_fallback": 0
+    },
+    "recent_requests": 20,
+    "sample_limit": 256,
+    "latency_ms": {
+      "p50": 108.323,
+      "p95": 303.596,
+      "max": 451.092
+    },
+    "max_response_bytes": 11549
+  },
+  "samples": [
+    {
+      "milliseconds": 452.051,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 101.616,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 295.629,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 104.456,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 299.856,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 173.639,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 101.688,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 291.764,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 104.08,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 298.164,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 104.767,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 301.055,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 108.864,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 106.827,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 296.986,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 104.721,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 298.4,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 102.401,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 304.083,
+      "bytes": 11549,
+      "status": 200
+    },
+    {
+      "milliseconds": 104.361,
+      "bytes": 11549,
+      "status": 200
+    }
+  ],
+  "resident_bytes": 413245440,
+  "limitations": "Single offline process, local disk and OS cache; not hosted capacity or latency guarantees. No provider quota reserved/consumed."
+}

@@ -23,7 +23,10 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T011 | work/t011-ui-accessibility | a3d445a | Accessible data-driven surfaces on17 URLs; 85 browser cases pass; full41-test suite40pass/one optional skip |
 
-| T012 | work/t012-frontend-runtime | Local branch tip | Explicit runtime origin, single initialization, enforced CSP;43tests42pass/one skip;85browser cases plus races/retries/preview checks pass |
+| T012 | work/t012-frontend-runtime | e30684e | Explicit runtime origin, single initialization, enforced CSP;43tests42pass/one skip;85browser cases plus races/retries/preview checks pass |
+
+| T013 | No implementation branch | None | Blocked by deferred T001 operator rotations/production verification |
+| T014 | work/t014-safe-diagnostics | Local branch tip | Honest health/readiness, bounded redacted telemetry;46tests45pass/one skip;20request resource sample |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain

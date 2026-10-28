@@ -33,6 +33,9 @@ def create_app(config=None):
         app.config.update(config)
     from .frontend import api_base
     app.config["FRONTEND_API_BASE"] = api_base(app.config["FRONTEND_API_BASE"])
+    from .services.diagnostics import Diagnostics, register as register_diagnostics
+    app.extensions['diagnostics'] = Diagnostics()
+    register_diagnostics(app)
     from .api.validation import register as register_validation
     register_validation(app)
     Path(app.config["LIVE_DIR"]).mkdir(parents=True, exist_ok=True)
@@ -45,8 +48,8 @@ def create_app(config=None):
         )
     from .services.repository import JsonRepository
     from .services.live_cache import LiveCache
-    app.extensions['json_repository'] = JsonRepository()
-    app.extensions['live_cache'] = LiveCache(app.config['LIVE_DIR'], app.extensions['redis'])
+    app.extensions['json_repository'] = JsonRepository(diagnostics=app.extensions['diagnostics'])
+    app.extensions['live_cache'] = LiveCache(app.config['LIVE_DIR'], app.extensions['redis'], diagnostics=app.extensions['diagnostics'])
     app.extensions["probability_engine"] = None
     if app.config["INITIALIZE_ENGINE"]:
         from .ml.probability import ProbabilityEngine

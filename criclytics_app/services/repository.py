@@ -8,7 +8,8 @@ from .json_io import read_json
 
 
 class JsonRepository:
-    def __init__(self, maximum=32):
+    def __init__(self, maximum=32, diagnostics=None):
+        self.diagnostics = diagnostics
         self.maximum = maximum
         self._entries = OrderedDict()
         self._lock = threading.RLock()
@@ -22,6 +23,7 @@ class JsonRepository:
                 stat = path.stat()
                 version = (stat.st_mtime_ns, stat.st_size)
                 if previous and previous[0] == version:
+                    self.event("repository_hit")
                     self._entries.move_to_end(path)
                     return previous
                 data = read_json(path)
@@ -37,12 +39,32 @@ class JsonRepository:
                 entry = (version, data, index)
                 self._entries[path] = entry
                 self.parses += 1
+                self.event("repository_parse")
                 while len(self._entries) > self.maximum:
                     self._entries.popitem(last=False)
                 return entry
             except (OSError, ValueError, TypeError, AttributeError):
+                self.event("repository_parse_failure")
                 # Failed replacements do not destroy a previously published generation.
                 return previous
+
+    def event(self, name):
+        if self.diagnostics: self.diagnostics.event(name)
+
+    def inspect(self, path):
+        path = Path(path)
+        snapshot = self._snapshot(path)
+        try:
+            stat = path.stat()
+        except OSError:
+            return {'state':'missing','last_good':snapshot is not None}
+        if not snapshot or snapshot[0] != (stat.st_mtime_ns,stat.st_size):
+            return {'state':'invalid','last_good':snapshot is not None}
+        data = snapshot[1]
+        valid = isinstance(data,dict) and bool(data)
+        if path.name == 'completed_matches.json':
+            valid = valid and isinstance(data.get('data'),list) and bool(data['data'])
+        return {'state':'valid' if valid else 'invalid','last_good':False,'bytes':stat.st_size}
 
     def read(self, path):
         snapshot = self._snapshot(path)

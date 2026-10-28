@@ -35,17 +35,17 @@ def get_players():
     """
     All players with career stats.
     Query params:
-        format    — filter by format: Test / ODI / T20I
-        country   — filter by country name (partial match)
-        role      — bat / bowl / all (default: all)
-        search    — search by name (partial match)
-        sort      — runs / wickets / avg / sr (default: runs)
-        limit     — number of results (default: 50)
-        offset    — pagination offset (default: 0)
+        format    â€” filter by format: Test / ODI / T20I
+        country   â€” filter by country name (partial match)
+        role      â€” bat / bowl / all (default: all)
+        search    â€” search by name (partial match)
+        sort      â€” runs / wickets / avg / sr (default: runs)
+        limit     â€” number of results (default: 50)
+        offset    â€” pagination offset (default: 0)
     """
     data = load_processed("players_index.json")
     if data is None:
-        return jsonify({"error": "players_index.json not found — run process_cricsheet.py first"}), 500
+        return jsonify({"error": "players_index.json not found â€” run process_cricsheet.py first"}), 500
 
     fmt     = request.args.get("format")
     country = request.args.get("country", "").lower()
@@ -270,9 +270,9 @@ def get_rankings():
     """
     Returns players ranked by a stat.
     Query params:
-        format  — Test / ODI / T20I  (required)
-        type    — batting / bowling   (default: batting)
-        limit   — number of results   (default: 10)
+        format  â€” Test / ODI / T20I  (required)
+        type    â€” batting / bowling   (default: batting)
+        limit   â€” number of results   (default: 10)
     """
     fmt   = request.args.get("format", "T20I")
     rtype = request.args.get("type", "batting")
@@ -858,39 +858,17 @@ def get_series():
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-@bp.route("/api/status")
+@bp.get('/api/health')
+def health():
+    return jsonify({'status':'alive'})
+
+
+@bp.get('/api/ready')
+@bp.get('/api/status')
 def status():
-    """Health check — shows which data files are available."""
-    files = [
-        "players_index.json", "player_yearly.json", "player_vs_opp.json",
-        "player_venues.json", "h2h.json", "team_format_stats.json",
-        "team_venue_stats.json", "venue_stats.json", "venue_batters.json",
-        "venue_bowlers.json", "venue_insights.json", "records.json",
-        "completed_matches.json"
-    ]
-    status_data = {}
-    for f in files:
-        path = os.path.join(PROCESSED_DIR, f)
-        root_path = os.path.join(BASE_DIR, f)
-
-        if os.path.exists(path):
-            size_kb = round(os.path.getsize(path) / 1024, 1)
-            status_data[f] = {"exists": True, "location": "data/processed", "size_kb": size_kb}
-        elif os.path.exists(root_path):
-            size_kb = round(os.path.getsize(root_path) / 1024, 1)
-            status_data[f] = {"exists": True, "location": "root", "size_kb": size_kb}
-        else:
-            status_data[f] = {"exists": False}
-
-    live_files = os.listdir(LIVE_DIR) if os.path.exists(LIVE_DIR) else []
-
-    return jsonify({
-        "status":        "ok",
-        "cricapi_key":   "set" if CRICAPI_KEY != "YOUR_CRICAPI_KEY_HERE" else "not set",
-        "processed":     status_data,
-        "live_cache":    live_files,
-        "timestamp":     datetime.now().isoformat(),
-    })
+    from ..services.diagnostics import readiness
+    data = readiness(current_app)
+    return jsonify(data), 200 if data['ready'] else 503
 
 
 @bp.route("/api/icc-rankings")
