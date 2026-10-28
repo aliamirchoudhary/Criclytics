@@ -1,6 +1,6 @@
 # T020: Train and evaluate a calibrated CPU baseline
 
-- Status: Planned
+- Status: In progress; protocol frozen before fit
 - Priority: P1
 - Depends on: T019,T014
 - Branch: feat/t020-train-and-evaluate-a-calibrated-cpu-baseline
@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+### Session update 2026-10-28T12:42:24+00:00
+
+Chained from T019 e47a364. Predeclared CPU protocol in docs/BASELINE_PROTOCOL.md committed before training/test outcome inspection. Existing100match chronological export; no hyperparameter or model selection on test. Public prediction facade remains unavailable.

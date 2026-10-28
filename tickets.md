@@ -38,7 +38,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T017](tickets/t017-introduce-stable-cricket-identities-and-provider-mappings.md) | Introduce stable cricket identities and provider mappings | P1 | T015 | Implemented; local review pending |
 | [T018](tickets/t018-build-canonical-delivery-events-and-deterministic-replay.md) | Build canonical delivery events and deterministic replay | P1 | T010,T015,T017 | Implemented; local review pending |
 | [T019](tickets/t019-create-before-delivery-features-and-coherent-outcome-labels.md) | Create before-delivery features and coherent outcome labels | P1 | T018 | Implemented; local review pending |
-| [T020](tickets/t020-train-and-evaluate-a-calibrated-cpu-baseline.md) | Train and evaluate a calibrated CPU baseline | P1 | T019,T014 | Planned |
+| [T020](tickets/t020-train-and-evaluate-a-calibrated-cpu-baseline.md) | Train and evaluate a calibrated CPU baseline | P1 | T019,T014 | In progress; protocol frozen before fit |
 | [T021](tickets/t021-evaluate-weather-context-without-hindsight-leakage.md) | Evaluate weather context without hindsight leakage | P2 | T016,T019,T020 | Planned |
 | [T022](tickets/t022-add-lineup-matchup-and-pitch-context-feature-families.md) | Add lineup matchup and pitch-context feature families | P2 | T017,T019,T020 | Planned |
 | [T023](tickets/t023-support-attributed-fielding-and-incident-annotations.md) | Support attributed fielding and incident annotations | P2 | T018,T019 | Planned |
