@@ -52,11 +52,14 @@ def create_app(config=None):
 
     @app.after_request
     def security_headers(response):
+        from .web.security import BASE_POLICY, SCRIPT_REPORT_POLICY
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["X-Frame-Options"] = "SAMEORIGIN"
         if response.mimetype == "text/html":
             response.headers["Cache-Control"] = "no-cache"
+            response.headers["Content-Security-Policy"] = BASE_POLICY
+            response.headers["Content-Security-Policy-Report-Only"] = SCRIPT_REPORT_POLICY
         return response
 
     return app

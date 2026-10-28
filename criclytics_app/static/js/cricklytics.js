@@ -52,7 +52,8 @@ const COUNTRY_ISO = {
  * @returns {string} Full CDN URL to SVG flag image
  */
 function flagUrl(countryOrCode) {
-  const code = COUNTRY_ISO[countryOrCode] || countryOrCode;
+  const candidate = COUNTRY_ISO[countryOrCode] || countryOrCode;
+  const code = /^[A-Z]{2,10}$/.test(candidate) ? candidate : "";
   return `${FLAG_CDN}${code}.svg`;
 }
 
@@ -294,10 +295,11 @@ function fmtStat(val, decimals = 1) {
  * @returns {string} HTML string
  */
 function flagHtml(country, flagOnly = false) {
-  const code = COUNTRY_ISO[country] || country;
+  const candidate = COUNTRY_ISO[country] || country;
+  const code = /^[A-Z]{2,10}$/.test(candidate) ? candidate : "";
   const url = `${FLAG_CDN}${code}.svg`;
-  const imgHtml = `<img src="${url}" alt="${country}" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">`;
-  return flagOnly ? imgHtml : `${imgHtml}<span>${country}</span>`;
+  const imgHtml = `<img src="${url}" alt="${esc(country)}" style="width:18px;height:18px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">`;
+  return flagOnly ? imgHtml : `${imgHtml}<span>${esc(country)}</span>`;
 }
 
 /**
@@ -309,7 +311,8 @@ function esc(str) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 

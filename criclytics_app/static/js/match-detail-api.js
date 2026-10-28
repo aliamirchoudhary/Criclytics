@@ -343,7 +343,7 @@ function wipePage(t1, t2) {
   // Status badge
   var statusEl = document.querySelector('.match-status-live');
   if (statusEl) {
-    statusEl.innerHTML = '<span class="live-dot"></span> ' + (t1 && t2 ? t1 + ' vs ' + t2 : 'Match Detail');
+    statusEl.innerHTML = '<span class="live-dot"></span> ' + (t1 && t2 ? esc(t1) + ' vs ' + esc(t2) : 'Match Detail');
   }
 
   // Chase bar

@@ -1,6 +1,6 @@
 # T003: Remove DOM injection hazards and tighten browser policy
 
-- Status: Planned
+- Status: Implemented; local review pending
 - Priority: P0
 - Depends on: T000
 - Branch: fix/t003-remove-dom-injection-hazards-and-tighten-browser-policy
@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+### Session update 2026-10-28T08:39:32+00:00
+
+Vendored DOMPurify provenance/licence, guarded legacy DOM sinks, image-host policy, apostrophe escaping and safe team fallback. Chromium adversarial tests for search/compare/profile plus contextual table rendering pass with zero injected execution. Regression suite and JS syntax pass. CSP image/object/base rules enforced; strict script policy intentionally report-only pending T012 inline migration. See docs/DOM_SECURITY.md.

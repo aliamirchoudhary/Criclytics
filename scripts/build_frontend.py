@@ -4,6 +4,7 @@ import shutil
 from pathlib import Path
 
 from criclytics_app.paths import PACKAGE_ROOT, PROJECT_ROOT
+from criclytics_app.web.security import BASE_POLICY, SCRIPT_REPORT_POLICY
 
 
 def build(output=None):
@@ -17,7 +18,9 @@ def build(output=None):
         shutil.copy2(page, target / page.name)
     shutil.copytree(PACKAGE_ROOT / "static", target / "static", dirs_exist_ok=True)
     (target / "_headers").write_text(
-        "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n",
+        "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n"
+        + "  Content-Security-Policy: " + BASE_POLICY + "\n"
+        + "  Content-Security-Policy-Report-Only: " + SCRIPT_REPORT_POLICY + "\n",
         encoding="utf-8",
     )
     return target
