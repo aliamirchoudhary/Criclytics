@@ -21,7 +21,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 | [T001](tickets/t001-rotate-exposed-credentials-and-verify-public-file-containment.md) | Rotate exposed credentials and verify public-file containment | P0 | T000 | Waiting for operator |
 | [T002](tickets/t002-upgrade-vulnerable-dependencies-and-verify-compatibility.md) | Upgrade vulnerable dependencies and verify compatibility | P0 | T000 | Implemented; local review pending |
 | [T003](tickets/t003-remove-dom-injection-hazards-and-tighten-browser-policy.md) | Remove DOM injection hazards and tighten browser policy | P0 | T000 | Implemented; local review pending |
-| [T004](tickets/t004-validate-api-inputs-and-standardize-errors.md) | Validate API inputs and standardize errors | P1 | T000 | Planned |
+| [T004](tickets/t004-validate-api-inputs-and-standardize-errors.md) | Validate API inputs and standardize errors | P1 | T000 | Implemented; local review pending |
 | [T005](tickets/t005-paginate-compact-match-summaries-and-update-callers.md) | Paginate compact match summaries and update callers | P1 | T004 | Planned |
 | [T006](tickets/t006-extract-safe-data-repositories-and-bounded-cache-refresh.md) | Extract safe data repositories and bounded cache refresh | P1 | T004,T005 | Planned |
 | [T007](tickets/t007-correct-ranking-and-fixture-freshness-provenance.md) | Correct ranking and fixture freshness/provenance | P1 | T004,T006 | Planned |

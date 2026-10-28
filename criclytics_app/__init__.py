@@ -30,6 +30,8 @@ def create_app(config=None):
     )
     if config:
         app.config.update(config)
+    from .api.validation import register as register_validation
+    register_validation(app)
     Path(app.config["LIVE_DIR"]).mkdir(parents=True, exist_ok=True)
     app.extensions["redis"] = None
     if app.config["REDIS_URL"] and app.config["LIVE_FETCH_ENABLED"]:
