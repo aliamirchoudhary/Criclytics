@@ -1,6 +1,6 @@
 # T022: Add lineup matchup and pitch-context feature families
 
-- Status: Planned
+- Status: In progress; ablation protocol frozen
 - Priority: P2
 - Depends on: T017,T019,T020
 - Branch: feat/t022-add-lineup-matchup-and-pitch-context-feature-families
@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+### Session update 2026-10-28T12:59:13+00:00
+
+Chained from T021 c429067. Timestamped lineup/substitution/pitch/home context contracts; no retrospective XI/pitch facts assumed available. New matchup ablation uses previously unevaluated2019?2021 source window and fresh date-grouped holdout, not the peeked T020 test period.
