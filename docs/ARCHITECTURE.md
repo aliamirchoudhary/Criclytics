@@ -271,3 +271,13 @@ and selects only eligible as-of fields in a bounded local cache. Reanalysis,
 future issue/observation and unknown location/cutoff abstain. No collector or
 model weather inputs are enabled; sample weather coverage is zero. WEATHER.md
 records primary free-service rights, candidate traffic limits and exclusion.
+
+## T022 timestamped match context
+
+services.match_context stores immutable local context revisions and selects only
+published/observed/effective records at cutoff with explicit ownership. XI and
+substitutions use stable IDs; pitch quality is separated from measured tracking;
+venue affiliation is explicit. Unavailable families remain excluded from modelv1.
+A separately preregistered future-window matchup ablation is recorded in
+MATCH_CONTEXT.md; no experimental model is promoted. Event subset import can
+filter explicit date windows while retaining source integrity checks.

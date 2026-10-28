@@ -1,0 +1,286 @@
+{
+  "protocol": "docs/CONTEXT_ABLATION_PROTOCOL.md frozen in e050a22; fresh2019?2021 window",
+  "feature_manifest": {
+    "schema_version": 1,
+    "target_kind": "next_attempt",
+    "feature_names": [
+      "innings",
+      "super_over",
+      "runs",
+      "wickets",
+      "legal_balls",
+      "attempts",
+      "run_rate",
+      "partnership_runs",
+      "phase_band",
+      "recent_six_runs",
+      "recent_six_wickets",
+      "batter_match_runs",
+      "batter_match_balls",
+      "bowler_match_legal_balls",
+      "prior_batter_samples",
+      "prior_matchup_samples",
+      "prior_batter_runs_per_attempt",
+      "prior_bowler_wicket_rate",
+      "prior_matchup_wicket_rate",
+      "target",
+      "runs_required",
+      "balls_remaining"
+    ],
+    "rows": 22306,
+    "partition_rows": {
+      "train": 14189,
+      "calibration": 4702,
+      "test": 3415
+    },
+    "partitions": {
+      "train_last_date": "2019-07-14",
+      "calibration_first_date": "2019-07-22",
+      "calibration_last_date": "2019-11-10",
+      "test_first_date": "2019-12-06",
+      "matches": {
+        "train": 65,
+        "calibration": 21,
+        "test": 14
+      },
+      "same_day_groups": true,
+      "multi_day_overlap": "rejected_without_embargo"
+    },
+    "rows_sha256": "7c561b5c5296182a0298ca32871a69025859c34182fd5e4389150b013110067e",
+    "dataset_id": "e6dce5850e36a851f95537e702fc9f782fe26f0dd98c15448b2a767c0f4c2da3",
+    "source_snapshot_sha256": "99540725e507fe631f2e65ebdf7f5f88939f7dce22511d0384e432768e866df7",
+    "attribution": "Derived from Cricsheet JSON match data (ODC-BY-1.0).",
+    "availability_limit": "Historical publication/event times unknown; retrospective chronology is not prospective source-availability proof."
+  },
+  "full_test_metrics": {
+    "empirical_smoothed": {
+      "rows": 3415,
+      "matches": 14,
+      "log_loss": 1.813855393315037,
+      "multiclass_brier": 0.7639041125471062,
+      "top_label_ece_10bins": 0.03966781798704261,
+      "reliability": [
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 3415,
+          "mean_probability": 0.36003935624428973,
+          "observed_top_label_fraction": 0.39970717423133234
+        }
+      ]
+    },
+    "phase_innings_smoothed": {
+      "rows": 3415,
+      "matches": 14,
+      "log_loss": 1.7991556428758029,
+      "multiclass_brier": 0.7533240565418362,
+      "top_label_ece_10bins": 0.0038998963727163204,
+      "reliability": [
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 799,
+          "mean_probability": 0.37962713148625316,
+          "observed_top_label_fraction": 0.37797246558197745
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 2616,
+          "mean_probability": 0.4212523195930084,
+          "observed_top_label_fraction": 0.4166666666666667
+        }
+      ]
+    },
+    "logistic_temperature": {
+      "rows": 3415,
+      "matches": 14,
+      "log_loss": 1.8946897653039925,
+      "multiclass_brier": 0.7790589265221773,
+      "top_label_ece_10bins": 0.061486218008234506,
+      "reliability": [
+        {
+          "lower": 0.2,
+          "upper": 0.3,
+          "count": 33,
+          "mean_probability": 0.28968564410257763,
+          "observed_top_label_fraction": 0.2727272727272727
+        },
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 1330,
+          "mean_probability": 0.36405761549685917,
+          "observed_top_label_fraction": 0.3902255639097744
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1517,
+          "mean_probability": 0.44297359084034466,
+          "observed_top_label_fraction": 0.3994726433750824
+        },
+        {
+          "lower": 0.5,
+          "upper": 0.6,
+          "count": 422,
+          "mean_probability": 0.5373543402421536,
+          "observed_top_label_fraction": 0.44786729857819907
+        },
+        {
+          "lower": 0.6,
+          "upper": 0.7,
+          "count": 47,
+          "mean_probability": 0.6310800625748654,
+          "observed_top_label_fraction": 0.3404255319148936
+        },
+        {
+          "lower": 0.7,
+          "upper": 0.8,
+          "count": 17,
+          "mean_probability": 0.755580614699872,
+          "observed_top_label_fraction": 0.0
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "count": 19,
+          "mean_probability": 0.8539965344606514,
+          "observed_top_label_fraction": 0.0
+        },
+        {
+          "lower": 0.9,
+          "upper": 1.0,
+          "count": 30,
+          "mean_probability": 0.9375466806966001,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    }
+  },
+  "without_matchup_test_metrics": {
+    "empirical_smoothed": {
+      "rows": 3415,
+      "matches": 14,
+      "log_loss": 1.813855393315037,
+      "multiclass_brier": 0.7639041125471062,
+      "top_label_ece_10bins": 0.03966781798704261,
+      "reliability": [
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 3415,
+          "mean_probability": 0.36003935624428973,
+          "observed_top_label_fraction": 0.39970717423133234
+        }
+      ]
+    },
+    "phase_innings_smoothed": {
+      "rows": 3415,
+      "matches": 14,
+      "log_loss": 1.7991556428758029,
+      "multiclass_brier": 0.7533240565418362,
+      "top_label_ece_10bins": 0.0038998963727163204,
+      "reliability": [
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 799,
+          "mean_probability": 0.37962713148625316,
+          "observed_top_label_fraction": 0.37797246558197745
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 2616,
+          "mean_probability": 0.4212523195930084,
+          "observed_top_label_fraction": 0.4166666666666667
+        }
+      ]
+    },
+    "logistic_temperature": {
+      "rows": 3415,
+      "matches": 14,
+      "log_loss": 1.9535325021550927,
+      "multiclass_brier": 0.8037276177754811,
+      "top_label_ece_10bins": 0.06761878500811612,
+      "reliability": [
+        {
+          "lower": 0.2,
+          "upper": 0.3,
+          "count": 27,
+          "mean_probability": 0.28753383905553326,
+          "observed_top_label_fraction": 0.3333333333333333
+        },
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 1269,
+          "mean_probability": 0.36481017125970433,
+          "observed_top_label_fraction": 0.3632781717888101
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 1552,
+          "mean_probability": 0.4455557687451404,
+          "observed_top_label_fraction": 0.4181701030927835
+        },
+        {
+          "lower": 0.5,
+          "upper": 0.6,
+          "count": 381,
+          "mean_probability": 0.5332322063030791,
+          "observed_top_label_fraction": 0.4409448818897638
+        },
+        {
+          "lower": 0.6,
+          "upper": 0.7,
+          "count": 39,
+          "mean_probability": 0.6437805891866821,
+          "observed_top_label_fraction": 0.10256410256410256
+        },
+        {
+          "lower": 0.7,
+          "upper": 0.8,
+          "count": 36,
+          "mean_probability": 0.7552538388724024,
+          "observed_top_label_fraction": 0.0
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "count": 43,
+          "mean_probability": 0.8590547376013474,
+          "observed_top_label_fraction": 0.0
+        },
+        {
+          "lower": 0.9,
+          "upper": 1.0,
+          "count": 68,
+          "mean_probability": 0.9534926255908104,
+          "observed_top_label_fraction": 0.0
+        }
+      ]
+    }
+  },
+  "full_vs_without_matchup": {
+    "method": "whole-match bootstrap",
+    "replicates": 200,
+    "seed": 17,
+    "matches": 14,
+    "loss_delta_vs_reference": -0.05884273685110074,
+    "lower_95": -0.12179621138253846,
+    "upper_95": -0.0042602664190278736
+  },
+  "full_model_id": "dfc4738319e24333464cf15ff4abf93c7f11fbe09518e94796e358813f7db069",
+  "without_model_id": "d712cb0c1adf1cab43b5ed7053b2b12cb0468e4722d757e41de71ef105e45b0c",
+  "lineup_pitch_home_families": {
+    "eligible_as_issued_records": 0,
+    "included": false,
+    "benefit": null
+  },
+  "source_availability": "unknown historical publication precision; not prospective proof",
+  "promoted": false,
+  "decision": "Matchup feature remains experimental; no automatic inclusion/promotion. XI/pitch/home features excluded without eligible timestamped sources."
+}

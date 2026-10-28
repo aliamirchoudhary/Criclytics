@@ -40,7 +40,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T020 | work/t020-cpu-baseline | 5740b3a; protocol d357306/amendment87bd2c6 | Trusted CPU model/evaluation;60tests59pass/one skip;repeat artifact hash identical;not promoted, learner does not beat stronger phase baseline |
 
-| T021 | work/t021-weather-context | Local branch tip | Weather as-of/timezone contracts;62tests61pass/one skip;no eligible historical weather, family excluded/no API calls |
+| T021 | work/t021-weather-context | c429067 | Weather as-of/timezone contracts;62tests61pass/one skip;no eligible historical weather, family excluded/no API calls |
+
+| T022 | work/t022-lineup-matchup-context | Local branch tip; protocol e050a22 | Timestamped XI/pitch/home ledger;65tests64pass/one skip;fresh100match matchup ablation, no promotion/invented context |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain

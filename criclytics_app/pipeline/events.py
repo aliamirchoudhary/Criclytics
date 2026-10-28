@@ -197,7 +197,7 @@ def replay(metadata,events):
     return [states[k] for k in sorted(states)]
 
 
-def import_subset(raw,dataset,output,limit=100,fmt='T20I'):
+def import_subset(raw,dataset,output,limit=100,fmt='T20I',start_date=None,end_date=None):
     if not 1<=limit<=500:raise ValueError('Bounded import limit must be1..500')
     if Path(output).exists():raise ValueError('Use fresh event store; never overwrite existing observations')
     manifest=validate(dataset);store=EventStore(output);count=attempts=0
@@ -208,7 +208,11 @@ def import_subset(raw,dataset,output,limit=100,fmt='T20I'):
             if fmt=='T20I' and not row['path'].startswith('t20s_male_json/'):continue
             path=(Path(raw)/row['path']).resolve()
             if not path.is_relative_to(Path(raw).resolve()) or digest(path)!=row['sha256']:raise ValueError('Source integrity mismatch')
-            observation=json.loads(path.read_text(encoding='utf-8'));metadata,events=canonicalize(observation,path.stem)
+            observation=json.loads(path.read_text(encoding='utf-8'))
+            dates=sorted(str(d) for d in observation['info']['dates'])
+            if start_date and dates[0]<start_date:continue
+            if end_date and dates[-1]>end_date:continue
+            metadata,events=canonicalize(observation,path.stem)
             metadata['source_file_sha256']=row['sha256']
             store.ingest(observation,metadata,events)
             count+=1;attempts+=sum(e['kind']=='delivery' for e in events)
@@ -217,7 +221,7 @@ def import_subset(raw,dataset,output,limit=100,fmt='T20I'):
         store.connection.execute('CREATE TABLE IF NOT EXISTS build_metadata (key TEXT PRIMARY KEY,value TEXT)')
         with store.connection:store.connection.execute('INSERT INTO build_metadata VALUES (?,?)',('dataset_id',manifest['dataset_id']))
         return {'matches':count,'attempts':attempts,'dataset_id':manifest['dataset_id'],'schema_version':1,
-                'historical_event_timestamps':None,'network_calls':0}
+                'historical_event_timestamps':None,'network_calls':0,'start_date_filter':start_date,'end_date_filter':end_date}
     finally:store.close()
 
 
@@ -225,7 +229,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--raw-dir',type=Path,required=True);parser.add_argument('--dataset',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True);parser.add_argument('--limit',type=int,default=100)
-    args=parser.parse_args();print(json.dumps(import_subset(args.raw_dir,args.dataset,args.output,args.limit),indent=2))
+    parser.add_argument('--start-date');parser.add_argument('--end-date')
+    args=parser.parse_args();print(json.dumps(import_subset(args.raw_dir,args.dataset,args.output,args.limit,start_date=args.start_date,end_date=args.end_date),indent=2))
 
 
 if __name__=='__main__':main()

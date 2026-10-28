@@ -118,7 +118,7 @@ def read_rows(directory,include):
     return rows
 
 
-def fit(directory,output):
+def fit(directory,output,protocol='docs/BASELINE_PROTOCOL.md frozen in d357306; training convergence amendment87bd2c6'):
     from sklearn.linear_model import LogisticRegression
     from sklearn.exceptions import ConvergenceWarning
     from scipy.optimize import minimize_scalar
@@ -181,14 +181,14 @@ def fit(directory,output):
     for _ in range(100):distribution=predict(trusted,test[0]['features'])
     inference_ms=(time.perf_counter()-start)*10
     assert np.allclose(list(distribution.values()),predicted[0])
-    report={'model_id':model_hash,'protocol':'docs/BASELINE_PROTOCOL.md frozen in d357306; training convergence amendment87bd2c6','feature_manifest':manifest,
+    report={'model_id':model_hash,'protocol':protocol,'feature_manifest':manifest,
             'test_metrics':evaluation,'subgroups':subgroups,'match_cluster_uncertainty':cluster_interval(test,test_y,predicted,empirical),
             'phase_baseline_uncertainty':cluster_interval(test,test_y,predicted,phase),
             'temperature':artifact['temperature'],'test_unseen_joint_outcomes':int((test_y==0).sum()),'vocabulary_size':len(labels),
             'train_rows':len(train),'calibration_rows':len(cal),'test_rows':len(test),'fit_and_calibration_seconds':fit_seconds,
             'inference_ms_mean_100':inference_ms,'resident_bytes':working_set(),'artifact_bytes':model_path.stat().st_size,
             'promoted':False,'public_predictions_available':False,
-            'limitations':['100 file-selected maleT20I matches from2016?2018; not current or representative careers.',
+            'limitations':['Bounded file-selected historical maleT20I subset; not representative current careers.',
                            'Historical source availability unknown; prospective parity/calibration not established.',
                            'OTHER mass is explicit; wicket/runs marginals cannot treat it as a known physical outcome.',
                            'Rare/subgroup and21match uncertainty are limited; ECE is diagnostic, not proof.']}
