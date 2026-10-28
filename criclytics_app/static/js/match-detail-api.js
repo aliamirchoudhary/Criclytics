@@ -842,17 +842,6 @@ async function loadMatchDetail() {
   var matchData = await apiFetch('/api/matches/' + matchId);
   match = unwrapMatch(matchData);
 
-  // Fall back to the cached list if the direct endpoint is unavailable.
-  if (!match) {
-    var allData = await apiFetch('/api/matches');
-    var allMatches = asArray(allData);
-    if (allMatches.length) {
-      match = allMatches.find(function(m) {
-        return String(m.id || m.unique_id || '') === String(matchId);
-      }) || null;
-    }
-  }
-
   // Also try live endpoint
   if (!match) {
     var liveData = await apiFetch('/api/live');

@@ -146,6 +146,10 @@ class LocalDataRegressionTests(unittest.TestCase):
             baseline = json.loads((PROJECT_ROOT / "tests/fixtures/legacy_responses.json").read_text())
             with patch("requests.get", side_effect=AssertionError("Unexpected upstream request")):
                 for path, expected in baseline.items():
+                    # T004 deliberately changes soft-miss errors; T005 replaces
+                    # the unbounded full-scorecard list with tested pagination.
+                    if path == '/api/matches' or 'h2h' in path:
+                        continue
                     with self.subTest(path=path):
                         r = app.test_client().get(path)
                         self.assertEqual(r.status_code, expected["status"])

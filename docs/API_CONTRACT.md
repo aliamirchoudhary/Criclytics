@@ -20,3 +20,20 @@ response errors. Existing error-shaped legacy route returns are normalized at
 the API boundary while their handlers are extracted into services. Logs report
 exception type/request ID, not exception messages. Original response fingerprints
 apply to unchanged successes, not the deliberately corrected error contract.
+
+## T005 fixture listings
+
+`GET /api/matches` returns compact `data` and `pagination` (`total`, `limit`,
+`offset`, `has_more`). Default limit 20; maximum 500. Filters: status
+(all/upcoming/live/completed), exact team (documented short aliases), exact venue,
+date prefix and format (T20/T20I equivalent). Sort: newest/oldest/format with ID
+as deterministic tie breaker. `competition=ipl` requires explicit series evidence.
+No fuzzy provider identity merges. Pagination is stable for a fixed source snapshot;
+refreshing sources can change offsets. Clients should reset pagination after filters.
+Scorecard details remain exclusively on `/api/matches/<id>` and `/score`.
+Search already projects bounded match fields; it does not return scorecards.
+
+T004 soft-miss H2H errors and T005 full-corpus listing fingerprints are explicitly
+retired from the opt-in legacy equality test; focused error/list/detail contracts
+replace them. Historical statistical fingerprints are otherwise retained until
+T008/T009 deliberately change their contracts.

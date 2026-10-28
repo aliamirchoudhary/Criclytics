@@ -207,7 +207,7 @@ function renderStatsForFmt(fmt) {
 
 // ─── Match Statistics tab — Recent Matches ────────────────────────────────────
 async function renderRecentMatchesAtVenue(venueName) {
-  var data = await apiFetch('/api/matches');
+  var data = await apiFetch('/api/matches?status=completed&limit=4&venue=' + encodeURIComponent(venueName));
   var matches = (data && data.data) ? data.data : [];
 
   // Try to find matches at this venue by partial name match
@@ -366,7 +366,7 @@ function renderKeyInsights(venueName, data) {
 
 // ─── Sidebar: Upcoming Here ───────────────────────────────────────────────────
 async function renderUpcomingAtVenue(venueName) {
-  var data = await apiFetch('/api/matches');
+  var data = await apiFetch('/api/matches?status=upcoming&sort=oldest&limit=3&venue=' + encodeURIComponent(venueName));
   var matches = (data && data.data) ? data.data : [];
 
   var upcoming = matches.filter(function(m) {

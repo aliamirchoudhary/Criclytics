@@ -1,6 +1,6 @@
 # T005: Paginate compact match summaries and update callers
 
-- Status: Planned
+- Status: Implemented; local review pending
 - Priority: P1
 - Depends on: T004
 - Branch: fix/t005-paginate-compact-match-summaries-and-update-callers
@@ -32,3 +32,7 @@ Read AGENTS.md and the matching findings in docs/AUDIT.md. Budget: $0, no card o
 ## Implementation evidence
 
 Not started.
+
+### Session update 2026-10-28T08:50:04+00:00
+
+Compact filtered/sorted summary pagination and all known callers migrated together; detail scorecards preserved. 20 unit tests (19 passed, one optional legacy skip), Python compilation and JS syntax pass. Chrome 375/1440 pagination and empty-filter interactions pass with synthetic fixtures; external assets blocked. Full local corpus default payload 12,708 bytes below 250 KiB, 6,271 fixtures; cold/warm 2589.6/2078.34 ms. Evidence docs/audit/match-listing-2026-10-28.json. Exact-ID deduplication and explicit team aliases only; cross-provider identity matching deferred T017. Existing data untouched; T006 addresses parsing latency. Branch chained from work/t004-api-validation, per session override. Rollback requires paired API/frontend release.

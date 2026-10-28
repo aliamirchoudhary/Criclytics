@@ -1,0 +1,38 @@
+{
+  "measurements": [
+    {
+      "mode": "cold_process",
+      "bytes": 12708,
+      "milliseconds": 2589.6,
+      "total": 6271
+    },
+    {
+      "mode": "warm_process",
+      "bytes": 12708,
+      "milliseconds": 2078.34,
+      "total": 6271
+    },
+    {
+      "mode": "detail",
+      "bytes": 679,
+      "milliseconds": 1769.22
+    }
+  ],
+  "browser": [
+    {
+      "width": 375,
+      "first": "match-detail.html?id=9",
+      "second": "match-detail.html?id=23",
+      "filter_empty": true,
+      "page_errors": []
+    },
+    {
+      "width": 1440,
+      "first": "match-detail.html?id=9",
+      "second": "match-detail.html?id=23",
+      "filter_empty": true,
+      "page_errors": []
+    }
+  ],
+  "limitations": "Cold process is not an OS disk-cache flush. Browser uses synthetic fixtures; external resources blocked."
+}

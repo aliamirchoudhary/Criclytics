@@ -451,7 +451,7 @@ async function renderRecentResults(teamName) {
   var subTitle = recentCard.querySelector('.sub-title');
   var subHtml = subTitle ? subTitle.outerHTML : '<div class="sub-title"><i class="fa fa-clock-rotate-left"></i> Recent Results</div>';
 
-  const data = await apiFetch('/api/matches');
+  const data = await apiFetch('/api/matches?status=completed&limit=4&team=' + encodeURIComponent(teamName));
   const allMatches = (data && data.data) ? data.data : [];
 
   const completed = allMatches.filter(function(m) {

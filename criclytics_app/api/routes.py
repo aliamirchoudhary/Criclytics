@@ -775,10 +775,8 @@ def get_matches():
     completed_data = load_processed("completed_matches.json")
     completed = (completed_data or {}).get("data") or []
 
-    # Merge all matches
-    all_matches = live_upcoming + completed
-
-    return jsonify({"data": all_matches})
+    from criclytics_app.services.match_listing import listing
+    return jsonify(listing(live_upcoming, completed, request.args))
 
 
 @bp.route("/api/matches/<match_id>")

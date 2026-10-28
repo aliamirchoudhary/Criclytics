@@ -14,12 +14,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     return;
   }
 
-  // Find match in /api/matches
-  var match = null;
-  var data = await apiFetch('/api/matches');
-  if (data && data.data) {
-    match = data.data.find(function(m) { return String(m.id) === String(matchId); });
-  }
+  var data = await apiFetch('/api/matches/' + encodeURIComponent(matchId));
+  var match = data && data.data;
   if (!match) {
     var liveData = await apiFetch('/api/live');
     if (liveData && liveData.data) {

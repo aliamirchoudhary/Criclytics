@@ -224,9 +224,9 @@ function _rg(g){
   var s=_ms[g]||{},all=s.matches||[],sc=s.statusClass||'',msg=s.emptyMsg||'No matches.';
   var pg=_ps[g]||1,lbl=grp.querySelector('.match-group-label'),lh=lbl?lbl.outerHTML:'';
   if(!all.length){grp.innerHTML=lh+'<div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:.88rem;"><i class="fa fa-calendar-xmark" style="font-size:1.5rem;display:block;margin-bottom:.5rem;opacity:.4;"></i>'+esc(msg)+'</div>';return;}
-  var tot=Math.ceil(all.length/_PSZ);pg=Math.max(1,Math.min(pg,tot));_ps[g]=pg;
+  var tot=Math.ceil((s.serverTotal == null ? all.length : s.serverTotal)/_PSZ);pg=Math.max(1,Math.min(pg,tot));_ps[g]=pg;
   var dl=['','delay-1','delay-2','delay-3','delay-4','delay-5'];
-  var sl=all.slice((pg-1)*_PSZ,pg*_PSZ);
+  var sl=s.serverTotal == null ? all.slice((pg-1)*_PSZ,pg*_PSZ) : all;
   var cards=sl.map(function(m,i){return buildMatchCard(m,sc,dl[i%dl.length]);}).join('');
   var pag='';
   if(tot>1){
@@ -245,6 +245,7 @@ document.addEventListener('click',function(e){
   if(!btn||btn.classList.contains('disabled')||btn.style.pointerEvents==='none')return;
   var g=btn.dataset.group,p=parseInt(btn.dataset.page,10);
   if(!g||isNaN(p))return;
+  if (g !== 'group-live') { loadFixturePage(g.replace('group-', ''), p); return; }
   _ps[g]=p;_rg(g);
   var el=document.getElementById(g);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
 });
@@ -280,83 +281,38 @@ async function loadLive() {
     liveLabel.innerHTML = '<span style="width:7px;height:7px;background:var(--green-live);border-radius:50%;display:inline-block;margin-right:6px;animation:pulse-dot 1.2s infinite;"></span>Live Now (' + matches.length + ')';
   }
 
-  applyMatchFiltersAndSort();
 }
 
 // ── Load upcoming + completed ─────────────────────────────────────────────────
+var fixtureEpoch = 0;
+async function loadFixturePage(status, page) {
+  var group = 'group-' + status;
+  var epoch = fixtureEpoch;
+  var active = document.querySelector('.filter-chip.active');
+  var fmt = active ? active.dataset.format : 'all';
+  var team = document.getElementById('matches-team-filter');
+  var sort = document.getElementById('matches-sort-filter');
+  var params = new URLSearchParams({status:status,limit:10,offset:(page-1)*10,
+    sort:sort && sort.value === 'oldest' ? 'oldest' : sort && sort.value === 'format' ? 'format' : status === 'upcoming' ? 'oldest' : 'newest'});
+  if (fmt === 'ipl') params.set('competition', 'ipl');
+  if (fmt && fmt !== 'all' && fmt !== 'ipl') params.set('format', {t20:'T20I',odi:'ODI',test:'Test'}[fmt] || 'T20');
+  if (team && team.value) params.set('team', team.value);
+  var data = await apiFetch('/api/matches?' + params);
+  if (epoch !== fixtureEpoch) return;
+  var rows = data && data.data || [];
+  var total = data && data.pagination ? data.pagination.total : 0;
+  injectCards(group, rows, 'is-' + status, data ? 'No matches found.' : 'Match data unavailable.');
+  _ms[group].serverTotal = total;
+  _ps[group] = page;
+  _rg(group);
+  var pill = document.querySelector('.status-tab[data-status="' + status + '"] .count-pill');
+  if (pill) pill.textContent = total;
+}
 async function loadFixtures() {
-  const data = await apiFetch('/api/matches');
-  if (!data || !data.data || !data.data.length) {
-    // Show fallback message in upcoming and completed groups
-    ['group-upcoming','group-completed'].forEach(function(id) {
-      const g = document.getElementById(id);
-      if (!g) return;
-      const label = g.querySelector('.match-group-label');
-      const labelHtml = label ? label.outerHTML : '';
-      g.innerHTML = labelHtml + '<div style="padding:2rem;text-align:center;color:var(--text-muted);font-size:0.88rem;background:var(--surface-1);border:1px solid var(--border);border-radius:var(--radius-lg);">'
-        + '<i class="fa fa-calendar-xmark" style="font-size:1.5rem;display:block;margin-bottom:0.75rem;opacity:0.4;"></i>'
-        + 'Match data is unavailable. Run <code>python app.py</code> to start the server.</div>';
-    });
-    return;
-  }
-
-  const allMatches = data.data;
-
-  if (!allMatches.length) {
-    // Fallback dummy matches
-    const dummyMatches = [{
-      id: 'dummy2',
-      name: 'England vs South Africa, 1st ODI, England tour of South Africa 2026',
-      matchType: 'odi',
-      status: 'Match starts at Apr 20, 10:00 GMT',
-      venue: 'Newlands, Cape Town',
-      date: '2026-04-20',
-      dateTimeGMT: '2026-04-20T10:00:00',
-      teams: ['England', 'South Africa'],
-      teamInfo: [
-        {name: 'England', shortname: 'ENG', img: 'https://g.cricapi.com/iapi/1-637877074931980375.webp?w=48'},
-        {name: 'South Africa', shortname: 'SA', img: 'https://g.cricapi.com/iapi/3-637877074931980375.webp?w=48'}
-      ],
-      series_id: 'dummy2',
-      matchStarted: false,
-      matchEnded: false
-    }];
-    injectCards('group-upcoming', dummyMatches, 'is-upcoming', 'No upcoming matches.');
-    injectCards('group-completed', [], 'is-completed', 'No completed matches.');
-    return;
-  }
-
-  const upcoming  = allMatches.filter(function(m) { return classifyMatch(m) === 'upcoming'; });
-  const completed = allMatches.filter(function(m) { return classifyMatch(m) === 'completed'; });
-  const live      = allMatches.filter(function(m) { return classifyMatch(m) === 'live'; });
-
-  upcoming.sort(function(a, b) { return getMatchDateValue(a) - getMatchDateValue(b); });
-  completed.sort(function(a, b) { return getMatchDateValue(b) - getMatchDateValue(a); });
-
-  // Update count pills on status tabs
-  const upcomingPill = document.querySelector('.status-tab[data-status="upcoming"] .count-pill');
-  const completedPill = document.querySelector('.status-tab[data-status="completed"] .count-pill');
-  if (upcomingPill)  upcomingPill.textContent  = upcoming.length;
-  if (completedPill) completedPill.textContent = completed.length;
-
-  if (upcoming.length)  injectCards('group-upcoming',  upcoming, 'is-upcoming',  'No upcoming matches scheduled.');
-  else                  injectCards('group-upcoming',  [], 'is-upcoming', 'No upcoming matches found.');
-
-  if (completed.length) injectCards('group-completed', completed, 'is-completed', 'No recent results.');
-  else                  injectCards('group-completed', [], 'is-completed', 'No recent results found.');
-  // Also inject live if live group wasn't filled by loadLive
-  if (live.length) {
-    const liveGroup = document.getElementById('group-live');
-    const liveLabel = liveGroup && liveGroup.querySelector('.match-group-date');
-    if (liveLabel && liveLabel.textContent.includes('No live')) {
-      injectCards('group-live', live.slice(0, 6), 'is-live', 'No live matches.');
-    }
-  }
-
-  applyMatchFiltersAndSort();
+  fixtureEpoch++;
+  await Promise.all([loadFixturePage('upcoming', 1), loadFixturePage('completed', 1)]);
 }
 
-// ── Load series sidebar ───────────────────────────────────────────────────────
 async function loadSeries() {
   const data = await apiFetch('/api/series');
   // Normalize: our fixed Flask endpoint returns {data:[...]}
@@ -398,78 +354,8 @@ function isIplMatch(match) {
 }
 
 // ── Apply all filters and sorting ────────────────────────────────────────────
-function applyMatchFiltersAndSort() {
-  var formatVal = '';
-  var teamVal = '';
-  var sortVal = '';
+function applyMatchFiltersAndSort() { loadFixtures(); }
 
-  // Get active format
-  var activeFormat = document.querySelector('.filter-chip.active');
-  if (activeFormat) formatVal = (activeFormat.dataset.format || '').toLowerCase();
-
-  // Get team filter value
-  var teamSelect = document.getElementById('matches-team-filter');
-  if (teamSelect) teamVal = teamSelect.value.toLowerCase().trim();
-
-  // Get sort value
-  var sortSelect = document.getElementById('matches-sort-filter');
-  if (sortSelect) sortVal = sortSelect.value.toLowerCase();
-
-  // Process each group against full source arrays (not only currently rendered DOM cards)
-  ['group-live', 'group-upcoming', 'group-completed'].forEach(function(groupId) {
-    var state = _ms[groupId] || null;
-    if (!state || !Array.isArray(state.source)) return;
-
-    var filteredMatches = state.source.filter(function(match) {
-      var fmt = getMatchFormatKey(match);
-      var isIpl = fmt === 'ipl';
-
-      var formatMatch = formatVal === 'all' || !formatVal;
-      if (!formatMatch && formatVal) {
-        if (formatVal === 'ipl') {
-          formatMatch = isIpl;
-        } else if (formatVal === 't20') {
-          formatMatch = fmt === 't20';
-        } else if (formatVal === 'odi') {
-          formatMatch = fmt === 'odi';
-        } else if (formatVal === 'test') {
-          formatMatch = fmt === 'test';
-        }
-      }
-      if (!formatMatch) return false;
-
-      if (!teamVal) return true;
-      var t1 = String(getMatchTeamName(match, 0) || '').toLowerCase();
-      var t2 = String(getMatchTeamName(match, 1) || '').toLowerCase();
-      return t1.includes(teamVal) || t2.includes(teamVal);
-    });
-
-    if (sortVal === 'oldest') {
-      filteredMatches.sort(function(a, b) {
-        return getMatchDateValue(a) - getMatchDateValue(b);
-      });
-    } else if (sortVal === 'format') {
-      var formatOrder = {test: 0, odi: 1, t20: 2, ipl: 3};
-      filteredMatches.sort(function(a, b) {
-        var fmtA = getMatchFormatKey(a);
-        var fmtB = getMatchFormatKey(b);
-        var orderA = formatOrder[fmtA] || 99;
-        var orderB = formatOrder[fmtB] || 99;
-        if (orderA !== orderB) return orderA - orderB;
-        return getMatchDateValue(b) - getMatchDateValue(a);
-      });
-    } else {
-      // Default: newest first
-      filteredMatches.sort(function(a, b) {
-        return getMatchDateValue(b) - getMatchDateValue(a);
-      });
-    }
-
-    injectCards(groupId, filteredMatches, state.statusClass, state.emptyMsg, state.source);
-  });
-}
-
-// ── Format filter chips ───────────────────────────────────────────────────────
 function initFormatFilter() {
   // Format chips (data-format)
   document.querySelectorAll('.filter-chip[data-format]').forEach(function(chip) {

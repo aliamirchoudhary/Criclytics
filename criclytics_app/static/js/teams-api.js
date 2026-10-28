@@ -244,7 +244,7 @@ async function renderFixtures() {
   var head = fixtureCard.querySelector('.sb-head');
   var headHtml = head ? head.outerHTML : '<div class="sb-head"><i class="fa fa-calendar"></i> Upcoming Fixtures</div>';
 
-  var data = await apiFetch('/api/matches');
+  var data = await apiFetch('/api/matches?status=upcoming&sort=oldest&limit=4');
   var upcoming = (data && data.data) ? data.data.filter(function(m){ return !m.matchStarted; }).slice(0,4) : [];
 
   if (!upcoming.length) {

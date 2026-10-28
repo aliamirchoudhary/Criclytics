@@ -235,7 +235,7 @@ async function loadQuickInsights() {
 
 // ─── Upcoming Matches ─────────────────────────────────────────────────────────
 async function loadUpcoming() {
-  var data = await apiFetch('/api/matches');
+  var data = await apiFetch('/api/matches?status=upcoming&sort=oldest&limit=5');
   var allMatches = (data && data.data) ? data.data : [];
   var upcoming = allMatches.filter(function(m) { return !m.matchEnded; }).slice(0,5);
 
@@ -356,7 +356,7 @@ async function loadMiniRankings() {
 
 // ─── Recent Results ──────────────────────────────────────────────────────────
 async function loadRecentResults() {
-  var data = await apiFetch('/api/matches');
+  var data = await apiFetch('/api/matches?status=completed&limit=4');
   var allMatches = (data && data.data) ? data.data : [];
   var completed = allMatches.filter(function(m){ return m.matchEnded; }).slice(0,4);
 
