@@ -36,7 +36,14 @@ def rebuild(raw_dir, output, previous=None, limit=None):
     inputs, rejected, completed, normalized = [], [], [], []
     accumulators = legacy.build_raw_accumulators([])
     outcomes = Counter()
+    coverage_formats, coverage_gender = Counter(), Counter()
+    coverage_dates = []
     paths = [(p, fmt) for folder, fmt in FORMATS.items() for p in sorted((raw_dir / folder).glob('*.json'))]
+    selected_paths = {p for p, _ in (paths[:limit] if limit is not None else paths)}
+    inventory = sorted(raw_dir.rglob('*.json'))
+    supported = {p for p, _ in paths}
+    excluded = [{'path':p.relative_to(raw_dir).as_posix(), 'reason':'subset_limit' if p in supported else 'unsupported_directory'}
+                for p in inventory if p not in selected_paths]
     if limit is not None:
         paths = paths[:limit]
     for path, fmt in paths:
@@ -68,6 +75,9 @@ def rebuild(raw_dir, output, previous=None, limit=None):
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             completed.extend(legacy.build_completed_matches([match]))
         outcomes[info['outcome'].get('result') or 'win'] += 1
+        coverage_formats[fmt] += 1
+        coverage_gender[info['gender']] += 1
+        coverage_dates.extend(str(d) for d in info['dates'])
     if not completed:
         raise ValueError('No valid matches; incomplete candidate is not publishable')
     old_output = legacy.OUT_DIR
@@ -109,10 +119,24 @@ def rebuild(raw_dir, output, previous=None, limit=None):
                         'Regulation totals exclude super overs; draws/ties/no-results remain distinct.',
                         'Candidate is not automatically promoted to serving.']}
     atomic_json(output / 'difference_report.json', report)
-    manifest = {'schema_version': '2.0.1', 'scoring_contract': 'docs/SCORING_CONTRACT.md',
+    registry_path = Path(__file__).with_name('source_registry.json')
+    registry = json.loads(registry_path.read_text(encoding='utf-8'))
+    coverage = {'source':'cricsheet-json','scope':'available mens international subset; not complete careers',
+                'accepted_matches':count,'selected_inputs':len(inputs),'inventory_files':len(inventory),
+                'rejected_files':len(rejected),'excluded_files':len(excluded),'formats':dict(coverage_formats),
+                'genders':dict(coverage_gender),'first_match_date':min(coverage_dates),'last_match_date':max(coverage_dates),
+                'data_cutoff':max(coverage_dates),'cutoff_kind':'latest match date, not historical publication availability',
+                'observed_at':None,'published_at':None,'subset_limit':limit,
+                'attribution':registry['sources'][0]['attribution'],'license':'ODC-BY-1.0',
+                'license_url':registry['sources'][0]['license_url'],'registry_version':registry['version']}
+    atomic_json(output / 'coverage.json', coverage)
+    manifest = {'manifest_version':1,'inventory_files':len(inventory),'excluded':excluded,
+                'source_registry_sha256':digest(registry_path),'schema_version': '2.0.1', 'scoring_contract': 'docs/SCORING_CONTRACT.md',
                 'inputs': inputs, 'original_artifacts': before,
                 'code_sha256': code_hashes,
                 'outputs': {p.name: digest(p) for p in sorted(output.glob('*.json'))}}
+    from .artifacts import identity
+    manifest['dataset_id'] = identity(manifest)
     atomic_json(output / 'manifest.json', manifest)
     return report
 

@@ -26,7 +26,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 | T012 | work/t012-frontend-runtime | e30684e | Explicit runtime origin, single initialization, enforced CSP;43tests42pass/one skip;85browser cases plus races/retries/preview checks pass |
 
 | T013 | No implementation branch | None | Blocked by deferred T001 operator rotations/production verification |
-| T014 | work/t014-safe-diagnostics | Local branch tip | Honest health/readiness, bounded redacted telemetry;46tests45pass/one skip;20request resource sample |
+| T014 | work/t014-safe-diagnostics | 8d61bda | Honest health/readiness, bounded redacted telemetry;46tests45pass/one skip;20request resource sample |
+
+| T015 | work/t015-dataset-manifests | Local branch tip | Rights registry, full6651 manifest/coverage, validated retained promotion/restore;47tests46pass/one skip and coverage UI checks pass |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain
@@ -62,3 +64,5 @@ rejections retained separately to explain the narrow migration. No promotion.
 Execution stopped after T011 at the user's request, then resumed with T012 on explicit instruction to continue. T011 page/action inventory and browser limitations: UI_ACCEPTANCE.md. Local commits only; no push, merge or deployment.
 
 Resumed: T012 uses work/t012-frontend-runtime from a3d445a. T013 remains gated by T001 operator credential/production verification; independent T014 is next once T012 checks finish. No account credentials requested again.
+
+T015 candidate build/data-v3-manifest-final supersedes prior candidates for manifest/coverage support. Verified isolated store build/t015-store; default serving remains legacy. Coverage begins2001-12-19 after recovered non-win outcomes (old win-only audit began2002). No private/source artifacts published.

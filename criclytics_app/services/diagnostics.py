@@ -51,6 +51,7 @@ def readiness(app):
     entry=cache.entry('matches.json')
     age=max(0,int(cache.clock()-entry['written_at'])) if entry else None
     return {'ready':ready,'status':'ready' if ready else 'not_ready','required_artifacts':states,
+            'dataset_id':manifest.get('dataset_id') if isinstance(manifest,dict) else None,
             'dataset_schema_version':version,'model':{'available':False,'version':None},
             'optional_feed':{'enabled':bool(app.config['LIVE_FETCH_ENABLED']),'available':entry is not None,
                              'snapshot_age_seconds':age,'state':'degraded' if entry is None or age>120 else 'cached'},

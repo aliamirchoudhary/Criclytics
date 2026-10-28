@@ -970,3 +970,14 @@ def predict_leaderboard():
 @bp.route('/api/predict/status')
 def predict_status():
     return unavailable_prediction(engine_active=False)
+
+
+@bp.get('/api/coverage')
+def dataset_coverage():
+    from ..services.repository import safe_file
+    coverage = current_app.extensions['json_repository'].read(safe_file(PROCESSED_DIR,'coverage.json'))
+    if not coverage:
+        return jsonify({'available':False,'dataset_id':None,'data_cutoff':None,
+                        'scope':'Legacy historical subset; exact coverage metadata unavailable'})
+    manifest = current_app.extensions['json_repository'].read(safe_file(PROCESSED_DIR,'manifest.json')) or {}
+    return jsonify({'available':True,'dataset_id':manifest.get('dataset_id'),**coverage})

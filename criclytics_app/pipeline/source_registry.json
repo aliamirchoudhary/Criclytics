@@ -1,0 +1,60 @@
+{
+  "version": "2026-10-28",
+  "reviewed_at": "2026-10-28",
+  "sources": [
+    {
+      "id": "cricsheet-json",
+      "family": "historical deliveries and derived aggregates",
+      "rights": "allowed_with_attribution",
+      "license": "ODC-BY-1.0",
+      "terms": "https://cricsheet.org/licensing/",
+      "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+      "attribution": "Derived from Cricsheet JSON match data; modified statistical aggregates by Criclytics.",
+      "redistribution": "Preserve source/license notices and attribution; no endorsement. Independent image/personality/trademark rights are not granted.",
+      "updates": "Manual bounded downloads; retain source hashes; not a live feed."
+    },
+    {
+      "id": "cricsheet-register",
+      "family": "people and venue identity metadata",
+      "rights": "allowed_with_attribution",
+      "license": "ODC-BY-1.0",
+      "terms": "https://cricsheet.org/register/",
+      "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+      "attribution": "Cricsheet People and Venue Registers.",
+      "redistribution": "Attribute and preserve notices. Provider identifiers do not license provider content.",
+      "updates": "Optional explicit offline import; no scraping."
+    },
+    {
+      "id": "icc-rankings",
+      "family": "rankings and ICC images",
+      "rights": "not_cleared_for_public_reuse",
+      "terms": "https://www.icc-cricket.com/about/the-icc/legal-notices/website-terms-of-use",
+      "redistribution": "Website terms reserve rights and restrict commercial use without licence; cached snapshots are not proof of permission.",
+      "updates": "No automated collector; public release requires clearance or removal."
+    },
+    {
+      "id": "cricapi",
+      "family": "provider fixtures/live scorecards",
+      "rights": "unverified",
+      "terms": "https://cricketdata.org/",
+      "redistribution": "Account-specific display/redistribution, no-card quota and retention terms not verified.",
+      "updates": "Disabled by default; T016 must gate access."
+    },
+    {
+      "id": "rapidapi",
+      "family": "provider live metadata",
+      "rights": "unverified",
+      "terms": "https://rapidapi.com/terms",
+      "redistribution": "Marketplace access is not a blanket data redistribution licence; provider-specific review required.",
+      "updates": "No collector enabled."
+    },
+    {
+      "id": "legacy-reference",
+      "family": "curated biographies, images, logos and pitch descriptions",
+      "rights": "unverified",
+      "terms": null,
+      "redistribution": "No source evidence for all legacy fields; exclude from new verified dataset promotion and do not infer licence from historical data.",
+      "updates": "Preserve originals privately; clearance or replacement required."
+    }
+  ]
+}

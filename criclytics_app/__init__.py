@@ -23,6 +23,7 @@ def create_app(config=None):
         REDIS_URL=os.getenv("REDIS_URL", ""),
         LIVE_FETCH_ENABLED=os.getenv("LIVE_FETCH_ENABLED", "0") == "1",
         INITIALIZE_ENGINE=False,
+        DATASET_STORE=os.getenv("DATASET_STORE", ""),
         FRONTEND_API_BASE=os.getenv("FRONTEND_API_BASE", ""),
         MAX_CONTENT_LENGTH=64 * 1024,
         CORS_ORIGINS=[s.strip() for s in os.getenv(
@@ -31,6 +32,9 @@ def create_app(config=None):
     )
     if config:
         app.config.update(config)
+    if app.config["DATASET_STORE"]:
+        from .pipeline.artifacts import selected
+        app.config["PROCESSED_DIR"] = str(selected(app.config["DATASET_STORE"]))
     from .frontend import api_base
     app.config["FRONTEND_API_BASE"] = api_base(app.config["FRONTEND_API_BASE"])
     from .services.diagnostics import Diagnostics, register as register_diagnostics

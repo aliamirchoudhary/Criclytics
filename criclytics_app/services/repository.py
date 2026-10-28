@@ -61,7 +61,8 @@ class JsonRepository:
         if not snapshot or snapshot[0] != (stat.st_mtime_ns,stat.st_size):
             return {'state':'invalid','last_good':snapshot is not None}
         data = snapshot[1]
-        valid = isinstance(data,dict) and bool(data)
+        valid = isinstance(data,dict)
+        if path.name == 'players_index.json':valid = valid and bool(data)
         if path.name == 'completed_matches.json':
             valid = valid and isinstance(data.get('data'),list) and bool(data['data'])
         return {'state':'valid' if valid else 'invalid','last_good':False,'bytes':stat.st_size}

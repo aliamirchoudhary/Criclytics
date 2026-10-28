@@ -2,8 +2,10 @@
 
 `GET /api/health` is process liveness, independent of datasets/providers.
 `GET /api/ready` and the compatible `/api/status` URL return200 only when all13
-required processed JSON artifacts have valid nonempty roots (completed matches
-also requires a nonempty data array). Missing or malformed replacements return503,
+required processed JSON artifacts have valid object roots (player index and
+completed matches must be nonempty; the latter requires a nonempty data array).
+T015 golden subset review established that auxiliary venue bowling tables can
+legitimately be empty when no qualifying bowling observations exist. Missing or malformed replacements return503,
 even if the repository retains last-good serving data. These are structural
 readiness checks, not statistical validation or full artifact hash verification.
 Promotion/hash checks belong to T015. Optional live-feed absence/degradation never

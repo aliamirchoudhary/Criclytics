@@ -203,3 +203,14 @@ recognizes malformed replacement generations despite retaining last-good data.
 Request logs use generated IDs and endpoint names, never raw URLs or bodies.
 Offline tools.diagnostics measures local memory/payload/latency with live access
 disabled. See DIAGNOSTICS.md for limits and the public status contract migration.
+
+## T015 immutable datasets
+
+Rebuilds emit manifest version1 plus coverage/source licence metadata and a
+deterministic dataset identity. pipeline.artifacts validates JSON allowlist,
+hashes, schema roots and inventory accounting, then retains immutable versions
+and selects one via atomic pointer under a local SQLite promotion lock. Optional
+DATASET_STORE pins the validated selection at app startup; legacy data remains
+selected when unset. /api/coverage and UI expose only public coverage metadata.
+Publication availability is unknown, distinct from the latest match-date cutoff.
+See DATASETS.md and pipeline/source_registry.json for rights, retention and restore.

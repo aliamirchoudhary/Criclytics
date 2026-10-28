@@ -2,87 +2,87 @@
   "checks": [
     {
       "page": "about.html",
-      "requests": 0,
+      "requests": 1,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "compare.html",
-      "requests": 1,
-      "duplicate_initialization_requests": 0
-    },
-    {
-      "page": "data-sources.html",
-      "requests": 0,
-      "duplicate_initialization_requests": 0
-    },
-    {
-      "page": "disclaimer.html",
-      "requests": 0,
-      "duplicate_initialization_requests": 0
-    },
-    {
-      "page": "index.html",
       "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
-      "page": "match-detail.html",
+      "page": "data-sources.html",
       "requests": 1,
+      "duplicate_initialization_requests": 0
+    },
+    {
+      "page": "disclaimer.html",
+      "requests": 1,
+      "duplicate_initialization_requests": 0
+    },
+    {
+      "page": "index.html",
+      "requests": 3,
+      "duplicate_initialization_requests": 0
+    },
+    {
+      "page": "match-detail.html",
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "match-upcoming.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "matches.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "player-profile.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "players.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "rankings.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "records.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "search.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "team-profile.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "teams.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "venue-profile.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
       "page": "venues.html",
-      "requests": 1,
+      "requests": 2,
       "duplicate_initialization_requests": 0
     },
     {
@@ -97,6 +97,7 @@
       "preview": "https://preview.example.test",
       "configured_api": "https://api.example.test",
       "requests": [
+        "https://api.example.test/api/coverage",
         "https://api.example.test/api/matches?status=completed&limit=4",
         "https://api.example.test/api/matches?status=upcoming&sort=oldest&limit=4"
       ]
@@ -105,6 +106,7 @@
       "preview": "https://production.example.test",
       "configured_api": "https://api.example.test",
       "requests": [
+        "https://api.example.test/api/coverage",
         "https://api.example.test/api/matches?status=completed&limit=4",
         "https://api.example.test/api/matches?status=upcoming&sort=oldest&limit=4"
       ]
@@ -113,6 +115,7 @@
       "preview": "http://localhost:3000",
       "configured_api": "same-origin",
       "requests": [
+        "http://localhost:3000/api/coverage",
         "http://localhost:3000/api/matches?status=completed&limit=4",
         "http://localhost:3000/api/matches?status=upcoming&sort=oldest&limit=4"
       ]

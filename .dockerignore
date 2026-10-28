@@ -17,3 +17,6 @@ tickets/
 dist/
 data/raw/
 *.log
+
+data/datasets/
+data/live/

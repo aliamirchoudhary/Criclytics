@@ -1,0 +1,78 @@
+{
+  "dataset_id": "e6dce5850e36a851f95537e702fc9f782fe26f0dd98c15448b2a767c0f4c2da3",
+  "manifest_sha256": "e5b59d64e65d1b03afb4fccdbf3575b01ef16fa239611449b248ea78a9196c04",
+  "coverage": {
+    "source": "cricsheet-json",
+    "scope": "available mens international subset; not complete careers",
+    "accepted_matches": 6651,
+    "selected_inputs": 6651,
+    "inventory_files": 6651,
+    "rejected_files": 0,
+    "excluded_files": 0,
+    "formats": {
+      "Test": 877,
+      "ODI": 2520,
+      "T20I": 3254
+    },
+    "genders": {
+      "male": 6651
+    },
+    "first_match_date": "2001-12-19",
+    "last_match_date": "2026-04-10",
+    "data_cutoff": "2026-04-10",
+    "cutoff_kind": "latest match date, not historical publication availability",
+    "observed_at": null,
+    "published_at": null,
+    "subset_limit": null,
+    "attribution": "Derived from Cricsheet JSON match data; modified statistical aggregates by Criclytics.",
+    "license": "ODC-BY-1.0",
+    "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+    "registry_version": "2026-10-28"
+  },
+  "output_hashes_valid": {
+    "completed_matches.json": true,
+    "coverage.json": true,
+    "difference_report.json": true,
+    "h2h.json": true,
+    "player_venues.json": true,
+    "player_vs_opp.json": true,
+    "player_yearly.json": true,
+    "players_index.json": true,
+    "records.json": true,
+    "team_format_stats.json": true,
+    "team_venue_stats.json": true,
+    "venue_batters.json": true,
+    "venue_bowlers.json": true,
+    "venue_insights.json": true,
+    "venue_stats.json": true
+  },
+  "pipeline_hashes_valid": {
+    "__init__.py": true,
+    "aggregation.py": true,
+    "artifacts.py": true,
+    "cricsheet.py": true,
+    "rebuild.py": true,
+    "reference.py": true,
+    "schema.py": true,
+    "scoring.py": true
+  },
+  "inventory_files": 6651,
+  "selected_files": 6651,
+  "excluded_files": 0,
+  "local_promotion_verified": true,
+  "restore_drill": "Portable golden test promotes two versions, restores first, rejects corruption with unchanged pointer.",
+  "ui": [
+    {
+      "width": 375,
+      "text": "available mens international subset; not complete careers. Matches: 6651. Coverage: 2001-12-19 to 2026-04-10. Cutoff is the latest match date, not proof of historical publication time. Derived from Cricsheet (ODC-BY-1.0).",
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "text": "available mens international subset; not complete careers. Matches: 6651. Coverage: 2001-12-19 to 2026-04-10. Cutoff is the latest match date, not proof of historical publication time. Derived from Cricsheet (ODC-BY-1.0).",
+      "errors": []
+    }
+  ],
+  "default_serving_changed": false,
+  "deployed": false
+}

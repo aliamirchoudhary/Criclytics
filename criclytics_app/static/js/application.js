@@ -305,6 +305,16 @@
     } else content.append(node('p', 'Historical counts describe observed matches, not complete careers or guarantees about future performance. Missing values are displayed as unavailable. A snapshot of an in-progress match is not a verified real-time feed.'));
     prediction(content); app.replaceChildren(content);
   }
+  async function loadCoverage() {
+    try {
+      const data = await request('/api/coverage');
+      if (!data.available) return;
+      const target = document.querySelector('.ui-coverage');
+      target.textContent = data.scope + '. Matches: ' + data.accepted_matches +
+        '. Coverage: ' + data.first_match_date + ' to ' + data.last_match_date +
+        '. Cutoff is the latest match date, not proof of historical publication time. Derived from Cricsheet (ODC-BY-1.0).';
+    } catch (_) { /* Keep the existing honest unknown-coverage notice. */ }
+  }
   async function init() {
     const navigation = document.querySelector('.ui-navigation');
     if (matchMedia('(min-width:1100px)').matches) navigation.open = true;
@@ -315,5 +325,6 @@
     try { await handlers[page](); } catch (error) { state(app, error.kind || 'error', init); }
     app.setAttribute('aria-busy', 'false');
   }
+  loadCoverage();
   init();
 }());
