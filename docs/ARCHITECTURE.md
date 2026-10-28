@@ -224,3 +224,13 @@ allowlist is empty. Real feed lag/coverage/corrections remain unmeasured.
 LIVE_FEASIBILITY.md records primary terms, no-card/quota decisions and synthetic
 experiments, including current restrictions on creating new HF compute Spaces.
 Preserve existing resources; do not assume a new free Docker backend is available.
+
+## T017 stable identity registry
+
+Offline pipeline.identities binds source/register IDs and alias sets to one dataset.
+Optional IDENTITY_REGISTRY is validated against dataset_id at startup. Identity
+metadata APIs and selected profile/list/summary IDs coexist with legacy name URLs;
+ambiguous names return409. Name-keyed multi-label aggregates are not silently
+combined. Explicit reviewed match maps deduplicate canonical identity while
+retaining original IDs/source references; unknown joins stay separate. See
+IDENTITIES.md for provisional venue/team IDs, observed memberships and limits.

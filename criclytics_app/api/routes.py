@@ -3,6 +3,7 @@ import json
 import os
 import re
 from datetime import datetime
+from werkzeug.exceptions import Conflict
 from flask import Blueprint, current_app, jsonify, request
 from ..services.legacy import (
     BASE_DIR,
@@ -103,6 +104,11 @@ def get_players():
             meta_map = json.load(mf)
 
     for p in players:
+        try:
+            identity = current_app.extensions["identity_registry"].resolve("player",p["name"])
+            if identity:p["identity_id"] = identity["id"]
+        except Conflict:
+            p["identity_status"] = "ambiguous"
         m = meta_map.get(p["name"], {})
         if m:
             p["country"]   = m.get("country", "")
@@ -121,7 +127,8 @@ def get_players():
 
 @bp.route("/api/players/<player_name>")
 def get_player(player_name):
-    """Full profile for one player by name."""
+    """Full profile by recorded name, explicit alias or stable identifier."""
+    player_name, identity_id = current_app.extensions["identity_registry"].source_name("player",player_name)
     data = load_processed("players_index.json")
     if data is None:
         return jsonify({"error": "Data not found"}), 500
@@ -133,6 +140,7 @@ def get_player(player_name):
         for key, val in data.items():
             if key.lower() == name_lower:
                 player = val
+                player_name = key
                 break
 
     if not player:
@@ -144,6 +152,7 @@ def get_player(player_name):
     vs_opp  = load_processed("player_vs_opp.json") or {}
     venues  = load_processed("player_venues.json") or {}
 
+    if identity_id:player["identity_id"] = identity_id
     player["yearly"]     = yearly.get(player_name, {})
     player["vs_opp"]     = vs_opp.get(player_name, {})
     player["at_venues"]  = venues.get(player_name, {})
@@ -163,6 +172,7 @@ def get_teams():
 @bp.route("/api/teams/<team_name>")
 def get_team(team_name):
     """Full profile for one team."""
+    team_name, identity_id = current_app.extensions["identity_registry"].source_name("team",team_name)
     fmt_stats   = load_processed("team_format_stats.json") or {}
     venue_stats = load_processed("team_venue_stats.json") or {}
     h2h         = load_processed("h2h.json") or {}
@@ -201,6 +211,7 @@ def get_team(team_name):
             }
 
     return jsonify({
+        **({"identity_id":identity_id} if identity_id else {}),
         "name":          team_name,
         "format_stats":  team_data,
         "venue_stats":   venue_stats.get(team_name, {}),
@@ -225,31 +236,24 @@ def get_venues():
 @bp.route("/api/venues/<path:venue_name>")
 def get_venue(venue_name):
     """Full profile for one venue."""
+    venue_name, identity_id = current_app.extensions["identity_registry"].source_name("venue",venue_name)
     stats    = load_processed("venue_stats.json") or {}
     batters  = load_processed("venue_batters.json") or {}
     bowlers  = load_processed("venue_bowlers.json") or {}
 
     venue = stats.get(venue_name)
     if not venue:
-        query_key = normalize_name(venue_name)
-        for key in stats:
-            if normalize_name(key) == query_key:
-                venue = stats[key]
-                venue_name = key
-                break
-
-    if not venue:
-        query_key = normalize_name(venue_name)
-        for key in stats:
-            if query_key and query_key in normalize_name(key):
-                venue = stats[key]
-                venue_name = key
-                break
+        candidates=[name for name in stats if normalize_name(name)==normalize_name(venue_name)]
+        if len(candidates)>1:
+            from werkzeug.exceptions import Conflict
+            raise Conflict('Ambiguous venue name; use a stable identity identifier')
+        if candidates:venue_name=candidates[0];venue=stats[venue_name]
 
     if not venue:
         # Soft-miss response to avoid noisy frontend 404s for optional context lookups.
         return jsonify({"error": f"Venue '{venue_name}' not found", "found": False}), 200
 
+    if identity_id:venue["identity_id"] = identity_id
     venue["top_batters"] = batters.get(venue_name, [])
     venue["top_bowlers"] = bowlers.get(venue_name, [])
 
@@ -474,6 +478,7 @@ def compare_players():
     data = load_processed("players_index.json") or {}
 
     def find_player(name):
+        name, _ = current_app.extensions["identity_registry"].source_name("player",name)
         p = data.get(name)
         if not p:
             nl = name.lower()
@@ -787,7 +792,7 @@ def get_matches():
 
     from criclytics_app.services.match_listing import listing
     from ..services.provenance import metadata
-    result = listing(live_upcoming, completed, request.args)
+    result = listing(live_upcoming, completed, request.args, current_app.extensions["identity_registry"])
     result['provenance'] = metadata(data or cached)
     result['provenance']['historical_source'] = 'cricsheet_legacy_processed'
     return jsonify(result)
@@ -981,3 +986,14 @@ def dataset_coverage():
                         'scope':'Legacy historical subset; exact coverage metadata unavailable'})
     manifest = current_app.extensions['json_repository'].read(safe_file(PROCESSED_DIR,'manifest.json')) or {}
     return jsonify({'available':True,'dataset_id':manifest.get('dataset_id'),**coverage})
+
+
+@bp.get('/api/identities/<kind>/<identifier>')
+def identity_record(kind,identifier):
+    from werkzeug.exceptions import BadRequest, NotFound, ServiceUnavailable
+    if kind not in ('player','team','venue','match'):raise BadRequest('Unsupported identity kind')
+    registry=current_app.extensions['identity_registry']
+    if not registry.data:raise ServiceUnavailable('Identity registry unavailable for this dataset')
+    item=registry.resolve(kind,identifier)
+    if not item:raise NotFound('Identity not found')
+    return jsonify({'dataset_id':registry.data['dataset_id'],'identity':item})

@@ -310,7 +310,7 @@
       const data = await request('/api/coverage');
       if (!data.available) return;
       const target = document.querySelector('.ui-coverage');
-      target.textContent = data.scope + '. Matches: ' + data.accepted_matches +
+      target.textContent = 'Name-keyed historical aggregates remain under review; ambiguous identities are unavailable. ' + data.scope + '. Matches: ' + data.accepted_matches +
         '. Coverage: ' + data.first_match_date + ' to ' + data.last_match_date +
         '. Cutoff is the latest match date, not proof of historical publication time. Derived from Cricsheet (ODC-BY-1.0).';
     } catch (_) { /* Keep the existing honest unknown-coverage notice. */ }

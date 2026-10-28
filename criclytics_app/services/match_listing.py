@@ -31,7 +31,7 @@ def summary(match, completed=False):
     return result
 
 
-def listing(live, completed, args):
+def listing(live, completed, args, identities=None):
     status = args.get('status', 'all')
     order = args.get('sort', 'newest')
     if status not in ('all', 'upcoming', 'live', 'completed'):
@@ -44,7 +44,15 @@ def listing(live, completed, args):
         for match in source:
             item = summary(match, ended)
             if item['id']:
-                rows[item['id']] = item
+                canonical = identities.match(item['id'], 'cricsheet' if ended else 'cricapi') if identities else None
+                if canonical:item['identity_id']=canonical
+                identity_key = canonical or item['id']
+                if identity_key not in rows:rows[identity_key]=item
+                elif not canonical:rows[identity_key]=item
+                if canonical:
+                    refs=rows[identity_key].setdefault('source_refs',[])
+                    ref={'provider':'cricsheet' if ended else 'cricapi','id':item['id']}
+                    if ref not in refs:refs.append(ref)
     values = list(rows.values())
     if status != 'all':
         values = [m for m in values if m['listingStatus'] == status]

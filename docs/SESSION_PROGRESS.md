@@ -30,7 +30,9 @@ code tickets, per the user's instruction. All development remains $0/no card.
 
 | T015 | work/t015-dataset-manifests | 1c3b5d3 | Rights registry, full6651 manifest/coverage, validated retained promotion/restore;47tests46pass/one skip and coverage UI checks pass |
 
-| T016 | work/t016-free-feed-feasibility | Local branch tip | NO-GO external feeds; GO local replay/manual;49tests48pass/one skip; synthetic timing only, real feed proof unavailable |
+| T016 | work/t016-free-feed-feasibility | a120570 | NO-GO external feeds; GO local replay/manual;49tests48pass/one skip; synthetic timing only, real feed proof unavailable |
+
+| T017 | work/t017-stable-identities | Local branch tip | Source IDs/aliases, collision abstention, reviewed match-map tests;51tests50pass/one skip;5125 rostered IDs and68 colliding source labels |
 
 Every implemented ticket remains awaiting local review/integration. External
 acceptance is not silently marked complete. Ticket files and tickets.md contain
