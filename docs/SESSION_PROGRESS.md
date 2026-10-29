@@ -241,3 +241,25 @@ Current UI stays available at http://127.0.0.1:5050 for owner review. No push,
 merge, remote mutation, deployment, card or new service. T042 is the next ticket:
 verified $0 durable delivery/retention/restore, identity marts and serving health.
 Do not claim a remotely running job or automatic site refresh before that passes.
+
+## Pre-plan audit — 2026-10-29
+
+At the owner's request, paused roadmap implementation and audited T041 baseline
+6f7356a on new chained branch `audit/pre-plan-health-check`. Report:
+PRE_PLAN_AUDIT.md; safe evidence: audit/pre-plan-audit-2026-10-29.json.
+Twelve findings cover old CLI source-gate/logging gaps, dataset fallback, direct
+Docker context, unused assets/bindings, archived loaders, readiness, maintainability,
+media provenance, CI/release boundaries and stale operator documentation.
+
+Fresh verification: 106 tests / 105 pass / one skip; 31 locked dependencies with
+zero known advisories; Python compilation; all26 JS syntax checks; temporary
+frontend/backend staging; five local private-route404 probes. Separate offline
+browser smoke: all19 pages at375/1440px,38 cases, zero page errors/HTTP failures/
+document overflow. Fixture smoke does not constitute owner UI acceptance or
+production/live/model validation. Synthetic-only mocked probes reproduce schedule
+policy bypass, error-log credential risk and selected-data legacy fallback.
+
+Application files, original/private data, selected models, owner's5050 preview,
+credentials and hosted resources unchanged. No fixes/next-ticket implementation,
+push, merge, deployment or remote mutation. Review findings together with owner's
+UI/UX feedback before creating the next cleanup implementation batch.

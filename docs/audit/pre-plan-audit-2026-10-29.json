@@ -1,0 +1,1006 @@
+{
+  "schedule_gate": {
+    "source_allowed": false,
+    "attempted_calls": 2
+  },
+  "schedule_error_log_contains_synthetic_key": true,
+  "selected_missing_file_falls_back": {
+    "audit_legacy_fallback": true
+  },
+  "private_paths": {
+    "/.env": 404,
+    "/.git/HEAD": 404,
+    "/models/team_win_model.pkl": 404,
+    "/data/processed/records.json": 404,
+    "/docs/AUDIT.md": 404
+  },
+  "core_lint_counts": {
+    "F401": 40,
+    "F841": 10,
+    "F541": 2,
+    "F601": 4,
+    "F821": 1
+  },
+  "dependency_count": 31,
+  "largest_modules": [
+    {
+      "file": "criclytics_app/static/css/styles.css",
+      "lines": 1730
+    },
+    {
+      "file": "criclytics_app/static/css/application.css",
+      "lines": 1212
+    },
+    {
+      "file": "criclytics_app/api/routes.py",
+      "lines": 1030
+    },
+    {
+      "file": "criclytics_app/static/js/match-detail-api.js",
+      "lines": 1000
+    },
+    {
+      "file": "criclytics_app/pipeline/cricsheet.py",
+      "lines": 932
+    },
+    {
+      "file": "criclytics_app/pipeline/reference.py",
+      "lines": 825
+    },
+    {
+      "file": "criclytics_app/static/js/compare-api.js",
+      "lines": 685
+    },
+    {
+      "file": "criclytics_app/static/js/team-profile-api.js",
+      "lines": 636
+    },
+    {
+      "file": "criclytics_app/static/js/venue-profile-api.js",
+      "lines": 616
+    },
+    {
+      "file": "criclytics_app/static/js/players-api.js",
+      "lines": 594
+    },
+    {
+      "file": "criclytics_app/static/js/application.js",
+      "lines": 572
+    },
+    {
+      "file": "criclytics_app/static/js/player-profile-api.js",
+      "lines": 531
+    }
+  ],
+  "date": "2026-10-29",
+  "baseline_commit": "6f7356a",
+  "branch": "audit/pre-plan-health-check",
+  "scope": "audit only; no application changes or remote operations",
+  "tests": {
+    "run": 106,
+    "passed": 105,
+    "skipped": 1
+  },
+  "python_compilation": "passed",
+  "javascript": {
+    "checked": 26,
+    "failures": []
+  },
+  "builds": {
+    "frontend_pages": 19,
+    "frontend_files": 170,
+    "backend_files": 248,
+    "private_artifacts_in_staged_backend": []
+  },
+  "browser": {
+    "scope": "offline fixture smoke; separate local server; third-party traffic blocked; not owner preview acceptance",
+    "cases": [
+      {
+        "page": "about.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "compare.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "data-sources.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "disclaimer.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "index.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "match-detail.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "match-upcoming.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "matches.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "player-profile.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "players.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "rankings.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "classes": "ui-table"
+          },
+          {
+            "tag": "CAPTION",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          }
+        ]
+      },
+      {
+        "page": "records.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "classes": "ui-table"
+          },
+          {
+            "tag": "CAPTION",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          }
+        ]
+      },
+      {
+        "page": "scouting.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "search.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "team-profile.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "classes": "ui-table"
+          },
+          {
+            "tag": "CAPTION",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          }
+        ]
+      },
+      {
+        "page": "teams.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "venue-profile.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "venues.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "workspace.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "about.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "compare.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "data-sources.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "disclaimer.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "index.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "match-detail.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "match-upcoming.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "matches.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "player-profile.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "players.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "rankings.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "records.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "scouting.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "search.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "team-profile.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "teams.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "venue-profile.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "venues.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "workspace.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      }
+    ]
+  },
+  "unloaded_template_scripts": [
+    "compare-api.js",
+    "cricklytics.js",
+    "index-api.js",
+    "match-detail-api.js",
+    "match-upcoming-api.js",
+    "matches-api.js",
+    "ml-widgets.js",
+    "ml-wiring-addon.js",
+    "player-profile-api.js",
+    "players-api.js",
+    "rankings-api.js",
+    "records-api.js",
+    "search-api.js",
+    "security.js",
+    "team-profile-api.js",
+    "teams-api.js",
+    "venue-profile-api.js",
+    "venues-api.js"
+  ],
+  "lint": [
+    {
+      "file": "criclytics_app/api/routes.py",
+      "line": 11,
+      "code": "F401",
+      "message": "`..services.legacy.CRICAPI_KEY` imported but unused"
+    },
+    {
+      "file": "criclytics_app/api/routes.py",
+      "line": 13,
+      "code": "F401",
+      "message": "`..services.legacy.LIVE_DIR` imported but unused"
+    },
+    {
+      "file": "criclytics_app/api/routes.py",
+      "line": 27,
+      "code": "F401",
+      "message": "`..services.legacy.ml_engine` imported but unused"
+    },
+    {
+      "file": "criclytics_app/frontend.py",
+      "line": 17,
+      "code": "F841",
+      "message": "Local variable `port` is assigned to but never used"
+    },
+    {
+      "file": "criclytics_app/integrations/live.py",
+      "line": 63,
+      "code": "F541",
+      "message": "f-string without any placeholders"
+    },
+    {
+      "file": "criclytics_app/integrations/live.py",
+      "line": 64,
+      "code": "F541",
+      "message": "f-string without any placeholders"
+    },
+    {
+      "file": "criclytics_app/integrations/matches.py",
+      "line": 19,
+      "code": "F401",
+      "message": "`re` imported but unused"
+    },
+    {
+      "file": "criclytics_app/integrations/matches.py",
+      "line": 237,
+      "code": "F841",
+      "message": "Local variable `target_info` is assigned to but never used"
+    },
+    {
+      "file": "criclytics_app/integrations/matches.py",
+      "line": 240,
+      "code": "F841",
+      "message": "Local variable `last_over` is assigned to but never used"
+    },
+    {
+      "file": "criclytics_app/integrations/photos.py",
+      "line": 32,
+      "code": "F841",
+      "message": "Local variable `e` is assigned to but never used"
+    },
+    {
+      "file": "criclytics_app/integrations/photos.py",
+      "line": 55,
+      "code": "F601",
+      "message": "Dictionary key literal `\"SPD Smith\"` repeated"
+    },
+    {
+      "file": "criclytics_app/integrations/photos.py",
+      "line": 83,
+      "code": "F601",
+      "message": "Dictionary key literal `\"Babar Azam\"` repeated"
+    },
+    {
+      "file": "criclytics_app/integrations/photos.py",
+      "line": 99,
+      "code": "F601",
+      "message": "Dictionary key literal `\"Shakib Al Hasan\"` repeated"
+    },
+    {
+      "file": "criclytics_app/integrations/photos.py",
+      "line": 124,
+      "code": "F601",
+      "message": "Dictionary key literal `\"F du Plessis\"` repeated"
+    },
+    {
+      "file": "criclytics_app/integrations/ranking_snapshots.py",
+      "line": 4,
+      "code": "F401",
+      "message": "`datetime.date` imported but unused"
+    },
+    {
+      "file": "criclytics_app/integrations/schedule.py",
+      "line": 12,
+      "code": "F401",
+      "message": "`sys` imported but unused"
+    },
+    {
+      "file": "criclytics_app/ml/baseline.py",
+      "line": 3,
+      "code": "F401",
+      "message": "`collections.Counter` imported but unused"
+    },
+    {
+      "file": "criclytics_app/ml/baseline.py",
+      "line": 4,
+      "code": "F401",
+      "message": "`hashlib` imported but unused"
+    },
+    {
+      "file": "criclytics_app/ml/contextual.py",
+      "line": 217,
+      "code": "F821",
+      "message": "Undefined name `mixture`"
+    },
+    {
+      "file": "criclytics_app/ml/legacy_probability.py",
+      "line": 19,
+      "code": "F401",
+      "message": "`typing.Tuple` imported but unused"
+    },
+    {
+      "file": "criclytics_app/ml/legacy_probability.py",
+      "line": 89,
+      "code": "F841",
+      "message": "Local variable `player` is assigned to but never used"
+    },
+    {
+      "file": "criclytics_app/ml/shadow_baselines.py",
+      "line": 4,
+      "code": "F401",
+      "message": "`json` imported but unused"
+    },
+    {
+      "file": "criclytics_app/ml/shadow_evaluation.py",
+      "line": 9,
+      "code": "F401",
+      "message": "`.baseline.OTHER` imported but unused"
+    },
+    {
+      "file": "criclytics_app/ml/training.py",
+      "line": 20,
+      "code": "F401",
+      "message": "`typing.Optional` imported but unused"
+    },
+    {
+      "file": "criclytics_app/ml/training.py",
+      "line": 20,
+      "code": "F401",
+      "message": "`typing.List` imported but unused"
+    },
+    {
+      "file": "criclytics_app/ml/training.py",
+      "line": 365,
+      "code": "F841",
+      "message": "Local variable `defending_wins` is assigned to but never used"
+    },
+    {
+      "file": "criclytics_app/pipeline/cricsheet.py",
+      "line": 44,
+      "code": "F401",
+      "message": "`pandas` imported but unused"
+    },
+    {
+      "file": "criclytics_app/pipeline/features.py",
+      "line": 4,
+      "code": "F401",
+      "message": "`copy.deepcopy` imported but unused"
+    },
+    {
+      "file": "criclytics_app/pipeline/features.py",
+      "line": 36,
+      "code": "F841",
+      "message": "Local variable `runs` is assigned to but never used"
+    },
+    {
+      "file": "criclytics_app/pipeline/identities.py",
+      "line": 59,
+      "code": "F841",
+      "message": "Local variable `venue` is assigned to but never used"
+    },
+    {
+      "file": "criclytics_app/services/legacy.py",
+      "line": 17,
+      "code": "F401",
+      "message": "`time` imported but unused"
+    },
+    {
+      "file": "criclytics_app/services/legacy.py",
+      "line": 19,
+      "code": "F401",
+      "message": "`collections.defaultdict` imported but unused"
+    },
+    {
+      "file": "criclytics_app/services/legacy.py",
+      "line": 20,
+      "code": "F401",
+      "message": "`datetime.datetime` imported but unused"
+    },
+    {
+      "file": "criclytics_app/services/legacy.py",
+      "line": 20,
+      "code": "F401",
+      "message": "`datetime.timedelta` imported but unused"
+    },
+    {
+      "file": "criclytics_app/services/legacy.py",
+      "line": 22,
+      "code": "F401",
+      "message": "`pathlib.Path` imported but unused"
+    },
+    {
+      "file": "criclytics_app/services/live_cache.py",
+      "line": 3,
+      "code": "F401",
+      "message": "`os` imported but unused"
+    },
+    {
+      "file": "criclytics_app/services/live_cache.py",
+      "line": 6,
+      "code": "F401",
+      "message": "`tempfile` imported but unused"
+    },
+    {
+      "file": "criclytics_app/services/match_context.py",
+      "line": 2,
+      "code": "F401",
+      "message": "`copy.deepcopy` imported but unused"
+    },
+    {
+      "file": "criclytics_app/services/repository.py",
+      "line": 5,
+      "code": "F401",
+      "message": "`json` imported but unused"
+    },
+    {
+      "file": "criclytics_app/web/routes.py",
+      "line": 2,
+      "code": "F401",
+      "message": "`flask.request` imported but unused"
+    },
+    {
+      "file": "tests/test_annotations.py",
+      "line": 2,
+      "code": "F401",
+      "message": "`json` imported but unused"
+    },
+    {
+      "file": "tests/test_baseline.py",
+      "line": 1,
+      "code": "F401",
+      "message": "`copy.deepcopy` imported but unused"
+    },
+    {
+      "file": "tests/test_contextual_scenarios.py",
+      "line": 2,
+      "code": "F401",
+      "message": "`copy.deepcopy` imported but unused"
+    },
+    {
+      "file": "tests/test_diagnostics.py",
+      "line": 2,
+      "code": "F401",
+      "message": "`json` imported but unused"
+    },
+    {
+      "file": "tests/test_diagnostics.py",
+      "line": 10,
+      "code": "F401",
+      "message": "`criclytics_app.services.diagnostics.Diagnostics` imported but unused"
+    },
+    {
+      "file": "tests/test_forecasts.py",
+      "line": 2,
+      "code": "F401",
+      "message": "`datetime.datetime` imported but unused"
+    },
+    {
+      "file": "tests/test_forecasts.py",
+      "line": 2,
+      "code": "F401",
+      "message": "`datetime.timezone` imported but unused"
+    },
+    {
+      "file": "tests/test_forecasts.py",
+      "line": 3,
+      "code": "F401",
+      "message": "`json` imported but unused"
+    },
+    {
+      "file": "tests/test_frontend_runtime.py",
+      "line": 6,
+      "code": "F401",
+      "message": "`criclytics_app.frontend.runtime_script` imported but unused"
+    },
+    {
+      "file": "tests/test_reconciliation.py",
+      "line": 79,
+      "code": "F841",
+      "message": "Local variable `first` is assigned to but never used"
+    },
+    {
+      "file": "tests/test_repositories.py",
+      "line": 2,
+      "code": "F401",
+      "message": "`json` imported but unused"
+    },
+    {
+      "file": "tests/test_scouting.py",
+      "line": 4,
+      "code": "F401",
+      "message": "`json` imported but unused"
+    },
+    {
+      "file": "tests/test_shadow_evaluation.py",
+      "line": 3,
+      "code": "F401",
+      "message": "`datetime.datetime` imported but unused"
+    },
+    {
+      "file": "tests/test_shadow_evaluation.py",
+      "line": 3,
+      "code": "F401",
+      "message": "`datetime.timezone` imported but unused"
+    },
+    {
+      "file": "tests/test_shadow_evaluation.py",
+      "line": 9,
+      "code": "F401",
+      "message": "`criclytics_app.ml.shadow_evaluation.REGISTERED` imported but unused"
+    },
+    {
+      "file": "tests/test_structure.py",
+      "line": 12,
+      "code": "F401",
+      "message": "`criclytics_app.paths.PACKAGE_ROOT` imported but unused"
+    },
+    {
+      "file": "tests/test_structure.py",
+      "line": 144,
+      "code": "F841",
+      "message": "Local variable `directory` is assigned to but never used"
+    }
+  ],
+  "bandit": {
+    "warnings": 19,
+    "counts": {
+      "B112": 1,
+      "B110": 4,
+      "B310": 2,
+      "B101": 1,
+      "B403": 1,
+      "B301": 2,
+      "B608": 8
+    },
+    "interpretation": "Manually triaged in PRE_PLAN_AUDIT.md; warning counts are not vulnerability counts"
+  },
+  "dependencies": {
+    "count": 31,
+    "known_vulnerabilities": 0
+  }
+}

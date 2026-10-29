@@ -1,5 +1,11 @@
 # Criclytics implementation tickets
 
+Pre-plan checkpoint (2026-10-29): see [the current engineering audit](docs/PRE_PLAN_AUDIT.md).
+It records 12 findings against T041, with fresh test/static/build/browser evidence.
+Next roadmap implementation is paused for the owner's UI review and cleanup planning;
+no new roadmap ticket was implemented during this audit. Earlier introductory
+status text below is historical and needs the documentation cleanup recorded as A12.
+
 Read [the audit](docs/AUDIT.md), [architecture](docs/ARCHITECTURE.md),
 [roadmap](docs/ROADMAP.md), and [branch workflow](docs/GIT_WORKFLOW.md) first.
 Each ticket has its own specification and branch cut from dev. Work one ready
