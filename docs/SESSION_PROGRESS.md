@@ -179,3 +179,10 @@ ingestion gates. Missing/conflicting/expired/current-attempt evidence stays
 unknown; zero model effect. Private assumptions remain separate.101tests100pass/
 one skip; compilation/JS pass. CONTEXT_AVAILABILITY.md details usage and gaps.
 No real observation cohort, ablation, external collector or publication. Next T038.
+
+## T038 external feed blocked - 2026-10-29
+
+Branch chore/t038-live-source-gate fromf4c23d2. Rechecked primary CricketData quota/
+delay and CricTimes display scope. LIVE_SOURCE_ACCEPTANCE.md records timing/
+rights/correction trial gates. External benchmark stays null; allowlist empty.
+No source bypass/provider calls/card/publication. Continue independent T039.

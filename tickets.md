@@ -64,7 +64,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 
 | [T037](tickets/t037-context-availability-and-annotation-workflow.md) | Context availability and annotation workflow | P1 | T034,T023 | Tooling implemented; real observations/ablation pending |
 
-| [T038](tickets/t038-timely-authorized-next-delivery-source.md) | Timely authorized next-delivery source | P1 | T025,T026,T034 | Planned |
+| [T038](tickets/t038-timely-authorized-next-delivery-source.md) | Timely authorized next-delivery source | P1 | T025,T026,T034 | Blocked; no approved $0 timely/reusable source |
 
 | [T039](tickets/t039-full-innings-outcome-model.md) | Full innings outcome model | P1 | T034 | Planned |
 
