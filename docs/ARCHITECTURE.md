@@ -1,5 +1,11 @@
 # Architecture and migration
 
+Expanded platform design and reviewed execution order:
+[CRICKET_PLATFORM_MASTER_PLAN.md](CRICKET_PLATFORM_MASTER_PLAN.md) and
+[PLATFORM_PLAN_REVIEW.md](PLATFORM_PLAN_REVIEW.md). T041 adds the separate
+source-to-candidate batch job documented in AUTOMATED_DATA_REFRESH.md; it does not
+change application/model selection or create a durable hosted warehouse.
+
 Current contextual candidate and serving additions: CONTEXTUAL_MODEL_CARD.md,
 NEXT_BALL_PLATFORM_PLAN.md and PUBLIC_READ_CAPACITY.md. Full numeric models stay
 private; scenario outputs remain experimental. Public historical responses use a

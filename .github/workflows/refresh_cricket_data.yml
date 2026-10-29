@@ -1,0 +1,40 @@
+name: Validate fresh cricket data candidate
+on:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cricket-data-refresh
+  cancel-in-progress: false
+jobs:
+  candidate:
+    # Never consume private/billable runner allowance or deploy a feature branch.
+    if: github.event.repository.visibility == 'public' && github.event.repository.private == false && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --require-hashes -r requirements.txt
+      - name: Build complete validated candidate, without publication
+        run: python -m criclytics_app.pipeline.refresh --store build/scheduled-refresh
+      - name: Summarize candidate
+        if: always()
+        shell: python
+        run: |
+          import json, os
+          from pathlib import Path
+          path = Path('build/scheduled-refresh/latest.json')
+          if not path.exists():
+              summary = 'Refresh failed before a complete candidate was ready. Serving data was unchanged.'
+          else:
+              report = json.loads(path.read_text())
+              summary = '\n'.join(f'{key}: {report.get(key)}' for key in ('status','candidate_id','accepted_matches','data_cutoff','checked_at'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as output:
+              output.write(summary + '\n\nNo Git write, artifact upload, application update or model promotion. Durable publication is T042.\n')

@@ -1,5 +1,10 @@
 # Autonomous ticket execution - 2026-10-28
 
+Latest expansion: CRICKET_PLATFORM_MASTER_PLAN.md and PLATFORM_PLAN_REVIEW.md,
+frozen386ce44 before T041 code. T041-T054 now cover the full multi-audience vision.
+T041 local automated refresh implemented; see AUTOMATED_DATA_REFRESH.md and the
+latest entry below. No remote scheduler or runtime dataset/model was activated.
+
 Latest handoff: [PLATFORM_HANDOFF_2026-10-29.md](PLATFORM_HANDOFF_2026-10-29.md).
 T033-T039 local work and T040 offline checks are recorded below. Earlier stop/
 branch statements are historical; no public release or remote integration occurred.
@@ -211,3 +216,28 @@ Actual coaches/prospective matches:zero. Public rankings/feed rights, source tim
 rotations/containment, hosted verification and Git integration remain pending.
 No push/merge/publication or deployment. See PLATFORM_HANDOFF_2026-10-29.md for
 branch chain, private artifact paths, preview, evidence, gaps and next work.
+
+## T041 comprehensive plan and automated historical refresh - 2026-10-29
+
+Owner expanded the requirement to automatic multi-source data, all cricket
+audiences, contextual ML, query/selection/media UX, imagery and $0 capacity.
+Master plan and17-point double-check committed386ce44 before implementation;
+ticketsT041-T054 specify acceptance/dependencies/limits. Player source research
+is in PLAYER_MEDIA_SOURCE_PLAN.md; no new photo download claimed in this ticket.
+
+Branch feat/t041-automated-ingestion from36c6401. Official robots/ODC-BY checked;
+private authoritative archive ingestion plus corrected complete candidate and
+read-only public-standard-runner scheduled workflow implemented. Real7,150match
+candidate ends2026-10-25 (897Test/2607ODI/3646T20I), zero rejections/exclusions.
+Immediate rerun makes zero network calls;13original processed hashes unchanged.
+106tests105pass/one skip; focused archive/cadence/repair/withdrawal/failure/lease
+checks, compilation and workflow validation pass. Windows legacy progress stdout
+encoding fixed; initial failed candidate never selected. Evidence is in
+docs/audit/automated-refresh-t041-2026-10-29.json.
+
+Private store build/automated-refresh-v1 contains original ZIPs, source metadata,
+candidate/run manifests and lease; serving/model selection remains unchanged.
+Current UI stays available at http://127.0.0.1:5050 for owner review. No push,
+merge, remote mutation, deployment, card or new service. T042 is the next ticket:
+verified $0 durable delivery/retention/restore, identity marts and serving health.
+Do not claim a remotely running job or automatic site refresh before that passes.

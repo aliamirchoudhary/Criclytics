@@ -1,5 +1,9 @@
 # Public cricket media
 
+Expanded image-source and quality work is planned in
+[PLAYER_MEDIA_SOURCE_PLAN.md](PLAYER_MEDIA_SOURCE_PLAN.md), ticketT044. Source
+discovery does not change the existing per-file licences or publish provider images.
+
 T032 restores visual media with local assets. No image proxy, provider key,
 external image request, paid service or runtime collector is required.
 

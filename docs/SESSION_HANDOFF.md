@@ -1,5 +1,10 @@
 # Historical resumed-session handoff - 2026-10-28
 
+Latest expansion is T041 on feat/t041-automated-ingestion: master plan/review,
+T041-T054 tickets, automated official historical candidate and retained evidence.
+See SESSION_PROGRESS.md, CRICKET_PLATFORM_MASTER_PLAN.md and AUTOMATED_DATA_REFRESH.md.
+No remote job/runtime update, Git publication or model promotion occurred.
+
 Current state: [PLATFORM_HANDOFF_2026-10-29.md](PLATFORM_HANDOFF_2026-10-29.md).
 The T031-only branch/status below predates the resumed T033-T040 work.
 

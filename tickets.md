@@ -77,7 +77,7 @@ See [master plan](docs/CRICKET_PLATFORM_MASTER_PLAN.md) and its
 
 | Ticket | Work | Priority | Depends on | Status |
 |---|---|---|---|---|
-| [T041](tickets/t041-automated-cricsheet-ingestion.md) | Automated authoritative Cricsheet ingestion | P1 | T015,T016 | Planned |
+| [T041](tickets/t041-automated-cricsheet-ingestion.md) | Automated authoritative Cricsheet ingestion | P1 | T015,T016 | Implemented locally; durable publication/activation pending |
 | [T042](tickets/t042-durable-data-publication.md) | Durable zero-cost publication and scheduler health | P1 | T041 | Planned |
 | [T043](tickets/t043-canonical-multisource-data-layer.md) | Canonical multi-source medallion contracts | P1 | T041,T017 | Planned |
 | [T044](tickets/t044-licensed-player-media.md) | Licensed player imagery and quality pipeline | P1 | T017,T043 | Planned |

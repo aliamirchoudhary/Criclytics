@@ -1,5 +1,10 @@
 # Next-ball cricket platform: implementation plan
 
+The broader product/data/operations roadmap is now
+[CRICKET_PLATFORM_MASTER_PLAN.md](CRICKET_PLATFORM_MASTER_PLAN.md), double-checked
+in PLATFORM_PLAN_REVIEW.md. The probability contracts and earlier evidence below
+remain applicable; T041-T054 extend the implementation sequence.
+
 Owner vision reaffirmed 2026-10-29. Budget remains $0, no card, no metered fallback.
 The distinctive product is contextual probability and match preparation. Scoring,
 history and the interface support it. This plan extends, rather than replaces,

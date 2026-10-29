@@ -1,0 +1,74 @@
+{
+  "status": "candidate_ready",
+  "candidate_id": "093da9decbddfa72adf2d34dfe4dc0c2a6a0fbe10c73ebd5c0c081ae0ec37eb2",
+  "snapshot_id": "6c581dcbd3b91cd575e34821d19c0c3f0fcd8dafe505a5852d6d94faeb12527c",
+  "candidate_manifest_sha256": "a400aed990c4c95748d3a92214e7dac7b165beab38a941f05c841d685b58f779",
+  "matches": 7150,
+  "formats": {
+    "Test": 897,
+    "ODI": 2607,
+    "T20I": 3646
+  },
+  "data_range": [
+    "2001-12-19",
+    "2026-10-25"
+  ],
+  "rejected_files": 0,
+  "excluded_files": 0,
+  "started_at": "2026-10-29T07:06:08.764837+00:00",
+  "checked_at": "2026-10-29T07:11:26.697412+00:00",
+  "elapsed_seconds": 317.933,
+  "sources": {
+    "tests_male_json": {
+      "sha256": "cb8593cdad57b6de11f18dca778dd8776d0b3aab4eb5dfe3880a68a0e1e213cb",
+      "source_url": "https://cricsheet.org/downloads/tests_male_json.zip",
+      "license": "ODC-BY-1.0",
+      "etag": null,
+      "last_modified": "Sun, 25 Oct 2026 18:43:02 GMT",
+      "received_at": "2026-10-29T07:06:13.111390+00:00",
+      "checked_at": "2026-10-29T07:06:13.111390+00:00",
+      "http_status": 200,
+      "bytes": 16885868
+    },
+    "odis_male_json": {
+      "sha256": "8518aa42ff388c3f6fca06661bba839e8756680c3a35adbfa851f45364675224",
+      "source_url": "https://cricsheet.org/downloads/odis_male_json.zip",
+      "license": "ODC-BY-1.0",
+      "etag": null,
+      "last_modified": "Sun, 25 Oct 2026 18:43:19 GMT",
+      "received_at": "2026-10-29T07:06:45.013732+00:00",
+      "checked_at": "2026-10-29T07:06:45.013732+00:00",
+      "http_status": 200,
+      "bytes": 17683020
+    },
+    "t20s_male_json": {
+      "sha256": "691f1f42b86c93fbdbc53936ed69479f9306bf39c4c56b4c0729360051075c6d",
+      "source_url": "https://cricsheet.org/downloads/t20s_male_json.zip",
+      "license": "ODC-BY-1.0",
+      "etag": null,
+      "last_modified": "Sun, 25 Oct 2026 18:43:27 GMT",
+      "received_at": "2026-10-29T07:07:20.929532+00:00",
+      "checked_at": "2026-10-29T07:07:20.929532+00:00",
+      "http_status": 200,
+      "bytes": 14551021
+    }
+  },
+  "original_processed_hashes_preserved": 13,
+  "immediate_rerun": {
+    "status": "not_due",
+    "candidate_id": "093da9decbddfa72adf2d34dfe4dc0c2a6a0fbe10c73ebd5c0c081ae0ec37eb2",
+    "network_calls": 0
+  },
+  "checks": {
+    "manifest_validated": true,
+    "all_three_formats": true,
+    "not_due_network_calls": 0
+  },
+  "initial_failure_fixed": "Windows console Unicode progress; captured in-memory before corrected real rerun",
+  "hosted_schedule_activated": false,
+  "durable_publication_complete": false,
+  "serving_dataset_changed": false,
+  "model_trained_or_promoted": false,
+  "remote_git_changed": false,
+  "limitations": "Local full authoritative download/build only. Scheduled workflow has not been published or run remotely. T042 must verify durable delivery and runtime activation."
+}
