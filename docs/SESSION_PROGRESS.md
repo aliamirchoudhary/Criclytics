@@ -186,3 +186,12 @@ Branch chore/t038-live-source-gate fromf4c23d2. Rechecked primary CricketData qu
 delay and CricTimes display scope. LIVE_SOURCE_ACCEPTANCE.md records timing/
 rights/correction trial gates. External benchmark stays null; allowlist empty.
 No source bypass/provider calls/card/publication. Continue independent T039.
+
+## T039 outcome research evaluated - 2026-10-29
+
+Branch feat/t039-innings-outcomes from5332742; protocol f70e8e9.3,174matches,
+823held-out. Sequence-derived terminal score and one coherent joint match result;
+no strong player gain over entry baseline, match calibration worsens despite
+better log loss. Models not promoted; no continuation/survival/live claim.103tests
+102pass/one skip and375/1440research UI pass. INNINGS_OUTCOME_MODEL_CARD.md records
+metrics/rare-century gaps, reused date cohort and private artifact paths. Next T040.

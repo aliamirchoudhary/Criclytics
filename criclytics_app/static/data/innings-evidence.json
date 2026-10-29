@@ -1,0 +1,238 @@
+{
+  "experimental": true,
+  "promoted": false,
+  "test_matches": 823,
+  "player_test_rows": 13618,
+  "test_period": "2024-10-10 to 2026-04-09",
+  "protocol_sha256": "6f571cdc532a1891865dbf6d4ddd084abba15e9522be76040896bba22778113b",
+  "targets": {
+    "player": {
+      "metrics": {
+        "global": {
+          "rows": 13618,
+          "matches": 823,
+          "log_loss": 1.64972678186229,
+          "multiclass_brier": 0.7593219625361586,
+          "top_label_ece_10bins": 0.020598692834242538,
+          "reliability": [
+            {
+              "lower": 0.3,
+              "upper": 0.4,
+              "count": 13618,
+              "mean_probability": 0.38540806293018687,
+              "observed_top_label_fraction": 0.4060067557644294
+            }
+          ]
+        },
+        "entry": {
+          "rows": 13618,
+          "matches": 823,
+          "log_loss": 1.5532366035836158,
+          "multiclass_brier": 0.7324562430760813,
+          "top_label_ece_10bins": 0.01931129207200348,
+          "reliability": [
+            {
+              "lower": 0.2,
+              "upper": 0.3,
+              "count": 5991,
+              "mean_probability": 0.27759890224100114,
+              "observed_top_label_fraction": 0.29844767150726087
+            },
+            {
+              "lower": 0.3,
+              "upper": 0.4,
+              "count": 3633,
+              "mean_probability": 0.35415685460884233,
+              "observed_top_label_fraction": 0.38590696394164603
+            },
+            {
+              "lower": 0.4,
+              "upper": 0.5,
+              "count": 396,
+              "mean_probability": 0.46002689426913107,
+              "observed_top_label_fraction": 0.4722222222222222
+            },
+            {
+              "lower": 0.5,
+              "upper": 0.6,
+              "count": 1198,
+              "mean_probability": 0.5171812329924883,
+              "observed_top_label_fraction": 0.5258764607679466
+            },
+            {
+              "lower": 0.6,
+              "upper": 0.7,
+              "count": 2400,
+              "mean_probability": 0.6372840911716177,
+              "observed_top_label_fraction": 0.6341666666666667
+            }
+          ]
+        },
+        "candidate": {
+          "rows": 13618,
+          "matches": 823,
+          "log_loss": 1.5529123584660427,
+          "multiclass_brier": 0.7319590436643911,
+          "top_label_ece_10bins": 0.009331922193958892,
+          "reliability": [
+            {
+              "lower": 0.2,
+              "upper": 0.3,
+              "count": 5159,
+              "mean_probability": 0.293822141324594,
+              "observed_top_label_fraction": 0.2969567745687149
+            },
+            {
+              "lower": 0.3,
+              "upper": 0.4,
+              "count": 3293,
+              "mean_probability": 0.34362367084145073,
+              "observed_top_label_fraction": 0.34527786213179473
+            },
+            {
+              "lower": 0.4,
+              "upper": 0.5,
+              "count": 1568,
+              "mean_probability": 0.4239937000058419,
+              "observed_top_label_fraction": 0.45153061224489793
+            },
+            {
+              "lower": 0.5,
+              "upper": 0.6,
+              "count": 1198,
+              "mean_probability": 0.5372825341648797,
+              "observed_top_label_fraction": 0.5258764607679466
+            },
+            {
+              "lower": 0.6,
+              "upper": 0.7,
+              "count": 2400,
+              "mean_probability": 0.6544253905381017,
+              "observed_top_label_fraction": 0.6341666666666667
+            }
+          ]
+        }
+      },
+      "loss_delta": {
+        "global": {
+          "method": "whole-match bootstrap",
+          "replicates": 200,
+          "seed": 17,
+          "matches": 823,
+          "loss_delta_vs_reference": -0.09681442339624727,
+          "lower_95": -0.10241214427328371,
+          "upper_95": -0.09068522563937442
+        },
+        "context_reference": {
+          "method": "whole-match bootstrap",
+          "replicates": 200,
+          "seed": 17,
+          "matches": 823,
+          "loss_delta_vs_reference": -0.0003242451175731234,
+          "lower_95": -0.0012086325090835612,
+          "upper_95": 0.0007667818352348644
+        }
+      }
+    },
+    "match": {
+      "metrics": {
+        "global": {
+          "rows": 823,
+          "matches": 823,
+          "log_loss": 0.7365365534906765,
+          "multiclass_brier": 0.5081419775376922,
+          "top_label_ece_10bins": 0.0736638071484908,
+          "reliability": [
+            {
+              "lower": 0.4,
+              "upper": 0.5,
+              "count": 823,
+              "mean_probability": 0.49498746867167925,
+              "observed_top_label_fraction": 0.56865127582017
+            }
+          ]
+        },
+        "rivalry": {
+          "rows": 823,
+          "matches": 823,
+          "log_loss": 0.72696616340954,
+          "multiclass_brier": 0.4975811849134938,
+          "top_label_ece_10bins": 0.09878820849801632,
+          "reliability": [
+            {
+              "lower": 0.4,
+              "upper": 0.5,
+              "count": 451,
+              "mean_probability": 0.49495663704797477,
+              "observed_top_label_fraction": 0.565410199556541
+            },
+            {
+              "lower": 0.5,
+              "upper": 0.6,
+              "count": 355,
+              "mean_probability": 0.5259488412773745,
+              "observed_top_label_fraction": 0.6591549295774648
+            },
+            {
+              "lower": 0.6,
+              "upper": 0.7,
+              "count": 17,
+              "mean_probability": 0.6329424967075297,
+              "observed_top_label_fraction": 0.7647058823529411
+            }
+          ]
+        },
+        "candidate": {
+          "rows": 823,
+          "matches": 823,
+          "log_loss": 0.7091410817578853,
+          "multiclass_brier": 0.4814749272054422,
+          "top_label_ece_10bins": 0.11257559007770057,
+          "reliability": [
+            {
+              "lower": 0.4,
+              "upper": 0.5,
+              "count": 55,
+              "mean_probability": 0.4975300054661011,
+              "observed_top_label_fraction": 0.5454545454545454
+            },
+            {
+              "lower": 0.5,
+              "upper": 0.6,
+              "count": 747,
+              "mean_probability": 0.5357998972054253,
+              "observed_top_label_fraction": 0.6479250334672021
+            },
+            {
+              "lower": 0.6,
+              "upper": 0.7,
+              "count": 21,
+              "mean_probability": 0.606838850141149,
+              "observed_top_label_fraction": 0.9047619047619048
+            }
+          ]
+        }
+      },
+      "loss_delta": {
+        "global": {
+          "method": "whole-match bootstrap",
+          "replicates": 200,
+          "seed": 17,
+          "matches": 823,
+          "loss_delta_vs_reference": -0.027395471732791235,
+          "lower_95": -0.03398942822681445,
+          "upper_95": -0.02127912405520161
+        },
+        "context_reference": {
+          "method": "whole-match bootstrap",
+          "replicates": 200,
+          "seed": 17,
+          "matches": 823,
+          "loss_delta_vs_reference": -0.01782508165165476,
+          "lower_95": -0.025733293035461638,
+          "upper_95": -0.011155251901394124
+        }
+      }
+    }
+  }
+}

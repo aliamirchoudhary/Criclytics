@@ -99,6 +99,23 @@
       const details=node('details',null,'ui-record-details');details.append(node('summary','Model inputs and evaluation details'));
       details.append(node('p','Inputs: '+data.feature_families.join('; ')),node('p','Optional weather, pitch, crowd and media signals are excluded until independently validated.'),node('p','Evaluation SHA-256: '+data.evaluation_sha256));target.append(details);
     }catch(_){evidence=null;target.append(node('p','Model evaluation report unavailable. No performance values are substituted.','ui-state'));}
+    try{
+      const response=await fetch('/static/data/innings-evidence.json',{credentials:'omit'});if(!response.ok)throw Error();const report=await response.json();if(report.promoted!==false || report.experimental!==true)throw Error();
+      const section=node('section',null,'ui-panel');section.append(node('h2','Innings & match research'),node('p','Separate targets: a batter’s terminal score at first entry, and one joint match result. These are research evaluations, not current score or win forecasts.','ui-notice'));
+      const scoreDelta=report.targets.player.loss_delta.context_reference,matchDelta=report.targets.match.loss_delta.context_reference;
+      const scoreFinding=scoreDelta.upper_95<0?'Player-score log loss improved over entry state. ':scoreDelta.lower_95>0?'Player-score log loss worsened versus entry state. ':'Player-score personalization has not clearly beaten the entry-state baseline. ';
+      const matchFinding=matchDelta.upper_95<0?'Match-result log loss improved. ':'Match-result log loss has no clear measured improvement. ';
+      const matchMetrics=report.targets.match.metrics;
+      section.append(node('p',scoreFinding+matchFinding+(matchMetrics.candidate.top_label_ece_10bins>matchMetrics.rivalry.top_label_ece_10bins?'Match-result calibration worsened. ':'')+'Neither model is promoted.'));
+      const details=node('details',null,'ui-record-details');details.append(node('summary','Inspect longer-horizon evaluation'));
+      details.append(node('p',report.test_matches+' held-out matches · '+report.player_test_rows.toLocaleString()+' entered-player innings · '+report.test_period+'. Same historical date cohort previously examined for next-ball outcomes; no prospective validation.'));
+      for(const [key,label] of [['player','Terminal batter-score bins'],['match','Joint match result']]){
+        const table=node('table'),caption=node('caption',label),head=node('thead'),row=node('tr');['Model','Log loss ↓','Calibration error ↓'].forEach(value=>row.append(node('th',value)));head.append(row);const body=node('tbody');
+        Object.entries(report.targets[key].metrics).forEach(([name,values])=>{const tr=node('tr');[name,values.log_loss.toFixed(4),values.top_label_ece_10bins.toFixed(4)].forEach(value=>tr.append(node('td',value)));body.append(tr);});table.append(caption,head,body);details.append(table);
+      }
+      details.append(node('p','Score bins describe observed completed innings, including not-outs and shortened chases. They do not estimate runs had play continued. Century evidence is sparse. Weather and psychological effects are excluded.'));
+      section.append(details);target.append(section);
+    }catch(_){target.append(node('p','Longer-horizon research report unavailable.','ui-card-scope'));}
   }
   function liveWidget(){
     const panel=node('section',null,'ui-panel ui-live-widget'), controls=node('div',null,'ui-hero-actions'), slot=node('div');

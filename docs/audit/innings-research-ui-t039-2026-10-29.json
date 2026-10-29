@@ -1,0 +1,19 @@
+{
+  "cases": [
+    {
+      "width": 375,
+      "passed": true,
+      "actual_evaluation_tables_visible": true,
+      "no_promotion_claim": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "passed": true,
+      "actual_evaluation_tables_visible": true,
+      "no_promotion_claim": true,
+      "errors": []
+    }
+  ],
+  "scope": "Local retrospective reports; no live forecasts or coach review."
+}
