@@ -1,5 +1,6 @@
 """Local immutable as-of context ledger; no inferred XI, pitch tracking or home advantage."""
 from copy import deepcopy
+from contextlib import nullcontext
 import json
 import math
 from pathlib import Path
@@ -8,7 +9,8 @@ from datetime import datetime,timezone
 from .weather import utc
 from ..pipeline.events import encoded
 
-KINDS={'lineup','substitution','pitch_report','venue_affiliation','fielding','incident'}
+KINDS={'lineup','substitution','pitch_report','venue_affiliation','fielding','incident',
+       'weather_observation','captaincy','crowd_event'}
 
 
 def validate(record):
@@ -20,6 +22,9 @@ def validate(record):
     if record.get('scope') not in ('public','private'):raise ValueError('Explicit access scope required')
     if record['scope']=='private' and not record.get('owner_id'):raise ValueError('Private ownership required')
     value=record['value'];kind=record['kind']
+    if kind in ('weather_observation','captaincy','crowd_event'):
+        from .context_availability import validate_extension
+        validate_extension(record)
     if kind=='lineup':
         players=value.get('player_ids',[])
         if len(players)!=11 or len(set(players))!=11 or any(not p.startswith('player:') for p in players):raise ValueError('Announced XI requires11 distinct stable players')
@@ -43,10 +48,13 @@ def validate(record):
 
 
 class ContextLedger:
-    def __init__(self,path):
+    def __init__(self,path,read_only=False):
         from ..paths import PACKAGE_ROOT,PROJECT_ROOT
         self.path=Path(path).resolve()
         if any(self.path.is_relative_to(public) for public in (PACKAGE_ROOT/'static',PROJECT_ROOT/'dist')):raise ValueError('Context ledger must be private')
+        if read_only:
+            self.connection=sqlite3.connect(self.path.as_uri()+'?mode=ro',uri=True,timeout=.25)
+            return
         self.path.parent.mkdir(parents=True,exist_ok=True);self.connection=sqlite3.connect(self.path,timeout=10)
         self.connection.executescript("""CREATE TABLE IF NOT EXISTS context_records (
             record_id TEXT NOT NULL,revision INTEGER NOT NULL,match_id TEXT NOT NULL,kind TEXT NOT NULL,
@@ -59,11 +67,11 @@ class ContextLedger:
 
     def close(self):self.connection.close()
 
-    def add(self,record):
+    def add(self,record,commit=True):
         validate(record);payload=encoded(record)
         if len(payload)>16384:raise ValueError('Context payload budget exceeded')
         available=max(utc(record[k]).timestamp() for k in ('published_at','observed_at','effective_at'))
-        with self.connection:
+        with self.connection if commit else nullcontext():
             original=self.connection.execute('SELECT payload FROM context_records WHERE record_id=? ORDER BY revision LIMIT 1',(record['record_id'],)).fetchone()
             if original:
                 first=json.loads(original[0])

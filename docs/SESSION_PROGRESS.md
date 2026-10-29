@@ -170,3 +170,12 @@ local-only guard prevents public redistribution. No automated fetch/source gate
 bypass or hardcoded API fallback. Ranking and broader375/1440flows pass; focused
 three tests pass, previous98suite97pass/one skip. RANKING_SNAPSHOTS.md records
 source scope/other-format gaps. Public source rights remain blocked. Continue T037.
+
+## T037 context tooling implemented - 2026-10-29
+
+Branch feat/t037-context-availability fromff4c16c. Weather/captaincy/crowd records,
+atomic offline import, local read-only public-scope evidence and as-issued
+ingestion gates. Missing/conflicting/expired/current-attempt evidence stays
+unknown; zero model effect. Private assumptions remain separate.101tests100pass/
+one skip; compilation/JS pass. CONTEXT_AVAILABILITY.md details usage and gaps.
+No real observation cohort, ablation, external collector or publication. Next T038.

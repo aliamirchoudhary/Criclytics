@@ -28,6 +28,7 @@ def create_app(config=None):
         SCOUTING_SAMPLE=os.getenv('SCOUTING_SAMPLE',''),
         PLAYER_MEDIA_MANIFEST=os.getenv('PLAYER_MEDIA_MANIFEST',''),
         RANKING_SNAPSHOT_STORE=os.getenv('RANKING_SNAPSHOT_STORE',''),
+        CONTEXT_LEDGER=os.getenv('CONTEXT_LEDGER',''),
         SCENARIO_MODEL=os.getenv('SCENARIO_MODEL',''),
         SCENARIO_MODEL_SHA256=os.getenv('SCENARIO_MODEL_SHA256',''),
         SCENARIO_EVALUATION=os.getenv('SCENARIO_EVALUATION',''),
@@ -65,6 +66,8 @@ def create_app(config=None):
     from .api.scenarios import bp as scenarios
     initialize_scenarios(app)
     app.register_blueprint(scenarios)
+    from .api.context_evidence import bp as context_evidence
+    app.register_blueprint(context_evidence)
     from .frontend import api_base
     app.config["FRONTEND_API_BASE"] = api_base(app.config["FRONTEND_API_BASE"])
     from .services.diagnostics import Diagnostics, register as register_diagnostics

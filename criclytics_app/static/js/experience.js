@@ -147,7 +147,8 @@
       const sides=node('div',null,'ui-compare-selectors');left=localChoices('Team A',catalog.teams,changed);right=localChoices('Team B',catalog.teams,changed);sides.append(left.wrap,right.wrap);details.append(sides);
       const dateLabel=node('label','Scenario date'),dateInput=node('input'),dateId='scenario-date-'+(++uid);dateInput.id=dateId;dateInput.type='date';dateInput.min=catalog.data_asof;dateInput.value=new Date().toISOString().slice(0,10);dateLabel.htmlFor=dateId;dateInput.addEventListener('change',changed);
       const pov=segments('Perspective',[['batter','Batter view'],['bowler','Bowler view']],'batter',()=>{if(last)render(last);});
-      controls.append(phase.wrap,innings.wrap,dateLabel,dateInput,details,submit);target.append(selectors,controls,pov.wrap,results);
+      const assumptions=node('a','Keep private what-if assumptions in your preparation plan');assumptions.href='scouting.html#coach-assumptions';
+      controls.append(phase.wrap,innings.wrap,dateLabel,dateInput,details,submit,node('p','Weather, incidents and hypothetical pressure notes do not adjust this candidate.','ui-card-scope'),assumptions);target.append(selectors,controls,pov.wrap,results);
       function render(data){
         results.replaceChildren(node('h2','Next-attempt model probabilities'));
         const card=node('div',null,'ui-probability-grid');

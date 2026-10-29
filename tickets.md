@@ -62,7 +62,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 
 | [T036](tickets/t036-real-ranking-snapshots-and-backup.md) | Real ranking snapshots and backup | P1 | T033 | Local import/backup implemented; public rights blocked |
 
-| [T037](tickets/t037-context-availability-and-annotation-workflow.md) | Context availability and annotation workflow | P1 | T034,T023 | Planned |
+| [T037](tickets/t037-context-availability-and-annotation-workflow.md) | Context availability and annotation workflow | P1 | T034,T023 | Tooling implemented; real observations/ablation pending |
 
 | [T038](tickets/t038-timely-authorized-next-delivery-source.md) | Timely authorized next-delivery source | P1 | T025,T026,T034 | Planned |
 
