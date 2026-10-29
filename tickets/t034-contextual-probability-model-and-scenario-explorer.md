@@ -1,6 +1,9 @@
 # T034: Contextual probability model and scenario explorer
 
-- Status: Planned
+- Status: In progress
+- Branch: feat/t034-contextual-model
+- Base: e973f8f
+- Protocol: docs/CONTEXTUAL_MODEL_PROTOCOL.md (freeze before fitting)
 - Depends on: T033,T020,T022
 - Budget: $0; no card or metered fallback
 
