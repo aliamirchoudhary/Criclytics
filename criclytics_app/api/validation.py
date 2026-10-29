@@ -28,7 +28,10 @@ def register(app):
         if not request.path.startswith("/api/"):
             return
         g.request_id = uuid.uuid4().hex
+        if len(request.query_string) > 4096 or len(request.args) > 20:
+            raise BadRequest('Query exceeds the bounded public request size')
         for field, values in request.args.lists():
+            text(field, 'query field', required=True, maximum=64)
             if len(values) != 1:
                 raise BadRequest("Duplicate query parameter: " + field)
             value = text(values[0], field)

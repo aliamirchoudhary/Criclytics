@@ -57,7 +57,8 @@ def readiness(app):
             'optional_feed':{'network_approved':source_allowed('cricapi'),'enabled':bool(app.config['LIVE_FETCH_ENABLED']),'available':entry is not None,
                              'snapshot_age_seconds':age,'state':'degraded' if entry is None or age>120 else 'cached'},
             'limits':{'workers':1,'threads':2,'repository_files':repo.maximum,'cache_files':cache.maximum,
-                      'request_body_bytes':app.config['MAX_CONTENT_LENGTH'],'telemetry_samples':256}}
+                      'request_body_bytes':app.config['MAX_CONTENT_LENGTH'],'telemetry_samples':256},
+            'public_reads':app.extensions['public_reads'].snapshot()}
 
 
 def register(app):

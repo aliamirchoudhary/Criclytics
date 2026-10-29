@@ -151,3 +151,12 @@ mobile/desktop actual scenario interactions, compilation/JS/static build pass.
 Model/report stay private and hash-pinned; public report contains evaluation only.
 No live promotion, remote Git mutation, billing or deployment. User approval is
 still required for pushes, merges and publication. Continue T035 on a new branch.
+
+## T035 implemented locally - 2026-10-29
+
+Branch feat/t035-shared-read-capacity from0e40637. Bounded historical public LRU,
+singleflight, ETags and query limits; private/live/scenario exclusions. Actual
+200local HTTP requests/100clients/two app slots: zero failures/provider calls;
+four computations,196hits. PUBLIC_READ_CAPACITY.md records real limits.
+96tests95pass/one skip. T034 broader95page-width/four-interaction matrix passed.
+No hosting stress/publication. Next T036 real-source snapshot/backup work.

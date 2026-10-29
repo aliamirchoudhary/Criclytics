@@ -1,5 +1,10 @@
 # Architecture and migration
 
+Current contextual candidate and serving additions: CONTEXTUAL_MODEL_CARD.md,
+NEXT_BALL_PLATFORM_PLAN.md and PUBLIC_READ_CAPACITY.md. Full numeric models stay
+private; scenario outputs remain experimental. Public historical responses use a
+bounded per-worker LRU/singleflight layer; private/live/scenario data is excluded.
+
 The current change establishes a Flask package and deployment boundary. It does
 not replace Flask or the current UI with an unrelated stack. Blueprint extraction
 preserves API behavior, and large legacy service/API modules are temporary seams

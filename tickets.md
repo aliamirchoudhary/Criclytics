@@ -58,7 +58,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 
 | [T034](tickets/t034-contextual-probability-model-and-scenario-explorer.md) | Contextual probability model and scenario explorer | P1 | T033,T020,T022 | Implemented locally; review/promotion pending |
 
-| [T035](tickets/t035-shared-read-serving-and-capacity.md) | Shared read serving and capacity | P1 | T033 | Planned |
+| [T035](tickets/t035-shared-read-serving-and-capacity.md) | Shared read serving and capacity | P1 | T033 | Implemented locally; hosted verification pending |
 
 | [T036](tickets/t036-real-ranking-snapshots-and-backup.md) | Real ranking snapshots and backup | P1 | T033 | Planned |
 

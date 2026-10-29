@@ -1,0 +1,49 @@
+{
+  "batches": [
+    {
+      "mode": "cold",
+      "requests": 100,
+      "concurrency": 100,
+      "elapsed_seconds": 2.931,
+      "requests_per_second": 34.12,
+      "p50_ms": 1753.97,
+      "p95_ms": 2611.02,
+      "max_response_bytes": 378086,
+      "failures": 0
+    },
+    {
+      "mode": "warm",
+      "requests": 100,
+      "concurrency": 100,
+      "elapsed_seconds": 0.851,
+      "requests_per_second": 117.54,
+      "p50_ms": 324.84,
+      "p95_ms": 445.39,
+      "max_response_bytes": 378086,
+      "failures": 0
+    }
+  ],
+  "provider_calls": 0,
+  "working_set_before_bytes": 82911232,
+  "working_set_after_bytes": 114741248,
+  "cache": {
+    "scope": "per worker; restart on dataset promotion",
+    "entries": 4,
+    "bytes": 437195,
+    "in_flight": 0,
+    "counts": {
+      "compute": 4,
+      "coalesced": 3,
+      "hit": 196
+    },
+    "limits": {
+      "entries": 128,
+      "bytes": 8388608,
+      "response_bytes": 524288,
+      "in_flight": 32,
+      "ttl_seconds": 30,
+      "wait_seconds": 2
+    }
+  },
+  "limits": "Local Windows HTTP, 2 application slots,100 client threads; not Gunicorn/free-host/CDN capacity or an SLA. OS/disk caches not flushed. No live/scenario/private endpoint load."
+}
