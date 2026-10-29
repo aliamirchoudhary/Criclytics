@@ -23,6 +23,25 @@
   }
   function name(player){return (media.portraits[player.identity_id]||{}).name || player.full_name || player.name;}
   function teams(player){return (player.observed_teams || []).map(t=>t.team_name).concat(player.observed_teams?[]:[player.country]).filter(Boolean);}
+  function clickableCard(card,primary){
+    card.classList.add('ui-click-card');primary.classList.add('ui-card-primary');return card;
+  }
+  function outcomeLabel(label){
+    if(label==='OTHER')return 'Other outcomes with insufficient detail';
+    try{
+      const value=JSON.parse(label),parts=[];
+      const runs=Number(value.batter_runs), extras=value.extras||{};
+      const wickets=Array.isArray(value.dismissals)?value.dismissals:[];
+      const extraNames={byes:'bye',legbyes:'leg bye',noballs:'no-ball',wides:'wide',penalty:'penalty run'};
+      if(runs===6)parts.push('Six');else if(runs===4)parts.push('Four');
+      else if(runs>0)parts.push(runs+' run'+(runs===1?'':'s')+' off the bat');
+      Object.entries(extras).filter(([,n])=>n>0).forEach(([kind,n])=>parts.push(n+' '+(extraNames[kind]||kind)+(n===1?'':'s')));
+      if(wickets.length)parts.push(wickets.map(kind=>kind.replaceAll('_',' ')).join(' / '));
+      if(!parts.length)return 'Dot ball - no runs, no wicket';
+      if(!wickets.length)parts.push('no wicket');
+      return parts.join(' · ');
+    }catch(_){return 'Outcome details unavailable';}
+  }
   function picker(label,kind,onSelect,initial,options={}) {
     const wrap=node('section',null,'ui-picker'), heading=node('h2',label), selected=node('div','Choose from the list below','ui-picker-selected');
     const input=node('input'), id='picker-'+(++uid), inputLabel=node('label','Search '+(kind==='players'?'players':'teams'));
@@ -62,7 +81,7 @@
   }
   function playerCard(player,format){
     const card=node('article',null,'ui-player-card'), title=node('a');title.href='player-profile.html?'+new URLSearchParams({name:player.identity_id||player.name});
-    title.className='ui-player-card-title';title.append(media.portrait(player),node('h2',name(player)));card.append(title);
+    title.className='ui-player-card-title';title.append(media.portrait(player),node('h2',name(player)));card.append(title);clickableCard(card,title);
     const memberships=node('div',null,'ui-card-memberships');teams(player).slice(0,3).forEach(team=>{const row=node('span');row.append(media.flag(team),document.createTextNode(team));memberships.append(row);});card.append(memberships);
     const available=player.formats||[], chosen=format || (available.includes('T20I')?'T20I':available[0]);
     const stats=(player.batting||{})[chosen], bowling=(player.bowling||{})[chosen], values=stats?[['Runs',stats.runs],['Average',stats.average],['Strike rate',stats.strike_rate]]:bowling?[['Wickets',bowling.wickets],['Economy',bowling.economy],['Average',bowling.average]]:[];
@@ -72,7 +91,7 @@
     compare.href='compare.html?'+new URLSearchParams({a:player.identity_id||player.name});scouting.href='scouting.html?'+new URLSearchParams({player:player.identity_id||player.name});actions.append(compare,scouting);card.append(actions);return card;
   }
   function empirical(player,format){
-    const content=node('section',null,'ui-panel');content.append(node('h2','Probability insights'),node('p','Observed innings frequencies · '+format+'. These describe the selected historical sample; they are not next-ball or future-match predictions.','ui-notice'));
+    const content=node('section',null,'ui-panel ui-player-probabilities');content.append(node('h2',name(player)+' · Probability insights'),node('p',format+' innings in the available match archive. These are past scoring frequencies, not predictions of the next ball.','ui-notice'));
     const stats=(player.batting||{})[format], grid=node('div',null,'ui-probability-grid');
     if(stats && Number.isInteger(stats.innings) && stats.innings>0){
       [['50+ runs',(stats.fifties??NaN)+(stats.hundreds??NaN)],['100+ runs',stats.hundreds],['Not out',stats.not_outs]].forEach(([label,count])=>{
@@ -85,7 +104,7 @@
     const launch=node('a','Explore a player/bowler/venue scenario →');launch.href='workspace.html?'+new URLSearchParams({view:'scenario',a:player.identity_id||player.name});launch.className='ui-action-primary';content.append(launch);return content;
   }
   async function research(target){
-    target.append(node('h2','ML insights'),node('p','Experimental next-delivery model · male international T20I. A trained model exists; current coaching deployment remains unvalidated.','ui-notice'));
+    target.append(node('h2','The story behind next-ball estimates'),node('p','Explore how a batter, bowler and match situation can change the likely outcome of a delivery. Estimates are experimental and are not yet validated for live match decisions.','ui-notice'));
     try{
       evidence=evidence||(async()=>{
         const contextual=await request('/api/v1/scenarios/catalog').catch(()=>({available:false}));
@@ -93,29 +112,25 @@
         const result=await fetch('/static/data/model-evidence.json',{credentials:'omit'});if(!result.ok)throw Error();return result.json();
       })();
       const data=await evidence;
-      target.append(node('p',`${data.training_matches} training matches · ${data.calibration_matches} calibration · ${data.test_matches} held-out matches (${data.test_rows.toLocaleString()} attempts). Test period: ${data.test_period}.`));
       const grid=node('div',null,'ui-probability-grid');
-      data.metrics.forEach(row=>{const card=node('div',null,'ui-probability-card'), meter=node('meter');meter.min=0;meter.max=2;meter.value=row.log_loss;meter.setAttribute('aria-label',row.name+' log loss');card.append(node('h3',row.name),node('strong',row.log_loss.toFixed(4)),meter,node('small','Held-out log loss · lower is better'));grid.append(card);});target.append(grid,node('p',(data.metrics[2].log_loss<data.metrics[1].log_loss?'This candidate improved held-out log loss over the phase reference. ':'This candidate did not improve held-out log loss over the phase reference. ')+'Historical testing is not prospective live validation.','ui-notice'));
-      const details=node('details',null,'ui-record-details');details.append(node('summary','Model inputs and evaluation details'));
-      details.append(node('p','Inputs: '+data.feature_families.join('; ')),node('p','Optional weather, pitch, crowd and media signals are excluded until independently validated.'),node('p','Evaluation SHA-256: '+data.evaluation_sha256));target.append(details);
-    }catch(_){evidence=null;target.append(node('p','Model evaluation report unavailable. No performance values are substituted.','ui-state'));}
+      [['The players','Batting and bowling records, plus the history of their exact matchup.'],['The situation','The innings, stage of play, ground and team matchup.'],['Recent form','The latest five matches available in the archive for each player.']].forEach(([title,copy])=>{const card=node('section',null,'ui-probability-card');card.append(node('h3',title),node('p',copy));grid.append(card);});
+      target.append(grid,node('h3','What testing tells us'));
+      const improved=data.metrics[2].log_loss<data.metrics[1].log_loss;
+      target.append(node('p',improved?'In past matches, using player and match context gave better overall estimates than using the stage of play alone. This does not guarantee the next ball.':'Past-match testing has not shown a clear improvement from the extra context. Treat estimates cautiously.'));
+      target.append(node('p','Weather, pitch reports, crowd reactions and personal pressure are not included in the current estimates.','ui-notice'));
+      const details=node('details',null,'ui-record-details');details.append(node('summary','How the estimates were checked'),node('p','The model was tested on later matches kept separate from the matches used to teach it. We also check whether the probabilities agree with how often outcomes actually occur.'),node('p','Results on recorded matches do not establish reliability during a live match. Every estimate depends on the available records and the selected situation.'));
+      const source=node('a','Read about our data and its limits');source.href='data-sources.html';details.append(source);target.append(details);
+    }catch(_){evidence=null;target.append(node('p','The model summary is unavailable right now. Try again later.','ui-state'));}
     try{
       const response=await fetch('/static/data/innings-evidence.json',{credentials:'omit'});if(!response.ok)throw Error();const report=await response.json();if(report.promoted!==false || report.experimental!==true)throw Error();
-      const section=node('section',null,'ui-panel');section.append(node('h2','Innings & match research'),node('p','Separate targets: a batter’s terminal score at first entry, and one joint match result. These are research evaluations, not current score or win forecasts.','ui-notice'));
+      const section=node('section',null,'ui-panel');section.append(node('h2','Looking beyond the next ball'),node('p','We are also testing estimates of a batter’s final score and the match result. These are not available as live forecasts.','ui-notice'));
       const scoreDelta=report.targets.player.loss_delta.context_reference,matchDelta=report.targets.match.loss_delta.context_reference;
-      const scoreFinding=scoreDelta.upper_95<0?'Player-score log loss improved over entry state. ':scoreDelta.lower_95>0?'Player-score log loss worsened versus entry state. ':'Player-score personalization has not clearly beaten the entry-state baseline. ';
-      const matchFinding=matchDelta.upper_95<0?'Match-result log loss improved. ':'Match-result log loss has no clear measured improvement. ';
+      section.append(node('h3','How many runs might a batter finish with?'),node('p',scoreDelta.upper_95<0?'Player history helped estimate scoring ranges in recorded matches. More testing is needed before offering match-day estimates.':'Adding player history has not yet clearly improved scoring-range estimates over the situation when the batter arrives.'));
       const matchMetrics=report.targets.match.metrics;
-      section.append(node('p',scoreFinding+matchFinding+(matchMetrics.candidate.top_label_ece_10bins>matchMetrics.rivalry.top_label_ece_10bins?'Match-result calibration worsened. ':'')+'Neither model is promoted.'));
-      const details=node('details',null,'ui-record-details');details.append(node('summary','Inspect longer-horizon evaluation'));
-      details.append(node('p',report.test_matches+' held-out matches · '+report.player_test_rows.toLocaleString()+' entered-player innings · '+report.test_period+'. Same historical date cohort previously examined for next-ball outcomes; no prospective validation.'));
-      for(const [key,label] of [['player','Terminal batter-score bins'],['match','Joint match result']]){
-        const table=node('table'),caption=node('caption',label),head=node('thead'),row=node('tr');['Model','Log loss ↓','Calibration error ↓'].forEach(value=>row.append(node('th',value)));head.append(row);const body=node('tbody');
-        Object.entries(report.targets[key].metrics).forEach(([name,values])=>{const tr=node('tr');[name,values.log_loss.toFixed(4),values.top_label_ece_10bins.toFixed(4)].forEach(value=>tr.append(node('td',value)));body.append(tr);});table.append(caption,head,body);details.append(table);
-      }
-      details.append(node('p','Score bins describe observed completed innings, including not-outs and shortened chases. They do not estimate runs had play continued. Century evidence is sparse. Weather and psychological effects are excluded.'));
-      section.append(details);target.append(section);
-    }catch(_){target.append(node('p','Longer-horizon research report unavailable.','ui-card-scope'));}
+      section.append(node('h3','Who is more likely to win?'),node('p',matchDelta.upper_95<0?'Match context improved overall result estimates in past matches.':'We have not yet established that extra match context improves result estimates.'));
+      if(matchMetrics.candidate.top_label_ece_10bins>matchMetrics.rivalry.top_label_ece_10bins)section.append(node('p','The win probabilities still need work: the percentages did not match actual outcome frequencies as well as the simpler comparison model.'));
+      section.append(node('p','A completed innings can end with a not-out or a shortened chase. These tests do not estimate how many runs a player would have scored if play had continued.','ui-card-scope'));target.append(section);
+    }catch(_){target.append(node('p','The innings and match outlook summary is unavailable right now.','ui-card-scope'));}
   }
   function liveWidget(){
     const panel=node('section',null,'ui-panel ui-live-widget'), controls=node('div',null,'ui-hero-actions'), slot=node('div');
@@ -177,7 +192,7 @@
         const samples=node('details',null,'ui-record-details');samples.append(node('summary','Context sample sizes and learned mixture weights'));
         Object.entries(data.component_samples).forEach(([family,count])=>samples.append(node('p',family.replaceAll('_',' ')+': '+count.toLocaleString()+' training/history attempts · mixture weight '+(100*data.mixture_weights[family]).toFixed(1)+'%')));results.append(samples,node('p','Not modelled: '+data.unsupported_context.join('; ')+'.','ui-notice'));
         const joint=node('details',null,'ui-record-details');joint.append(node('summary','Full coherent joint distribution · '+(100*data.unknown_mass).toFixed(3)+'% OTHER'));
-        Object.entries(data.distribution).sort((a,b)=>b[1]-a[1]).forEach(([label,p])=>joint.append(node('p',label+' → '+(100*p).toFixed(3)+'%')));results.append(joint);
+        Object.entries(data.distribution).sort((a,b)=>b[1]-a[1]).forEach(([label,p])=>joint.append(node('p',outcomeLabel(label)+' → '+(100*p).toFixed(1)+'%')));results.append(joint);
       }
       submit.addEventListener('click',async()=>{
         const current=++generation;submit.disabled=true;results.replaceChildren(node('p','Calculating contextual probabilities…','ui-state'));
@@ -190,5 +205,5 @@
     }catch(_){target.replaceChildren(node('p','Scenario model unavailable. Retry the prediction centre when the API is ready.','ui-state'));}
     finally{target.setAttribute('aria-busy','false');}
   }
-  window.CriclyticsExperience=Object.freeze({segments,formats,picker,playerCard,empirical,research,name,teams,liveWidget,scenarioExplorer});
+  window.CriclyticsExperience=Object.freeze({segments,formats,picker,playerCard,empirical,research,name,teams,liveWidget,scenarioExplorer,clickableCard,outcomeLabel});
 }());

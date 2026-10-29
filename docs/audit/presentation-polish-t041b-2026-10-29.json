@@ -1,0 +1,563 @@
+{
+  "date": "2026-10-29",
+  "ticket": "T041B",
+  "base_commit": "7fb9f0c",
+  "footer_reference": "main:index.html, read only",
+  "tests": {
+    "run": 115,
+    "passed": 114,
+    "skipped": 1
+  },
+  "javascript_syntax": [
+    "application.js",
+    "experience.js",
+    "coaching.js"
+  ],
+  "python_compilation": "passed",
+  "builds": {
+    "pages": 19,
+    "all_pages_have_footer_credit_and_disclaimer": true,
+    "frontend_files": 148,
+    "backend_files": 234
+  },
+  "targeted_interactions": [
+    {
+      "width": 375,
+      "check": "footer links, ownership, coverage and home heading",
+      "passed": true
+    },
+    {
+      "width": 375,
+      "check": "player card surface and plain-language ML insights",
+      "passed": true
+    },
+    {
+      "width": 375,
+      "check": "team, venue and match card surfaces",
+      "passed": true
+    },
+    {
+      "width": 375,
+      "check": "secondary compare action and named probability panels",
+      "passed": true
+    },
+    {
+      "width": 375,
+      "check": "populated search and single genuine empty state",
+      "passed": true
+    },
+    {
+      "width": 375,
+      "check": "scouting export action spacing",
+      "passed": true
+    },
+    {
+      "width": 375,
+      "check": "actual scenario calculation with readable delivery outcomes",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "check": "footer links, ownership, coverage and home heading",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "check": "player card surface and plain-language ML insights",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "check": "team, venue and match card surfaces",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "check": "secondary compare action and named probability panels",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "check": "populated search and single genuine empty state",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "check": "scouting export action spacing",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "check": "actual scenario calculation with readable delivery outcomes",
+      "passed": true
+    }
+  ],
+  "all_page_browser_cases": [
+    {
+      "page": "about.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "compare.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "data-sources.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "disclaimer.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "index.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "match-detail.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "match-upcoming.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "matches.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "player-profile.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "players.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "rankings.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "records.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": [
+        {
+          "tag": "TABLE",
+          "id": "",
+          "classes": "ui-table"
+        },
+        {
+          "tag": "CAPTION",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "THEAD",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TR",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TH",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TH",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TH",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TH",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TBODY",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TR",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TD",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TD",
+          "id": "",
+          "classes": ""
+        }
+      ]
+    },
+    {
+      "page": "scouting.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "search.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "team-profile.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": [
+        {
+          "tag": "TABLE",
+          "id": "",
+          "classes": "ui-table"
+        },
+        {
+          "tag": "CAPTION",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "THEAD",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TR",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TH",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TH",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TH",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TH",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TBODY",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TR",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TD",
+          "id": "",
+          "classes": ""
+        },
+        {
+          "tag": "TD",
+          "id": "",
+          "classes": ""
+        }
+      ]
+    },
+    {
+      "page": "teams.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "venue-profile.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "venues.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "workspace.html",
+      "width": 375,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 375,
+      "document": 375,
+      "overflow": []
+    },
+    {
+      "page": "about.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "compare.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "data-sources.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "disclaimer.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "index.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "match-detail.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "match-upcoming.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "matches.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "player-profile.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "players.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "rankings.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "records.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "scouting.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "search.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "team-profile.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "teams.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "venue-profile.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "venues.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    },
+    {
+      "page": "workspace.html",
+      "width": 1440,
+      "errors": [],
+      "http_failures": [],
+      "viewport": 1440,
+      "document": 1440,
+      "overflow": []
+    }
+  ],
+  "screenshots": "private ignored build/t041b-browser; footer inspected at both widths",
+  "scope": "targeted presentation fixes only; statistical contracts and APIs unchanged; no new collector/model promotion or deployment"
+}

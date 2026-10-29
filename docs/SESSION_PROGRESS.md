@@ -289,3 +289,25 @@ image execution remains unverified. No hosted CI, inventory review, deployment,
 rotation, source approval, data/model promotion, paid service or remote Git
 mutation. Owner's existing5050 preview is not restarted. T042 remains paused.
 Only local commits on this new branch are authorized; push/merge await approval.
+
+## T041B targeted presentation fixes — 2026-10-29
+
+The owner deferred the broad UI redesign but requested specific footer/card/copy/
+comparison/scouting/search fixes and explicitly authorized commit and push.
+Branch `fix/t041b-presentation-polish` from `7fb9f0c` includes the preceding local
+audit cleanup through ancestry. This publication authorization applies to the
+fix branch; it does not authorize merging or mutating main/dev.
+
+Restored main's footer navigation, information pages, contact and Kryzect credit
+on all19pages; moved concise coverage/mode notes below content. Native entity/
+match card surfaces navigate to profiles/scorecards while secondary links work.
+ML findings and delivery outcomes use plain cricket language; comparison panels
+identify their player; scouting actions have spacing; populated search results
+do not show empty-category notices. No broader layout redesign or statistics change.
+
+115tests114pass/one skip, compilation and changed-JS syntax pass; clean builds
+and all19footer checks pass. Playwright14targeted interactions on the configured
+preview plus38page-width cases pass at375/1440px. Mobile/desktop footer images
+reviewed; evidence is audit/presentation-polish-t041b-2026-10-29.json. Browser
+intercepts session discovery to avoid private forecast writes and blocks third
+parties. No new collector, private data/model edits, deployment or promotion.

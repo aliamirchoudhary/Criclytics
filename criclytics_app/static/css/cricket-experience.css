@@ -167,3 +167,28 @@ body[data-page=index] .ui-hero h1 span {color:#65beff;font-style:italic}
   .ui-tabs button {font-size:.72rem;padding:9px 12px}
 }
 @media(prefers-reduced-motion:reduce) {.ui-player-card,.ui-quick-grid>a {transition:none}}
+.ui-click-card {position:relative;isolation:isolate;transition:border-color .15s,box-shadow .15s}
+.ui-click-card .ui-card-primary {position:static}
+.ui-card-primary::after {content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;cursor:pointer}
+.ui-click-card a:not(.ui-card-primary),.ui-click-card button {position:relative;z-index:2}
+.ui-click-card:hover {border-color:#78b9f2;box-shadow:0 5px 20px #020a1840}
+.ui-click-card:focus-within {outline:2px solid #8fd1ff;outline-offset:3px}
+.ui-scouting-actions {display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}
+.ui-scouting-actions button {min-height:44px}
+.ui-player-probabilities + .ui-player-probabilities {margin-top:24px}
+.ui-footer {display:block;margin-top:40px;padding:40px;max-width:1360px}
+.ui-footer-main {display:grid;grid-template-columns:1.5fr 1fr 1.15fr 1fr;gap:32px}
+.ui-footer-brand p {max-width:30ch;line-height:1.8;margin-top:16px}
+.ui-footer-main nav {display:flex;flex-direction:column;align-items:flex-start}
+.ui-footer-main h2 {font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text);margin:8px 0 12px}
+.ui-footer-main nav a {min-height:40px;line-height:1.5;padding:5px 0}
+.ui-footer a:hover {color:#8fd1ff}
+.ui-footer-notes {margin-top:30px;padding:20px 0;border-block:1px solid var(--line);font-size:.75rem;line-height:1.8}
+.ui-footer-notes p {margin:6px 0}
+.ui-footer-notes .ui-coverage {font-size:inherit;max-width:none}
+.ui-footer-bottom {display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:20px;flex-wrap:wrap}
+.ui-kryzect-credit,.ui-kryzect-credit a {display:inline-flex;align-items:center;gap:9px}
+.ui-kryzect-credit a {font-weight:700;color:var(--text)}
+.ui-kryzect-credit img {object-fit:contain}
+@media(max-width:800px){.ui-footer {padding:28px 18px}.ui-footer-main {grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.ui-footer-brand {grid-column:1/-1}.ui-footer-bottom {align-items:flex-start;flex-direction:column;gap:8px}}
+@media(max-width:420px){.ui-footer-main {gap:22px 14px}.ui-footer-main nav a {font-size:.7rem}.ui-scouting-actions {flex-direction:column;align-items:stretch}}

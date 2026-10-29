@@ -33,12 +33,14 @@
       const url=URL.createObjectURL(new Blob([text],{type:'application/json'})),anchor=node('a','Download');anchor.href=url;anchor.download=filename;
       document.body.append(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
     }
-    privatePanel.append(button('Export private plan',()=>{
+    const exportActions=node('div',null,'ui-scouting-actions');
+    exportActions.append(button('Export private plan',()=>{
       try {
         const value=validatePlan({schema_version:1,selectors:selectors(),notes:privateFields.notes.value,roster:privateFields.roster.value,assumptions:privateFields.assumptions.value,evidence});
         download(value,'criclytics-private-plan.json');notice.textContent='Private plan exported to a local file. Keep it private.';
       } catch (_) {notice.textContent='Plan could not be exported. Check field and file limits.';}
     }),button('Export public evidence',()=>{if(evidence){download(evidence,'criclytics-scouting-evidence.json');notice.textContent='Public source evidence exported without private notes.';}else notice.textContent='Prepare evidence first.';}));
+    privatePanel.append(exportActions);
     const importLabel=node('label','Import private plan from a local file'),file=node('input');file.type='file';file.accept='.json,application/json';file.id='coach-import';importLabel.htmlFor=file.id;privatePanel.append(importLabel,file);
     file.addEventListener('change',async()=>{
       try {

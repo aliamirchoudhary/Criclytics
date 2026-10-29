@@ -2,8 +2,8 @@
 
 Current checkpoint: [pre-plan audit](docs/PRE_PLAN_AUDIT.md) and
 [T041A cleanup](tickets/t041a-pre-plan-audit-remediation.md). The owner requested
-these fixes before further platform expansion. T042 is the next roadmap ticket
-after cleanup and UI review; this index does not authorize starting the backlog.
+these fixes before further platform expansion. T041B adds the owner-requested targeted presentation fixes. T042 is the next roadmap ticket
+after this cleanup; the broader UI redesign is deferred until the other platform work; this index does not authorize starting the backlog.
 
 Read [current architecture](docs/ARCHITECTURE.md),
 [platform plan](docs/CRICKET_PLATFORM_MASTER_PLAN.md), and
@@ -79,6 +79,7 @@ See [master plan](docs/CRICKET_PLATFORM_MASTER_PLAN.md) and its
 |---|---|---|---|---|
 | [T041](tickets/t041-automated-cricsheet-ingestion.md) | Automated authoritative Cricsheet ingestion | P1 | T015,T016 | Implemented locally; durable publication/activation pending |
 | [T041A](tickets/t041a-pre-plan-audit-remediation.md) | Pre-plan audit remediation A01?A12 | P1 | T041, audit | Implemented locally; review pending |
+| [T041B](tickets/t041b-targeted-presentation-polish.md) | Footer and targeted browsing/presentation fixes | P1 | T041A | Implemented; review pending |
 | [T042](tickets/t042-durable-data-publication.md) | Durable zero-cost publication and scheduler health | P1 | T041 | Planned |
 | [T043](tickets/t043-canonical-multisource-data-layer.md) | Canonical multi-source medallion contracts | P1 | T041,T017 | Planned |
 | [T044](tickets/t044-licensed-player-media.md) | Licensed player imagery and quality pipeline | P1 | T017,T043 | Planned |
