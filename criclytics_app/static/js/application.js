@@ -337,12 +337,28 @@
     app.replaceChildren(views);
   }
   function rankings() {
-    const fmt=ux.formats('T20I',false),category=ux.segments('Rankings',[['batting','Batting leaders'],['bowling','Bowling leaders'],['archive','ICC archive']],'batting');
+    const fmt=ux.formats('T20I',false),category=ux.segments('Rankings',[['batting','Batting leaders'],['bowling','Bowling leaders'],['archive','ICC snapshots']],'batting');
     filters([fmt,category],async()=>{
       const content=node('div');
       if(category.input.value==='archive'){
         const official=node('a','View current official ICC rankings ↗');official.href='https://www.icc-cricket.com/rankings';official.className='ui-action-primary';
-        content.append(node('p','This archive is not current ICC ranking evidence. Live ICC updates require an approved source; old default ratings are not displayed as current.','ui-notice'),official);
+        const choice=ux.segments('Official ranking category',[['batting','Batting'],['bowling','Bowling'],['allrounder','All-rounders'],['teams','Teams']],'batting'),output=node('div');
+        let rankingGeneration=0;
+        async function show(){
+          const own=++rankingGeneration,selected=choice.input.value;
+          output.setAttribute('aria-busy','true');
+          try{
+            const data=await request('/api/icc-rankings?'+new URLSearchParams({format:fmt.input.value,category:selected}));
+            if(own!==rankingGeneration)return;
+            output.replaceChildren();
+            if(!data.available){output.append(node('p','Official rankings are unavailable here. Follow ICC for current rankings. Historical dataset leaders remain available above.','ui-notice'));return;}
+            output.append(node('p','ICC snapshot · ranking date '+data.effective_date+' · observed '+data.fetched_at+(data.stale?' · stale snapshot':'')+(data.backup_used?' · retained backup':''),'ui-notice'));
+            output.append(table('ICC '+fmt.input.value+' '+selected,['Rank',selected==='teams'?'Team':'Player','Country','Rating'],data.rankings.map(r=>[r.rank,r.team||r.player,r.country,r.rating])));
+          }catch(error){if(own===rankingGeneration)output.replaceChildren(node('p','Official rankings could not be loaded. Use the ICC link.','ui-notice'));}
+          finally{if(own===rankingGeneration)output.removeAttribute('aria-busy');}
+        }
+        choice.input.addEventListener('change',show);
+        content.append(choice.wrap,output,official);await show();
         return content;
       }
       const data=await request('/api/rankings?'+new URLSearchParams({format:fmt.input.value,type:category.input.value,limit:30}));

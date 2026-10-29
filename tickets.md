@@ -60,7 +60,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 
 | [T035](tickets/t035-shared-read-serving-and-capacity.md) | Shared read serving and capacity | P1 | T033 | Implemented locally; hosted verification pending |
 
-| [T036](tickets/t036-real-ranking-snapshots-and-backup.md) | Real ranking snapshots and backup | P1 | T033 | Planned |
+| [T036](tickets/t036-real-ranking-snapshots-and-backup.md) | Real ranking snapshots and backup | P1 | T033 | Local import/backup implemented; public rights blocked |
 
 | [T037](tickets/t037-context-availability-and-annotation-workflow.md) | Context availability and annotation workflow | P1 | T034,T023 | Planned |
 

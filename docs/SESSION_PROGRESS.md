@@ -160,3 +160,13 @@ singleflight, ETags and query limits; private/live/scenario exclusions. Actual
 four computations,196hits. PUBLIC_READ_CAPACITY.md records real limits.
 96tests95pass/one skip. T034 broader95page-width/four-interaction matrix passed.
 No hosting stress/publication. Next T036 real-source snapshot/backup work.
+
+## T036 local ranking import and backup - 2026-10-29
+
+Branch feat/t036-ranking-snapshots from054c0a5. Actual ICC men's T20I batting/team
+personal extracts dated2026-10-27 imported privately. Strict offline parser,
+atomic last-good slots, hashes, original observation and corruption fallback;
+local-only guard prevents public redistribution. No automated fetch/source gate
+bypass or hardcoded API fallback. Ranking and broader375/1440flows pass; focused
+three tests pass, previous98suite97pass/one skip. RANKING_SNAPSHOTS.md records
+source scope/other-format gaps. Public source rights remain blocked. Continue T037.

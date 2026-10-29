@@ -2,6 +2,7 @@
 import json
 import os
 import re
+import sqlite3
 from datetime import datetime
 from werkzeug.exceptions import Conflict
 from flask import Blueprint, current_app, jsonify, request
@@ -901,17 +902,27 @@ def get_icc_rankings():
     category = request.args.get("category", "batting")
     fmt      = request.args.get("format", "T20I")
     from werkzeug.exceptions import BadRequest
-    from ..integrations.rankings import build_hardcoded_rankings
     from ..services.provenance import metadata
     if category not in ('teams', 'batting', 'bowling', 'allrounder'):
         raise BadRequest('Unsupported ranking category')
-    data = load_live('rankings.json') or build_hardcoded_rankings()
-    result = (data.get('team', {}).get(fmt, []) if category == 'teams' else
-              data.get('player', {}).get(category, {}).get(fmt, []))
-    stored_info = data.get('category_metadata', {}).get(category + ':' + fmt)
-    info = metadata(stored_info or data)
-    return jsonify({'category': category, 'format': fmt, 'rankings': result or [],
-                    'provenance': info, **info})
+    from ..integrations.ranking_snapshots import read
+    from ..web.local_access import is_local_request
+    store = current_app.config['RANKING_SNAPSHOT_STORE']
+    # Personal extracts cannot become a public feed through a config switch.
+    data = None
+    if store and is_local_request():
+        try:
+            data = read(store,category,fmt)
+        except (OSError,ValueError,KeyError,sqlite3.Error):
+            pass
+    info = metadata(data)
+    response = jsonify({'available':data is not None,'category':category,'format':fmt,
+        'rankings':data['rankings'] if data else [],'provenance':info,**info,
+        'source_url':data['source_url'] if data else 'https://www.icc-cricket.com/rankings',
+        'rights_scope':'local_personal_only' if data else 'no_approved_public_snapshot',
+        'backup_used':data.get('backup_used',False) if data else False})
+    response.headers['Cache-Control']='no-store'
+    return response
 
 
 @bp.route("/api/meta/players")

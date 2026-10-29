@@ -1,0 +1,23 @@
+{
+  "cases": [
+    {
+      "width": 375,
+      "passed": true,
+      "batting_rows": 20,
+      "team_rows": 100,
+      "source_date_displayed": true,
+      "missing_category_unavailable": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "passed": true,
+      "batting_rows": 20,
+      "team_rows": 100,
+      "source_date_displayed": true,
+      "missing_category_unavailable": true,
+      "errors": []
+    }
+  ],
+  "scope": "Local personal extract only; no public reuse or automated refresh approved."
+}

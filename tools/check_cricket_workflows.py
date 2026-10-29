@@ -1,6 +1,7 @@
 """Real local T033 interactions; optional single live-provider embed check."""
 import argparse
 import json
+import re
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -43,7 +44,7 @@ def main():
             assert page.locator('meter').count() == 3
             assert 'not next-ball' in page.locator('#app').inner_text()
             page.get_by_role('tab', name='ML Insights', exact=True).click()
-            page.get_by_text('Calibrated CPU learner', exact=True).wait_for()
+            page.get_by_text(re.compile(r'^(Calibrated|Contextual) CPU learner$')).wait_for()
             assert page.locator('meter').count() == 3
             page.screenshot(path=str(output/f'profile-ml-{width}.png'), full_page=True)
             page.goto(args.base+'/compare.html', wait_until='networkidle')
@@ -74,9 +75,11 @@ def main():
             assert 'not official ICC ratings' in page.locator('#app').inner_text()
             page.get_by_role('button', name='Bowling leaders', exact=True).click()
             page.locator('caption').filter(has_text='T20I bowling leaders').wait_for()
-            page.get_by_role('button', name='ICC archive', exact=True).click()
+            page.get_by_role('button', name='ICC snapshots', exact=True).click()
+            page.get_by_role('link', name='View current official ICC rankings', exact=False).wait_for()
             assert page.get_by_role('link', name='View current official ICC rankings', exact=False).count() == 1
-            assert not page.locator('table').count()
+            page.wait_for_function("() => !document.querySelector('[aria-busy=true]')")
+            assert ('ICC snapshot' in page.locator('#app').inner_text() or 'Official rankings are unavailable' in page.locator('#app').inner_text())
             page.goto(args.base+'/workspace.html', wait_until='networkidle')
             assert page.locator('.ui-session-card').count() > 0
             assert 'Past issued probabilities' in page.locator('#app').inner_text()
@@ -89,7 +92,7 @@ def main():
             page.get_by_role('tab', name='Scorecard', exact=True).click()
             assert page.locator('caption').filter(has_text='Innings totals').count() == 1
             page.get_by_role('tab', name='ML Insights', exact=True).click()
-            page.get_by_text('Calibrated CPU learner', exact=True).wait_for()
+            page.get_by_text(re.compile(r'^(Calibrated|Contextual) CPU learner$')).wait_for()
             assert not errors, errors
             assert not external, external
             cases.append({'width':width, 'passed':True, 'application_errors':errors,

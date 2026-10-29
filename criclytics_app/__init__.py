@@ -27,6 +27,7 @@ def create_app(config=None):
         IDENTITY_PLAYER_STORE=os.getenv("IDENTITY_PLAYER_STORE", ""),
         SCOUTING_SAMPLE=os.getenv('SCOUTING_SAMPLE',''),
         PLAYER_MEDIA_MANIFEST=os.getenv('PLAYER_MEDIA_MANIFEST',''),
+        RANKING_SNAPSHOT_STORE=os.getenv('RANKING_SNAPSHOT_STORE',''),
         SCENARIO_MODEL=os.getenv('SCENARIO_MODEL',''),
         SCENARIO_MODEL_SHA256=os.getenv('SCENARIO_MODEL_SHA256',''),
         SCENARIO_EVALUATION=os.getenv('SCENARIO_EVALUATION',''),
