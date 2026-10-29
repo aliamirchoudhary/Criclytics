@@ -1,5 +1,4 @@
 from copy import deepcopy
-import json
 from pathlib import Path
 import tempfile
 import unittest

@@ -1,7 +1,6 @@
 from copy import deepcopy
 import contextlib
 import io
-import json
 from pathlib import Path
 import tempfile
 import unittest

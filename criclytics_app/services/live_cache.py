@@ -1,9 +1,7 @@
 """Atomic disk last-good cache, timestamped Redis acceleration and SQLite leases."""
 import json
-import os
 from pathlib import Path
 import sqlite3
-import tempfile
 import time
 import uuid
 from contextlib import contextmanager

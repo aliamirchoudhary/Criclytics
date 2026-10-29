@@ -1,5 +1,4 @@
 import io
-import json
 import logging
 from pathlib import Path
 import tempfile
@@ -7,7 +6,7 @@ import unittest
 from unittest.mock import patch, Mock
 import requests
 from criclytics_app import create_app
-from criclytics_app.services.diagnostics import REQUIRED, Diagnostics
+from criclytics_app.services.diagnostics import REQUIRED
 from criclytics_app.services.json_io import atomic_json
 from criclytics_app.services.legacy import fetch_cricapi
 

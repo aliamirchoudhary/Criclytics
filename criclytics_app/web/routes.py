@@ -1,5 +1,5 @@
 """Public pages are an explicit allowlist; private files are never served."""
-from flask import Blueprint, abort, current_app, make_response, redirect, request, send_from_directory, url_for
+from flask import Blueprint, abort, current_app, make_response, redirect, send_from_directory, url_for
 
 from ..frontend import runtime_script
 

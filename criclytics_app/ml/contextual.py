@@ -214,10 +214,12 @@ def fit(directory, output, cutoff, maximum=None):
     model['weights']=weights.tolist()
     for index,row in enumerate(rows):
         array,_=components(model,row[0],[convert(row[2]),convert(row[3])]);mixture[index]=weights@array
-    result=minimize_scalar(lambda t:float(-np.log(calibrated(mixture,t)[np.arange(len(y)),y]).mean()),bounds=(.5,3),method='bounded')
+    def calibration_loss(temperature, probabilities=mixture, observed=y):
+        return float(-np.log(calibrated(probabilities,temperature)[np.arange(len(observed)),observed]).mean())
+    result=minimize_scalar(calibration_loss,bounds=(.5,3),method='bounded')
     if not result.success:raise ValueError('Calibration failed')
     model['temperature']=float(result.x)
-    del mixture,true_probs,rows,convert
+    del mixture,true_probs,rows,convert,calibration_loss
     samples['calibration']=[]
     rows=samples['test']; predicted,_,y,convert=matrices(rows)
     global_p=np.empty_like(predicted);phase_p=np.empty_like(predicted)

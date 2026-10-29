@@ -1,0 +1,551 @@
+{
+  "builds": {
+    "pages": 19,
+    "frontend_files": 148,
+    "backend_files": 234,
+    "retired_js_absent": true,
+    "private_artifacts": [],
+    "archived_code_not_staged": true
+  },
+  "javascript": {
+    "files": 7,
+    "failed": []
+  },
+  "browser": {
+    "cases": [
+      {
+        "page": "about.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "compare.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "data-sources.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "disclaimer.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "index.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "match-detail.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "match-upcoming.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "matches.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "player-profile.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "players.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "rankings.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "records.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "classes": "ui-table"
+          },
+          {
+            "tag": "CAPTION",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          }
+        ]
+      },
+      {
+        "page": "scouting.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "search.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "team-profile.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "classes": "ui-table"
+          },
+          {
+            "tag": "CAPTION",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "classes": ""
+          }
+        ]
+      },
+      {
+        "page": "teams.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "venue-profile.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "venues.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "workspace.html",
+        "width": 375,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 375,
+        "document": 375,
+        "overflow": []
+      },
+      {
+        "page": "about.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "compare.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "data-sources.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "disclaimer.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "index.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "match-detail.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "match-upcoming.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "matches.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "player-profile.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "players.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "rankings.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "records.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "scouting.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "search.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "team-profile.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "teams.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "venue-profile.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "venues.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      },
+      {
+        "page": "workspace.html",
+        "width": 1440,
+        "errors": [],
+        "http_failures": [],
+        "viewport": 1440,
+        "document": 1440,
+        "overflow": []
+      }
+    ],
+    "scope": "Fictional CC0 fixtures; 19 pages/mobile+desktop; navigation/search interactions; no third-party traffic"
+  },
+  "dom_security": {
+    "handlers": 0,
+    "textPreserved": true,
+    "foreignImages": false,
+    "executed": 0
+  },
+  "base_image": {
+    "digest": "sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159",
+    "verified_from": [
+      "Docker Registry v2 library/python/manifests/3.12-slim",
+      "https://hub.docker.com/v2/repositories/library/python/tags/3.12-slim"
+    ],
+    "image_execution": "unverified: local Docker daemon unavailable"
+  },
+  "original_processed_sha256": {
+    "completed_matches.json": "0ad2b9206092cd476f66fdf051ef92dabb875a6893470fa2b033214e8ba2e1e2",
+    "h2h.json": "f609903c1809bd3b2282e1503decdb35463c25d5ae80eb070521e06c1ccb35f4",
+    "players_index.json": "4d049a932f1ff7e823438b7b59e5c774ba961fbe171e5235100e4f12aa0b2003",
+    "player_venues.json": "0394d9d436de69aeb687e28efdc3aa0190afac4f267caed42699a5d1e485c6b1",
+    "player_vs_opp.json": "119e5411b76989aad08652d9f3894cb1ed64780a494688711a008265bf720d51",
+    "player_yearly.json": "8deb80a1d43250e7122e4107d4d6c98164d665bca6b5fc7e6aba76d714500879",
+    "records.json": "112b83f3b5684a168d7ab021567fae9ec76d9d699bdb0149e8a51a99bd613b84",
+    "team_format_stats.json": "2467d4417cdce148127035a2012ae15ee9effe67f549ba01503f12eee352f14f",
+    "team_venue_stats.json": "8602522d852566731e795a81a8844405fc888a89bfb753b301048337ae65af1b",
+    "venue_batters.json": "eec908c9bc439eb7a74977607eada2a2f11fd73fe80487ada56bad783c29cdb9",
+    "venue_bowlers.json": "981566db0ea205f1b250a3a7c10199824c55371c6fbe90ba3d4e6c2b1bfff980",
+    "venue_insights.json": "fea2a738fb95f01455d7c3118c4f86fd3af79bf9f37aebf8bfa396f654c434ef",
+    "venue_stats.json": "1b3c2234080f6e47342f71511825d3e120c61bce99a2f94b3c6242978b98a1b7"
+  },
+  "date": "2026-10-29",
+  "base_commit": "d7a1599",
+  "ticket": "T041A",
+  "remote_operations": [],
+  "contract_extraction": {
+    "pipeline_functions_compared": 38,
+    "pipeline_changed": [],
+    "api_functions_compared": 34,
+    "api_changed": [
+      "get_series"
+    ]
+  },
+  "tests": {
+    "run": 115,
+    "passed": 114,
+    "skipped": 1,
+    "scope": "offline full suite including nine remediation boundary regressions"
+  },
+  "python_compilation": "passed",
+  "core_lint": {
+    "selector": "F,E9",
+    "configuration": "isolated",
+    "diagnostics": 0
+  },
+  "bandit": {
+    "warnings": 11,
+    "counts": {
+      "B101": 1,
+      "B608": 8,
+      "B110": 2
+    },
+    "interpretation": "SQL uses fixed/allowlisted fragments with bound values. Remaining deliberate cache recovery boundaries and one invariant assertion. No runtime pickle or URL-open warnings."
+  },
+  "docker_runtime_verified": false,
+  "remote_inventory_verified": false,
+  "owner_preview_restarted": false,
+  "deployment": null,
+  "archived_frontend_text_verified": 19,
+  "archive_comparison": "UTF-8 text equality after normalizing checkout CRLF to Git LF"
+}

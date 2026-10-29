@@ -2,7 +2,6 @@
 from collections import OrderedDict
 from copy import deepcopy
 from pathlib import Path
-import json
 import threading
 from .json_io import read_json
 

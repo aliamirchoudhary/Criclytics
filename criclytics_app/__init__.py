@@ -15,7 +15,8 @@ def create_app(config=None):
     app = Flask(__name__, static_folder=str(PACKAGE_ROOT / "static"),
                 template_folder=str(PACKAGE_ROOT / "templates"))
     app.config.from_mapping(
-        PROCESSED_DIR=str(PROJECT_ROOT / "data" / "processed"),
+        PROCESSED_DIR=os.getenv("PROCESSED_DIR") or str(PROJECT_ROOT / "data" / "unselected"),
+        LEGACY_DATA_ENABLED=os.getenv("LEGACY_DATA_ENABLED", "0") == "1",
         RAW_DIR=str(PROJECT_ROOT / "data" / "raw"),
         LIVE_DIR=str(PROJECT_ROOT / "data" / "live"),
         REFERENCE_DIR=str(PROJECT_ROOT / "data" / "static"),
@@ -51,9 +52,15 @@ def create_app(config=None):
     )
     if config:
         app.config.update(config)
+    if app.config["LEGACY_DATA_ENABLED"] and not (config and "PROCESSED_DIR" in config) and not os.getenv("PROCESSED_DIR"):
+        app.config["PROCESSED_DIR"] = str(PROJECT_ROOT / "data" / "processed")
     if app.config["DATASET_STORE"]:
         from .pipeline.artifacts import selected
         app.config["PROCESSED_DIR"] = str(selected(app.config["DATASET_STORE"]))
+    app.config['DATA_SELECTION_MODE'] = (
+        'verified_store' if app.config['DATASET_STORE'] else
+        'explicit_directory' if (config and 'PROCESSED_DIR' in config) or os.getenv('PROCESSED_DIR') else
+        'legacy_archive_opt_in' if app.config['LEGACY_DATA_ENABLED'] else 'unselected')
     from .services.identities import initialize as initialize_identities
     initialize_identities(app)
     from .services.player_id_stats import initialize as initialize_player_stats

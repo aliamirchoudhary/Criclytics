@@ -56,7 +56,7 @@ class Builder:
         venue_name=info.get('venue','Unknown venue')
         candidates=self.register_alias['venue'].get(key(venue_name),set())
         vid=next(iter(candidates)) if len(candidates)==1 else local_id('venue',venue_name,info.get('city'))
-        venue=self.entity('venue',vid,venue_name)
+        self.entity('venue',vid,venue_name)
         if len(candidates)>1:self.unresolved.append({'kind':'venue','name':venue_name,'candidates':sorted(candidates),'reason':'ambiguous_register_alias'})
         for team,names in info['players'].items():
             for name in names:

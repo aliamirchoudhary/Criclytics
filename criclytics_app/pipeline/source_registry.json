@@ -1,6 +1,6 @@
 {
-  "version": "2026-10-28",
-  "reviewed_at": "2026-10-28",
+  "version": "2026-10-29",
+  "reviewed_at": "2026-10-29",
   "sources": [
     {
       "id": "cricsheet-json",
@@ -11,7 +11,7 @@
       "license_url": "https://opendatacommons.org/licenses/by/1-0/",
       "attribution": "Derived from Cricsheet JSON match data; modified statistical aggregates by Criclytics.",
       "redistribution": "Preserve source/license notices and attribution; no endorsement. Independent image/personality/trademark rights are not granted.",
-      "updates": "Manual bounded downloads; retain source hashes; not a live feed."
+      "updates": "T041 bounded official archive refresh with immutable source hashes and candidate validation; no automatic serving/model promotion and not a live feed."
     },
     {
       "id": "cricsheet-register",

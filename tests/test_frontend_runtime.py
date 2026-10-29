@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from criclytics_app import create_app
-from criclytics_app.frontend import api_base, runtime_script
+from criclytics_app.frontend import api_base
 from scripts.build_frontend import build
 
 

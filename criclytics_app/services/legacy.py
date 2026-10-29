@@ -14,12 +14,8 @@ Runs on: http://localhost:5000
 import json
 import os
 import re
-import time
 import requests
-from collections import defaultdict
-from datetime import datetime, timedelta
 
-from pathlib import Path
 from flask import current_app
 from werkzeug.local import LocalProxy
 from ..paths import PROJECT_ROOT
@@ -53,21 +49,19 @@ def load_processed(filename):
     from .repository import safe_file
     repo = current_app.extensions['json_repository']
     data = repo.read(safe_file(PROCESSED_DIR, filename))
-    return data if data is not None else repo.read(safe_file(BASE_DIR, filename))
+    return data
 
 
 def completed_match(match_id):
     from .repository import safe_file
     repo = current_app.extensions['json_repository']
-    return (repo.match(safe_file(PROCESSED_DIR, 'completed_matches.json'), match_id)
-            or repo.match(safe_file(BASE_DIR, 'completed_matches.json'), match_id))
+    return repo.match(safe_file(PROCESSED_DIR, 'completed_matches.json'), match_id)
 
 
 def completed_summaries():
     from .repository import safe_file
     repo = current_app.extensions['json_repository']
-    return (repo.summaries(safe_file(PROCESSED_DIR, 'completed_matches.json'))
-            or repo.summaries(safe_file(BASE_DIR, 'completed_matches.json')))
+    return repo.summaries(safe_file(PROCESSED_DIR, 'completed_matches.json'))
 
 
 def load_live(filename):
@@ -315,18 +309,6 @@ def augment_completed_match(match):
         # We still need to ensure basic fields like scoreText and result are set
         match["scoreText"] = match.get("scoreText") or summarize_match_score(match)
 
-        # Prediction check for Context Insights
-        if ml_engine:
-            try:
-                t1, t2 = match.get("team1"), match.get("team2")
-                fmt = match.get("format", "T20")
-                if t1 and t2:
-                    pred = ml_engine.team_match_outcome(t1, t2, format=fmt)
-                    match["prediction"] = pred
-                    if pred and "team_a" in pred:
-                        match["team_a_prob"] = pred["team_a"].get("win_probability", 0.5)
-                        match["team_b_prob"] = pred["team_b"].get("win_probability", 0.5)
-            except: pass
         return match
 
     match_id = str(match.get("id") or match.get("unique_id") or "").strip()

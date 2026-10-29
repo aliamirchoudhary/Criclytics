@@ -263,3 +263,29 @@ Application files, original/private data, selected models, owner's5050 preview,
 credentials and hosted resources unchanged. No fixes/next-ticket implementation,
 push, merge, deployment or remote mutation. Review findings together with owner's
 UI/UX feedback before creating the next cleanup implementation batch.
+
+## T041A audit remediation ? 2026-10-29
+
+User requested fixes before the next platform plan. New chained local branch:
+`fix/pre-plan-audit-findings` from `d7a1599`. All A01-A12 have local code/docs
+remediation; see AUDIT_REMEDIATION.md and ticket t041a. Old collectors/loaders
+are inert, historical code/unused assets archived outside runtime/public output,
+root-data fallback removed, default data selection explicit, API/summary domains
+split, loaded feature readiness reported, staging/container/CI/release guards
+hardened, and current operator documentation updated.
+
+Verification: 115 tests, 114 passed, one optional skip; isolated F/E9 zero findings;
+Python compilation and all seven active JS syntax checks pass. Clean builds:
+19 pages / 148 frontend files / 234 backend files; no private staged artifacts.
+Offline fictional-fixture browser: 38 mobile/desktop cases, zero page errors,
+HTTP failures or horizontal document overflow; navigation/search interactions
+pass. Modern DOM text/media and enforced-CSP checks pass. All 38 pipeline function
+ASTs are unchanged after extraction; among 34 API functions only get_series has
+the intentional centralized-error-handling change. Archived frontend source text
+matches the baseline after line-ending normalization.
+
+Docker digest verified independently via Registry/Hub; daemon unavailable, so
+image execution remains unverified. No hosted CI, inventory review, deployment,
+rotation, source approval, data/model promotion, paid service or remote Git
+mutation. Owner's existing5050 preview is not restarted. T042 remains paused.
+Only local commits on this new branch are authorized; push/merge await approval.

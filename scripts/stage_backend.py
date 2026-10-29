@@ -17,8 +17,11 @@ def stage(output=None):
     for name in ["app.py", "wsgi.py", "requirements.txt", "Dockerfile", ".dockerignore", "README.md"]:
         shutil.copy2(PROJECT_ROOT / name, output / name)
     shutil.copytree(PROJECT_ROOT / "criclytics_app", output / "criclytics_app",
-                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    shutil.copytree(PROJECT_ROOT / "data/static", output / "data/static")
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc", ".env", ".env.*", "*.env",
+                                                 "*.pkl", "*.pickle", "*.sqlite*", "*.db", "*.log"))
+    shutil.copytree(PROJECT_ROOT / "data/static", output / "data/static",
+                    ignore=shutil.ignore_patterns(".env", ".env.*", "*.env", "*.pkl", "*.pickle",
+                                                 "*.sqlite*", "*.db", "*.log"))
     return output
 
 

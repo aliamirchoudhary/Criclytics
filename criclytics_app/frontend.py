@@ -14,7 +14,7 @@ def api_base(value=""):
         raise ValueError("Frontend API base must be an origin without credentials, path or query")
     local = parts.hostname in {"localhost", "127.0.0.1", "::1"}
     try:
-        port = parts.port
+        parts.port  # Validate even though the numeric port is not otherwise needed.
     except ValueError as error:
         raise ValueError("Invalid frontend API port") from error
     if parts.scheme != "https" and not (parts.scheme == "http" and local):

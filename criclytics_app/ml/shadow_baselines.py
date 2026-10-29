@@ -1,7 +1,6 @@
 """Frozen training-only empirical and phase baselines for future shadow issuance."""
 import argparse
 from collections import defaultdict
-import json
 from pathlib import Path
 import numpy as np
 from .baseline import load_model, read_rows, context

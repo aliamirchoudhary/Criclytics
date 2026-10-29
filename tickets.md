@@ -1,21 +1,15 @@
 # Criclytics implementation tickets
 
-Pre-plan checkpoint (2026-10-29): see [the current engineering audit](docs/PRE_PLAN_AUDIT.md).
-It records 12 findings against T041, with fresh test/static/build/browser evidence.
-Next roadmap implementation is paused for the owner's UI review and cleanup planning;
-no new roadmap ticket was implemented during this audit. Earlier introductory
-status text below is historical and needs the documentation cleanup recorded as A12.
+Current checkpoint: [pre-plan audit](docs/PRE_PLAN_AUDIT.md) and
+[T041A cleanup](tickets/t041a-pre-plan-audit-remediation.md). The owner requested
+these fixes before further platform expansion. T042 is the next roadmap ticket
+after cleanup and UI review; this index does not authorize starting the backlog.
 
-Read [the audit](docs/AUDIT.md), [architecture](docs/ARCHITECTURE.md),
-[roadmap](docs/ROADMAP.md), and [branch workflow](docs/GIT_WORKFLOW.md) first.
-Each ticket has its own specification and branch cut from dev. Work one ready
-ticket at a time; this backlog is not an instruction to implement everything now.
-
-T000 is implemented in the current worktree, awaiting review/integration. T001
-requires operator credential/deployment actions. T002 is the next local ticket
-after this structure branch is reviewed. T003/T004/T008 are urgent containment.
-Follow dependencies; pending operator actions do not prevent independent local
-repairs. T024 is optional research and is not a launch prerequisite.
+Read [current architecture](docs/ARCHITECTURE.md),
+[platform plan](docs/CRICKET_PLATFORM_MASTER_PLAN.md), and
+[branch workflow](docs/GIT_WORKFLOW.md). The October25 audit and original roadmap
+are historical baselines. T001 rotations and remote release acceptance remain
+operator work. This session uses local chained branches and local commits only.
 
 P0 = critical containment/correctness; P1 = required foundation; P2 = later
 product/context; P3 = optional research. Planned does not imply dependencies
@@ -84,6 +78,7 @@ See [master plan](docs/CRICKET_PLATFORM_MASTER_PLAN.md) and its
 | Ticket | Work | Priority | Depends on | Status |
 |---|---|---|---|---|
 | [T041](tickets/t041-automated-cricsheet-ingestion.md) | Automated authoritative Cricsheet ingestion | P1 | T015,T016 | Implemented locally; durable publication/activation pending |
+| [T041A](tickets/t041a-pre-plan-audit-remediation.md) | Pre-plan audit remediation A01?A12 | P1 | T041, audit | Implemented locally; review pending |
 | [T042](tickets/t042-durable-data-publication.md) | Durable zero-cost publication and scheduler health | P1 | T041 | Planned |
 | [T043](tickets/t043-canonical-multisource-data-layer.md) | Canonical multi-source medallion contracts | P1 | T041,T017 | Planned |
 | [T044](tickets/t044-licensed-player-media.md) | Licensed player imagery and quality pipeline | P1 | T017,T043 | Planned |
@@ -100,7 +95,7 @@ See [master plan](docs/CRICKET_PLATFORM_MASTER_PLAN.md) and its
 
 ## Agent handoff
 
-Use: "Implement Txxx from its ticket on a new branch from dev. Follow AGENTS.md,
+Use: "Implement Txxx from its ticket on a new branch per the current session override. Follow AGENTS.md,
 keep within scope/$0 constraints, run acceptance checks, update evidence and
 prepare a focused review. Do not deploy/push or start another ticket unless
 that action is authorized."

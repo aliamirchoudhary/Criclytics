@@ -5,20 +5,12 @@ Each ticket uses a short-lived branch cut from the latest local/remote dev:
 `fix/t002-dependencies`, `feat/t018-delivery-events`, etc. PRs target dev.
 A reviewed release PR promotes dev into main; only main may deploy publicly.
 
-This task created local `dev` and `chore/audit-and-flask-structure` from local main
-`ef7c279`. They have not been pushed. Main's pre-existing one-commit difference
-from origin was preserved. Do not imply remote branches/protections already exist.
-
-```powershell
-git switch dev
-git pull --ff-only origin dev  # after the remote dev branch exists
-git switch -c fix/t002-dependencies
-```
-
-Use a clean working tree or explicitly preserved changes before switching. The
-current restructuring changes must be committed/reviewed on their current branch
-before beginning another ticket. Do not reset, stash, overwrite or stage unrelated
-user work. Prefer explicit files when staging. No force pushes to main/dev.
+The initial repository migration setup is historical; it does not establish
+current remote branch/protection state. For the present resumed session, the
+explicit user override below applies: chain a **new** local branch from the
+previous branch and commit there under aliamirchoudhary. Never commit on dev/main
+or push, merge, rebase, reset, tag or change PRs without explicit approval.
+Preserve unrelated work and inspect the tree before switching/staging.
 
 For every implementation:
 
@@ -33,7 +25,7 @@ For every implementation:
 7. Mark Done only after acceptance evidence is reviewed and integrated. Work in
    the current branch can be marked Implemented, awaiting review.
 
-Operator setup still required: push dev once approved, choose dev as the default
+Remote settings must be inspected before claiming protection. Choose dev as the default
 PR base if desired, protect main/dev against direct/force pushes, require checks
 and review where the account supports it, and restrict release secrets to main.
 Do not assume a paid GitHub feature or secret environment is available. T001

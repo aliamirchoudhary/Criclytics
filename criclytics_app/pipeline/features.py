@@ -1,7 +1,6 @@
 """Version1 shared before-attempt features, coherent labels and date-grouped partitions."""
 import argparse
 from collections import defaultdict,deque
-from copy import deepcopy
 import hashlib
 import json
 from pathlib import Path
@@ -33,7 +32,7 @@ class History:
         self.last_completed_date=None
 
     def observe(self,event):
-        result=outcome(event);runs=result['total_runs'];wickets=len(result['dismissals'])
+        result=outcome(event);wickets=len(result['dismissals'])
         self.global_count+=1;self.global_runs+=result['batter_runs'];self.global_wickets+=int(wickets>0)
         for row in (self.batters[event['striker']],self.bowlers[event['bowler']],self.matchups[(event['striker'],event['bowler'])]):
             row[0]+=1;row[1]+=result['batter_runs'];row[2]+=int(wickets>0)

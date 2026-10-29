@@ -1,6 +1,8 @@
 # Pre-plan engineering audit — 2026-10-29
 
 Baseline: `6f7356a` (T041), inspected on `audit/pre-plan-health-check`.
+Remediation follow-up: [T041A changes and remaining verification](AUDIT_REMEDIATION.md).
+The findings below remain the original dated audit, not current unresolved status.
 This is an audit, not implementation of the next roadmap. The application,
 selected datasets, models, credentials, hosted resources and owner's UI preview
 were not changed. The previous AUDIT.md remains the dated original baseline.

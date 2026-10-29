@@ -16,7 +16,7 @@ Run once a week (or after any match completes).
 """
 
 from ..paths import PROJECT_ROOT
-import json, os, time, glob, re
+import json, os, time, glob
 from datetime import datetime, timezone
 try:
     import requests
@@ -50,7 +50,7 @@ def norm(name): return TEAM_NORM.get(name, name)
 
 def ms_to_date(ms):
     try: return datetime.fromtimestamp(int(ms)/1000).strftime("%Y-%m-%d")
-    except: return str(ms)[:10]
+    except (TypeError, ValueError, OverflowError, OSError): return str(ms)[:10]
 
 def api_get(path, params=None):
     from .source_policy import require_source
@@ -59,9 +59,9 @@ def api_get(path, params=None):
     try:
         r = requests.get(RAPIDAPI_BASE + path, headers=HEADERS, params=params, timeout=15)
         if r.status_code == 200: return r.json()
-        print(f"  HTTP {r.status_code}: {path}")
-    except Exception as e:
-        print(f"  Error {path}: {e}")
+        print(f"Provider HTTP status={r.status_code}")
+    except (requests.RequestException, ValueError) as error:
+        print("Provider request failed type=" + type(error).__name__)
     return None
 
 # ── Parse scores from matchScore object ──────────────────────────────────────
@@ -132,7 +132,7 @@ def search_cricsheet(t1, t2, date_str, fmt):
             if not (t1_low in teams and t2_low in teams): continue
             if date_str and match_date != date_str: continue
             return build_scorecard_from_cricsheet(m, info)
-        except Exception:
+        except (OSError, ValueError, TypeError, KeyError):
             continue
     return None
 
@@ -234,10 +234,8 @@ def build_scorecard_from_cricsheet(match_data, info):
 
         # Total from info
         total_str = ""
-        target_info = inn.get("target", {})
         # Get total from last over
         if overs_data:
-            last_over = overs_data[-1]
             total_runs_inn = sum(d.get("runs",{}).get("total",0) for ov in overs_data for d in ov.get("deliveries",[]))
             total_wkts = sum(len(d.get("wickets",[])) for ov in overs_data for d in ov.get("deliveries",[]))
             total_overs = len(overs_data)
@@ -377,8 +375,8 @@ def main():
                 for em in ex.get("data", []):
                     if em.get("score") and em["score"]:
                         existing_sc[em.get("id","")] = em["score"]
-            except Exception:
-                pass
+            except (ValueError, TypeError, AttributeError):
+                print("Existing score snapshot invalid; preserving source file")
     # Apply preserved scorecards to new matches
     for m in all_matches:
         if not m.get("score") and m.get("id") in existing_sc:

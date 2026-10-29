@@ -16,7 +16,6 @@ from ..paths import PROJECT_ROOT
 import json
 import os
 import sys
-import time
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
@@ -54,18 +53,6 @@ def cricapi_get(endpoint, params=None, retries=2):
         print("  ✗  No CricAPI key found.")
         return None
 
-    # Quick reachability check first (1 second timeout to DNS)
-    import socket
-    try:
-        socket.setdefaulttimeout(2)
-        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("api.cricapi.com", 443))
-    except (socket.timeout, OSError):
-        print(f"  ✗  api.cricapi.com is not reachable from this network (blocked/offline)")
-        print(f"     Skipping all CricAPI calls. Use a VPN or different network.")
-        return None
-    finally:
-        socket.setdefaulttimeout(None)
-
     p = {"apikey": CRICAPI_KEY, "offset": 0}
     if params:
         p.update(params)
@@ -80,7 +67,7 @@ def cricapi_get(endpoint, params=None, retries=2):
             resp.raise_for_status()
             data = resp.json()
             if "error" in data:
-                print(f"  ✗  CricAPI error on /{endpoint}: {data['error']}")
+                print("Provider returned an error response")
                 return None
             return data
 
@@ -88,7 +75,7 @@ def cricapi_get(endpoint, params=None, retries=2):
             print(f"  ✗  Timeout on /{endpoint} — network is blocking CricAPI")
             return None  # Don't retry timeouts — it's a network block
         except requests.exceptions.RequestException as e:
-            print(f"  ✗  Request failed on /{endpoint}: {e}")
+            print("Provider request failed type=" + type(e).__name__)
             return None
 
     return None
@@ -173,85 +160,11 @@ def fetch_match_scorecard(unique_id):
 
 
 def fetch_player_photo(player_name):
-    """
-    Fetch photo URL for a player.
-    Saves: appends to data/static/players_meta.json
-    Cost: 1 req per player — call once, cached permanently
-    Note: First searches for the player, then fetches their stats for imageURL.
-    """
-    print(f"Fetching photo for: {player_name} …")
-
-    # Step 1: find the player's CricAPI ID
-    search_data = cricapi_get("players", params={"namePart": player_name})
-    if not search_data:
-        return None
-
-    players = search_data.get("data", [])
-    if not players:
-        print(f"  ⚠  Player '{player_name}' not found in CricAPI")
-        return None
-
-    # Take the first result
-    player_id = players[0].get("pid") or players[0].get("unique_id")
-    if not player_id:
-        return None
-
-    # Step 2: fetch player stats (contains imageURL)
-    stats_data = cricapi_get("players_info", params={"pid": player_id})
-    if not stats_data:
-        return None
-
-    image_url = stats_data.get("imageURL", "")
-    print(f"  ✓  Photo URL: {image_url[:60]}…" if image_url else "  ⚠  No photo URL")
-
-    return {
-        "pid":       player_id,
-        "image_url": image_url,
-        "name":      stats_data.get("name", player_name),
-    }
+    raise RuntimeError("Legacy photo fetching is retired; use the reviewed media manifest workflow")
 
 
 def fetch_photos_for_players(player_names):
-    """
-    Bulk fetch photo URLs for a list of players.
-    Updates data/static/players_meta.json with image URLs.
-    Cost: 2 req per player (search + stats) — run once during setup.
-    Tip: Only fetch for ~50 featured players, not all 3800.
-    """
-    meta_path = os.path.join(BASE_DIR, "data", "static", "players_meta.json")
-    os.makedirs(os.path.dirname(meta_path), exist_ok=True)
-
-    # Load existing meta
-    if os.path.exists(meta_path):
-        with open(meta_path) as f:
-            meta = json.load(f)
-    else:
-        meta = {}
-
-    print(f"\nFetching photos for {len(player_names)} players …")
-    print("(2 API requests per player — spread over multiple days if needed)\n")
-
-    for name in player_names:
-        if meta.get(name, {}).get("image_url"):
-            print(f"  ↷  {name} — already cached, skipping")
-            continue
-
-        result = fetch_player_photo(name)
-        if result:
-            if name not in meta:
-                meta[name] = {}
-            meta[name]["image_url"] = result["image_url"]
-            meta[name]["cricapi_pid"] = result["pid"]
-
-        # Save after each player in case script is interrupted
-        with open(meta_path, "w", encoding="utf-8") as f:
-            json.dump(meta, f, ensure_ascii=False, indent=2)
-
-        # Be polite to the API
-        time.sleep(1)
-
-    print(f"\n  ✓  Updated {meta_path}")
-    return meta
+    raise RuntimeError("Legacy photo fetching is retired; use the reviewed media manifest workflow")
 
 
 def fetch_squad(series_id):
@@ -307,7 +220,7 @@ if __name__ == "__main__":
         print("✗  CricAPI key not found. Set CRICAPI_KEY in app.py first.")
         sys.exit(1)
 
-    print(f"  CricAPI key: {CRICAPI_KEY[:8]}…")
+    print("CricAPI credential configured; value withheld")
     print()
 
     if "--live" in args:

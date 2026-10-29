@@ -76,7 +76,7 @@ class ReconciliationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path=Path(directory)/'events.sqlite3';now=[NOW];meta,one,two=setup_data();collector=LocalCollector(path,enabled=True,clock=lambda:now[0]);service=Reconciler(path,clock=lambda:now[0])
             try:
-                first=apply_event(initial_state(meta,1),one)
+                apply_event(initial_state(meta,1),one)
                 closing={'schema_version':1,'match_id':meta['match_id'],'event_id':meta['match_id']+'#i1/innings_end','innings':1,'attempt':2,'order':22,'kind':'innings_end','revision':1,'runs':1,'wickets':0,'legal_balls':1,'source_hash':'assigned-at-ingest','observed_at':None,'event_time':None,'deleted':False}
                 collector.ingest(meta,observation(meta,'close',[one,closing],status='innings_break'))
                 second=initial_state(meta,2);context=next_context(second,1,'player:d','player:e','player:a')

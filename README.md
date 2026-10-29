@@ -18,9 +18,10 @@ and [release readiness](docs/OPERATIONS_RUNBOOK.md).
 
 ## Start here
 
-- [Audit and verified weaknesses](docs/AUDIT.md)
+- [Current audit and fixes](docs/PRE_PLAN_AUDIT.md), [remediation/migration](docs/AUDIT_REMEDIATION.md)
+- [Original baseline audit (historical)](docs/AUDIT.md)
 - [Architecture, paths and deployment migration](docs/ARCHITECTURE.md)
-- [Product roadmap and $0 constraints](docs/ROADMAP.md)
+- [Current platform plan](docs/CRICKET_PLATFORM_MASTER_PLAN.md) and [plan review](docs/PLATFORM_PLAN_REVIEW.md)
 - [Ticket index](tickets.md) and [implementation tickets](tickets/)
 - [Branch workflow](docs/GIT_WORKFLOW.md)
 - [Identity-correct statistics](docs/PLAYER_ID_AGGREGATES.md), [scouting/private plans](docs/COACH_SCOUTING.md)
@@ -38,13 +39,18 @@ python -m pip install --require-hashes -r requirements.txt
 python app.py
 ```
 
+Default startup serves the UI but reports historical data unavailable until you
+select `DATASET_STORE` (recommended), or an explicit private `PROCESSED_DIR`.
+For deliberate local inspection of the old archive only, set `LEGACY_DATA_ENABLED=1`;
+this does not fix its known statistical defects. No checkout-root fallback exists.
+
 Open http://localhost:5000. `flask --app criclytics_app:create_app run` is an
 alternative. Network feeds and Redis are disabled by default, even when keys
 exist. A flag/key alone does not approve network collection: the source-policy
 allowlist is currently empty. Manual scoring and historical replay are supported
 locally. For a new setup, `.env.example` documents optional settings; preserve any
 existing `.env` and never commit it. The pinned runtime dependency audit found no
-known advisories on2026-10-28; that is not proof of absent application defects.
+known advisories on 2026-10-29; that is not proof of absent application defects.
 
 A clean clone does not include historical/live/model artifacts. Keep Cricsheet
 JSON in `data/raw/{t20s_male_json,odis_male_json,tests_male_json}/`, then run:
@@ -81,6 +87,8 @@ Public static files use `/static/`; checkout/data/config files are not served.
 ```powershell
 python -m unittest discover -s tests -v
 python -m compileall -q criclytics_app scripts tools app.py wsgi.py
+# Optional: install tools/browser-requirements.txt and a browser, then:
+python -m tools.browser_audit
 ```
 
 With the original local data snapshot, also run:

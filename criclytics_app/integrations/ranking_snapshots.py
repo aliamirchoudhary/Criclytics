@@ -1,7 +1,7 @@
 """Offline personal ICC HTML import. No fetching, hidden endpoints or public licence."""
 import argparse
 from contextlib import closing
-from datetime import date, datetime, timezone
+from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path

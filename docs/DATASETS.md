@@ -14,7 +14,7 @@ reserve content rights and restrict commercial use without a licence. Legacy
 rankings/images are not cleared for general public redistribution. CricAPI and
 RapidAPI account-specific rights/limits remain unverified. Their caches, curated
 biographies and pitch narratives are not part of verified dataset promotion.
-No automated collector was enabled. Attribution is not a substitute for missing
+T041 adds bounded official Cricsheet archive refresh; unapproved live collectors remain disabled. Attribution is not a substitute for missing
 rights; separate brand/image/personality rights must be checked independently.
 
 ## Rebuild and verify
@@ -60,8 +60,9 @@ the old pointer and data untouched. No remote service is required.
 
 Set DATASET_STORE to that private store and restart Flask to select it. Startup
 validates the selected version once and pins PROCESSED_DIR for that process;
-workers never mix two versions during a request. Empty DATASET_STORE preserves
-legacy serving. `/api/coverage`, readiness and the UI expose coverage/identity,
+workers pin one verified version. Empty DATASET_STORE leaves data unselected
+unless PROCESSED_DIR is explicitly configured or LEGACY_DATA_ENABLED=1 explicitly
+opts into the original archive. Root-file fallbacks have been removed. `/api/coverage`, readiness and the UI expose coverage/identity,
 not filesystem/source-input lists. Legacy datasets return unknown metadata.
 
 Restore by promoting a retained `store/versions/<old-id>` with its trusted digest,

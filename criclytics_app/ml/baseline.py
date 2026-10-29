@@ -1,7 +1,6 @@
 """Experimental CPU joint-outcome baseline with portable trusted JSON inference."""
 import argparse
-from collections import Counter,defaultdict
-import hashlib
+from collections import defaultdict
 import json
 import math
 from pathlib import Path

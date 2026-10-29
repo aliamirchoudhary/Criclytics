@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import sqlite3
 import numpy as np
-from .baseline import metrics,cluster_interval,load_model,predict,OTHER
+from .baseline import metrics,cluster_interval,load_model,predict
 from .shadow_baselines import load as load_baselines,predict as baseline_predict
 from ..pipeline.events import EventStore,checksum,initial_state,apply_event
 from ..pipeline.features import History,LocalHistory,vector,label

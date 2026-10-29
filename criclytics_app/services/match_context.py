@@ -1,5 +1,4 @@
 """Local immutable as-of context ledger; no inferred XI, pitch tracking or home advantage."""
-from copy import deepcopy
 from contextlib import nullcontext
 import json
 import math

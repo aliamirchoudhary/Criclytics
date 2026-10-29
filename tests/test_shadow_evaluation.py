@@ -1,12 +1,11 @@
 from collections import Counter
 from copy import deepcopy
-from datetime import datetime,timezone
 import json
 from pathlib import Path
 import tempfile
 import unittest
 import numpy as np
-from criclytics_app.ml.shadow_evaluation import timing_reasons,summarize,replay_features,MODEL,REGISTERED
+from criclytics_app.ml.shadow_evaluation import timing_reasons,summarize,replay_features,MODEL
 from criclytics_app.pipeline.artifacts import digest
 from criclytics_app.paths import PROJECT_ROOT
 from criclytics_app.services.forecasts import ForecastService

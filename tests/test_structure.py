@@ -9,7 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from criclytics_app import create_app
-from criclytics_app.paths import PACKAGE_ROOT, PROJECT_ROOT
+from criclytics_app.paths import PROJECT_ROOT
 from criclytics_app.services.legacy import render_match_detail_bootstrap
 from criclytics_app.web.routes import PAGES
 from scripts.build_frontend import build
@@ -97,7 +97,7 @@ class StructureTests(unittest.TestCase):
                               "LIVE_FETCH_ENABLED": False, "REDIS_URL": ""})
             with app.test_client().get("/") as response:
                 self.assertEqual(response.status_code, 200)
-            self.assertEqual(app.config["PROCESSED_DIR"], str(PROJECT_ROOT / "data/processed"))
+            self.assertEqual(app.config["PROCESSED_DIR"], str(PROJECT_ROOT / "data/unselected"))
         finally:
             os.chdir(old)
 
@@ -105,7 +105,8 @@ class StructureTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             target = build(directory)
             self.assertEqual({p.name for p in target.glob("*.html")}, PAGES)
-            self.assertTrue((target / "static/js/cricklytics.js").is_file())
+            self.assertTrue((target / "static/js/application.js").is_file())
+            self.assertFalse((target / "static/js/cricklytics.js").exists())
             self.assertFalse(list(target.rglob("*.py")))
             self.assertFalse(list(target.rglob(".env")))
 
@@ -132,7 +133,7 @@ class StructureTests(unittest.TestCase):
             self.assertEqual({p.name for p in (output / "data").iterdir()}, {"static"})
 
     def test_legacy_public_asset_urls_redirect(self):
-        for name in ["styles.css", "cricklytics.js", "logo-icon.png"]:
+        for name in ["application.css", "application.js", "logo-icon.png"]:
             with self.client.get("/" + name, follow_redirects=True) as response:
                 self.assertEqual(response.status_code, 200)
                 self.assertTrue(response.request.path.startswith("/static/"))
@@ -141,8 +142,8 @@ class StructureTests(unittest.TestCase):
 @unittest.skipUnless(os.getenv("CRICLYTICS_FULL_DATA_TESTS") == "1", "Opt in with local legacy data")
 class LocalDataRegressionTests(unittest.TestCase):
     def test_captured_api_responses_unchanged(self):
-        with tempfile.TemporaryDirectory() as directory:
-            app = create_app({"TESTING": True, "LIVE_FETCH_ENABLED": False, "REDIS_URL": ""})
+        with tempfile.TemporaryDirectory():
+            app = create_app({"TESTING": True, "PROCESSED_DIR": str(PROJECT_ROOT / "data/processed"), "LIVE_FETCH_ENABLED": False, "REDIS_URL": ""})
             baseline = json.loads((PROJECT_ROOT / "tests/fixtures/legacy_responses.json").read_text())
             with patch("requests.get", side_effect=AssertionError("Unexpected upstream request")):
                 for path, expected in baseline.items():

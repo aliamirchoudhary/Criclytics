@@ -10,8 +10,9 @@ concurrency:
   cancel-in-progress: false
 jobs:
   release:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && github.event.repository.visibility == 'public' && github.event.repository.private == false
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -31,4 +32,5 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           python -m pip install huggingface_hub==2.3.0
+          python -m scripts.verify_backend_inventory --repo aliamirchoudhary/criclytics-backend
           hf upload aliamirchoudhary/criclytics-backend build/backend . --repo-type space
