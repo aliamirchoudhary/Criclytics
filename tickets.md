@@ -70,6 +70,28 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 
 | [T040](tickets/t040-coach-validation-and-reviewed-release.md) | Coach validation and reviewed release | P1 | T031,T034,T035,T036,T038 | Offline checks passed; external acceptance/release blocked |
 
+## Extended platform roadmap (2026-10-29)
+
+See [master plan](docs/CRICKET_PLATFORM_MASTER_PLAN.md) and its
+[double-check](docs/PLATFORM_PLAN_REVIEW.md).
+
+| Ticket | Work | Priority | Depends on | Status |
+|---|---|---|---|---|
+| [T041](tickets/t041-automated-cricsheet-ingestion.md) | Automated authoritative Cricsheet ingestion | P1 | T015,T016 | Planned |
+| [T042](tickets/t042-durable-data-publication.md) | Durable zero-cost publication and scheduler health | P1 | T041 | Planned |
+| [T043](tickets/t043-canonical-multisource-data-layer.md) | Canonical multi-source medallion contracts | P1 | T041,T017 | Planned |
+| [T044](tickets/t044-licensed-player-media.md) | Licensed player imagery and quality pipeline | P1 | T017,T043 | Planned |
+| [T045](tickets/t045-direct-live-source-trials.md) | Direct live source and schedule discovery trials | P1 | T025,T026,T038 | Planned |
+| [T046](tickets/t046-weather-and-competition-context.md) | Issued weather and competition context collection | P1 | T037,T043 | Planned |
+| [T047](tickets/t047-exact-state-feature-parity.md) | Exact-state feature registry and online parity | P1 | T034,T043 | Planned |
+| [T048](tickets/t048-fresh-contextual-model-evaluation.md) | Fresh-context model training and evaluation | P1 | T042,T047 | Planned |
+| [T049](tickets/t049-history-query-rivalry-desk.md) | History query and rivalry media desk | P1 | T042,T043 | Planned |
+| [T050](tickets/t050-coach-selector-team-lab.md) | Coach and selector team lab | P1 | T029,T043,T047 | Planned |
+| [T051](tickets/t051-rankings-news-automation.md) | Category-aware ranking and factual-news jobs | P1 | T036,T042,T043 | Planned |
+| [T052](tickets/t052-integrated-cricket-experience.md) | Integrated audience-focused cricket UX | P1 | T044,T049,T050 | Planned |
+| [T053](tickets/t053-hosted-capacity-and-observability.md) | Hosted capacity and zero-cost operations | P1 | T035,T042,T052 | Planned |
+| [T054](tickets/t054-prospective-platform-pilot.md) | Prospective multi-audience pilot and release | P1 | T040,T045,T048,T051,T052,T053 | Planned |
+
 ## Agent handoff
 
 Use: "Implement Txxx from its ticket on a new branch from dev. Follow AGENTS.md,
