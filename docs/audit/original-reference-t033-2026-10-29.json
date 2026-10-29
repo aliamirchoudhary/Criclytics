@@ -1,0 +1,262 @@
+{
+  "reference": "https://criclytics.aliamirchoudhary.workers.dev/",
+  "main_pages": [
+    {
+      "name": "home",
+      "status": 200,
+      "loaded_images": 12
+    },
+    {
+      "name": "matches",
+      "status": 200,
+      "loaded_images": 4
+    },
+    {
+      "name": "players",
+      "status": 200,
+      "loaded_images": 96
+    },
+    {
+      "name": "compare",
+      "status": 200,
+      "loaded_images": 57
+    },
+    {
+      "name": "records",
+      "status": 200,
+      "loaded_images": 258
+    },
+    {
+      "name": "rankings",
+      "status": 200,
+      "loaded_images": 89
+    },
+    {
+      "name": "teams",
+      "status": 200,
+      "loaded_images": 17
+    },
+    {
+      "name": "venues",
+      "status": 200,
+      "loaded_images": 69
+    }
+  ],
+  "remaining_pages": [
+    {
+      "page": "search",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "team-profile",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "venue-profile",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "match-upcoming",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "about",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "sources",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "disclaimer",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "search",
+      "width": 375,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "team-profile",
+      "width": 375,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "venue-profile",
+      "width": 375,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "match-upcoming",
+      "width": 375,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "about",
+      "width": 375,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "sources",
+      "width": 375,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "page": "disclaimer",
+      "width": 375,
+      "status": 200,
+      "errors": [],
+      "overflow": false
+    }
+  ],
+  "interaction_cases": [
+    {
+      "case": "compare-selected",
+      "width": 1440,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "compare-teams",
+      "width": 1440,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-overview",
+      "width": 1440,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-career-stats",
+      "width": 1440,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-vs-teams",
+      "width": 1440,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-at-venues",
+      "width": 1440,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-probability-insights",
+      "width": 1440,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-ml-insights",
+      "width": 1440,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "compare-selected",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "compare-teams",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-overview",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-career-stats",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-vs-teams",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-at-venues",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-probability-insights",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "player-ml-insights",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "match-overview",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "match-scorecard",
+      "width": 375,
+      "error": null,
+      "overflow": false
+    },
+    {
+      "case": "match ML Insights",
+      "width": null,
+      "error": "TimeoutError",
+      "overflow": null
+    }
+  ],
+  "limitations": "Local Chrome/headless; observed old page widgets/labels include static placeholders. One old match ML tab locator timed out. Screenshots and full observed text retained privately under build/t033-audit."
+}

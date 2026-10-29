@@ -120,3 +120,23 @@ The new feature branch has no remote upstream; any push remains pending approval
 
 T032 completion: final95-case responsive matrix and4interaction checks pass after
 profile disclosures; focused mobile/desktop flows also pass. No publication.
+
+
+## T033 stopped at owner request
+
+Branch feat/t033-cricket-workflows contains uncommitted audit/workflow restoration.
+No push, merge or deployment. Resume from docs/T033_HANDOFF.md only when requested.
+Final regression/browser verification and integration are pending.
+
+
+## T033 resumed and implemented ? 2026-10-29
+
+Owner resumed and expanded the next-ball vision. Original interaction audit and
+actual restored flows: ORIGINAL_UI_PARITY.md. Blue original fonts/theme, player
+cards, comparison choices, record/leaderboard buttons, profile Probability/ML,
+match tabs and prediction-session discovery implemented.36unique local provider
+headshots plus CC fallback (37configured identities). Provider files remain ignored.
+CricTimes free opt-in external score display verified; no widget scraping or live
+ML data claim. NEXT_BALL_PLATFORM_PLAN.md and T034?T040 record the broader work.
+92tests91pass/one skip;95responsive cases/4interactions; focused375/1440flows and
+actual widget isolation pass. Local commit authorized; no remote operations.

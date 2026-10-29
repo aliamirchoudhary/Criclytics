@@ -54,6 +54,22 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 
 | [T032](tickets/t032-restore-cricket-visuals-and-redesign-experience.md) | Restore cricket visuals and redesign the frontend experience | P1 | T011,T012,T031 | Implemented; visual review pending |
 
+| [T033](tickets/t033-restore-complete-cricket-workflows.md) | Audit original UX and restore complete cricket workflows | P1 | T032 | Implemented; review pending |
+
+| [T034](tickets/t034-contextual-probability-model-and-scenario-explorer.md) | Contextual probability model and scenario explorer | P1 | T033,T020,T022 | Planned |
+
+| [T035](tickets/t035-shared-read-serving-and-capacity.md) | Shared read serving and capacity | P1 | T033 | Planned |
+
+| [T036](tickets/t036-real-ranking-snapshots-and-backup.md) | Real ranking snapshots and backup | P1 | T033 | Planned |
+
+| [T037](tickets/t037-context-availability-and-annotation-workflow.md) | Context availability and annotation workflow | P1 | T034,T023 | Planned |
+
+| [T038](tickets/t038-timely-authorized-next-delivery-source.md) | Timely authorized next-delivery source | P1 | T025,T026,T034 | Planned |
+
+| [T039](tickets/t039-full-innings-outcome-model.md) | Full innings outcome model | P1 | T034 | Planned |
+
+| [T040](tickets/t040-coach-validation-and-reviewed-release.md) | Coach validation and reviewed release | P1 | T031,T034,T035,T036,T038 | Planned |
+
 ## Agent handoff
 
 Use: "Implement Txxx from its ticket on a new branch from dev. Follow AGENTS.md,

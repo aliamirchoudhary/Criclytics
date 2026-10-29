@@ -25,6 +25,29 @@ def service(workspace_id):
     return result
 
 
+@bp.get('/api/v1/workspaces')
+def directory():
+    """Discover existing local sessions without exposing source paths or raw events."""
+    instance = service('match:manual:directory')
+    if not instance:
+        return jsonify({'available': False, 'workspaces': [], 'mode': 'disabled',
+                        'reason': 'No public live prediction feed is enabled'})
+    import json
+    import sqlite3
+    from contextlib import closing
+    try:
+        with closing(sqlite3.connect(instance.source.as_uri()+'?mode=ro', uri=True, timeout=.25)) as db:
+            rows = db.execute('SELECT match_id,payload FROM matches ORDER BY rowid DESC LIMIT 50').fetchall()
+        items = []
+        for key, payload in rows:
+            metadata = json.loads(payload)
+            items.append({'id': key, 'teams': metadata.get('teams', []), 'dates': metadata.get('dates', []),
+                          'format': metadata.get('format'), 'mode': 'replay' if key.startswith('match:cricsheet:') else 'manual'})
+        return jsonify({'available': True, 'workspaces': items, 'experimental': True})
+    except (sqlite3.Error, OSError, ValueError):
+        return jsonify({'available': False, 'workspaces': [], 'reason': 'Local session store unavailable'})
+
+
 def unavailable():
     return jsonify({'api_version': 1, 'available': False, 'forecast_allowed': False,
                     'blocked_reasons': ['experimental_workspace_disabled'], 'forecast': None,

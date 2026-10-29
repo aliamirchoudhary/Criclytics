@@ -26,6 +26,7 @@ def create_app(config=None):
         IDENTITY_REGISTRY=os.getenv("IDENTITY_REGISTRY", ""),
         IDENTITY_PLAYER_STORE=os.getenv("IDENTITY_PLAYER_STORE", ""),
         SCOUTING_SAMPLE=os.getenv('SCOUTING_SAMPLE',''),
+        PLAYER_MEDIA_MANIFEST=os.getenv('PLAYER_MEDIA_MANIFEST',''),
         EXPERIMENTAL_FORECASTS=os.getenv('EXPERIMENTAL_FORECASTS', '0') == '1',
         WORKSPACE_SOURCE=os.getenv('WORKSPACE_SOURCE', ''),
         WORKSPACE_LEDGER=os.getenv('WORKSPACE_LEDGER', ''),
@@ -51,6 +52,10 @@ def create_app(config=None):
     initialize_identities(app)
     from .services.player_id_stats import initialize as initialize_player_stats
     initialize_player_stats(app)
+    from .services.player_media import load_catalog
+    from .api.player_media import bp as player_media
+    app.extensions['player_media'] = load_catalog(app.config['PLAYER_MEDIA_MANIFEST'])
+    app.register_blueprint(player_media)
     from .frontend import api_base
     app.config["FRONTEND_API_BASE"] = api_base(app.config["FRONTEND_API_BASE"])
     from .services.diagnostics import Diagnostics, register as register_diagnostics

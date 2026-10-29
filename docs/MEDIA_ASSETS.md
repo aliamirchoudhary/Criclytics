@@ -37,3 +37,28 @@ To add a portrait: verify the actual file's author/license, save its allowed ima
 locally, record the source/license/hash, verify its stable player ID, extend
 `media.js`, and add its visible attribution. Do not use AI-generated likenesses as
 real player photographs or mark unknown rights as public domain.
+
+
+## T033 optional privately prepared headshot catalog
+
+`PLAYER_MEDIA_MANIFEST` selects a private reviewed/hash-checked catalog. Its
+36unique JPEGs (161368bytes) are outside Git under build/t033-player-media/.
+The API serves only manifest IDs through /api/player-media/<identity>, never a
+path/catch-all. No browser hotlink is made to the provider. The catalog overrides
+Kohli and supplies35additional provider headshots; Babar retains the CC image,
+so37identities have a portrait in this configured preview.
+
+These are provider/supplier works, NOT Creative Commons or a redistributable
+image dataset. [CricketData terms](https://cricketdata.org/terms-of-use/) explicitly
+prohibit hotlinking and instruct image download/own hosting; the prepared catalog
+is limited to non-commercial editorial use. Public/commercial reuse needs separate
+review. Do not upload these originals to a public repository as a dataset.
+
+Reproduce with `python -m tools.prepare_player_media --registry <registry.json>
+--metadata data/static/players_meta.json --output <fresh-private-dir> --download`.
+Omit --download for a zero-network eligibility review. Stop on429; ambiguous IDs,
+redirects, invalid images and unbounded payloads are skipped. Configure only the
+reviewed manifest. Assets are not silently included in static/backend stages.
+
+Original DM Serif Display/Outfit font families are bundled under static/fonts/
+with their OFL notices and source/hash records; no Google-font request is needed.

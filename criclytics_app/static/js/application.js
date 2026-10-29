@@ -6,6 +6,7 @@
   const {node, display} = window.CriclyticsDOM;
   const {request} = window.CriclyticsAPI;
   const media = window.CriclyticsMedia;
+  const ux = window.CriclyticsExperience;
   const page = document.body.dataset.page;
   const app = document.getElementById('app');
   const query = new URLSearchParams(location.search);
@@ -88,6 +89,7 @@
       } catch (error) { if (current === generation) state(results, error.kind || 'error', run); }
     }
     form.addEventListener('submit', event => { event.preventDefault(); run(); });
+    form.addEventListener('change',event=>{if(event.target.dataset.autosubmit)run();});
     run(); return {run, results, form};
   }
   function pager(total, offset, limit, change) {
@@ -139,48 +141,37 @@
       grid.append(card);
     }); return grid;
   }
-  async function home() {
-    const content = node('div'), hero = node('section',null,'ui-hero');
-    const copy = node('div',null,'ui-hero-copy');
-    const heading=document.querySelector('.ui-main h1'), eyebrow=document.querySelector('.ui-main>.ui-eyebrow'), coverage=document.querySelector('.ui-coverage');
-    if(eyebrow) copy.append(eyebrow);
-    if(heading) copy.append(heading);
-    copy.append(node('p','Go beyond the score. Explore the players, matchups and grounds that shape the game. Build your next match plan from the evidence.'),node('span','HISTORICAL ANALYTICS · MATCH PREPARATION','ui-hero-kicker'));
-    const actions = node('div',null,'ui-hero-actions');
-    const primary = link('Explore players →','players'); primary.className='ui-action-primary';
-    actions.append(primary,link('Build a scouting plan ↗','scouting')); copy.append(actions);
-    if(coverage) copy.append(coverage);
-    const visual = node('div',null,'ui-hero-visual');
-    visual.setAttribute('aria-label','Explore cricket player profiles');
-    Object.entries(media.portraits).slice(0,2).forEach(([id,p]) => {
-      const card = link('','player-profile',{name:id}); card.className='ui-hero-player';
-      card.append(media.portrait({identity_id:id,name:p.name},true),node('span',p.name),media.flag(p.team));
-      const figure=node('figure'); figure.append(card);
-      const credit=media.credit(id); if(credit) figure.append(credit); visual.append(figure);
-    });
-    hero.append(copy,visual); content.append(hero);
-    const shortcuts=node('div',null,'ui-discover');
-    [['01','Head to head','Compare player records across formats.','compare'],['02','Know the ground','Explore venue scoring and chasing records.','venues'],['03','Prepare your XI','Build an evidence-based scouting plan.','scouting']].forEach(([number,title,description,target])=>{
-      const card=link('',target);card.className='ui-discover-card';card.append(node('span',number,'ui-discover-number'),node('h2',title),node('p',description),node('span','Explore ↗','ui-discover-arrow'));shortcuts.append(card);
-    });
-    content.append(shortcuts);
-    const results = node('section'), fixtures = node('section');
-    content.append(results,fixtures); app.replaceChildren(content);
-    async function load(target,path,title,upcoming) {
-      state(target,'loading');
-      try {
-        const data=await request(path), heading=node('div',null,'ui-section-heading');
-        heading.append(node('h2',title),link('View all →','matches',{status:upcoming?'upcoming':'completed'}));
-        target.replaceChildren(heading,fixtureCards(data.data || []));
-        if(upcoming && (data.data || []).length) target.append(provenance(data.provenance,'Fixture snapshot'));
-      } catch(error) { state(target,error.kind || 'error',()=>load(target,path,title,upcoming)); }
-      finally { target.setAttribute('aria-busy','false'); }
-    }
-    await Promise.all([load(results,'/api/matches?status=completed&limit=4','From the scorebook',false),load(fixtures,'/api/matches?status=upcoming&sort=oldest&limit=4','On the calendar',true)]);
+  async function scoreSnapshots(target){
+    state(target,'loading');
+    try{
+      const data=await request('/api/matches?status=live&limit=2'), items=data.data||[], header=node('div',null,'ui-section-heading');
+      header.append(node('h2','Match score centre'),link('All matches →','matches',{status:'live'}));
+      const refresh=button('Refresh scores',()=>scoreSnapshots(target));refresh.className='ui-secondary';
+      const source=data.provenance||{}, date=source.fetched_at || source.observed_at;
+      const freshness=node('p',date?'Source updated: '+date+' · cached score snapshot, not a guaranteed real-time feed.':'Source freshness unavailable. Stored scores are not labelled live.','ui-score-freshness');
+      target.replaceChildren(header,freshness,items.length?fixtureCards(items):node('p','No active score snapshot is available. Browse completed matches or open a local replay in the prediction centre.','ui-state'),refresh);
+    }catch(error){state(target,error.kind||'error',()=>scoreSnapshots(target));}
+    finally{target.setAttribute('aria-busy','false');}
+  }
+  async function home(){
+    const content=node('div'),hero=node('section',null,'ui-hero'),copy=node('div',null,'ui-hero-copy');
+    const heading=document.querySelector('.ui-main h1'),eyebrow=document.querySelector('.ui-main>.ui-eyebrow'),coverage=document.querySelector('.ui-coverage');
+    if(eyebrow)copy.append(eyebrow);if(heading)copy.append(heading);
+    copy.append(node('p','Cricket intelligence for the next delivery. Explore player matchups, understand the ground and inspect the evidence behind every probability.'));
+    const actions=node('div',null,'ui-hero-actions'),primary=link('Open prediction centre →','workspace');primary.className='ui-action-primary';actions.append(primary,link('Explore players','players'));copy.append(actions);
+    if(coverage)copy.append(coverage);
+    const desk=node('aside',null,'ui-intelligence-desk');desk.append(node('p','NEXT-DELIVERY INTELLIGENCE','ui-eyebrow'),node('h2','Every ball has a context.'));
+    [['01','Confirm the match','Score, striker, bowler and source freshness.'],['02','Inspect probabilities','Coherent outcomes from the experimental CPU model.'],['03','Review the evidence','Context coverage, held-out results and issued history.']].forEach(([number,title,description])=>{const row=node('div');row.append(node('span',number),node('strong',title),node('p',description));desk.append(row);});
+    desk.append(node('p','Experimental · historical replay / manual scoring','ui-badge'));hero.append(copy,desk);content.append(hero);
+    const quick=node('div',null,'ui-quick-grid');
+    [['◉','Match centre','Scores & scorecards','matches'],['♙','Players','Profiles & matchups','players'],['↔','Compare','Choose players or teams','compare'],['◈','Predictions','Probability & ML insights','workspace'],['⌖','Venues','Scoring & chase records','venues'],['≡','Records','Format leaders','records'],['↗','Rankings','Dataset leaderboards','rankings'],['▤','Scouting','Prepare your match plan','scouting']].forEach(([icon,title,description,path])=>{const tile=link('',path);tile.append(node('span',icon),node('strong',title),node('small',description));quick.append(tile);});
+    content.append(node('h2','Explore Criclytics'),quick,ux.liveWidget());
+    const scores=node('section'),players=node('section'),recent=node('section');content.append(scores,players,recent);app.replaceChildren(content);
+    const tasks=[scoreSnapshots(scores),(async()=>{try{const data=await request('/api/players?limit=4'),head=node('div',null,'ui-section-heading'),grid=node('div',null,'ui-player-grid');head.append(node('h2','Players to explore'),link('All players →','players'));(data.players||[]).forEach(player=>grid.append(ux.playerCard(player,'')));players.replaceChildren(head,grid);}catch(_){players.replaceChildren(node('p','Player discovery is temporarily unavailable.','ui-state'));}})(),(async()=>{try{const data=await request('/api/matches?status=completed&limit=4'),head=node('div',null,'ui-section-heading');head.append(node('h2','Recent results'),link('All results →','matches'));recent.replaceChildren(head,fixtureCards(data.data||[]));}catch(error){state(recent,error.kind||'error',home);}})()];await Promise.all(tasks);
   }
   function matches() {
-    const status = field('Match status', [['completed', 'Completed'], ['upcoming', 'Upcoming'], ['live', 'Cached in progress'], ['all', 'All']], query.get('status') || 'completed');
-    const fmt = formats('', true), team = field('Team name', null, ''), sort = field('Order', [['newest', 'Newest first'], ['oldest', 'Oldest first']], 'newest');
+    const status = ux.segments('Match status', [['live', 'Score centre'], ['upcoming', 'Upcoming'], ['completed', 'Results'], ['all', 'All matches']], query.get('status') || 'completed');
+    const fmt = ux.formats('', true), team = field('Team name', null, ''), sort = field('Order', [['newest', 'Newest first'], ['oldest', 'Oldest first']], 'newest');
     let offset = 0, active = '';
     const surface = filters([status, fmt, team, sort], async () => {
       const signature = [status.input.value, fmt.input.value, team.input.value, sort.input.value].join('|');
@@ -189,30 +180,32 @@
       if (fmt.input.value) params.set('format', fmt.input.value);
       if (team.input.value.trim()) params.set('team', team.input.value.trim());
       const data = await request('/api/matches?' + params), content = node('div');
+      if(status.input.value==='live')content.append(ux.liveWidget());
       content.append(provenance(data.provenance, 'Fixtures'), fixtureCards(data.data || []),
         pager(data.pagination.total, offset, 20, next => { offset = next; surface.run(); }));
       return content;
     });
   }
   function players() {
-    const search = field('Player name', null, query.get('search') || ''), fmt = formats('', true), country = field('Team or country', null, '');
-    const role = field('Player role', [['all', 'All observed roles'], ['bat', 'Batting records'], ['bowl', 'Bowling records']], 'all');
-    const sort = field('Sort players by', [['runs', 'Runs'], ['wickets', 'Wickets'], ['avg', 'Batting average'], ['sr', 'Strike rate']], 'runs');
-    let offset = 0, active = '';
-    const surface = filters([search, fmt, country, role, sort], async () => {
-      const signature = [search.input.value, fmt.input.value, country.input.value, role.input.value, sort.input.value].join('|');
-      if (signature !== active) { offset = 0; active = signature; }
-      const params = new URLSearchParams({search: search.input.value, country: country.input.value, role: role.input.value, sort: sort.input.value, limit: 20, offset});
-      if (fmt.input.value) params.set('format', fmt.input.value);
-      const data = await request('/api/players?' + params), content = node('div');
-      if (data.identity_correct) content.append(node('p', 'Teams are observed memberships, not nationality. Statistics cover available matches only.', 'ui-notice'));
-      content.append(table('Players in available matches', ['Player', data.identity_correct ? 'Observed teams' : 'Country', 'Formats'], (data.players || []).map(p => {
-        const teams=node('span',null,'ui-team-memberships');
-        (p.observed_teams ? p.observed_teams.map(t=>t.team_name) : [p.country]).filter(Boolean).forEach(name=>teams.append(teamLink(name)));
-        return [playerLink(p),teams,(p.formats || []).join(', ')];
-      })),
-        pager(data.total, offset, 20, next => { offset = next; surface.run(); })); return content;
+    const search=field('Player name',null,query.get('search') || ''), fmt=ux.formats('',true), country=field('Observed team',null,'');
+    const role=ux.segments('Records',[['all','All players'],['bat','Batting'],['bowl','Bowling']],'all');
+    const sort=field('Sort players by',[['runs','Most runs'],['wickets','Most wickets'],['avg','Batting average'],['sr','Strike rate']],'runs');
+    const view=ux.segments('View',[['cards','Player cards'],['table','Table']],'cards');
+    let offset=0,active='',timer;
+    const surface=filters([search,fmt,country,role,sort,view],async()=>{
+      const signature=[search.input.value,fmt.input.value,country.input.value,role.input.value,sort.input.value].join('|');
+      if(signature!==active){offset=0;active=signature;}
+      const params=new URLSearchParams({search:search.input.value.trim(),country:country.input.value.trim(),role:role.input.value,sort:sort.input.value,limit:24,offset});
+      if(fmt.input.value)params.set('format',fmt.input.value);
+      const data=await request('/api/players?'+params),content=node('div'),heading=node('div',null,'ui-section-heading');
+      heading.append(node('h2',data.total.toLocaleString()+' players in the dataset'),node('span','Available-match records','ui-card-scope'));content.append(heading);
+      if(view.input.value==='cards'){
+        const grid=node('div',null,'ui-player-grid');(data.players||[]).forEach(p=>grid.append(ux.playerCard(p,fmt.input.value)));
+        content.append(grid.childNodes.length?grid:node('p','No records available for this selection.','ui-state'));
+      }else content.append(table('Players in available matches',['Player','Observed teams','Formats'],(data.players||[]).map(p=>[playerLink(p),ux.teams(p).join(', '),(p.formats||[]).join(', ')])));
+      content.append(pager(data.total,offset,24,next=>{offset=next;surface.run();}));return content;
     });
+    search.input.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(surface.run,300);});
   }
   function entities(kind) {
     const search = field(kind === 'teams' ? 'Team name' : 'Venue name', null, ''), fmt = formats('', true);
@@ -275,20 +268,27 @@
       identity.append(portrait,description); content.append(identity);
       content.append(link('Prepare scouting plan', 'scouting', {player:data.identity_id || data.name}));
       content.append(node('p', data.observed_teams ? 'Observed teams: ' + data.observed_teams.map(t => t.team_name + ' (' + t.first_date + ' to ' + t.last_date + ')').join('; ') + '. Nationality is not inferred.' : data.country || 'Country unavailable'));
-      const available = ['T20I', 'ODI', 'Test'].filter(fmt => (data.batting || {})[fmt] || (data.bowling || {})[fmt]);
-      tabs(content, available.concat(['T20I', 'ODI', 'Test'].filter(fmt => !available.includes(fmt))).map(fmt => [fmt, fmt]), (target, fmt) => {
-        if (data.batting && data.batting[fmt]) { target.append(node('h2', 'Batting')); batting(target, data.batting[fmt]); }
-        if (data.bowling && data.bowling[fmt]) { const s = data.bowling[fmt]; target.append(node('h2', 'Bowling'), metrics([['Innings', s.innings], ['Wickets', s.wickets], ['Conceded runs', s.runs], ['Legal balls', s.balls], ['Economy', s.economy], ['Average', s.average], ['Maidens', s.maidens]])); }
-        if (!target.childNodes.length) state(target, 'empty');
-        target.append(recordDetails('Year-by-year batting', ['Year', 'Matches', 'Innings', 'Runs', 'Average'], Object.entries((data.yearly || {})[fmt] || {}).sort().reverse().map(([year,s]) => [year,s.matches,s.innings,s.runs,s.average])),
-          recordDetails('Batting by opposition', ['Opponent', 'Innings', 'Runs', 'Average'], Object.entries((data.vs_opp || {})[fmt] || {}).map(([name,s]) => [teamLink(name),s.innings,s.runs,s.average])),
-          recordDetails('Batting by venue', ['Venue', 'Innings', 'Runs', 'Average'], Object.entries((data.at_venues || {})[fmt] || {}).map(([name,s]) => [link(name,'venue-profile',{name}),s.innings,s.runs,s.average])));
+      const available=['T20I','ODI','Test'].filter(fmt=>(data.batting||{})[fmt] || (data.bowling||{})[fmt]);
+      tabs(content,available.concat(['T20I','ODI','Test'].filter(fmt=>!available.includes(fmt))).map(fmt=>[fmt,fmt]),(target,fmt)=>{
+        function stats(area){
+          if(data.batting && data.batting[fmt]){area.append(node('h2','Batting'));batting(area,data.batting[fmt]);}
+          if(data.bowling && data.bowling[fmt]){const s=data.bowling[fmt];area.append(node('h2','Bowling'),metrics([['Innings',s.innings],['Wickets',s.wickets],['Conceded runs',s.runs],['Legal balls',s.balls],['Economy',s.economy],['Average',s.average]]));}
+          if(!area.childNodes.length)state(area,'empty');
+        }
+        tabs(target,[['overview','Overview'],['career','Career stats'],['opposition','vs Teams'],['venues','At Venues'],['probability','Probability Insights'],['ml','ML Insights']],(area,view)=>{
+          if(view==='overview')stats(area);
+          if(view==='career'){
+            stats(area);area.append(recordDetails('Year-by-year batting',['Year','Matches','Innings','Runs','Average'],Object.entries((data.yearly||{})[fmt]||{}).sort().reverse().map(([year,s])=>[year,s.matches,s.innings,s.runs,s.average])));
+          }
+          if(view==='opposition')area.append(table('Batting by opposition',['Opponent','Innings','Runs','Average'],Object.entries((data.vs_opp||{})[fmt]||{}).map(([name,s])=>[teamLink(name),s.innings,s.runs,s.average])));
+          if(view==='venues')area.append(table('Batting by venue',['Venue','Innings','Runs','Average'],Object.entries((data.at_venues||{})[fmt]||{}).map(([name,s])=>[link(name,'venue-profile',{name}),s.innings,s.runs,s.average])));
+          if(view==='probability')area.append(ux.empirical(data,fmt));
+          if(view==='ml')ux.research(area);
+        });
       });
-      const form=panel('Recent observed innings'), scores=node('ol',null,'ui-form-scores');
-      (data.recent_form || []).forEach((score,index)=>{
-        const value=node('li',display(score));value.setAttribute('aria-label','Observed innings '+(index+1)+': '+display(score)+' runs');scores.append(value);
-      });
-      form.append(node('p','Across available formats, in chronological order. These are observed innings, not a forecast.','ui-form-caption'),scores.childNodes.length ? scores : node('p','No recent innings available.','ui-state'));content.append(form);
+      const form=panel('Recent observed innings'),scores=node('ol',null,'ui-form-scores');
+      (data.recent_form||[]).forEach((score,index)=>{const value=node('li',display(score));value.setAttribute('aria-label','Observed innings '+(index+1)+': '+display(score)+' runs');scores.append(value);});
+      form.append(node('p','Across available formats, in chronological order.','ui-form-caption'),scores.childNodes.length?scores:node('p','No recent innings available.','ui-state'));content.append(form);
     } else if (kind === 'team') {
       tabs(content, ['T20I', 'ODI', 'Test'].map(fmt => [fmt, fmt]), (target, fmt) => {
         const s = (data.format_stats || {})[fmt]; if (!s) { state(target, 'empty'); return; }
@@ -327,20 +327,37 @@
         table('Bowling scorecard', ['Bowler', 'Overs', 'Maidens', 'Runs', 'Wickets'], (inn.bowling || []).map(r => [link(r.bowler, 'player-profile', {name: r.bowler}), r.o, r.m, r.r, r.w])));
       if ((inn.fall_of_wickets || []).length) { const list = node('ul'); inn.fall_of_wickets.forEach(value => list.append(node('li',value))); target.append(node('h2','Fall of wickets'),list); }
     });
-    app.replaceChildren(content);
+    const views=node('div');
+    tabs(views,[['overview','Overview'],['scorecard','Scorecard'],['probability','Probability Insights'],['ml','ML Insights']],(area,view)=>{
+      if(view==='overview')area.append(fixtureCards([match]),node('p','Open the scorecard for innings and player figures.','ui-notice'));
+      if(view==='scorecard')area.append(content);
+      if(view==='probability'){area.append(node('h2','Next-delivery probabilities'),node('p','Forecasts require a fresh confirmed scoring session. A historical scorecard alone is not a live prediction input.','ui-notice'),link('Choose a scoring session →','workspace'));}
+      if(view==='ml')ux.research(area);
+    });
+    app.replaceChildren(views);
   }
   function rankings() {
-    const fmt = formats('T20I'), category = field('Ranking category', [['teams', 'Teams'], ['batting', 'Batting'], ['bowling', 'Bowling'], ['allrounder', 'All-rounders']], 'teams');
-    filters([fmt, category], async () => {
-      const data = await request('/api/icc-rankings?' + new URLSearchParams({category: category.input.value, format: fmt.input.value})), content = node('div');
-      content.append(provenance(data.provenance, 'Ranking snapshot'), table('Ranking snapshot', ['Rank', 'Name', 'Country', 'Rating'], (data.rankings || []).map(r => [r.rank, category.input.value === 'teams' ? teamLink(r.team || r.name) : playerLink({name:r.player || r.name,identity_id:r.identity_id}), r.country ? teamLink(r.country) : '—', r.rating]))); return content;
+    const fmt=ux.formats('T20I',false),category=ux.segments('Rankings',[['batting','Batting leaders'],['bowling','Bowling leaders'],['archive','ICC archive']],'batting');
+    filters([fmt,category],async()=>{
+      const content=node('div');
+      if(category.input.value==='archive'){
+        const official=node('a','View current official ICC rankings ↗');official.href='https://www.icc-cricket.com/rankings';official.className='ui-action-primary';
+        content.append(node('p','This archive is not current ICC ranking evidence. Live ICC updates require an approved source; old default ratings are not displayed as current.','ui-notice'),official);
+        return content;
+      }
+      const data=await request('/api/rankings?'+new URLSearchParams({format:fmt.input.value,type:category.input.value,limit:30}));
+      const bowling=category.input.value==='bowling';
+      content.append(node('p','Statistical leaders from the selected historical dataset, not official ICC ratings. Minimum: '+(bowling?'five wickets':'five innings')+'.','ui-notice'));
+      content.append(table(fmt.input.value+' '+(bowling?'bowling':'batting')+' leaders',bowling?['Rank','Player','Wickets','Average','Economy']:['Rank','Player','Runs','Average','Strike rate'],(data.results||[]).map((r,index)=>[index+1,playerLink({name:r.player,identity_id:r.identity_id}),bowling?r.wickets:r.runs,r.average,bowling?r.economy:r.strike_rate])));return content;
     });
   }
   function records() {
-    const fmt = formats('T20I'), category = field('Record', [['most_runs', 'Most runs'], ['most_wickets', 'Most wickets'], ['best_averages', 'Best batting averages'], ['most_hundreds', 'Most hundreds']], 'most_runs');
-    filters([fmt, category], async () => {
-      const data = await request('/api/records'), rows = (data[category.input.value] || {})[fmt.input.value] || [];
-      return table('Records from available matches', ['Player', 'Runs', 'Wickets', 'Average', 'Hundreds'], rows.map(r => [playerLink({name:r.player,identity_id:r.identity_id}), r.runs, r.wickets, r.average, r.hundreds]));
+    const fmt=ux.formats('Test',false),category=ux.segments('Records',[['most_runs','Most runs'],['most_wickets','Most wickets'],['best_averages','Best averages'],['most_hundreds','Most hundreds']],'most_runs');
+    filters([fmt,category],async()=>{
+      const data=await request('/api/records'),rows=(data[category.input.value]||{})[fmt.input.value]||[],content=node('div');
+      const isBowling=category.input.value==='most_wickets';
+      const heading=node('div',null,'ui-section-heading');heading.append(node('h2',category.wrap.querySelector('[aria-pressed=true]').textContent+' · '+fmt.input.value),node('span','Available matches · not complete careers','ui-card-scope'));content.append(heading);
+      content.append(table('Records from available matches',isBowling?['Rank','Player','Wickets','Average','Economy']:['Rank','Player','Runs','Average','Hundreds','Highest innings'],rows.map((r,index)=>isBowling?[index+1,playerLink({name:r.player,identity_id:r.identity_id}),r.wickets,r.average,r.economy]:[index+1,playerLink({name:r.player,identity_id:r.identity_id}),r.runs,r.average,r.hundreds,r.highest])));return content;
     });
   }
   function search() {
@@ -356,28 +373,46 @@
     });
   }
   function compare() {
-    const kind = field('Compare', [['players', 'Players'], ['teams', 'Teams']], 'players');
-    const a = field('First recorded name', null, query.get('a') || ''), b = field('Second recorded name', null, query.get('b') || ''), fmt = formats('T20I');
-    filters([kind, a, b, fmt], async () => {
-      const content = node('div');
-      if (!a.input.value.trim() || !b.input.value.trim()) { content.append(node('p', 'Choose two names. Use search to find their recorded names.', 'ui-state'), link('Find records', 'search')); return content; }
-      if (kind.input.value === 'teams') {
-        const [first, second] = await Promise.all([request('/api/teams/' + encodeURIComponent(a.input.value.trim())), request('/api/teams/' + encodeURIComponent(b.input.value.trim()))]);
-        const s1 = (first.format_stats || {})[fmt.input.value], s2 = (second.format_stats || {})[fmt.input.value];
-        if (!s1 || !s2) { state(content, 'empty'); return content; }
-        content.append(comparisonHeader(first,second,true));
-        content.append(table('Team records · ' + fmt.input.value, ['Metric', first.name, second.name],
-          [['Matches','matches'],['Won','won'],['Lost','lost'],['Drawn','drawn'],['Tied','tied'],['No result','no_result'],['Win %','win_pct']].map(([label,key]) => [label, s1[key], s2[key]])));
-        return content;
-      }
-      const data = await request('/api/compare/players?' + new URLSearchParams({player_a:a.input.value.trim(), player_b:b.input.value.trim()}));
-      const first = (data.player_a.batting || {})[fmt.input.value], second = (data.player_b.batting || {})[fmt.input.value];
-      if (!first || !second) { state(content, 'empty'); return content; }
-      content.append(comparisonHeader(data.player_a,data.player_b,false));
-      content.append(table('Descriptive batting comparison · ' + fmt.input.value, ['Metric', data.player_a.name, data.player_b.name], [['Matches','matches'],['Innings','innings'],['Runs','runs'],['Average','average'],['Strike rate','strike_rate'],['Highest innings','highest'],['Hundreds','hundreds']].map(([name,key]) => [name, first[key], second[key]])),
-        node('p', 'Sample size and match context affect comparisons. No performance verdict is inferred.', 'ui-notice'));
-      return content;
-    });
+    app.replaceChildren();const content=node('div'), selectors=node('div',null,'ui-compare-selectors'), results=node('section'), actions=node('div',null,'ui-compare-actions');
+    let kind='players',first,second,generation=0;
+    const mode=ux.segments('Compare',[['players','Players'],['teams','Teams']],'players',value=>{kind=value;build();});
+    const fmt=ux.formats('ODI',false,()=>render());
+    const submit=button('Compare selected',render);submit.disabled=true;
+    content.append(mode.wrap,selectors,fmt.wrap,actions,results);actions.append(submit);app.append(content);
+    function changed(){
+      submit.disabled=!first.selected || !second.selected || (first.selected.identity_id||first.selected.name)===(second.selected.identity_id||second.selected.name);
+      if(!submit.disabled)render();
+      else if(first.selected && second.selected){generation++;results.replaceChildren(node('p','Choose two different identities.','ui-state'));results.setAttribute('aria-busy','false');}
+    }
+    function build(){
+      generation++;results.replaceChildren(node('p','Choose a player or team on each side. Search is optional; browse the choices below.','ui-state'));
+      first=ux.picker(kind==='players'?'Player A':'Team A',kind,()=>changed(),query.get('a'));
+      second=ux.picker(kind==='players'?'Player B':'Team B',kind,()=>changed(),query.get('b'));
+      selectors.replaceChildren(first.wrap,second.wrap);submit.disabled=true;
+    }
+    async function render(){
+      if(!first.selected || !second.selected)return;
+      if((first.selected.identity_id||first.selected.name)===(second.selected.identity_id||second.selected.name)){results.replaceChildren(node('p','Choose two different identities.','ui-state'));return;}
+      const current=++generation,a=first.selected,b=second.selected,format=fmt.input.value;state(results,'loading');
+      try{
+        const area=node('div');
+        if(kind==='teams'){
+          const [left,right]=await Promise.all([request('/api/teams/'+encodeURIComponent(a.name)),request('/api/teams/'+encodeURIComponent(b.name))]);
+          const x=(left.format_stats||{})[format],y=(right.format_stats||{})[format];
+          if(!x||!y){state(area,'empty');}else area.append(comparisonHeader(left,right,true),table(format+' team comparison',['Metric',left.name,right.name],[['Matches','matches'],['Won','won'],['Lost','lost'],['Win %','win_pct']].map(([label,key])=>[label,x[key],y[key]])));
+        }else{
+          const data=await request('/api/compare/players?'+new URLSearchParams({player_a:a.identity_id||a.name,player_b:b.identity_id||b.name}));
+          const left=data.player_a,right=data.player_b;area.append(comparisonHeader(left,right,false));
+          const x=(left.batting||{})[format],y=(right.batting||{})[format];
+          if(x&&y){area.append(table(format+' observed batting comparison',['Metric',ux.name(left),ux.name(right)],[['Matches','matches'],['Innings','innings'],['Runs','runs'],['Average','average'],['Strike rate','strike_rate'],['Highest innings','highest'],['Hundreds','hundreds']].map(([label,key])=>[label,x[key],y[key]])),ux.empirical(left,format),ux.empirical(right,format));}
+          else area.append(node('p','One or both players have no batting sample in this format.','ui-state'));
+          const bx=(left.bowling||{})[format],by=(right.bowling||{})[format];
+          if(bx&&by)area.append(table(format+' observed bowling comparison',['Metric',ux.name(left),ux.name(right)],[['Innings','innings'],['Wickets','wickets'],['Average','average'],['Economy','economy']].map(([label,key])=>[label,bx[key],by[key]])));
+        }
+        if(current===generation){results.replaceChildren(area);results.setAttribute('aria-busy','false');}
+      }catch(error){if(current===generation)state(results,error.kind||'error',render);}
+    }
+    build();
   }
   function information() {
     const content = panel(page === 'about' ? 'Built for match preparation and review' : page === 'data-sources' ? 'Traceable sources, clear limits' : 'What these records mean');
@@ -392,8 +427,10 @@
     } else content.append(node('p', 'Historical counts describe observed matches, not complete careers or guarantees about future performance. Missing values are displayed as unavailable. A snapshot of an in-progress match is not a verified real-time feed.'));
     prediction(content); app.replaceChildren(content);
   }
-  function workspace() {
-    const identifier = field('Workspace identifier', null, query.get('id') || '');
+  async function workspace() {
+    let sessions={workspaces:[]};
+    try{sessions=await request('/api/v1/workspaces');}catch(_){/* Existing hosts may not expose local sessions. */}
+    const identifier=field('Advanced session identifier',null,query.get('id') || ((sessions.workspaces||[])[0]||{}).id || '');
     let expiry;
     const reasons = values => (values || []).map(value => String(value).replaceAll('_', ' ')).join('; ');
     function jointLabel(label) {
@@ -415,13 +452,20 @@
         node('p', 'OTHER has unknown runs and dismissals. No exact wicket or runs marginal is claimed.'));
       return detail;
     }
+    function distribution(record,title){
+      const area=panel(title);area.append(node('p','Issued: '+record.issued_at+' · '+(record.content.mode||'historical/manual')+' · inspect the full joint distribution below.','ui-card-scope'));
+      const grid=node('div',null,'ui-outcome-list');
+      Object.entries(record.content.distribution||{}).sort((a,b)=>b[1]-a[1]).slice(0,6).forEach(([label,p])=>{
+        const row=node('div'),meter=node('meter');meter.min=0;meter.max=1;meter.value=p;meter.setAttribute('aria-label',jointLabel(label));row.append(node('span',jointLabel(label)),node('strong',(100*p).toFixed(2)+'%'),meter);grid.append(row);
+      });area.append(grid,node('p','Top six joint outcomes shown. OTHER retains unknown runs and dismissals; no exact wicket or runs marginal is inferred.','ui-notice'));return area;
+    }
     const surface = filters([identifier], async () => {
       clearTimeout(expiry);
       const content = node('div');
       content.append(node('p', 'Experimental shadow workspace. No validated current coaching prediction is released.', 'ui-prediction'),
         node('p', 'Manual refresh only. A source confirmation can expire before the actual ball is observed.'));
       const id = identifier.input.value.trim();
-      if (!id) { content.append(node('p', 'Enter an existing local manual or replay workspace identifier. No public live feed is enabled.', 'ui-state')); return content; }
+      if (!id) { content.append(node('p', 'No scoring session is connected. Select a local replay or manual session when available. Public next-ball predictions need an approved timely feed.', 'ui-state'),link('Browse match scorecards','matches')); return content; }
       const path = '/api/v1/workspaces/' + encodeURIComponent(id);
       const data = await request(path + '/forecast');
       const receivedAt = performance.now();
@@ -434,19 +478,21 @@
         (data.forecast_allowed ? ' · confirmed source snapshot' : ' · forecast unavailable: ' + reasons(data.blocked_reasons)), 'ui-notice');
       status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite'); content.append(status);
       const core = data.core;
+      const diagnostics=node('details',null,'ui-record-details');diagnostics.append(node('summary','Source, context and model details'));
       if (core) {
         const score = core.innings.find(inn => inn.innings === core.active_innings);
-        content.append(metrics([['Runs',score.runs],['Wickets',score.wickets],['Legal balls',score.legal_balls],['Source age at refresh (seconds)',data.source_age_seconds],['Event lag (seconds)',data.event_lag_seconds]]),
+        content.append(metrics([['Runs',score.runs],['Wickets',score.wickets],['Overs',Math.floor(score.legal_balls/6)+'.'+score.legal_balls%6],['Source age (seconds)',Number.isFinite(data.source_age_seconds)?data.source_age_seconds.toFixed(1):null]]));
+        diagnostics.append(
           node('p', 'Source cutoff: ' + core.source_cutoff + ' · status: ' + core.source_status),
           node('p', 'Source revision: ' + core.source_revision_counter + ' · state: ' + data.state_id));
-        if (core.next_context) content.append(table('Announced next-attempt participants', ['Striker','Non-striker','Bowler'], [[core.next_context.striker,core.next_context.non_striker,core.next_context.bowler]]));
-        content.append(node('p', 'History: ' + core.history_scope),
+        if (core.next_context) diagnostics.append(table('Announced next-attempt participants', ['Striker','Non-striker','Bowler'], [[core.next_context.striker,core.next_context.non_striker,core.next_context.bowler]]));
+        diagnostics.append(node('p', 'History: ' + core.history_scope),
           table('Context coverage in model', ['Context', 'Availability'], Object.entries(core.context_coverage).map(([key,value]) => [key.replaceAll('_',' '),value.replaceAll('_',' ')])));
       }
       if (data.model) {
-        content.append(node('p', data.model.limitations), node('p', 'Model ' + data.model.model_id + ' · calibration through ' + data.model.calibration_last_date));
+        diagnostics.append(node('p', data.model.limitations), node('p', 'Model ' + data.model.model_id + ' · calibration through ' + data.model.calibration_last_date));
         const samples = (data.model.training_coverage || {}).matches;
-        if (samples) content.append(table('Historical model sample', ['Partition','Matches'], Object.entries(samples)));
+        if (samples) diagnostics.append(table('Historical model sample', ['Partition','Matches'], Object.entries(samples)));
       }
       const current = panel('Current shadow forecast');
       if (data.forecast && data.forecast_allowed) {
@@ -460,13 +506,22 @@
           status.textContent = 'Confirmation expired · current forecast unavailable';
         }, remaining*1000);
       } else current.append(node('p', 'No current forecast: ' + reasons(data.blocked_reasons), 'ui-state'));
-      content.append(current, node('h2', 'Issued history · past entries are not current forecasts'));
+      if(data.forecast && data.forecast_allowed)current.append(distribution(data.forecast,'Current experimental next-attempt probabilities'));
+      content.append(current,diagnostics);
+      if(!data.forecast_allowed && records.length)content.append(distribution(records[0],'Past issued probabilities · not a current forecast'));
+      content.append(node('h2','Issued history · past entries are not current forecasts'));
       if (historyUnavailable) content.append(node('p', 'Full history is unavailable. The returned issued entry is retained below.', 'ui-error'));
       records.forEach(record => content.append(issuedPanel(record)));
       if (!records.length) content.append(node('p', 'No issued entries available.', 'ui-state'));
       return content;
     });
-    surface.form.querySelector('button[type=submit]').textContent = 'Refresh workspace';
+    surface.form.querySelector('button[type=submit]').textContent = 'Refresh probabilities';
+    const advanced=node('details',null,'ui-record-details');advanced.append(node('summary','Advanced: open a known session'),identifier.wrap);surface.form.prepend(advanced);
+    const intro=panel('Prediction & probability centre');intro.append(node('p','Choose a scoring session, inspect next-delivery outcomes and review the model evidence. Replay is explicitly historical; experimental output is not validated coaching advice.'));
+    const choices=node('div',null,'ui-session-grid');
+    (sessions.workspaces||[]).forEach(session=>{const choose=button((session.teams||[]).join(' vs ')+' · '+session.format+' · '+(session.dates||[]).join(', ')+' · '+session.mode,()=>{identifier.input.value=session.id;surface.run();});choose.className='ui-session-card';choices.append(choose);});
+    if(!choices.childNodes.length)choices.append(node('p',sessions.reason || 'No local scoring sessions are configured.','ui-state'));
+    intro.append(choices);const research=panel();ux.research(research);app.prepend(intro);app.append(research);
   }
   async function loadCoverage() {
     try {
@@ -491,5 +546,5 @@
     app.setAttribute('aria-busy', 'false');
   }
   loadCoverage();
-  init();
+  media.initialize().finally(init);
 }());

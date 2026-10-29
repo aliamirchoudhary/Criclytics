@@ -113,10 +113,10 @@
     "Argentina": "ar",
     "Spain": "es"
 });
-  const portraits = Object.freeze({
+  const portraits = {
     'player:cricsheet:ba607b88':{slug:'kohli',file:'kohli.jpg',name:'Virat Kohli',record:'V Kohli',team:'India',author:'Anand Anil',license:'CC BY-SA 4.0',licenseURL:'https://creativecommons.org/licenses/by-sa/4.0/',source:'https://commons.wikimedia.org/wiki/File:Virat_Kohli_portrait.jpg'},
     'player:cricsheet:8a75e999':{slug:'babar',file:'babar.png',name:'Babar Azam',record:'Babar Azam',team:'Pakistan',author:'BBC Urdu',license:'CC BY 3.0',licenseURL:'https://creativecommons.org/licenses/by/3.0/',source:'https://commons.wikimedia.org/wiki/File:Babar_Azam_in_2020.png'}
-  });
+  };
   function initials(name) { return String(name || '?').split(/\s+/).filter(Boolean).slice(0,2).map(s => s[0]).join('').toUpperCase(); }
   function imageBox(name, source, className, alt) {
     const wrap = node('span', initials(name), className);
@@ -138,14 +138,25 @@
   }
   function portrait(player, large) {
     const media = portraits[player.identity_id];
-    return imageBox(player.name, media ? '/static/images/players/'+media.file : null,
+    return imageBox(player.name, media ? media.imageURL || '/static/images/players/'+media.file : null,
       'ui-player-avatar'+(large ? ' ui-player-avatar-large' : ''), media ? media.name+' portrait' : player.name+' \u00b7 photo unavailable');
   }
   function credit(identity) {
     const media = portraits[identity]; if (!media) return null;
+    if(media.provider){const line=node('small',null,'ui-photo-credit'),source=node('a','Player photo: CricketData / suppliers · non-commercial display');source.href='https://cricketdata.org/terms-of-use/';line.append(source);return line;}
     const line = node('small',null,'ui-photo-credit'), source = node('a',media.author), license = node('a',media.license);
     source.href = media.source; license.href = media.licenseURL;
     line.append('Photo: ',source,' / ',license,' \u00b7 display crop'); return line;
   }
-  window.CriclyticsMedia = Object.freeze({flag,portrait,credit,portraits});
+  async function initialize(){
+    try{
+      const data=await window.CriclyticsAPI.request('/api/player-media');
+      for(const item of (Array.isArray(data.players)?data.players:[]).slice(0,1000)){
+        const id=item.identity_id;
+        if(!/^player:cricsheet:[a-f0-9]{8}$/.test(id) || item.image_path!=='/api/player-media/'+id)continue;
+        portraits[id]={name:String(item.name).slice(0,200),imageURL:window.CRICLYTICS_CONFIG.apiBase+item.image_path,provider:true};
+      }
+    }catch(_){/* Curated bundled portraits and labelled initials remain usable offline. */}
+  }
+  window.CriclyticsMedia = Object.freeze({flag,portrait,credit,portraits,initialize});
 }());

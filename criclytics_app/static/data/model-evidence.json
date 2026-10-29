@@ -1,0 +1,40 @@
+{
+  "scope": "Experimental male international T20I historical next-attempt model",
+  "model_id": "fe917b696bb25d2672b94f68e590fd665cdeed21ec06c55e23bafc1dda319beb",
+  "evaluation_sha256": "4d9a2b2afaabcff59a501bb47054f034d699066bc3572a7364de4dc542317cff",
+  "training_matches": 58,
+  "calibration_matches": 21,
+  "test_matches": 21,
+  "test_rows": 4852,
+  "test_period": "2018-03-12 onward in the frozen 21-match split",
+  "feature_families": [
+    "score, wickets and legal balls",
+    "innings, phase and target",
+    "recent six attempts",
+    "announced batter and bowler history",
+    "strictly prior matchup samples"
+  ],
+  "metrics": [
+    {
+      "name": "Global baseline",
+      "log_loss": 1.774084722931757,
+      "brier": 0.754733563107154,
+      "ece": 0.0076768409070066546
+    },
+    {
+      "name": "Phase baseline",
+      "log_loss": 1.7524067722024108,
+      "brier": 0.7421308076768147,
+      "ece": 0.006817631650423204
+    },
+    {
+      "name": "Calibrated CPU learner",
+      "log_loss": 1.7546909864050189,
+      "brier": 0.7427441857355296,
+      "ece": 0.015377243032713464
+    }
+  ],
+  "promoted": false,
+  "prospective_matches": 0,
+  "source": "Cricsheet (ODC-BY-1.0); T020 frozen evaluation"
+}

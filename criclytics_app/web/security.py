@@ -6,8 +6,8 @@ def policy(origin=""):
     origin = api_base(origin)
     return (
         "default-src 'self'; script-src 'self'; script-src-attr 'none'; "
-        "object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; "
-        "style-src 'self'; font-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net; "
+        "object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; frame-src https://cwidget.crictimes.org; "
+        "style-src 'self'; font-src 'self'; img-src 'self' data: https://cdn.jsdelivr.net" + (" " + origin if origin else "") + "; "
         "connect-src 'self'" + (" " + origin if origin else "")
     )
 
