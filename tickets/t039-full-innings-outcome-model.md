@@ -1,6 +1,9 @@
 # T039: Full innings outcome model
 
-- Status: Planned
+- Status: In progress; protocol frozen before fitting
+- Branch: feat/t039-innings-outcomes
+- Base: 5332742
+- Protocol: docs/INNINGS_OUTCOME_PROTOCOL.md
 - Depends on: T034
 - Budget: $0; no card or metered fallback
 

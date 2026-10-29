@@ -66,7 +66,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 
 | [T038](tickets/t038-timely-authorized-next-delivery-source.md) | Timely authorized next-delivery source | P1 | T025,T026,T034 | Blocked; no approved $0 timely/reusable source |
 
-| [T039](tickets/t039-full-innings-outcome-model.md) | Full innings outcome model | P1 | T034 | Planned |
+| [T039](tickets/t039-full-innings-outcome-model.md) | Full innings outcome model | P1 | T034 | In progress; protocol frozen before fitting |
 
 | [T040](tickets/t040-coach-validation-and-reviewed-release.md) | Coach validation and reviewed release | P1 | T031,T034,T035,T036,T038 | Planned |
 
