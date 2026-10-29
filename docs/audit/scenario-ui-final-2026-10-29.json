@@ -1,0 +1,23 @@
+{
+  "cases": [
+    {
+      "width": 375,
+      "passed": true,
+      "typed_ids": false,
+      "scenario_calls": 2,
+      "perspective_uses_shared_distribution": true,
+      "changed_context_clears_previous_result": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "passed": true,
+      "typed_ids": false,
+      "scenario_calls": 2,
+      "perspective_uses_shared_distribution": true,
+      "changed_context_clears_previous_result": true,
+      "errors": []
+    }
+  ],
+  "limits": "Local Chrome and hypothetical model only; no live source/promotion/psychology validation."
+}

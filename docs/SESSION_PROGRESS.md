@@ -1,5 +1,9 @@
 # Autonomous ticket execution - 2026-10-28
 
+Latest handoff: [PLATFORM_HANDOFF_2026-10-29.md](PLATFORM_HANDOFF_2026-10-29.md).
+T033-T039 local work and T040 offline checks are recorded below. Earlier stop/
+branch statements are historical; no public release or remote integration occurred.
+
 Local ticket branches form a chain from d8a0ad9 (existing Cloudflare fix based on
 dev e4f7ab4). The user authorizes creating these branches and committing locally
 only on them. Never commit on main/dev/pre-existing branches. No pushes, merges,
@@ -195,3 +199,15 @@ no strong player gain over entry baseline, match calibration worsens despite
 better log loss. Models not promoted; no continuation/survival/live claim.103tests
 102pass/one skip and375/1440research UI pass. INNINGS_OUTCOME_MODEL_CARD.md records
 metrics/rare-century gaps, reused date cohort and private artifact paths. Next T040.
+
+## T040 offline release checks and external blockers - 2026-10-29
+
+Branch chore/t040-reviewed-release-gates from4e331b1. Fresh pinned dependency audit:
+31packages,zero known advisories. Clean19page frontend/backend builds,13original
+hashes, private path/CSP checks and authored SQLite/dataset restore drills pass.
+Final95page-width/four-interaction matrix,375/1440cricket/scenario workflows pass.
+103unit tests102pass/one optional skip; compilation/changed JS syntax pass.
+Actual coaches/prospective matches:zero. Public rankings/feed rights, source timing,
+rotations/containment, hosted verification and Git integration remain pending.
+No push/merge/publication or deployment. See PLATFORM_HANDOFF_2026-10-29.md for
+branch chain, private artifact paths, preview, evidence, gaps and next work.

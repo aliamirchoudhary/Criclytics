@@ -1,5 +1,7 @@
 """Independent offline artifact/restore preparation. Never deploys or approves release."""
 from contextlib import closing,redirect_stdout
+import argparse
+from datetime import datetime,timezone
 from copy import deepcopy
 import io
 import json
@@ -30,6 +32,12 @@ def backup(source,target):
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--dependency-audit',type=Path,required=True,
+                        help='Fresh pip-audit JSON from the locked dependency set')
+    parser.add_argument('--report',type=Path,required=True,help='New evidence path; never overwrite prior reports')
+    args=parser.parse_args()
+    if args.report.exists():raise FileExistsError('Preserve previous release evidence; use a fresh report')
     with tempfile.TemporaryDirectory() as directory,patch('requests.get',side_effect=AssertionError('Network is forbidden in offline release preparation')):
         recorded=json.loads((PROJECT_ROOT/'build/data-v3-manifest-final/manifest.json').read_text(encoding='utf-8'))['original_artifacts']
         assert recorded and all(digest(PROJECT_ROOT/'data/processed'/name)==checksum for name,checksum in recorded.items())
@@ -93,18 +101,18 @@ def main():
             store=root/'dataset-store';a=promote(candidates[0],store,digest(candidates[0]/'manifest.json'))
             b=promote(candidates[1],store,digest(candidates[1]/'manifest.json'));assert a!=b and selected(store)==b
             promote(a,store,digest(a/'manifest.json'));assert selected(store)==a and b.is_dir()
-        audit=json.loads((PROJECT_ROOT/'build/t031-dependency-audit.json').read_text(encoding='utf-8'))
+        audit=json.loads(args.dependency_audit.read_text(encoding='utf-8'))
         vulnerabilities=sum(len(row.get('vulns',[])) for row in audit['dependencies']);assert vulnerabilities==0
-        result={'release_decision':'BLOCKED','public_pages':len(PAGES),'clean_frontend_allowlist':True,'clean_backend_allowlist':True,
+        result={'release_decision':'BLOCKED','checked_at':datetime.now(timezone.utc).isoformat(),'public_pages':len(PAGES),'clean_frontend_allowlist':True,'clean_backend_allowlist':True,
                 'original_processed_hashes_verified':len(recorded),
                 'offline_api_smoke':responses,'public_private_paths_denied':True,'script_csp_enforced':True,
-                'dependency_audit':{'packages':len(audit['dependencies']),'known_advisories':vulnerabilities,'source':'pip-audit resolved pinned requirements; not proof of absent application vulnerabilities'},
+                'dependency_audit':{'packages':len(audit['dependencies']),'known_advisories':vulnerabilities,'input_sha256':digest(args.dependency_audit),'source':'pip-audit resolved pinned requirements; not proof of absent application vulnerabilities'},
                 'authored_restore_drill':{'sqlite_integrity':True,'source_and_collector_coordinator_and_ledger':True,'kill_retained':True,'issued_payload_unchanged':True,'original_source_ledger_hashes_unchanged':True,
                                          'two_immutable_json_versions_and_rollback':True,'previous_version_retained':True},
                 'actual_coach_participants':0,'actual_prospective_matches':0,'hosted_restore_verified':False,'deployment':None,
-                'blockers':['T001 credential rotation/production containment','T013 remote branch/CI/host release verification','T029 real coach feedback','T030 prospective cohort/timing/metrics','Git publication/integration approval'],
+                'blockers':['T001 credential rotation/production containment','T013 remote branch/CI/host release verification','T029 real coach feedback','T030 prospective cohort/timing/metrics','T036 public ranking reuse basis','T038 approved timely feed','T039 score gain/calibration/continuation gates','Git publication/integration approval'],
                 'limitations':'Offline local fixtures/candidates only. Network GET blocked during smoke/drill. No production resource, original dataset, credential, Git remote or deployment changed.'}
-        (PROJECT_ROOT/'docs/audit/release-preflight-2026-10-28.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+        args.report.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
         print(json.dumps({'release_decision':'BLOCKED','pages':len(PAGES),'known_advisories':vulnerabilities,'restore_drill':result['authored_restore_drill']}))
 
 

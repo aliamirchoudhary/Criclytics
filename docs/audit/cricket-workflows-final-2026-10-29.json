@@ -1,0 +1,33 @@
+{
+  "cases": [
+    {
+      "width": 375,
+      "passed": true,
+      "application_errors": [],
+      "external_requests_before_opt_in": [],
+      "flows": [
+        "player cards/search/all profile tabs",
+        "empirical probabilities/model evidence",
+        "comparison player/team selection/same-identity prevention",
+        "record/leaderboard buttons",
+        "session discovery/past joint probabilities",
+        "match overview/scorecard/model evidence"
+      ]
+    },
+    {
+      "width": 1440,
+      "passed": true,
+      "application_errors": [],
+      "external_requests_before_opt_in": [],
+      "flows": [
+        "player cards/search/all profile tabs",
+        "empirical probabilities/model evidence",
+        "comparison player/team selection/same-identity prevention",
+        "record/leaderboard buttons",
+        "session discovery/past joint probabilities",
+        "match overview/scorecard/model evidence"
+      ]
+    }
+  ],
+  "limitations": "Local Chrome; no current next-delivery external feed, coach validation or live latency guarantee."
+}

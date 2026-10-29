@@ -1,4 +1,7 @@
-# Resumed-session handoff ? 2026-10-28
+# Historical resumed-session handoff - 2026-10-28
+
+Current state: [PLATFORM_HANDOFF_2026-10-29.md](PLATFORM_HANDOFF_2026-10-29.md).
+The T031-only branch/status below predates the resumed T033-T040 work.
 
 Local code/tooling work is complete through T030; T031 independent readiness is
 prepared, while actual pilot/public release remain blocked. No ticket is marked

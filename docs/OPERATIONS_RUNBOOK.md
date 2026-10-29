@@ -42,7 +42,7 @@ Never upload the checkout. Inspect both artifacts: no env/Git/raw/processed sour
 trees, build folders, credentials, private plans, CSV/pickle/SQLite/model artifacts.
 Reviewed datasets are separate private immutable resources, not public assets.
 
-`python -m tools.release_preflight` uses existing ignored local candidates and
+`python -m tools.release_preflight --dependency-audit build/fresh-dependency-audit.json --report docs/audit/fresh-release-preflight.json` uses existing ignored local candidates and
 the T031 dependency-audit JSON under build/. It creates fresh temporary artifacts,
 blocks network GETs, checks API/CSP/private-path denial and performs an isolated
 authored restore drill. It does not deploy, change selected production data or
