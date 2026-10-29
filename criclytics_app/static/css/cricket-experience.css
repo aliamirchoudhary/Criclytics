@@ -44,6 +44,10 @@ body {font-family:Outfit,system-ui,sans-serif;background:radial-gradient(ellipse
 .ui-player-avatar {background:#1b3a56;color:#a0d8ff}
 .ui-form-scores li {background:#173a5c;border-color:#36688f;color:#a5dbff}
 .ui-compare-selectors {display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
+.ui-scenario-selectors {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}
+.ui-scenario-selectors .ui-picker {padding:16px}
+.ui-scenario-selectors .ui-picker-list {margin-inline:-16px;max-height:260px}
+.ui-scenario-selectors .ui-picker-selected {min-height:48px}
 .ui-picker {border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:20px;min-width:0}
 .ui-picker h2 {margin:0 0 16px}
 .ui-picker>label {display:block;font-size:.72rem;color:var(--muted);margin:12px 0 6px}
@@ -139,6 +143,7 @@ body[data-page=index] .ui-hero h1 span {color:#65beff;font-style:italic}
   .ui-card-memberships {font-size:.58rem;min-height:38px}
   .ui-card-scope {font-size:.6rem}
   .ui-compare-selectors {grid-template-columns:1fr;gap:18px}
+  .ui-scenario-selectors {grid-template-columns:1fr}
   .ui-picker-list {max-height:250px}
   .ui-picker {padding:16px}
   .ui-picker-list {margin-inline:-16px}

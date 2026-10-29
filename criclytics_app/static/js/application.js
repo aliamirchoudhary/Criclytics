@@ -521,7 +521,13 @@
     const choices=node('div',null,'ui-session-grid');
     (sessions.workspaces||[]).forEach(session=>{const choose=button((session.teams||[]).join(' vs ')+' · '+session.format+' · '+(session.dates||[]).join(', ')+' · '+session.mode,()=>{identifier.input.value=session.id;surface.run();});choose.className='ui-session-card';choices.append(choose);});
     if(!choices.childNodes.length)choices.append(node('p',sessions.reason || 'No local scoring sessions are configured.','ui-state'));
-    intro.append(choices);const research=panel();ux.research(research);app.prepend(intro);app.append(research);
+    intro.append(choices);const research=panel();ux.research(research);
+    const live=node('div');live.append(intro,surface.form,surface.results);
+    const scenarios=node('section');ux.scenarioExplorer(scenarios,query);
+    const initial=query.get('view')==='scenario'?'scenario':'live';
+    function select(value){live.hidden=value!=='live';scenarios.hidden=value!=='scenario';research.hidden=value!=='model';}
+    const mode=ux.segments('Prediction mode',[['live','Match / replay'],['scenario','What-if scenarios'],['model','Model evidence']],initial,select);
+    app.replaceChildren(mode.wrap,live,scenarios,research);select(initial);
   }
   async function loadCoverage() {
     try {

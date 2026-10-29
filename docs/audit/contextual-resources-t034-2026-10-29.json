@@ -1,0 +1,17 @@
+{
+  "model_bytes": 10912287,
+  "load_ms": 1195.55,
+  "working_set_before_bytes": 31358976,
+  "working_set_after_load_bytes": 75874304,
+  "inferences": 1000,
+  "inference_p50_ms": 0.568,
+  "inference_p95_ms": 1.954,
+  "training": {
+    "peak_working_set_bytes": 595628032,
+    "exit_code": 0,
+    "measurement": "GetProcessMemoryInfo PeakWorkingSetSize inside actual training process after fit; deterministic frozen-protocol rerun"
+  },
+  "repeat_model_identical": true,
+  "repeat_metrics_identical": true,
+  "scope": "Local Windows CPU; single-process inference, not hosted capacity or latency."
+}

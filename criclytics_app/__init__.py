@@ -27,6 +27,10 @@ def create_app(config=None):
         IDENTITY_PLAYER_STORE=os.getenv("IDENTITY_PLAYER_STORE", ""),
         SCOUTING_SAMPLE=os.getenv('SCOUTING_SAMPLE',''),
         PLAYER_MEDIA_MANIFEST=os.getenv('PLAYER_MEDIA_MANIFEST',''),
+        SCENARIO_MODEL=os.getenv('SCENARIO_MODEL',''),
+        SCENARIO_MODEL_SHA256=os.getenv('SCENARIO_MODEL_SHA256',''),
+        SCENARIO_EVALUATION=os.getenv('SCENARIO_EVALUATION',''),
+        SCENARIO_EVALUATION_SHA256=os.getenv('SCENARIO_EVALUATION_SHA256',''),
         EXPERIMENTAL_FORECASTS=os.getenv('EXPERIMENTAL_FORECASTS', '0') == '1',
         WORKSPACE_SOURCE=os.getenv('WORKSPACE_SOURCE', ''),
         WORKSPACE_LEDGER=os.getenv('WORKSPACE_LEDGER', ''),
@@ -56,6 +60,10 @@ def create_app(config=None):
     from .api.player_media import bp as player_media
     app.extensions['player_media'] = load_catalog(app.config['PLAYER_MEDIA_MANIFEST'])
     app.register_blueprint(player_media)
+    from .services.scenarios import initialize as initialize_scenarios
+    from .api.scenarios import bp as scenarios
+    initialize_scenarios(app)
+    app.register_blueprint(scenarios)
     from .frontend import api_base
     app.config["FRONTEND_API_BASE"] = api_base(app.config["FRONTEND_API_BASE"])
     from .services.diagnostics import Diagnostics, register as register_diagnostics

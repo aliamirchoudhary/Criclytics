@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "protocol_sha256": "c2feedcd6efe716a3e2509034b96dc29c65a5dd95e0c2b1b707b11db409eaebb",
+  "corpus_sha256": "266a81648b5309fe7cfeeee8b1f020f4ac1baa762e649e102c9bd55da073e158",
+  "scope": {
+    "format": "T20I",
+    "gender": "male",
+    "team_type": "international",
+    "balls_per_over": 6
+  },
+  "date_range": [
+    "2005-02-17",
+    "2026-04-09"
+  ],
+  "partition_first_dates": {
+    "calibration": "2023-02-22",
+    "test": "2024-10-12"
+  },
+  "matches": {
+    "train": 1632,
+    "calibration": 771,
+    "test": 846
+  },
+  "rows": {
+    "train": 371646,
+    "calibration": 172305,
+    "test": 189168
+  },
+  "exclusions": {
+    "non_single_date": 5
+  },
+  "metrics": {
+    "global": {
+      "rows": 189168,
+      "matches": 846,
+      "log_loss": 1.8120274273770294,
+      "multiclass_brier": 0.7582481325346061,
+      "top_label_ece_10bins": 0.021054154063345598,
+      "reliability": [
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 189168,
+          "mean_probability": 0.35072936340107713,
+          "observed_top_label_fraction": 0.32967520933773153
+        }
+      ]
+    },
+    "phase": {
+      "rows": 189168,
+      "matches": 846,
+      "log_loss": 1.7892534568219447,
+      "multiclass_brier": 0.7484581379889715,
+      "top_label_ece_10bins": 0.016454531600262383,
+      "reliability": [
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 38689,
+          "mean_probability": 0.3648141327343802,
+          "observed_top_label_fraction": 0.34314663082529917
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 150479,
+          "mean_probability": 0.4195959359937134,
+          "observed_top_label_fraction": 0.4044816884748038
+        }
+      ]
+    },
+    "contextual": {
+      "rows": 189168,
+      "matches": 846,
+      "log_loss": 1.782018224723575,
+      "multiclass_brier": 0.746734838716966,
+      "top_label_ece_10bins": 0.013772487852329048,
+      "reliability": [
+        {
+          "lower": 0.3,
+          "upper": 0.4,
+          "count": 151972,
+          "mean_probability": 0.38040333265266774,
+          "observed_top_label_fraction": 0.3757797489011134
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.5,
+          "count": 37196,
+          "mean_probability": 0.40680022819232814,
+          "observed_top_label_fraction": 0.4579524680073126
+        }
+      ]
+    }
+  },
+  "loss_delta": {
+    "global": {
+      "method": "whole-match bootstrap",
+      "replicates": 200,
+      "seed": 17,
+      "matches": 846,
+      "loss_delta_vs_reference": -0.030009202653454182,
+      "lower_95": -0.030856012914167417,
+      "upper_95": -0.028967464522884477
+    },
+    "phase": {
+      "method": "whole-match bootstrap",
+      "replicates": 200,
+      "seed": 17,
+      "matches": 846,
+      "loss_delta_vs_reference": -0.007235232098369577,
+      "lower_95": -0.008020777092825032,
+      "upper_95": -0.006449438011432049
+    }
+  },
+  "test_cold_coverage": {
+    "cold_batter": 81246,
+    "cold_bowler": 86326,
+    "unseen_pair": 177834
+  },
+  "unknown_test_labels": 26,
+  "weights": {
+    "global": 0.004129781741985346,
+    "phase": 0.628234684959707,
+    "batter": 0.03776808506760526,
+    "bowler": 0.050659325727022614,
+    "pair": 0.005419910987432181,
+    "venue": 0.011259333425015148,
+    "rivalry": 0.01070905308564004,
+    "batter_form": 0.13198498566186798,
+    "bowler_form": 0.11983483934371766
+  },
+  "temperature": 0.9963605053366786,
+  "elapsed_seconds": 96.244,
+  "promoted": false,
+  "availability": "Historical publication/event times unknown. Recent form advances only after completed dates; this is not prospective live validation.",
+  "model_sha256": "03633902183e53143968ec491fa904227d7f9712b8448a050b389792101f20c4"
+}

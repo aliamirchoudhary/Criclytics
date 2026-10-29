@@ -140,3 +140,14 @@ CricTimes free opt-in external score display verified; no widget scraping or liv
 ML data claim. NEXT_BALL_PLATFORM_PLAN.md and T034?T040 record the broader work.
 92tests91pass/one skip;95responsive cases/4interactions; focused375/1440flows and
 actual widget isolation pass. Local commit authorized; no remote operations.
+
+## T034 implemented locally - 2026-10-29
+
+Branch feat/t034-contextual-model chained from e973f8f. Protocol frozen in bb9f496
+before training. Contextual CPU candidate and what-if explorer implemented;
+3,249 matches,846 test matches, measured held-out improvement against phase.
+CONTEXTUAL_MODEL_CARD.md records coverage and limitations.94tests93pass/one skip,
+mobile/desktop actual scenario interactions, compilation/JS/static build pass.
+Model/report stay private and hash-pinned; public report contains evaluation only.
+No live promotion, remote Git mutation, billing or deployment. User approval is
+still required for pushes, merges and publication. Continue T035 on a new branch.

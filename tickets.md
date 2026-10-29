@@ -56,7 +56,7 @@ are complete. Every ticket contains scope, acceptance, validation and handoff.
 
 | [T033](tickets/t033-restore-complete-cricket-workflows.md) | Audit original UX and restore complete cricket workflows | P1 | T032 | Implemented; review pending |
 
-| [T034](tickets/t034-contextual-probability-model-and-scenario-explorer.md) | Contextual probability model and scenario explorer | P1 | T033,T020,T022 | In progress |
+| [T034](tickets/t034-contextual-probability-model-and-scenario-explorer.md) | Contextual probability model and scenario explorer | P1 | T033,T020,T022 | Implemented locally; review/promotion pending |
 
 | [T035](tickets/t035-shared-read-serving-and-capacity.md) | Shared read serving and capacity | P1 | T033 | Planned |
 
